@@ -1,1 +1,12 @@
+# SVN subdirectory
 .svn
+
+# Eclipse files
+.cproject
+.project
+
+# Cmake
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake

@@ -59,7 +59,7 @@ namespace Yuni
 		//! Flag to know if the process is running
 		Atomic::Int<> pRunning;
 		//! PID
-		unsigned int pProcessID;
+		int pProcessID;
 		//! input file descriptors
 		int pProcessInput;
 		//! Thread

@@ -27,7 +27,7 @@ namespace Yuni
 	}
 
 
-	void UUID::writeToCString(char* cstring) const
+	void UUID::writeToCString(char cstring[42]) const
 	{
 		assert(cstring && "invalid pointer");
 		# ifndef YUNI_OS_WINDOWS
@@ -37,17 +37,18 @@ namespace Yuni
 		// Anything less than 39 would make the call fail
 		wchar_t buffer[39];
 		::StringFromGUID2(*(::GUID*)pValue.cstring, buffer, 39);
+
 		// Convert to non-wide string, and cut the prepended and appended braces
-#ifdef YUNI_OS_MINGW
+		#ifdef YUNI_OS_MINGW
 		// we should have something like {000000000-0000-0000-0000-00000000000} in buffer
-		if (::wcstombs(cstring, buffer + 1, 36))
+		if (::wcstombs(cstring, buffer + 1, 36) <= 0)
 			::strncpy(cstring, "000000000-0000-0000-0000-00000000000", 36);
-#else
+		#else
 		size_t converted = 0;
 		// we should have something like {000000000-0000-0000-0000-00000000000} in buffer
 		if (::wcstombs_s(&converted, cstring, 42, buffer + 1, 36))
 			::strcpy_s(cstring, 36, "000000000-0000-0000-0000-00000000000");
-#endif // YUNI_OS_MINGW
+		#endif // YUNI_OS_MINGW
 		else
 		{
 			// The guid produced on Windows is uppercase

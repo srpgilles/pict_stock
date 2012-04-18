@@ -105,6 +105,9 @@
 /* gcc __sync_add_and_fetch */
 #cmakedefine YUNI_HAS_SYNC_ADD_AND_FETCH
 
+/* C++11 constexpr */
+#cmakedefine YUNI_HAS_CONSTEXPR
+
 
 
 #endif /* __YUNI_PLATFORM_CHECKS_H__ */

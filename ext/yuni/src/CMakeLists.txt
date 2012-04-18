@@ -83,11 +83,11 @@ endif()
 
 
 # Target
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Target.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/target.cmake")
 # Getting the latest revision number
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SvnRevision.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/svn-revision.cmake")
 # Informations about the system
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/SystemInformation.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/system-information.cmake")
 
 
 #
@@ -134,14 +134,14 @@ YMESSAGE("  Using profile: ${YUNI_PROFILE_NAME}")
 YMESSAGE("       found in: ${YUNI_PROFILE_PATH}")
 
 # (Re)Check the target
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Target.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/target.cmake")
 
 # DevPacks utilities
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/DevPack.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/DevPackStandardImports.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/devpack.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/devpack-standard-imports.cmake")
 
 # Modules
-include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules.cmake")
 
 
 

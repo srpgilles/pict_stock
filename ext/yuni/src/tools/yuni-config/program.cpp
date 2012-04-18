@@ -418,7 +418,9 @@ namespace Yuni
 	void LibConfigProgram::createArguments(LibConfig::VersionInfo::Settings& version) const
 	{
 		LibConfig::VersionInfo::Settings::SettingsPerModule::OptionMap args;
+		# if !defined(YUNI_OS_MSVC) && !defined(YUNI_OS_MAC)
 		bool hasCxxFlags = false;
+		# endif
 
 		if (pOptCxxFlags)
 		{
@@ -432,7 +434,9 @@ namespace Yuni
 			}
 			if (!args.empty())
 			{
+				# if !defined(YUNI_OS_MSVC) && !defined(YUNI_OS_MAC)
 				hasCxxFlags = true;
+				# endif
 				PrintArgs(args);
 			}
 		}

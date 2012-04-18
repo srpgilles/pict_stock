@@ -15,7 +15,7 @@ endif(POLICY CMP0011)
 # To find 'FindYuni.cmake'
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../packages/cmake")
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/CommonSettings.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/common-settings.cmake")
 
 add_custom_target(samples)
 

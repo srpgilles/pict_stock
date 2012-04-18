@@ -1,3 +1,0 @@
-/home/sebastien/Programmation/yuni/src/tools/yuni-config/CMakeFiles/yuni-config.dir
-/home/sebastien/Programmation/yuni/src/tools/yuni-config/CMakeFiles/yuni-config-0.2.dir
-/home/sebastien/Programmation/yuni/src/yuni/CMakeFiles/yuni-static-core.dir

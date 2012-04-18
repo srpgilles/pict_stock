@@ -315,6 +315,28 @@
 
 
 
+# ifdef YUNI_OS_MSVC
+// Annoying warning from Visual Studio :
+// decorated name length exceeded, name was truncated
+#	pragma warning( disable : 4503)
+# endif
+
+
+
+
+/* Memcopy*/
+# ifdef YUNI_OS_MSVC
+#	define YUNI_MEMCPY(dst, dstsize, source, count)   memcpy_s(dst, (size_t)dstsize, source, (size_t)count)
+# else
+#	define YUNI_MEMCPY(dst, dstsize, source, count)   memcpy(dst, source, (size_t)count)
+# endif
+
+
+
+
+
+
+
 # ifdef __cplusplus /* Only with a C++ Compiler */
 
 namespace Yuni
@@ -340,23 +362,13 @@ namespace System
 } /* namespace System */
 } /* namespace Yuni */
 
+
+# ifndef YUNI_HAS_CONSTEXPR
+#	define constexpr  /* does nothing, but compiles */
+# endif
+
 # endif
 
 
-# ifdef YUNI_OS_MSVC
-// Annoying warning from Visual Studio :
-// decorated name length exceeded, name was truncated
-#	pragma warning( disable : 4503)
-# endif
-
-
-
-
-/* Memcopy*/
-# ifdef YUNI_OS_MSVC
-#	define YUNI_MEMCPY(dst, dstsize, source, count)   memcpy_s(dst, (size_t)dstsize, source, (size_t)count)
-# else
-#	define YUNI_MEMCPY(dst, dstsize, source, count)   memcpy(dst, source, (size_t)count)
-# endif
 
 #endif /* __YUNI_PREPROCESSOR_OS_DETECTION_H__ */

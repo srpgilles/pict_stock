@@ -41,171 +41,28 @@ include(CheckCSourceCompiles)
 include(CheckCXXSourceCompiles)
 include(CheckIncludeFiles)
 include(CheckIncludeFileCXX)
-include(CheckCXXCompilerFlag)
 
 
+set(CMAKE_REQUIRED_FLAGS_PREVIOUS ${CMAKE_REQUIRED_FLAGS})
+set(CMAKE_REQUIRED_FLAGS "")
 
-# stdio.h
-check_include_file(stdio.h YUNI_HAS_STDIO_H)
-# String.h
-check_include_file(string.h YUNI_HAS_STRING_H)
-# time.h
-check_include_file(time.h YUNI_HAS_TIME_H)
-# assert.h
-check_include_file(assert.h YUNI_HAS_ASSERT_H)
-# cassert
-check_include_file_cxx(cassert YUNI_HAS_CASSERT)
-# errno.h
-check_include_file(errno.h YUNI_HAS_ERRNO_H)
-# cstddef
-check_include_file_cxx(cstddef YUNI_HAS_CSTDDEF)
+include(cmake/core/check-includes.cmake)
+include(cmake/core/check-c++11.cmake)
+include(cmake/core/check-stdint.cmake)
+include(cmake/core/check-extras.cmake)
 
-# climits
-check_include_file_cxx(climits YUNI_HAS_CLIMITS)
-# vector
-check_include_file_cxx(vector YUNI_HAS_VECTOR)
-# list
-check_include_file_cxx(list YUNI_HAS_LIST)
-# map
-check_include_file_cxx(map YUNI_HAS_MAP)
-# algorithm
-check_include_file_cxx(algorithm YUNI_HAS_ALGORITHM)
-# iostream
-check_include_file_cxx(iostream YUNI_HAS_IOSTREAM)
-# cassert
-check_include_file_cxx(cassert YUNI_HAS_CASSERT)
-# dirent.h
-check_include_file(dirent.h YUNI_HAS_DIRENT_H)
-# stdlib.h
-check_include_file(stdlib.h YUNI_HAS_STDLIB_H)
-# unistd.h
-check_include_file(unistd.h YUNI_HAS_UNISTD_H)
-# fcntl.h
-check_include_file(fcntl.h YUNI_HAS_FCNTL_H)
-# cstdlib
-check_include_file(cstdlib YUNI_HAS_CSTDLIB)
-# stdarg
-check_include_file(stdarg.h YUNI_HAS_STDARG_H)
-if(NOT APPLE AND NOT WIN32 AND NOT WIN64)
-	# sys/sendfile.h
-	check_include_file_cxx("sys/sendfile.h" YUNI_HAS_SYS_SENDFILE_H)
-endif()
-# Macro va_copy
-check_cxx_source_compiles("#include <stdarg.h>
-	int main() {va_list a, b; va_copy(a, b);}" YUNI_HAS_VA_COPY)
+set(CMAKE_REQUIRED_FLAGS ${CMAKE_REQUIRED_FLAGS_PREVIOUS})
 
 
 
 
-if(NOT MSVC)
-	# sys/types.h
-	check_include_file("sys/types.h" YUNI_HAS_SYS_TYPES_H)
-endif(NOT MSVC)
-if(WIN32 OR WIN64)
-	# cstddef
-	check_include_file_cxx(winsock2.h YUNI_HAS_WINSOCK_2)
-	# ShellApi.h
-	check_include_file_cxx(shellapi.h YUNI_HAS_SHELLAPI_H)
-endif(WIN32 OR WIN64)
 
 
 
 
-# C++0x
-check_cxx_compiler_flag("-std=c++0x" YUNI_HAS_GCC_CPP0X_SUPPORT)
-if(YUNI_HAS_GCC_CPP0X_SUPPORT)
-	if(MINGW)
-		LIBYUNI_CONFIG_CFLAG("both" "core"	"-std=gnu++0x")
-	else()
-		LIBYUNI_CONFIG_CFLAG("both" "core"	"-std=c++0x")
-	endif()
-endif()
 
 
-# int64
-check_cxx_source_compiles("#include <stdint.h>
-	int main() {int64_t a; return 0;}" YUNI_HAS_INT64_T)
-# int128
-check_cxx_source_compiles("#include <stdint.h>
-	int main() {__int128 a; unsigned __int128 b; return 0;}" YUNI_HAS_INT128_T)
 
-# C++0x nullptr
-if(YUNI_HAS_GCC_CPP0X_SUPPORT)
-	if(MINGW)
-		set(CMAKE_REQUIRED_FLAGS "-std=gnu++0x")
-	else()
-		set(CMAKE_REQUIRED_FLAGS "-std=c++0x")
-	endif()
-endif()
-check_cxx_source_compiles("
-    #include <cstddef>
-	typedef std::nullptr_t NullPtr;
-	class A {}; int main() {A* a = nullptr;return 0;}" YUNI_HAS_NULLPTR)
-
-# GCC
-if (NOT MSVC)
-	check_cxx_source_compiles("
-		int main() {   int i = 3;   int j = __sync_add_and_fetch(&i, 1);   return 0; } " YUNI_HAS_SYNC_ADD_AND_FETCH)
-endif()
-
-
-# long
-if(MSVC)
-	check_cxx_source_compiles("
-		#include <iostream>
-		#include <stdio.h>
-		void foo(unsigned int a) {std::cout << a;}
-		void foo(int a) {std::cout << a;}
-		void foo(unsigned long a) {std::cout << a;}
-		void foo(long a) {std::cout << a;}
-		void foo(__int64 a) {std::cout << a;}
-		int main() {return 0;}"
-		YUNI_HAS_LONG)
-else(MSVC)
-	if(YUNI_HAS_SYS_TYPES_H)
-		check_cxx_source_compiles("
-			#include <iostream>
-			#include <sys/types.h>
-			#include <stdio.h>
-			void foo(unsigned int a) {std::cout << a;}
-			void foo(int a) {std::cout << a;}
-			void foo(unsigned long a) {std::cout << a;}
-			void foo(long a) {std::cout << a;}
-			void foo(int64_t a) {std::cout << a;}
-			int main() {return 0;}"
-			YUNI_HAS_LONG)
-	else(YUNI_HAS_SYS_TYPES_H)
-		check_cxx_source_compiles("
-			#include <iostream>
-			#include <stdio.h>
-			void foo(unsigned int a) {std::cout << a;}
-			void foo(int a) {std::cout << a;}
-			void foo(unsigned long a) {std::cout << a;}
-			void foo(long a) {std::cout << a;}
-			void foo(int64_t a) {std::cout << a;}
-			int main() {return 0;}"
-			YUNI_HAS_LONG)
-	endif(YUNI_HAS_SYS_TYPES_H)
-endif(MSVC)
-
-
-if (YUNI_HAS_SYS_TYPES_H)
-	check_c_source_compiles(
-		"#include <sys/types.h>
-		int main() {uint r = 0; return (int) r;}"
-		YUNI_HAS_UINT)
-	check_c_source_compiles(
-		"#include <sys/types.h>
-		int main() {ssize_t r = 0; return (int) r;}"
-		YUNI_HAS_SSIZE_T)
-else()
-	check_c_source_compiles(
-		"int main() {uint r = 0; return (int) r;}"
-		YUNI_HAS_UINT)
-	check_c_source_compiles(
-		"int main() {ssize_t r = 0; return (int) r;}"
-		YUNI_HAS_SSIZE_T)
-endif()
 
 
 if (NOT WIN32)
@@ -615,6 +472,8 @@ set(SRC_CORE_PROCESS
 		core/process/process.h
 		core/process/process.hxx
 		core/process/process.cpp
+		core/process/rename.h
+		core/process/rename.cpp
 )
 source_group(core\\process FILES ${SRC_CORE_PROCESS})
 

@@ -23,8 +23,8 @@ else()
 endif(YUNI_AUTO_COMPILE_YUNI_CONFIG)
 
 
-include("${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/CommonSettings.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/Modules.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/common-settings.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/../../cmake/modules.cmake")
 
 
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/../..")

@@ -25,8 +25,8 @@ Set(LIBYUNI_CONFIG_ENABLED true)
 
 
 include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/YuniConfig.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/CommonSettings.cmake")
-include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/Modules.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/common-settings.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/../cmake/modules.cmake")
 
 
 

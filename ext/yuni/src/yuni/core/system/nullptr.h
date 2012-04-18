@@ -15,7 +15,7 @@
 
 # ifdef YUNI_HAS_NULLPTR
 
-typedef std::nullptr_t YuniNullPtr;
+typedef decltype(nullptr) YuniNullPtr;
 
 # else
 

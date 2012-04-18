@@ -246,7 +246,7 @@ namespace Yuni
 		// std::cout << "locking\n";
 		pMutex.lock();
 		pRunning = true;
-		pProcessID = 0u;
+		pProcessID = 0;
 		pProcessInput = -1;
 
 		if (!pThread)

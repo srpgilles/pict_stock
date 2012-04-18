@@ -15,6 +15,7 @@ ProfileBuild.cmake
 # Library files
 *.a
 *.so
+bin
 
 # Yuni
 yuni.config.gcc

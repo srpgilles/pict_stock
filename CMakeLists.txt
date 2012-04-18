@@ -15,6 +15,10 @@ add_library(SgPhoto SHARED
 	src/photo_directory.cpp
 	src/photo_directory.hpp
 	src/photo_directory.hxx
+	
+	src/private/photo_directory_iterator.cpp
+	src/private/photo_directory_iterator.hpp
+	src/private/tools.hpp
 )
 
 

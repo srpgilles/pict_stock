@@ -1,17 +1,15 @@
 #ifndef PHOTO_DIRECTORY_HPP_
-#define PHOTO_DIRECTORY_HPP_
+# define PHOTO_DIRECTORY_HPP_
 
-#include <unordered_map>
-#include <list>
+# include <unordered_map>
+# include <list>
 
-#include <yuni/io/directory/iterator.h>
-#include <yuni/io/io.h>
+# include <yuni/io/io.h>
 
+# include "private/photo_directory_iterator.hpp"
 
 namespace SgPhoto
 {
-
-	typedef std::map<Yuni::String, std::list<Yuni::String> > ValidDirectoriesType;
 
 	/*!
 	 * \brief The class in charge of managing in memory the content of

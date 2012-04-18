@@ -1,0 +1,25 @@
+HOW TO UPDATE THE PARSER AFTER A GRAMMAR MODIFICATION
+
+First copy the two .pgt template files from doc/grammar into the Templates
+directory of your GOLD installation.
+
+
+In GOLD Parser Builder :
+
+1) Modify the grammar
+
+2) Validate the grammar up to the generation of the .cgt file
+
+3) Choose Project -> Create a skeleton program
+
+4) Choose "CPP - Nany's Engine grammar.h" and create
+
+5) Choose "CPP - Nany's Engine parser.cpp" and create
+
+Then from a prompt :
+
+6) run: tools\fix_parser parser\old_parser.cpp parser\new_parser.cpp
+
+7) rename merged.parser.cpp to parser.cpp and put it in the parser\ directory
+
+This should do it.

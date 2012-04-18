@@ -1,0 +1,123 @@
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+No such file or directory
+
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" failed.
+Compiler:  
+Build flags: 
+Id flags: -c
+
+The output was:
+No such file or directory
+
+
+Determining if the include file cstdlib exists failed with the following output:
+Change Dir: /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.c.o
+/usr/bin/gcc-4.5    -o CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.c.o   -c /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/CheckIncludeFile.c:1:19: fatal error: cstdlib: No such file or directory
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/CheckIncludeFile.c.o] Error 1
+make[1]: Leaving directory `/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+
+Performing C++ SOURCE FILE Test YUNI_HAS_INT128_T failed with the following output:
+Change Dir: /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/src.cxx.o
+/usr/bin/g++-4.5    -Woverloaded-virtual -Wall -Wextra -Wunused-parameter -Wconversion -Wmissing-noreturn -Wcast-align  -Wfloat-equal -Wundef -D_REENTRANT -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -fPIC -std=gnu++0x -g -ggdb3          -DYUNI_HAS_INT128_T   -o CMakeFiles/cmTryCompileExec.dir/src.cxx.o -c /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx: In function ‘int main()’:
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx:2:14: error: ‘__int128’ was not declared in this scope
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx:2:23: error: expected ‘;’ before ‘a’
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx:2:44: error: expected initializer before ‘b’
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/src.cxx.o] Error 1
+make[1]: Leaving directory `/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+Source file was:
+#include <stdint.h>
+	int main() {__int128 a; unsigned __int128 b; return 0;}
+Performing C++ SOURCE FILE Test YUNI_HAS_NULLPTR failed with the following output:
+Change Dir: /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/src.cxx.o
+/usr/bin/g++-4.5    -Woverloaded-virtual -Wall -Wextra -Wunused-parameter -Wconversion -Wmissing-noreturn -Wcast-align  -Wfloat-equal -Wundef -D_REENTRANT -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -fPIC -std=gnu++0x -g -ggdb3          -DYUNI_HAS_NULLPTR -std=c++0x   -o CMakeFiles/cmTryCompileExec.dir/src.cxx.o -c /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx:3:10: error: ‘nullptr_t’ in namespace ‘std’ does not name a type
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx: In function ‘int main()’:
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx:4:33: error: ‘nullptr’ was not declared in this scope
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx:4:29: warning: unused variable ‘a’
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/src.cxx.o] Error 1
+make[1]: Leaving directory `/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+Source file was:
+
+    #include <cstddef>
+	typedef std::nullptr_t NullPtr;
+	class A {}; int main() {A* a = nullptr;return 0;}
+Performing C++ SOURCE FILE Test YUNI_HAS_LONG failed with the following output:
+Change Dir: /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building CXX object CMakeFiles/cmTryCompileExec.dir/src.cxx.o
+/usr/bin/g++-4.5    -Woverloaded-virtual -Wall -Wextra -Wunused-parameter -Wconversion -Wmissing-noreturn -Wcast-align  -Wfloat-equal -Wundef -D_REENTRANT -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -fPIC -std=gnu++0x -g -ggdb3          -DYUNI_HAS_LONG -std=c++0x   -o CMakeFiles/cmTryCompileExec.dir/src.cxx.o -c /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx: In function ‘void foo(int64_t)’:
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx:9:9: error: redefinition of ‘void foo(int64_t)’
+/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/src.cxx:8:9: error: ‘void foo(long int)’ previously defined here
+make[1]: *** [CMakeFiles/cmTryCompileExec.dir/src.cxx.o] Error 1
+make[1]: Leaving directory `/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp'
+make: *** [cmTryCompileExec/fast] Error 2
+
+Source file was:
+
+			#include <iostream>
+			#include <sys/types.h>
+			#include <stdio.h>
+			void foo(unsigned int a) {std::cout << a;}
+			void foo(int a) {std::cout << a;}
+			void foo(unsigned long a) {std::cout << a;}
+			void foo(long a) {std::cout << a;}
+			void foo(int64_t a) {std::cout << a;}
+			int main() {return 0;}
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp
+
+Run Build Command:/usr/bin/make "cmTryCompileExec/fast"
+/usr/bin/make -f CMakeFiles/cmTryCompileExec.dir/build.make CMakeFiles/cmTryCompileExec.dir/build
+make[1]: Entering directory `/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp'
+/usr/bin/cmake -E cmake_progress_report /home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp/CMakeFiles 1
+Building C object CMakeFiles/cmTryCompileExec.dir/CheckFunctionExists.c.o
+/usr/bin/gcc-4.5   -DCHECK_FUNCTION_EXISTS=pthread_create -std=c++0x   -o CMakeFiles/cmTryCompileExec.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-2.8/Modules/CheckFunctionExists.c
+cc1: warning: command line option "-std=c++0x" is valid for C++/ObjC++ but not for C
+Linking C executable cmTryCompileExec
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTryCompileExec.dir/link.txt --verbose=1
+/usr/bin/gcc-4.5     -DCHECK_FUNCTION_EXISTS=pthread_create -std=c++0x    CMakeFiles/cmTryCompileExec.dir/CheckFunctionExists.c.o  -o cmTryCompileExec -rdynamic -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: ld returned 1 exit status
+make[1]: Leaving directory `/home/sebastien/Programmation/yuni/src/CMakeFiles/CMakeTmp'
+make[1]: *** [cmTryCompileExec] Error 1
+make: *** [cmTryCompileExec/fast] Error 2
+
+

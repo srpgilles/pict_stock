@@ -120,6 +120,7 @@ namespace Private
 			++pValidFolderCount;
 
 		++pFolderCount;
+		
 		return IO::flowContinue;
 	}
 
@@ -186,6 +187,9 @@ namespace Private
 
 			for (; !found && it != end ; ++it)
 				found = monthOrDayHelper<DayTraits>(folderDate, *it);
+
+			if (found)
+				pValidDirectories[folderDate].push_back(directory);
 
 			return found;
 		}

@@ -15,7 +15,7 @@ namespace SgPhoto
 
 		if (!iterator.start())
 		{
-			std::cerr << "Problem encountered while scanning photo directory\n";
+			logs.fatal() << "Problem encountered while scanning photo directory";
 			exit(EXIT_FAILURE);
 		}
 

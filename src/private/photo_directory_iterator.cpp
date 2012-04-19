@@ -6,7 +6,7 @@ namespace SgPhoto
 {
 namespace Private
 {
-	namespace
+	namespace // anonymous
 	{
 		/*!
 		 * \brief Analyse a part of the subfolder and decide whether this

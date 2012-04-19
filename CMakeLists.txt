@@ -12,12 +12,13 @@ include_directories(ext/yuni/src)
 add_subdirectory(ext/yuni/src)
 
 add_library(SgPhoto SHARED
+	src/sg_photo.cpp
 	src/sg_photo.hpp
-	src/photo_directory.cpp
+
 	src/photo_directory.hpp
 	src/photo_directory.hxx
 	
-	src/private/photo_directory_iterator.cpp
+	src/private/photo_directory_iterator.hxx
 	src/private/photo_directory_iterator.hpp
 	src/private/tools.hpp
 )

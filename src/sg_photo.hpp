@@ -8,6 +8,17 @@ typedef Yuni::Logs::Logger<> LoggingFacility;
 namespace SgPhoto
 {
 
+	struct French
+	{
+		static const char DayLetter = 'J';
+	};
+
+
+	struct English
+	{
+		static const char DayLetter = 'D';
+	};
+
 
 
 

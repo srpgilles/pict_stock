@@ -21,6 +21,7 @@ namespace Private
 	 * and for each day the associated path(s)
 	 *
 	 */
+	template<class LanguageT>
 	class PhotoDirectoryIterator : public Yuni::IO::Directory::IIterator<true>
 	{
 
@@ -98,5 +99,6 @@ namespace Private
 } // namespace Private
 } // namespace SgPhoto
 
+# include "photo_directory_iterator.hxx"
 
 #endif /* PHOTO_DIRECTORY_ITERATOR_HPP_ */

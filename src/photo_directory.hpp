@@ -17,6 +17,7 @@ namespace SgPhoto
 	 * the output photo directory
 	 *
 	 */
+	template <class LanguageT=French>
 	class PhotoDirectory
 	{
 	public:

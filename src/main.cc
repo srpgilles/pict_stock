@@ -9,7 +9,7 @@ int main(int argc, char* const argv[])
 	(void) argv;
 
 	LoggingFacility logs;
-	SgPhoto::PhotoDirectory photoDirectory(logs, "/home/sebastien/Multimedia/Photos");
+	SgPhoto::PhotoDirectory<SgPhoto::French> photoDirectory(logs, "/home/sebastien/Multimedia/Photos");
 
 
 

@@ -1,6 +1,6 @@
-#include "photo_directory_iterator.hpp"
+#ifndef PHOTO_DIRECTORY_ITERATOR_HXX_
+# define PHOTO_DIRECTORY_ITERATOR_HXX_
 
-using namespace Yuni;
 
 namespace SgPhoto
 {
@@ -22,7 +22,7 @@ namespace Private
 		 * @param max Maximal acceptable value. 12 for month for instance
 		 * @return
 		 */
-		bool isNumericDate(String& folderDate, const String& toAnalyse,
+		bool isNumericDate(YString& folderDate, const YString& toAnalyse,
 			unsigned int min, unsigned max)
 		{
 			unsigned int buf;
@@ -36,6 +36,7 @@ namespace Private
 
 		}
 
+
 		struct MonthTraits
 		{
 			static const unsigned int Min = 1;
@@ -43,11 +44,13 @@ namespace Private
 			static const char Letter = 'M';
 		};
 
+
+		template<class LanguageT>
 		struct DayTraits
 		{
 			static const unsigned int Min = 1;
 			static const unsigned int Max = 31;
-			static const char Letter = 'J';
+			static const char Letter = LanguageT::DayLetter;
 		};
 
 
@@ -60,7 +63,7 @@ namespace Private
 		 * \param[in] subfolder Part of the path being under study. For instance M03-04__Foo
 		 */
 		template<class DateTraits>
-		bool monthOrDayHelper(String& folderDate, const String& subfolder)
+		bool monthOrDayHelper(YString& folderDate, const YString& subfolder)
 		{
 			if (!subfolder.startsWith(DateTraits::Letter))
 				return false;
@@ -68,9 +71,9 @@ namespace Private
 			if (subfolder.size() > 3 && subfolder[3] == '-')
 				return false;
 
-			String::const_utf8iterator a = subfolder.utf8begin() + 1;
-			String::const_utf8iterator b = subfolder.utf8begin() + 3;
-			String strBuf(a, b);
+			YString::const_utf8iterator a = subfolder.utf8begin() + 1;
+			YString::const_utf8iterator b = subfolder.utf8begin() + 3;
+			YString strBuf(a, b);
 
 			return isNumericDate(folderDate, strBuf, DateTraits::Min, DateTraits::Max);
 		}
@@ -79,26 +82,27 @@ namespace Private
 	} // namespace anonymous
 
 
-
-	PhotoDirectoryIterator::PhotoDirectoryIterator(LoggingFacility& logs)
+	template<class LanguageT>
+	PhotoDirectoryIterator<LanguageT>::PhotoDirectoryIterator(LoggingFacility& logs)
 		: logs(logs)
 	{ }
 
 
-	PhotoDirectoryIterator::~PhotoDirectoryIterator()
+	template<class LanguageT>
+	PhotoDirectoryIterator<LanguageT>::~PhotoDirectoryIterator()
 	{
 		// For code robustness and to avoid corrupt vtable
 		stop();
 	}
 
-
-	void PhotoDirectoryIterator::validDirectories(ValidDirectoriesType& list)
+	template<class LanguageT>
+	void PhotoDirectoryIterator<LanguageT>::validDirectories(ValidDirectoriesType& list)
 	{
 		list = pValidDirectories;
 	}
 
-
-	bool PhotoDirectoryIterator::onStart(const String& rootFolder)
+	template<class LanguageT>
+	bool PhotoDirectoryIterator<LanguageT>::onStart(const YString& rootFolder)
 	{
 		logs.info() << " [+] " << rootFolder;
 		pCounter = 1;
@@ -108,46 +112,49 @@ namespace Private
 		return true;
 	}
 
-
-	PhotoDirectoryIterator::Flow PhotoDirectoryIterator::onBeginFolder(const String& completePath,
-		const String&, const String& /*name*/)
+	template<class LanguageT>
+	Yuni::IO::Flow PhotoDirectoryIterator<LanguageT>::onBeginFolder(const YString& completePath,
+		const YString&, const YString& /*name*/)
 	{
 		// Valid directories must include at least three components (for year, month, day)
 		if (pCounter++ < 3)
-			return IO::flowContinue;
+			return Yuni::IO::flowContinue;
 
 		if (checkValidity(completePath))
 			++pValidFolderCount;
 
 		++pFolderCount;
-		return IO::flowContinue;
+		return Yuni::IO::flowContinue;
 	}
 
-	void PhotoDirectoryIterator::onEndFolder(const String&, const String&, const String&)
+	template<class LanguageT>
+	void PhotoDirectoryIterator<LanguageT>::onEndFolder(const YString&, const YString&, const YString&)
 	{
 		--pCounter;
 	}
 
-	PhotoDirectoryIterator::Flow PhotoDirectoryIterator::onFile(const String&,
-		const String& /*folder*/, const String& /*name*/, uint64 /*size*/)
+	template<class LanguageT>
+	Yuni::IO::Flow PhotoDirectoryIterator<LanguageT>::onFile(const YString&,
+		const YString& /*folder*/, const YString& /*name*/, Yuni::uint64 /*size*/)
 	{
-		return IO::flowContinue;
+		return Yuni::IO::flowContinue;
 	}
 
-	void PhotoDirectoryIterator::onTerminate()
+	template<class LanguageT>
+	void PhotoDirectoryIterator<LanguageT>::onTerminate()
 	{
 		logs.info() << pValidFolderCount << " / " << pFolderCount
 			<< " folder(s) are valid";
 	}
 
-
-	bool PhotoDirectoryIterator::checkValidity(const String& directory)
+	template<class LanguageT>
+	bool PhotoDirectoryIterator<LanguageT>::checkValidity(const YString& directory)
 	{
 		// Split the path in subfolders to see if they are legit directories
-		std::vector<String> subPath;
-		directory.split(subPath, IO::Separator);
+		std::vector<YString> subPath;
+		directory.split(subPath, Yuni::IO::Separator);
 
-		String folderDate;
+		YString folderDate;
 
 		auto it = subPath.cbegin();
 		auto end = subPath.cend();
@@ -185,7 +192,7 @@ namespace Private
 			bool found = false;
 
 			for (; !found && it != end ; ++it)
-				found = monthOrDayHelper<DayTraits>(folderDate, *it);
+				found = monthOrDayHelper<DayTraits<LanguageT> >(folderDate, *it);
 
 			return found;
 		}
@@ -194,3 +201,5 @@ namespace Private
 
 } // namespace Private
 } // namespace SgPhoto
+
+#endif /* PHOTO_DIRECTORY_ITERATOR_HXX_ */

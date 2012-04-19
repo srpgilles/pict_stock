@@ -4,6 +4,7 @@
 # include <yuni/io/directory/iterator.h>
 # include <yuni/core/string.h>
 
+# include "../sg_photo.hpp"
 # include "tools.hpp"
 
 
@@ -28,7 +29,7 @@ namespace Private
 		//! Constructor & destructor
 		//@{
 		//! Constructor
-		PhotoDirectoryIterator();
+		PhotoDirectoryIterator(LoggingFacility& logs);
 
 		//! Destructor
 		virtual ~PhotoDirectoryIterator();
@@ -46,6 +47,12 @@ namespace Private
 		** to this date
 		*/
 		void validDirectories(ValidDirectoriesType& list);
+
+
+	public:
+
+		//! Logging facility
+		mutable LoggingFacility& logs;
 
 	private:
 		//! Overload IIterator methods

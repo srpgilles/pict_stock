@@ -7,9 +7,10 @@ namespace SgPhoto
 
 
 
-	PhotoDirectory::PhotoDirectory(Yuni::String pFolder)
+	PhotoDirectory::PhotoDirectory(LoggingFacility& logs, Yuni::String pFolder)
+		: logs(logs)
 	{
-		Private::PhotoDirectoryIterator iterator;
+		Private::PhotoDirectoryIterator iterator(logs);
 		iterator.add(pFolder);
 
 		if (!iterator.start())

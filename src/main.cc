@@ -1,5 +1,5 @@
 #include "photo_directory.hpp"
-//#include <yuni/core/logs.h>
+
 
 
 int main(int argc, char* const argv[])
@@ -8,12 +8,10 @@ int main(int argc, char* const argv[])
 	(void) argc;
 	(void) argv;
 
-	SgPhoto::PhotoDirectory photoDirectory("/home/sebastien/Multimedia/Photos");
+	LoggingFacility logs;
+	SgPhoto::PhotoDirectory photoDirectory(logs, "/home/sebastien/Multimedia/Photos");
 
-	//typedef Yuni::Logs::Logger<> LoggingFacility;
-	//LoggingFacility logs;
 
-	//logs.notice() << "HERE";
 
 	auto directories = photoDirectory.tree();
 

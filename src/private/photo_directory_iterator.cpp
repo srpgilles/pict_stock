@@ -7,7 +7,8 @@ namespace SgPhoto
 namespace Private
 {
 
-	PhotoDirectoryIterator::PhotoDirectoryIterator()
+	PhotoDirectoryIterator::PhotoDirectoryIterator(LoggingFacility& logs)
+		: logs(logs)
 	{ }
 
 

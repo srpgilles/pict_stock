@@ -6,6 +6,7 @@
 
 # include <yuni/io/io.h>
 
+# include "sg_photo.hpp"
 # include "private/photo_directory_iterator.hpp"
 
 namespace SgPhoto
@@ -26,7 +27,7 @@ namespace SgPhoto
 		 *
 		 * \param pFolder Folder in which photos are sort
 		 */
-		explicit PhotoDirectory(Yuni::String pFolder);
+		explicit PhotoDirectory(LoggingFacility& logs, Yuni::String pFolder);
 
 		//! Destructor
 		~PhotoDirectory();
@@ -37,6 +38,11 @@ namespace SgPhoto
 		// FOR DEBUG PURPOSES ONLY!
 		const ValidDirectoriesType tree() const;
 
+	public:
+
+		//! Logging facility
+		mutable LoggingFacility& logs;
+
 	private:
 
 		/*!
@@ -46,12 +52,7 @@ namespace SgPhoto
 		** to this date
 		*/
 		ValidDirectoriesType pTree;
-
-
-
 	};
-
-
 
 
 } // namespace SgPĥoto

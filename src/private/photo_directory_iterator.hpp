@@ -81,15 +81,6 @@ namespace Private
 
 	 private:
 
-		enum class DateItemInDirectory
-		{
-			none = 0,
-			year = 1,
-			month = 2,
-			day = 3
-		};
-
-
 		unsigned int pCounter;
 		unsigned int pFolderCount;
 		unsigned int pValidFolderCount;

@@ -5,11 +5,6 @@ namespace SgPhoto
 {
 
 
-	inline const ValidDirectoriesType PhotoDirectory::tree() const
-	{
-		return pTree;
-	}
-
 
 } // namespace SgPḧoto
 

@@ -1,7 +1,7 @@
 #ifndef PHOTO_DIRECTORY_HPP_
 # define PHOTO_DIRECTORY_HPP_
 
-# include <unordered_map>
+# include <map>
 # include <list>
 
 # include <yuni/io/io.h>
@@ -34,9 +34,9 @@ namespace SgPhoto
 
 		//@}
 
-		//! Return the list of valid directories, sort by date
-		// FOR DEBUG PURPOSES ONLY!
-		const ValidDirectoriesType tree() const;
+		
+		//! Print the valid folder founds (for debug purposes)
+		void print(std::ostream& out) const;
 
 	public:
 

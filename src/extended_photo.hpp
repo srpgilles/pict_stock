@@ -9,6 +9,7 @@
 # include <yuni/io/io.h>
 
 # include "sg_photo.hpp"
+# include "photographer.hpp"
 
 namespace SgPhoto
 {
@@ -75,7 +76,7 @@ namespace SgPhoto
 		** \return True if photographer is known, false otherwise
 		**
 		*/
-	//	bool identifyPhotographer();
+		bool identifyPhotographer();
 
 		/*!
 		** Extract the date at which the picture was taken
@@ -103,7 +104,7 @@ namespace SgPhoto
 		Exiv2::Image::AutoPtr pImage;
 
 		//! Smart pointer to the photographer
-		//Photographer::Ptr pPhotographer;
+		Photographer::Ptr pPhotographer;
 
 		/*!
 		** Vector including the date as a bunch of integers. Index is handled
@@ -134,9 +135,8 @@ namespace SgPhoto
 		** Key is the serial number of Canon camera, value struct listing name and
 		** abbreviation of the photographer
 		**
-		** TODO: Should be smart pointers instead!!!
 		*/
-		//static const Photographer::List pPhotographers;
+		static const Photographer::List pPhotographers;
 
 
 	private:

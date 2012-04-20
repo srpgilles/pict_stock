@@ -6,7 +6,9 @@ add_library(SgPhoto SHARED
 	extended_photo.cpp
 	extended_photo.hpp
 	extended_photo.hxx
-	
+	photographer.cpp
+	photographer.hpp
+	photographer.hxx
 	private/photo_directory_iterator.cpp
 	private/photo_directory_iterator.hpp
 	private/tools.hpp

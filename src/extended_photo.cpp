@@ -7,101 +7,100 @@ using namespace Yuni;
 namespace SgPhoto
 {
 
-	//~ namespace
-	//~ {
-		//~ /*!
-		//~ ** Init the list of photographers
-		//~ **
-		//~ ** Quite crude at the moment; should not be written in hard but read
-		//~ ** instead from a file or a database
-		//~ **
-		//~ ** TODO A layer of checks should also be added (ensure a given camera or
-		//~ ** abbreviation is not present twice)
-		//~ */
-//~ 
-		//~ static Photographer::List initPhotographers()
-		//~ {
-			//~ Photographer::List ret;
-//~ 
-			//~ {
-				//~ // Claire et Sébastien
-				//~ std::multimap<std::string, String> cameras;
-				//~ cameras.insert(std::make_pair("Exif.Canon.SerialNumber", "2280522782"));
-				//~ cameras.insert(std::make_pair("Exif.Image.Model", "FinePix A350"));
-				//~ cameras.insert(std::make_pair("Exif.Image.Model", "FinePix E500"));
-//~ 
-				//~ Photographer::Ptr newEntry =
-					//~ new Photographer("Claire et Sébastien", "CSG", cameras);
-//~ 
-				//~ ret.push_back(newEntry);
-			//~ }
-//~ 
-			//~ {
-				//~ // Aurelien
-				//~ std::multimap<std::string, String> cameras;
-				//~ cameras.insert(std::make_pair("Exif.Canon.SerialNumber", "430125393"));
-				//~ cameras.insert(std::make_pair("Exif.Image.Model", "FinePix S5000"));
-//~ 
-				//~ Photographer::Ptr newEntry =
-					//~ new Photographer("Aurélien", "AG", cameras);
-//~ 
-				//~ ret.push_back(newEntry);
-			//~ }
-//~ 
-			//~ {
-				//~ // Annie et Christian
-				//~ std::multimap<std::string, String> cameras;
-				//~ cameras.insert(std::make_pair("Exif.Image.Model", "DSC-W70"));
-//~ 
-				//~ Photographer::Ptr newEntry =
-					//~ new Photographer("Annie et Christian", "AGC", cameras);
-//~ 
-				//~ ret.push_back(newEntry);
-			//~ }
-//~ 
-			//~ {
-				//~ // Papy Mamie
-				//~ std::multimap<std::string, String> cameras;
-				//~ cameras.insert(std::make_pair("Exif.Image.Model", "DMC-FS4"));
-//~ 
-				//~ Photographer::Ptr newEntry =
-					//~ new Photographer("Papy et Mamie", "PMS", cameras);
-//~ 
-				//~ ret.push_back(newEntry);
-			//~ }
-//~ 
-			//~ {
-				//~ // René
-				//~ std::multimap<std::string, String> cameras;
-				//~ cameras.insert(std::make_pair("ExifPhoto.__NikonSerialNumbers",
-					//~ "4045196"));
-//~ 
-				//~ Photographer::Ptr newEntry =
-					//~ new Photographer("René", "RW", cameras);
-//~ 
-				//~ ret.push_back(newEntry);
-			//~ }
-//~ 
-			//~ {
-				//~ // Laurent et Céline
-				//~ std::multimap<std::string, String> cameras;
-				//~ cameras.insert(std::make_pair("Exif.Canon.SerialNumber",
-					//~ "1531001946"));
-//~ 
-				//~ Photographer::Ptr newEntry =
-					//~ new Photographer("Laurent et Céline", "LCSC", cameras);
-//~ 
-				//~ ret.push_back(newEntry);
-			//~ }
-//~ 
-			//~ return ret;
-//~ 
-		//~ }
-	//~ }// anonymous namespace
-//~ 
-//~ 
-//~ 
-	//~ const Photographer::List ExtendedPhoto::pPhotographers =  initPhotographers();
+	namespace
+	{
+		/*!
+		** Init the list of photographers
+		**
+		** Quite crude at the moment; should not be written in hard but read
+		** instead from a file or a database
+		**
+		** TODO Termporary; should be handled through a sqlite database
+		*/
+
+		static Photographer::List initPhotographers()
+		{
+			Photographer::List ret;
+
+			{
+				// Claire et Sébastien
+				std::multimap<std::string, String> cameras;
+				cameras.insert(std::make_pair("Exif.Canon.SerialNumber", "2280522782"));
+				cameras.insert(std::make_pair("Exif.Image.Model", "FinePix A350"));
+				cameras.insert(std::make_pair("Exif.Image.Model", "FinePix E500"));
+
+				Photographer::Ptr newEntry =
+					new Photographer("Claire et Sébastien", "CSG", cameras);
+
+				ret.push_back(newEntry);
+			}
+
+			{
+				// Aurelien
+				std::multimap<std::string, String> cameras;
+				cameras.insert(std::make_pair("Exif.Canon.SerialNumber", "430125393"));
+				cameras.insert(std::make_pair("Exif.Image.Model", "FinePix S5000"));
+
+				Photographer::Ptr newEntry =
+					new Photographer("Aurélien", "AG", cameras);
+
+				ret.push_back(newEntry);
+			}
+
+			{
+				// Annie et Christian
+				std::multimap<std::string, String> cameras;
+				cameras.insert(std::make_pair("Exif.Image.Model", "DSC-W70"));
+
+				Photographer::Ptr newEntry =
+					new Photographer("Annie et Christian", "AGC", cameras);
+
+				ret.push_back(newEntry);
+			}
+
+			{
+				// Papy Mamie
+				std::multimap<std::string, String> cameras;
+				cameras.insert(std::make_pair("Exif.Image.Model", "DMC-FS4"));
+
+				Photographer::Ptr newEntry =
+					new Photographer("Papy et Mamie", "PMS", cameras);
+
+				ret.push_back(newEntry);
+			}
+
+			{
+				// René
+				std::multimap<std::string, String> cameras;
+				cameras.insert(std::make_pair("ExifPhoto.__NikonSerialNumbers",
+					"4045196"));
+
+				Photographer::Ptr newEntry =
+					new Photographer("René", "RW", cameras);
+
+				ret.push_back(newEntry);
+			}
+
+			{
+				// Laurent et Céline
+				std::multimap<std::string, String> cameras;
+				cameras.insert(std::make_pair("Exif.Canon.SerialNumber",
+					"1531001946"));
+
+				Photographer::Ptr newEntry =
+					new Photographer("Laurent et Céline", "LCSC", cameras);
+
+				ret.push_back(newEntry);
+			}
+
+			return ret;
+
+		}
+	}// anonymous namespace
+
+
+
+	const Photographer::List ExtendedPhoto::pPhotographers =  initPhotographers();
 
 
 
@@ -121,9 +120,9 @@ namespace SgPhoto
 			assert (pImage.get() != 0);
 			pImage->readMetadata();
 
-			//~ if (!identifyPhotographer())
-				//~ pStatus = epInternalProblem;
-			//~ else
+			if (!identifyPhotographer())
+				pStatus = epInternalProblem;
+			else
 			{
 				if (!extractDate())
 					pStatus = epExiv2Problem;
@@ -133,51 +132,46 @@ namespace SgPhoto
 		catch(const std::exception& e)
 		{
 			// I do not use exception myself, so any exception stems from exiv2
-			std::cout << "Exception caught for photo " << filename << ": " << e.what() << "\n";
+			logs.error() << "Exception caught for photo " << filename << ": " << e.what();
 			pStatus = epExiv2Problem;
 		}
 	}
 
 
 
+	bool ExtendedPhoto::identifyPhotographer()
+	{
+		// Unfortunately, there is no generic exif tag to identify a camera, and
+		// for some older model there is no serial number either (so we just have
+		// the name of the model, which is good enough for our purposes due to the
+		// maze of existing models)
+		// So we have to proceed by trial and error
+
+		for (auto it = pPhotographers.cbegin(), end = pPhotographers.cend(); it != end; ++it)
+		{
+			assert(!(!(*it)));
+
+			const auto& cameras = (*it)->exifData();
 
 
+			String value;
 
+			for (auto itMap = cameras.cbegin(), endMap = cameras.cend(); itMap != endMap; ++itMap)
+			{
+				if (findExifKey(itMap->first, value))
+				{
+					if (value == itMap->second)
+					{
+						pPhotographer = *it;
+						return true;
+					}
+				}
+			}
+		}
 
+		return false;
 
-	//~ bool ExtendedPhoto::identifyPhotographer()
-	//~ {
-		//~ // Unfortunately, there is no generic exif tag to identify a camera, and
-		//~ // for some older model there is no serial number either (so we just have
-		//~ // the name of the model, which is good enough for our purposes due to the
-		//~ // maze of existing models)
-		//~ // So we have to proceed by trial and error
-//~ 
-		//~ for (auto it = pPhotographers.cbegin(), end = pPhotographers.cend(); it != end; ++it)
-		//~ {
-			//~ assert(!(!(*it)));
-//~ 
-			//~ const auto& cameras = (*it)->exifData();
-//~ 
-//~ 
-			//~ String value;
-//~ 
-			//~ for (auto itMap = cameras.cbegin(), endMap = cameras.cend(); itMap != endMap; ++itMap)
-			//~ {
-				//~ if (findExifKey(itMap->first, value))
-				//~ {
-					//~ if (value == itMap->second)
-					//~ {
-						//~ pPhotographer = *it;
-						//~ return true;
-					//~ }
-				//~ }
-			//~ }
-		//~ }
-//~ 
-		//~ return false;
-//~ 
-	//~ }
+	}
 
 
 
@@ -222,9 +216,9 @@ namespace SgPhoto
 		}
 
 		{
-		//	assert(!(!pPhotographer));
+			assert(!(!pPhotographer));
 			pNewName = "Photo_";
-			pNewName << pDate[3] << pDate[4] ;//<< "_" << pPhotographer->abbr();
+			pNewName << pDate[3] << pDate[4] << "_" << pPhotographer->abbr();
 		}
 
 		return true;

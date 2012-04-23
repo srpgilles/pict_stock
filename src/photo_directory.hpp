@@ -48,12 +48,26 @@ namespace SgPhoto
 		//! Print the valid folder founds (for debug purposes)
 		void print(std::ostream& out) const;
 
+		/*!
+		 * \briefCreate the basic folder matching a peculiar date
+		 *
+		 *  \param[in] date Date for which the folde ris to be created
+		 *  \param[out] folder Name of the folder created
+		 *
+		 *  \return True If creation went right
+		 */
+		bool createDateFolder(const DateString& date, YString& folder);
+
+
 	public:
 
 		//! Logging facility
 		mutable LoggingFacility& logs;
 
 	private:
+
+		//! Main folder in which all photos are stored in the end
+		YString pMainFolder;
 
 		/*!
 		** \brief List of valid directories found in photo directory

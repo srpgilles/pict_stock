@@ -90,13 +90,37 @@ namespace SgPhoto
 			// Check whether the date of the photo already exists or not
 			auto photoDate = myPhoto.date();
 			std::list<YString> folders;
+			YString folder;
 
 			if (!pPhotoDirectory.findDate(photoDate, folders))
 			{
-				// If the correct folder doesn't exist, just create it and move the photo there
+				// If the correct folder doesn't exist, just create it...
+				if (!pPhotoDirectory.createDateFolder(photoDate, folder))
+				{
+					logs.error() << "Unable to create folder related to "
+						"photo " << fullName;
+					return IO::flowContinue;
+				}
 
+				// ... and move the photo there
+				logs.warning() << "COPY INSTEAD OF MOVE DURING DEV";
+
+
+				YString targetFullPath(folder);
+
+				{
+					YString targetName;
+					myPhoto.newNameWithoutExtension(targetName);
+					targetFullPath << IO::Separator << targetName << ".jpg";
+				}
+
+				if (IO::File::Copy(fullName, targetFullPath, false) != IO::errNone)
+				{
+					logs.error() << "Unable to copy " << fullName
+						<< " into new folder " << folder;
+					return IO::flowContinue;
+				}
 			}
-
 		}
 
 

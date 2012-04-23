@@ -30,6 +30,12 @@ namespace SgPhoto
 			epInternalProblem
 		};
 
+		//! Smart pointer most adapted for the class
+		typedef Yuni::SmartPtr<ExtendedPhoto> Ptr;
+
+		//! Container most adapted for the class
+		typedef std::vector<Ptr> Vector;
+
 		//! Constructor
 		//@{
 		ExtendedPhoto(LoggingFacility& logs, const YString& filename);

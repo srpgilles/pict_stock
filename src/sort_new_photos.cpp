@@ -74,54 +74,58 @@ namespace SgPhoto
 
 		String fullName;
 		fullName << folder << IO::Separator << name;
-		ExtendedPhoto myPhoto(logs, fullName);
+		ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, fullName);
 
+		if (photoPtr->problem())
 		{
-			if (myPhoto.problem())
-			{
-				// TODO Handle the case in which a photo can't be processed
-				logs.debug() << "SKIP PHOTO " << fullName;
-
-				return IO::flowContinue;
-			}
+			// TODO Handle the case in which a photo can't be processed
+			logs.error() << "SKIP PHOTO " << fullName;
+			return IO::flowContinue;
 		}
 
-		{
-			// Check whether the date of the photo already exists or not
-			auto photoDate = myPhoto.date();
-			std::list<YString> folders;
-			YString folder;
-
-			if (!pPhotoDirectory.findDate(photoDate, folders))
-			{
-				// If the correct folder doesn't exist, just create it...
-				if (!pPhotoDirectory.createDateFolder(photoDate, folder))
-				{
-					logs.error() << "Unable to create folder related to "
-						"photo " << fullName;
-					return IO::flowContinue;
-				}
-
-				// ... and move the photo there
-				logs.warning() << "COPY INSTEAD OF MOVE DURING DEV";
+		pPicturesToProcess[photoPtr->date()].push_back(photoPtr);
 
 
-				YString targetFullPath(folder);
 
-				{
-					YString targetName;
-					myPhoto.newNameWithoutExtension(targetName);
-					targetFullPath << IO::Separator << targetName << ".jpg";
-				}
 
-				if (IO::File::Copy(fullName, targetFullPath, false) != IO::errNone)
-				{
-					logs.error() << "Unable to copy " << fullName
-						<< " into new folder " << folder;
-					return IO::flowContinue;
-				}
-			}
-		}
+		// TODO Move into a separate method to be called once all new photos
+		// have been read
+//		{
+//			// Check whether the date of the photo already exists or not
+//			auto photoDate = myPhoto.date();
+//			std::list<YString> folders;
+//			YString folder;
+//
+//			if (!pPhotoDirectory.findDate(photoDate, folders))
+//			{
+//				// If the correct folder doesn't exist, just create it...
+//				if (!pPhotoDirectory.createDateFolder(photoDate, folder))
+//				{
+//					logs.error() << "Unable to create folder related to "
+//						"photo " << fullName;
+//					return IO::flowContinue;
+//				}
+//
+//				// ... and move the photo there
+//				logs.warning() << "COPY INSTEAD OF MOVE DURING DEV";
+//
+//
+//				YString targetFullPath(folder);
+//
+//				{
+//					YString targetName;
+//					myPhoto.newNameWithoutExtension(targetName);
+//					targetFullPath << IO::Separator << targetName << ".jpg";
+//				}
+//
+//				if (IO::File::Copy(fullName, targetFullPath, false) != IO::errNone)
+//				{
+//					logs.error() << "Unable to copy " << fullName
+//						<< " into new folder " << folder;
+//					return IO::flowContinue;
+//				}
+//			}
+//		}
 
 
 		return IO::flowContinue;

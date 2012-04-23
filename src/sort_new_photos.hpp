@@ -74,6 +74,8 @@ namespace SgPhoto
          */
         Yuni::String pInputDirectory;
 
+        //! List of all jpeg files to process, sort by date
+        std::map<DateString, ExtendedPhoto::Vector> pPicturesToProcess;
 
         /*!
          ** \brief A map container containing the automatic choices

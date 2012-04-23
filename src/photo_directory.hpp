@@ -34,6 +34,16 @@ namespace SgPhoto
 
 		//@}
 
+		/*!
+		 * \brief Check whether the date of the photo has already been handled or not
+		 *
+		 * \param[in] date Date in format YYYYMMDD
+		 * \param[out] folders List of the folders associated to the date
+		 *
+		 * \return True if the date is known, false otherwise
+		 */
+		bool findDate(const YString& date, std::list<YString>& folders) const;
+
 		
 		//! Print the valid folder founds (for debug purposes)
 		void print(std::ostream& out) const;

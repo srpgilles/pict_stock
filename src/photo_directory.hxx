@@ -5,6 +5,19 @@ namespace SgPhoto
 {
 
 
+	inline bool PhotoDirectory::findDate(const YString& date, std::list<YString>& folders) const
+	{
+		assert(folders.size() == 0 && "Only output parameter");
+		auto iterator = pTree.find(date);
+
+		if (iterator == pTree.end())
+			return false;
+
+		folders = iterator->second;
+		return true;
+	}
+
+
 
 } // namespace SgPḧoto
 

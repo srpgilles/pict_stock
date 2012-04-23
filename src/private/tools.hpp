@@ -3,7 +3,11 @@
 
 namespace SgPhoto
 {
-    typedef std::map<Yuni::String, std::list<Yuni::String> > ValidDirectoriesType;
+	typedef Yuni::CString<4, false> HourString;
+    typedef Yuni::CString<8, false> DateString;
+
+    typedef std::map<DateString, std::list<Yuni::String> > ValidDirectoriesType;
+
 }
 
 

@@ -48,66 +48,56 @@ namespace SgPhoto
 	{
 		logs.debug() << " [+] " << name;
 
-		// Here reinit choicesd that might be folder related (impose date in photos, etc...)
+		// Here reinit choices that might be folder related (impose date in photos, etc...)
 
 		return IO::flowContinue;
 	}
 
 	void SortNewPhotos::onEndFolder(const String&, const String&, const String&)
-	{
-	}
+	{ }
 
 
 	SortNewPhotos::Flow SortNewPhotos::onFile(const String&, const String& folder,
 		const String& name, uint64 /*size*/)
 	{
 		// Only consider files which extension is JPG or jpg
-		String ext;
-		IO::ExtractExtension(ext, name);
-
-		if (ext.toLower() != ".jpg")
 		{
-			logs.debug() << "SKIP " << name;
-			return IO::flowContinue;
+			String ext;
+			IO::ExtractExtension(ext, name);
+
+			if (ext.toLower() != ".jpg")
+			{
+				logs.debug() << "SKIP not jpeg file " << name;
+				return IO::flowContinue;
+			}
 		}
 
-
-//		logs.debug() << "  -  " << name << " (" << size << " bytes)";
 		String fullName;
 		fullName << folder << IO::Separator << name;
 		ExtendedPhoto myPhoto(logs, fullName);
 
-		if (myPhoto.problem())
 		{
-			// TODO Handle the case in which a photo can't be processed
-			logs.debug() << "SKIP PHOTO " << fullName;
+			if (myPhoto.problem())
+			{
+				// TODO Handle the case in which a photo can't be processed
+				logs.debug() << "SKIP PHOTO " << fullName;
 
-			return IO::flowContinue;
+				return IO::flowContinue;
+			}
 		}
 
-		// If an automatic choice has already been programmed, simply put the file there
-		// without further question
 		{
-			YString photoDate = myPhoto.date();
+			// Check whether the date of the photo already exists or not
+			auto photoDate = myPhoto.date();
+			std::list<YString> folders;
 
-			auto it = pAutomaticChoice.find(photoDate);
-
-			if (it != pAutomaticChoice.end())
+			if (!pPhotoDirectory.findDate(photoDate, folders))
 			{
-				// Simply move the photo to the chosen directory, and rename it
-				// use method movePhoto();
-
+				// If the correct folder doesn't exist, just create it and move the photo there
 
 			}
 
-
-
-
 		}
-
-
-		//pValidDirectories
-
 
 
 		return IO::flowContinue;

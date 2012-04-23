@@ -181,38 +181,37 @@ namespace SgPhoto
                 return false;
         }
 
-        // Now parse this date to extract year, month, day, hour, minute, second
-        dateRead.split(pDate, " :");
+        std::vector<int> dateAsVect;
 
-        if (pDate.size() != 6)
+        // Now parse this date to extract year, month, day, hour, minute, second
+        dateRead.split(dateAsVect, " :");
+
+        if (dateAsVect.size() != 6)
         {
             logs.fatal() << "Date is expected to follow format %y:%m:%d %h:%m:%s, "
                 "which was not the case of " << dateRead << "\n";
             return false;
         }
 
-        {
-            pStringDate << pDate[0];
-            CString < 4, false > buf;
-            buf << pDate[1];
-            assert(buf.size() < 3);
-            if (buf.size() == 2)
-                pStringDate << buf;
-            else
-                pStringDate << "0" << buf;
+        typedef CString<4, false> TinyString;
 
-            buf.clear() << pDate[2];
-            assert(buf.size() < 3);
-            if (buf.size() == 2)
-                pStringDate << buf;
-            else
-                pStringDate << "0" << buf;
+        {
+        	// Proceed to extract the date and write in format YYYYMMDD
+        	// TODO Replace that with time stamp
+        	pStringDate.resize(8);
+        	pStringDate.fill('0');
+
+            pStringDate.overwrite(TinyString(dateAsVect[0]));
+            pStringDate.overwriteRight(2, TinyString(dateAsVect[1]));
+            pStringDate.overwriteRight(TinyString(dateAsVect[2]));
         }
 
         {
-            assert(!(!pPhotographer));
-            pNewName = "Photo_";
-            pNewName << pDate[3] << pDate[4] << "_" << pPhotographer->abbr();
+        	// Same stuff for hour and minutes (seconds are dropped)
+        	pStringTime.resize(4);
+        	pStringTime.fill('0');
+        	pStringTime.overwriteRight(2, TinyString(dateAsVect[3]));
+        	pStringTime.overwriteRight(TinyString(dateAsVect[4]));
         }
 
         return true;
@@ -267,24 +266,12 @@ namespace SgPhoto
     }
 
     
-    YString ExtendedPhoto::newName(unsigned int index) const
+    void ExtendedPhoto::newNameWithoutExtension(YString& name) const
     {
-        YString ret;
-        ret << pNewName;
+        name.clear() << "Photo_" << pStringTime;
 
-        // TODO Do that more properly!
-        if (index > 0)
-        {
-            if (index < 10)
-                ret << "00" << index;
-            else if (index < 100)
-                ret << "0" << index;
-            else
-                ret << index;
-        }
-
-        ret << ".JPG";
-        return ret;
+        assert(!(!pPhotographer));
+        name << '_' << pPhotographer->abbr();
     }
 
 }// namespace SgPhoto

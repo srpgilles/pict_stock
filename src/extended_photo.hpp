@@ -9,6 +9,7 @@
 # include <yuni/io/io.h>
 
 # include "sg_photo.hpp"
+# include "private/tools.hpp"
 # include "photographer.hpp"
 
 namespace SgPhoto
@@ -41,12 +42,15 @@ namespace SgPhoto
 		YString date() const;
 
 		/*!
-		 * \brief Name given in the output tree
-		 * 
-		 * \param[in] index If several photos in the same minute, index is used
-		 * to avoid overwritting the already existing photo
+		 * \brief Name given in the output tree, without file extension
+		 *
+		 * \param[out] name Name
+		 *
+		 * This name does not consider possible files that would obtain the
+		 * same name; a suffix will have to be added to avoid overwriting
+		 * other pictures (handled in #SortNewPhotos class)
 		 */
-		YString newName(unsigned int index = 0) const;
+		void newNameWithoutExtension(YString& name) const;
 
 	public:
 	
@@ -106,25 +110,19 @@ namespace SgPhoto
 		//! Smart pointer to the photographer
 		Photographer::Ptr pPhotographer;
 
+		// TODO Introduce time stamp instead of strings (but be sure there is portability!)
 		/*!
-		** Vector including the date as a bunch of integers. Index is handled
-		** by #DateEnum
+		** Date of the photo, in format YYYYMMDD
 		*/
-		std::vector<unsigned int> pDate;
+		DateString pStringDate;
 
 		/*!
-		** \brief Date as a string YYYYMMDD
+		** Time of the photo, in format hhmm
 		*/
-		YString pStringDate;
+		HourString pStringTime;
 
 		/*! true if a problem occurred with exiv library */
 		Status pStatus;
-
-		/*!
-		** \brief New name of the photo, with possibly an extension to add if several photos
-		** share the same time and photographer
-		*/
-		YString pNewName;
 
 
 
@@ -138,19 +136,6 @@ namespace SgPhoto
 		*/
 		static const Photographer::List pPhotographers;
 
-
-	private:
-
-		//! Enum dedicated to interpret date extracted from exif
-		enum DateEnum
-		{
-			year = 0,
-			month = 1,
-			day = 2,
-			hour = 3,
-			minute = 4,
-			second = 5
-		};
 
 	};
 }// namespace SgPhoto

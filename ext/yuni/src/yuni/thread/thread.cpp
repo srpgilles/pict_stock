@@ -20,6 +20,46 @@
 
 
 
+//! Invalid timeout
+#define INVALID_TIMEOUT  2147483648u
+
+
+
+#ifndef YUNI_NO_THREAD_SAFE
+# ifdef YUNI_OS_WINDOWS
+
+#	define YUNI_WAITING_FOR_NATIVE_THREAD_TO_FINISH \
+		do \
+		{ \
+			if (pThreadHandle) \
+			{ \
+				WaitForSingleObject(pThreadHandle, INFINITE); \
+				pThreadHandle = NULL; \
+			} \
+		} \
+		while (0)
+
+# else
+
+#	define YUNI_WAITING_FOR_NATIVE_THREAD_TO_FINISH \
+		do \
+		{ \
+			if (pThreadID) \
+			{ \
+				::pthread_join(pThreadID, NULL); \
+				pThreadID = NULL; \
+			} \
+		} \
+		while (0)
+
+# endif
+
+#endif // ifndef YUNI_NO_THREAD_SAFE
+
+
+
+
+
 namespace Yuni
 {
 namespace Private
@@ -42,11 +82,14 @@ namespace Thread
 
 		// Get back our object.
 		Yuni::Thread::IThread& thread = *((Yuni::Thread::IThread *) arg);
+		# ifndef NDEBUG
+		thread.pInnerFlagMutex.lock();
 		assert(!thread.pStarted && "Yuni Thread: The thread is already started");
+		thread.pInnerFlagMutex.unlock();
+		# endif
 
 		# ifndef YUNI_OS_WINDOWS
 		// pthread - Adjust cancellation behaviors
-		// note : the following option should not be used with C++
 		// ::pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 		::pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
 		# endif
@@ -60,20 +103,22 @@ namespace Thread
 				// signal the start() method in the parent thread
 				thread.pSignalStartup.notify();
 			}
+
 			// Launch the code
 			do
 			{
-				if (!thread.onExecute())
+				if (! thread.onExecute())
 					break;
-				if (thread.pShouldStop || !thread.pStarted)
+				if (thread.pShouldStop ||  ! thread.pStarted)
 					break;
-				// Notifying the thread that it has just been paused
+
+				// Notifying the thread that it has just been paused and waiting for
+				// being waked up
 				thread.onPause();
-				// Waiting for being waked up
 				thread.pSignalWakeUp.wait();
 
-				// We have been waked up ! But perhaps we should abort as soon as
-				// possible...
+				// We have been waked up ! But perhaps we should abort as soon as possible
+				// (if waked up from the method "stop" for example)
 				{
 					Yuni::MutexLocker flagLocker(thread.pInnerFlagMutex);
 					// The signal must be reset for future use
@@ -83,7 +128,7 @@ namespace Thread
 				}
 
 				// If we don't have to stop, the signal must be reset for future use
-				// But the the thread itself must be locked
+				// But the the thread itself must be locked before
 				{
 					::Yuni::Thread::IThread::ThreadingPolicy threadLocker(thread);
 					thread.pSignalWakeUp.reset();
@@ -132,50 +177,65 @@ namespace Thread
 {
 
 
-
-	IThread::IThread()
-		:pStarted(false), pShouldStop(true)
-	{
+	IThread::IThread() :
 		# ifndef YUNI_NO_THREAD_SAFE
 		# ifdef YUNI_OS_WINDOWS
-		pThreadHandle = NULL;
+		pThreadHandle(NULL),
+		# else
+		pThreadID(NULL),
 		# endif
 		# endif
+		pStarted(false),
+		pShouldStop(true)
+	{
+		// does nothing, only variable initialization
 	}
 
 
 	IThread::~IThread()
 	{
-		# ifndef YUNI_NO_THREAD_SAFE
-		# ifdef YUNI_OS_WINDOWS
-		assert(pStarted == false && "A thread can not be destroyed while being still started");
+		# ifndef YUNI_NO_THREAD_SAFE // if not threadsafe, stopped for sure
+		// We have at least to lock the object itself to avoid race conditions
+		// (which the method 'stop' does).
+		ThreadingPolicy::MutexLocker locker(*this);
+		// However, it is dangerous to call the method "stop" here. The VTable will
+		// be corrupted if the virtual methods "onKill" or "onStop" are called
+		// (or if these methods call another virtual methods of the current object)
+		# ifndef NDEBUG
+		pInnerFlagMutex.lock();
+		assert(pStarted == false &&
+			"A thread must be stopped before being destroyed to avoid corrupted vtable. Please call stop() before");
+		pInnerFlagMutex.unlock();
 		# endif
+
+		// Anyway we have to stop the native thread in any case. Even if the thread
+		// should already been stopped we have to call pthread_join or TerminateThread
+		// to avoid memory leaks. Even if stopping the thread from here is dangerous,
+		// it would be worst in release mode to not have this behavior.
+		stopWL(defaultTimeout);
 		# endif
-		if (pStarted)
-		{
-			// It is dangerous to call this method here. The VTable might be corrupted
-			// and it may produce strange results
-			stop();
-		}
 	}
 
 
+
+	# ifndef YUNI_NO_THREAD_SAFE
 	Error IThread::start()
 	{
-		# ifndef YUNI_NO_THREAD_SAFE
 		ThreadingPolicy::MutexLocker locker(*this);
 		{
 			Yuni::MutexLocker flagLocker(pInnerFlagMutex);
 			if (pStarted)
 			{
-				// The thread is already running, bail out.
-				// We have to wake it up
+				// The thread is already running, bail out. But we have to wake it up
 				pSignalWakeUp.notify();
 				return errNone;
 			}
 			// We're starting, so we should not stop too soon :)
 			pShouldStop = false;
 		}
+
+		// It is possible that the native thread is still not really stopped
+		YUNI_WAITING_FOR_NATIVE_THREAD_TO_FINISH;
 
 		// Reset the signal
 		pSignalStartup.reset();
@@ -187,56 +247,76 @@ namespace Thread
 		pThreadHandle = CreateThread(NULL, 0, Yuni::Private::Thread::threadCallbackExecute,
 			this, 0, NULL);
 		if (!pThreadHandle)
-			return errThreadCreation;
 		# else
 		// Lock the startup condition before creating the thread,
 		// then wait for it. The thread will signal the condition when it
 		// successfully have set isRunning _and_ called the triggers.
 		// Then we can check the isRunning status and determine if the startup
 		// was a success or not.
-		if (::pthread_create(&pThreadID, NULL, Yuni::Private::Thread::threadCallbackExecute, this))
-			return errThreadCreation;
+		if (0 != ::pthread_create(&pThreadID, NULL, Yuni::Private::Thread::threadCallbackExecute, this))
 		# endif
+		{
+			Yuni::MutexLocker flagLocker(pInnerFlagMutex);
+			pStarted = false;
+			return errThreadCreation;
+		}
 
 		// Unlock and wait to be signalled by the new thread.
 		// This MUST happen.
 		pSignalStartup.wait();
-
 		// Checking if the thread has really started
-		{
-			Yuni::MutexLocker flagLocker(pInnerFlagMutex);
-			// The thread may have been aborted by the startup handler.
-			if (!pStarted)
-				return errAborted;
-		}
-		return errNone;
+		// The thread may have been aborted by the startup handler.
+		Yuni::MutexLocker flagLocker(pInnerFlagMutex);
+		return (!pStarted) ? errAborted : errNone;
+	}
+	# endif
 
-		# else // YUNI_NO_THREAD_SAFE
+
+	# ifdef YUNI_NO_THREAD_SAFE
+	Error IThread::start()
+	{
 		if (onStarting())
 		{
 			onExecute();
 			onStop();
 		}
 		return errNone;
-		# endif
 	}
 
 
 	Error IThread::stop(unsigned int timeout)
 	{
-		# ifdef YUNI_NO_THREAD_SAFE
-		(void) timeout;
-		# endif
+		assert(timeout < INVALID_TIMEOUT && "Invalid range for timeout, IThread::stop");
+		(void) timeout; // unused
+		return errNone;
+	}
+	# endif
 
-		# ifndef YUNI_NO_THREAD_SAFE
-		assert(timeout < 2147483648u && "Invalid range for timeout (IThread::stop(timeout))");
+
+
+
+	# ifndef YUNI_NO_THREAD_SAFE
+	Error IThread::stop(unsigned int timeout)
+	{
+		assert(timeout < INVALID_TIMEOUT && "Invalid range for timeout, IThread::stop");
+
 		ThreadingPolicy::MutexLocker locker(*this);
+		return stopWL(timeout);
+	}
 
+
+	Error IThread::stopWL(unsigned int timeout)
+	{
+		// Checking the thread status
 		{
 			Yuni::MutexLocker flagLocker(pInnerFlagMutex);
-			// Check the thread status
-			if (!pStarted) // already stopped, nothing to do.
+			if (!pStarted)
+			{
+				// Already marked as stopped. The native thread should really be finished
+				// soon if not already the case
+				YUNI_WAITING_FOR_NATIVE_THREAD_TO_FINISH;
 				return errNone;
+			}
 
 			// Early indicates that this thread should stop, should it check that value.
 			pShouldStop = true;
@@ -244,43 +324,44 @@ namespace Thread
 
 		pSignalWakeUp.notify();
 		pSignalMustStop.notify();
-		// Our status
-		Error status = errNone;
 
 		if (!pSignalHaveStopped.wait(timeout)) // We timed out.
 		{
 			// We are out of time, no choice but to kill our thread
 			# ifdef YUNI_OS_WINDOWS
-			TerminateThread(pThreadHandle, 0);
+			if (pThreadHandle)
+				TerminateThread(pThreadHandle, 0);
 			# else
-			::pthread_cancel(pThreadID);
+			if (pThreadID)
+				::pthread_cancel(pThreadID);
 			# endif
+			// Stopping the native thread - we should call onKill after that the
+			// thread is really stopped
+			YUNI_WAITING_FOR_NATIVE_THREAD_TO_FINISH;
 
-			status = errTimeout;
-			// Notify
+			// The thread is no longer running
+			pInnerFlagMutex.lock();
+			pStarted = false;
+			pInnerFlagMutex.unlock();
+
+			// Notifying the user that the thread has been brutally killed
 			onKill();
+
+			return errTimeout;
 		}
+		else
+		{
+			YUNI_WAITING_FOR_NATIVE_THREAD_TO_FINISH;
 
-		// Wait for the thread be completely stopped
-		# ifdef YUNI_OS_WINDOWS
-		WaitForSingleObject(pThreadHandle, INFINITE);
-		pThreadHandle = NULL;
-		# else
-		::pthread_join(pThreadID, NULL);
-		# endif
+			// The thread is no longer running
+			pInnerFlagMutex.lock();
+			pStarted = false;
+			pInnerFlagMutex.unlock();
 
-		// The thread is no longer running, force status to stopped (ie, if we killed it)
-		// It is thread-safe, since the thread is not running anymore AND we hold pMutex.
-		pInnerFlagMutex.lock();
-		pStarted = false;
-		pInnerFlagMutex.unlock();
-
-		return status;
-
-		# else // YUNI_NO_THREAD_SAFE
-		return errNone;
-		# endif
+			return errNone;
+		}
 	}
+	# endif
 
 
 
@@ -288,20 +369,20 @@ namespace Thread
 	{
 		# ifndef YUNI_NO_THREAD_SAFE
 		while (errTimeout == wait(604800000u))
-			; // infinite wait
-		return errNone;
-
-		# else // YUNI_NO_THREAD_SAFE
-		return errNone;
+		{
+			// infinite wait
+		}
 		# endif
+		return errNone;
 	}
 
 
 
 	Error IThread::wait(unsigned int timeout)
 	{
+		assert(timeout < INVALID_TIMEOUT && "Invalid range for timeout, IThread::wait");
+
 		# ifndef YUNI_NO_THREAD_SAFE
-		assert(timeout < 2147483648u && "Invalid range for timeout (IThread::wait(timeout))");
 		ThreadingPolicy::MutexLocker locker(*this);
 		{
 			Yuni::MutexLocker flagLocker(pInnerFlagMutex);
@@ -312,14 +393,12 @@ namespace Thread
 		if (!pSignalHaveStopped.wait(timeout)) // We timed out.
 			return errTimeout;
 
-		return errNone;
-
 		# else // YUNI_NO_THREAD_SAFE
 		(void) timeout;
-		return errNone;
 		# endif
-	}
 
+		return errNone;
+	}
 
 
 	void IThread::wakeUp()
@@ -329,13 +408,11 @@ namespace Thread
 		Yuni::MutexLocker flagLocker(pInnerFlagMutex);
 		if (pStarted)
 			pSignalWakeUp.notify();
-
-		# else // YUNI_NO_THREAD_SAFE
 		# endif
 	}
 
 
-	bool IThread::suspend(const unsigned int delay)
+	bool IThread::suspend(unsigned int delay)
 	{
 		# ifndef YUNI_NO_THREAD_SAFE
 		// The thread may have to stop
@@ -357,7 +434,7 @@ namespace Thread
 		return (pShouldStop || !pStarted);
 
 		# else // YUNI_NO_THREAD_SAFE
-		(void) delay;
+		(void) delay; // unused
 		return false;
 		# endif
 	}
@@ -367,23 +444,27 @@ namespace Thread
 	{
 		# ifndef YUNI_NO_THREAD_SAFE
 		pMutex.lock();
-		pInnerFlagMutex.lock();
-		pShouldStop = true;
-		pInnerFlagMutex.unlock();
-		pSignalWakeUp.notify();
-		pSignalMustStop.notify();
+		{
+			pInnerFlagMutex.lock();
+			pShouldStop = true;
+			pInnerFlagMutex.unlock();
+
+			pSignalWakeUp.notify();
+			pSignalMustStop.notify();
+		}
 		pMutex.unlock();
-		# else // YUNI_NO_THREAD_SAFE
 		# endif
 	}
 
 
 	Error IThread::restart(unsigned int timeout)
 	{
-		assert(timeout < 2147483648u && "Invalid range for timeout (IThread::restart(timeout))");
-		const Error status = stop(timeout);
+		assert(timeout < INVALID_TIMEOUT && "Invalid range for timeout, IThread::restart");
+
+		Error status = stop(timeout);
 		return (status != errNone) ? status : start();
 	}
+
 
 
 

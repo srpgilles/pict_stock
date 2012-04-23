@@ -46,6 +46,24 @@ namespace Thread
 
 
 
+
+
+namespace Yuni
+{
+namespace Job
+{
+
+	// forward declaration
+	class YUNI_DECL IJob;
+
+} // namespace Job
+} // namespace Yuni
+
+
+
+
+
+
 # ifndef YUNI_NO_THREAD_SAFE
 
 namespace Yuni

@@ -50,11 +50,11 @@
 /*! The lo part of the version of the yuni library */
 # define YUNI_VERSION_LO               2
 /*! The revision number */
-# define YUNI_VERSION_REV              2095
+# define YUNI_VERSION_REV              2096
 
 /*! The complete version of Yuni */
-# define YUNI_VERSION_STRING           "0.2.2095-debug"
-# define YUNI_VERSION_LITE_STRING      "0.2.2095"
+# define YUNI_VERSION_STRING           "0.2.2096-debug"
+# define YUNI_VERSION_LITE_STRING      "0.2.2096"
 
 /*! The flags used to compile Yuni */
 # define YUNI_COMPILED_WITH_CXX_FLAGS  "-Woverloaded-virtual -Wall -Wextra -Wunused-parameter -Wconversion -Wmissing-noreturn -Wcast-align  -Wfloat-equal -Wundef -D_REENTRANT -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -fPIC -std=gnu++0x -g -ggdb3        "

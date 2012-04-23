@@ -74,12 +74,6 @@ namespace SgPhoto
          */
         Yuni::String pInputDirectory;
 
-        /*!
-         ** \brief Key is the date in format YYYYMMDD, values the list of associated
-         ** directories
-         */
-        ValidDirectoriesType pValidDirectories;
-
 
         /*!
          ** \brief A map container containing the automatic choices

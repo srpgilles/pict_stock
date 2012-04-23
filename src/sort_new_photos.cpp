@@ -19,35 +19,14 @@ namespace SgPhoto
 				<< " doesn't exists\n";
 			exit(-1); // TODO proper error handling to foresee
 		}
-//
 
+		{
+			// Now we want to iterate through the new files to add in the photo directory
+			add(inputDirectory);
+			start();
+			wait();
+		}
 
-//		{
-//			// Debug check
-//			std::ofstream out("/tmp/checkDirectories.txt");
-//			printValidDirectories(out);
-//			out.close();
-//		}
-//
-//		{
-//			// Now we want to iterate through the new files to add in the photo directory
-//			add(inputDirectory);
-//			start();
-//			wait();
-//		}
-
-
-
-		//PhotoDir.validDirectories()
-
-	/*	IterateThroughInputDirectory zorglub;
-		zorglub.add(inputDirectory);
-
-		zorglub.start();
-		zorglub.wait();*/
-
-
-		// Io::ExtractFilePath()
 
 	}
 
@@ -61,13 +40,13 @@ namespace SgPhoto
 
 	bool SortNewPhotos::onStart(const String& rootFolder)
 	{
-		std::cout << " [+] " << rootFolder << std::endl;
+		logs.debug() << " [+] " << rootFolder;
 		return true;
 	}
 
 	SortNewPhotos::Flow SortNewPhotos::onBeginFolder(const String&, const String&, const String& name)
 	{
-		std::cout << " [+] " << name << std::endl;
+		logs.debug() << " [+] " << name;
 
 		// Here reinit choicesd that might be folder related (impose date in photos, etc...)
 
@@ -80,7 +59,7 @@ namespace SgPhoto
 
 
 	SortNewPhotos::Flow SortNewPhotos::onFile(const String&, const String& folder,
-		const String& name, uint64 size)
+		const String& name, uint64 /*size*/)
 	{
 		// Only consider files which extension is JPG or jpg
 		String ext;
@@ -88,12 +67,12 @@ namespace SgPhoto
 
 		if (ext.toLower() != ".jpg")
 		{
-			std::cout << "SKIP " << name << "\n";
+			logs.debug() << "SKIP " << name;
 			return IO::flowContinue;
 		}
 
 
-//		std::cout << "  -  " << name << " (" << size << " bytes)" << std::endl;
+//		logs.debug() << "  -  " << name << " (" << size << " bytes)";
 		String fullName;
 		fullName << folder << IO::Separator << name;
 		ExtendedPhoto myPhoto(logs, fullName);
@@ -101,7 +80,7 @@ namespace SgPhoto
 		if (myPhoto.problem())
 		{
 			// TODO Handle the case in which a photo can't be processed
-			std::cout << "SKIP PHOTO " << fullName << "\n";
+			logs.debug() << "SKIP PHOTO " << fullName;
 
 			return IO::flowContinue;
 		}
@@ -136,21 +115,9 @@ namespace SgPhoto
 
 	void SortNewPhotos::onTerminate()
 	{
-		std::cout << "END\n";
+		logs.debug() << "END\n";
 	}
 
-
-	void SortNewPhotos::printValidDirectories(std::ostream& out) const
-	{
-		for (auto it = pValidDirectories.begin(), end = pValidDirectories.end(); it != end; ++it)
-		{
-			out << it->first << "\n";
-			std::list<String> mylist = it->second;
-
-			for (auto dirIt = mylist.begin(), dirEnd = mylist.end(); dirIt != dirEnd; ++dirIt)
-				out << "\t" << *dirIt << "\n";
-		}
-	}
 
 
 

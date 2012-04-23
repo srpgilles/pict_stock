@@ -3,17 +3,13 @@
 
 # include "extended_photo.hpp"
 # include "photo_directory.hpp"
+# include "private/sort_new_photos_iterator.hpp"
 
 namespace SgPhoto
 {
 
-    class SortNewPhotos : public Yuni::IO::Directory::IIterator<true>
+    class SortNewPhotos
     {
-    public:
-
-        //! Flow
-        typedef Yuni::IO::Flow Flow;
-
 
 
     public:
@@ -38,30 +34,6 @@ namespace SgPhoto
 
         //! Logs
         LoggingFacility& logs;
-
-
-
-    protected:
-
-        //! Overload IIterator methods
-        //@{
-        virtual bool onStart(const Yuni::String& rootFolder);
-
-        virtual Flow onBeginFolder(const Yuni::String&, const Yuni::String&, const Yuni::String& name);
-
-        virtual void onEndFolder(const Yuni::String&, const Yuni::String&, const Yuni::String&);
-
-        virtual Flow onFile(const Yuni::String&, const Yuni::String& folder, const Yuni::String& name, Yuni::uint64 size);
-
-        virtual void onTerminate();
-        //@}
-
-
-
-    private:
-
-        //! Visual check of valid directories
-        void printValidDirectories(std::ostream& out) const;
 
     private:
 

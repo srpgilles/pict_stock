@@ -13,6 +13,9 @@ add_library(SgPhoto SHARED
 	photographer.hxx
 	private/photo_directory_iterator.cpp
 	private/photo_directory_iterator.hpp
+	private/sort_new_photos_iterator.cpp
+	private/sort_new_photos_iterator.hpp
+	private/sort_new_photos_iterator.hxx
 	private/tools.hpp
 )
 

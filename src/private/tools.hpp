@@ -3,8 +3,7 @@
 
 namespace SgPhoto
 {
-	typedef std::map<Yuni::String, std::list<Yuni::String> > ValidDirectoriesType;
-
+    typedef std::map<Yuni::String, std::list<Yuni::String> > ValidDirectoriesType;
 }
 
 

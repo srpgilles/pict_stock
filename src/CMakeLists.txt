@@ -6,6 +6,8 @@ add_library(SgPhoto SHARED
 	extended_photo.cpp
 	extended_photo.hpp
 	extended_photo.hxx
+	sort_new_photos.cpp
+	sort_new_photos.hpp
 	photographer.cpp
 	photographer.hpp
 	photographer.hxx

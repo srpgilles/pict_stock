@@ -1,5 +1,6 @@
 #include "photo_directory.hpp"
 #include "extended_photo.hpp"
+#include "sort_new_photos.hpp"
 
 
 int main(int argc, char* const argv[])
@@ -10,13 +11,8 @@ int main(int argc, char* const argv[])
 
 	LoggingFacility logs;
 	SgPhoto::PhotoDirectory photoDirectory(logs, "/home/sebastien/Multimedia/Photos");
-	
-	SgPhoto::ExtendedPhoto myPhoto(logs, "/home/sebastien/Multimedia/Photos/2012/M04/J16/Photo_1915_DJ1111_CSG.JPG");
-	
-	logs.notice() << myPhoto.problem();
-	logs.notice() << myPhoto.date();
-	logs.notice() << myPhoto.newName();
 
+	SgPhoto::SortNewPhotos(logs, "/home/sebastien/Multimedia/Photos/A_classer", photoDirectory);
 
 	return 0;
 }

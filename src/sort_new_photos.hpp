@@ -37,6 +37,11 @@ namespace SgPhoto
 
     private:
 
+        //!
+        bool proceed();
+
+    private:
+
         //! Object in charge of maintaining the output folders
         PhotoDirectory& pPhotoDirectory;
 
@@ -48,17 +53,6 @@ namespace SgPhoto
 
         //! List of all jpeg files to process, sort by date
         std::map<DateString, ExtendedPhoto::Vector> pPicturesToProcess;
-
-        /*!
-         ** \brief A map container containing the automatic choices
-         **
-         ** When a photo is scanned, the program asks the user where he wants to store the photo,
-         ** and whether the choice should be propagated to other photos. If so, use default path
-         ** stored in following object
-         **
-         ** Key is the date, value is the automatic path
-         */
-        ValidDirectoriesType pAutomaticChoice;
 
     };
 

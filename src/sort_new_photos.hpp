@@ -22,9 +22,15 @@ namespace SgPhoto
          *
          * \param[in] inputDirectory All JPG files in this folder (or subfolders) will be sort
          * \param[in, out] photoDirectory Object in charge of maintaining the output folders
-         */
+         * \param[in] doFolderManuallyDate If true, when each folder is scanned there is a question
+		 * to ask whether the user want to determine the date itself, so that the photo Exif
+		 * might be corrected later if the date inside is wrong. This facility is useful when
+		 * sorting old photos for which date of taking is quite unsure but which folder gives
+		 * this information, albeit not necessarily in the chosen form. To put in the nutshell,
+		 * should be false most of the time...
+		 */
         explicit SortNewPhotos(LoggingFacility& logs, const Yuni::String& inputDirectory,
-        	PhotoDirectory& photoDirectory);
+        	PhotoDirectory& photoDirectory, bool doFolderManuallyDate = false);
 
         //! Destructor
         virtual ~SortNewPhotos();

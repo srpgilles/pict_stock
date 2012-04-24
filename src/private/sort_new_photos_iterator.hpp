@@ -26,10 +26,17 @@ namespace Private
 		/*!
 		 * Constructor
 		 *
+		 * \param[in, out] logs Logging facility
 		 * \param[in] inputDirectory All JPG files in this folder (or subfolders) will be sort
+		 * \param[in] doFolderManuallyDate If true, when each folder is scanned there is a question
+		 * to ask whether the user want to determine the date itself, so that the photo Exif
+		 * might be corrected later if the date inside is wrong. This facility is useful when
+		 * sorting old photos for which date of taking is quite unsure but which folder gives
+		 * this information, albeit not necessarily in the chosen form. To put in the nutshell,
+		 * should be false most of the time...
 		 */
 		explicit SortNewPhotosIterator(LoggingFacility& logs,
-			const Yuni::String& inputDirectory);
+			const Yuni::String& inputDirectory, bool doFolderManualDate = false);
 
 		//! Destructor
 		virtual ~SortNewPhotosIterator();
@@ -50,7 +57,7 @@ namespace Private
 
 
 
-	protected:
+	private:
 
 		//! Overload IIterator methods
 		//@{
@@ -65,8 +72,34 @@ namespace Private
 		virtual void onTerminate();
 		//@}
 
+	private:
+
 		//! List of all jpeg files to process, sort by date
 		std::map<DateString, ExtendedPhoto::Vector> pPicturesToProcess;
+
+		//!
+
+		/*!
+		 * \brief Whether date might be modified manually or not while reading folders
+		 *
+		 * If true, when each folder is scanned there is a question
+		 * to ask whether the user want to determine the date itself, so that the photo Exif
+		 * might be corrected later if the date inside is wrong. This facility is useful when
+		 * sorting old photos for which date of taking is quite unsure but which folder gives
+		 * this information, albeit not necessarily in the chosen form. To put in the nutshell,
+		 * should be false most of the time...
+		 */
+		const bool pDoFolderManualDate;
+
+		/*!
+		 * \brief Current manual date entrie in case #pDoFolderManualDate is true and date
+		 * has been set manually.
+		 *
+		 * Empty otherwise
+		 */
+		DateString pCurrentFolderManualDate;
+
+
 
 	};
 } // namespace Private

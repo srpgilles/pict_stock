@@ -16,6 +16,7 @@ add_library(SgPhoto SHARED
 	private/sort_new_photos_iterator.cpp
 	private/sort_new_photos_iterator.hpp
 	private/sort_new_photos_iterator.hxx
+	private/date_tools.hxx
 	private/tools.hpp
 )
 

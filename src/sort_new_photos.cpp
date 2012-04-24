@@ -8,12 +8,12 @@ namespace SgPhoto
 
 
 	SortNewPhotos::SortNewPhotos(LoggingFacility& logs, const String& inputDirectory,
-		PhotoDirectory& photoDirectory)
+		PhotoDirectory& photoDirectory, bool doFolderManuallyDate)
 		: logs(logs),
 		  pPhotoDirectory(photoDirectory),
 		  pInputDirectory(inputDirectory)
 	{
-		Private::SortNewPhotosIterator iterator(logs, inputDirectory);
+		Private::SortNewPhotosIterator iterator(logs, inputDirectory, doFolderManuallyDate);
 		iterator.picturesToProcess(pPicturesToProcess);
 	}
 
@@ -55,7 +55,7 @@ namespace SgPhoto
 		//        {
 		//          logs.error() << "Unable to copy " << fullName
 		//            << " into new folder " << folder;
-
+		return true;
 
 	}
 

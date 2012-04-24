@@ -13,7 +13,7 @@ int main(int argc, char* const argv[])
 	SgPhoto::PhotoDirectory photoDirectory(logs, "/tmp/devPhotos");
 
 
-	SgPhoto::SortNewPhotos(logs, "/home/sebastien/Multimedia/Photos/A_classer", photoDirectory);
+	SgPhoto::SortNewPhotos(logs, "/home/sebastien/Multimedia/Photos/A_classer", photoDirectory, true);
 
 	return 0;
 }

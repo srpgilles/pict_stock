@@ -44,10 +44,10 @@
 #	define YUNI_WAITING_FOR_NATIVE_THREAD_TO_FINISH \
 		do \
 		{ \
-			if (pThreadID) \
+			if (pThreadIDValid) \
 			{ \
 				::pthread_join(pThreadID, NULL); \
-				pThreadID = NULL; \
+				pThreadIDValid = false; \
 			} \
 		} \
 		while (0)
@@ -182,7 +182,8 @@ namespace Thread
 		# ifdef YUNI_OS_WINDOWS
 		pThreadHandle(NULL),
 		# else
-		pThreadID(NULL),
+		// pThreadID((pthread_t) NULL), // no portable value
+		pThreadIDValid(false),
 		# endif
 		# endif
 		pStarted(false),
@@ -253,7 +254,8 @@ namespace Thread
 		// successfully have set isRunning _and_ called the triggers.
 		// Then we can check the isRunning status and determine if the startup
 		// was a success or not.
-		if (0 != ::pthread_create(&pThreadID, NULL, Yuni::Private::Thread::threadCallbackExecute, this))
+		pThreadIDValid = (0 == ::pthread_create(&pThreadID, NULL, Yuni::Private::Thread::threadCallbackExecute, this));
+		if (not pThreadIDValid)
 		# endif
 		{
 			Yuni::MutexLocker flagLocker(pInnerFlagMutex);
@@ -332,9 +334,10 @@ namespace Thread
 			if (pThreadHandle)
 				TerminateThread(pThreadHandle, 0);
 			# else
-			if (pThreadID)
+			if (pThreadIDValid)
 				::pthread_cancel(pThreadID);
 			# endif
+
 			// Stopping the native thread - we should call onKill after that the
 			// thread is really stopped
 			YUNI_WAITING_FOR_NATIVE_THREAD_TO_FINISH;

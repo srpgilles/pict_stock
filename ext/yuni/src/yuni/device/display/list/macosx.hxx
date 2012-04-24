@@ -25,7 +25,7 @@ namespace Display
 {
 
 
-	static unsigned int bitDepthFromDisplayMode(CGDisplayModeRef mode)
+	static uint bitDepthFromDisplayMode(CGDisplayModeRef mode)
 	{
 		CFStringRef pixEnc = CGDisplayModeCopyPixelEncoding(mode);
 
@@ -51,7 +51,7 @@ namespace Display
 			return;
 
 		// Getting the current bits per pixels value
-		unsigned int currentModeBitsPerPixel;
+		uint currentModeBitsPerPixel;
 		{
 			CGDisplayModeRef mode = CGDisplayCopyDisplayMode(display);
 			if (!mode)
@@ -63,8 +63,8 @@ namespace Display
 			CGDisplayModeRelease(mode);
 		}
 
-		unsigned int numberOfAvailableModes = CFArrayGetCount(availableModes);
-		for (unsigned int i = 0; i != numberOfAvailableModes; ++i)
+		uint numberOfAvailableModes = (uint) CFArrayGetCount(availableModes);
+		for (uint i = 0; i != numberOfAvailableModes; ++i)
 		{
 			CGDisplayModeRef mode = (CGDisplayModeRef) CFArrayGetValueAtIndex(availableModes, i);
 			if (!mode)
@@ -74,12 +74,12 @@ namespace Display
 			// to allow for switching from fullscreen to windowed modes.
 			// that are safe for this hardward
 			// that are not stretched.
-			unsigned int bitsPerPixel = bitDepthFromDisplayMode(mode);
+			uint bitsPerPixel = bitDepthFromDisplayMode(mode);
 			if (bitsPerPixel != currentModeBitsPerPixel)
 				continue;
 
-			unsigned int width  = CGDisplayModeGetWidth(mode);
-			unsigned int height = CGDisplayModeGetHeight(mode);
+			uint width  = (uint) CGDisplayModeGetWidth(mode);
+			uint height = (uint) CGDisplayModeGetHeight(mode);
 			(*res) [width][height][(uint8) bitsPerPixel] = true;
 		}
 
@@ -102,8 +102,8 @@ namespace Display
 		if (data != NULL)
 		{
 			char buffer[51];
-			snprintf (buffer, 50, "%.*s", (int)CFDataGetLength(data), CFDataGetBytePtr(data));
-			out.append(buffer, strlen(buffer));
+			uint len = snprintf(buffer, 50, "%.*s", (int)CFDataGetLength(data), CFDataGetBytePtr(data));
+			out.append(buffer, len);
 			CFRelease(data);
 		}
 
@@ -137,7 +137,7 @@ namespace Display
 		String monitorProductName;
 
 		// Browse all displays
-		for (unsigned int i = 0; i < numDisplays; ++i)
+		for (uint i = 0; i < numDisplays; ++i)
 		{
 			const CGDirectDisplayID display = displayArray[i];
 
@@ -157,7 +157,7 @@ namespace Display
 				{
 					CFTypeRef* keys   = (CFTypeRef*) ::malloc(count * sizeof(CFTypeRef));
 					CFTypeRef* values = (CFTypeRef*) ::malloc(count * sizeof(CFTypeRef));
-					CFDictionaryGetKeysAndValues(names, (const void **) keys, (const void **) values);
+					CFDictionaryGetKeysAndValues(names, (const void**) keys, (const void**) values);
 
 					DictionaryValueToString(monitorProductName, CFSTR("%@"), values[0]);
 					monitorProductName.trim(" \r\n\t");

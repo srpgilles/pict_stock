@@ -275,6 +275,10 @@ namespace Thread
 		# else
 		//! ID of the thread, for pthread
 		pthread_t pThreadID;
+		//! Flag to determine whether pThreadID is valid or not
+		// There is no portable value to determine if pThreadID is valid or not
+		// We have to use a separate flag
+		bool pThreadIDValid;
 		# endif // YUNI_OS_WINDOWS
 		# endif // YUNI_NO_THREAD_SAFE
 

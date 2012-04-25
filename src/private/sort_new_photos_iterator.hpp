@@ -18,6 +18,7 @@ namespace Private
 		typedef Yuni::IO::Flow Flow;
 
 
+
 	public:
 
 		//! Constructor & destructor
@@ -72,6 +73,15 @@ namespace Private
 		virtual void onTerminate();
 		//@}
 
+		/*!
+		** \brief  In case #pDoFolderManualDate = true, ask the user whether they want to set
+		** manually the date for a given folder
+		**
+		** (notwithstanding possible subfolders)
+		*/
+		void proposeSetManualDate(const YString& folderName);
+
+
 	private:
 
 		//! List of all jpeg files to process, sort by date
@@ -98,6 +108,25 @@ namespace Private
 		 * Empty otherwise
 		 */
 		DateString pCurrentFolderManualDate;
+
+		/*!
+		 * \brief Tells at which folder level we currently stand
+		 *
+		 * 0 is begin folder, 1 is one level above, and so on...
+		 *
+		 * For instance, {root folder}/foo/bar folder gets pFolderLevel = 2
+		 */
+		unsigned int pFolderLevel;
+
+		/*!
+		 * \brief If manual date applies also to subfolders, keep in memory the level to which
+		 * folder at which the choice was made stands.
+		 *
+		 * For instance, if a target date has been set for {root folder}/foo, we keep
+		 * #pCurrentFolderManual = 1 and current date will stands until we go into an entirely
+		 * other branch of the tree (ie pFolderLevel must go back to 0)
+		 */
+		unsigned int pCurrentFolderManualLevel;
 
 
 

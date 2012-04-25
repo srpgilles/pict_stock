@@ -10,8 +10,7 @@ namespace Private
 		void RequestText(LoggingFacility& logs, const AnyString& folderName, const YString& dateInMemory)
 		{
 			logs.info() << "Currently going through folder " << folderName << "; do you want to "
-				"associate a date to all the pictures inside this directory (subdirectories handled "
-				"separately)?";
+				"associate a date to all the pictures inside this directory ?";
 			logs.info() << "\t1 -> no (use the date inside Exif pictures)";
 			logs.info() << "\t2 -> yes (specify the date under format YYYYMMDD in next prompt)";
 
@@ -27,7 +26,9 @@ namespace Private
 	SortNewPhotosIterator::SortNewPhotosIterator(LoggingFacility& logs,
 		const String& inputDirectory, bool doFolderManualDate)
 		: logs(logs),
-		  pDoFolderManualDate(doFolderManualDate)
+		  pDoFolderManualDate(doFolderManualDate),
+		  pFolderLevel(0u),
+		  pCurrentFolderManualLevel(static_cast<unsigned int>(-1))
 	{
 		if (!IO::Directory::Exists(inputDirectory))
 		{
@@ -54,21 +55,34 @@ namespace Private
 
 	bool SortNewPhotosIterator::onStart(const String& rootFolder)
 	{
-		logs.debug() << " [+] " << rootFolder;
+		proposeSetManualDate(rootFolder);
 		return true;
 	}
 
-	SortNewPhotosIterator::Flow SortNewPhotosIterator::onBeginFolder(const String& filename, const String&, const String& name)
+	SortNewPhotosIterator::Flow SortNewPhotosIterator::onBeginFolder(const String& folderName, const String&, const String&)
 	{
-		logs.debug() << " [+] " << name;
+		++pFolderLevel;
+		proposeSetManualDate(folderName);
+		return IO::flowContinue;
+	}
 
-		if (pDoFolderManualDate)
+	void SortNewPhotosIterator::proposeSetManualDate(const String& folderName)
+	{
+		// If the option is disabled, do nothing
+		if (!pDoFolderManualDate)
+			return;
+
+		// If the current folder is already encompassed by a previous choice, do nothing
+		if (pFolderLevel > pCurrentFolderManualLevel)
+			return;
+
 		{
-			RequestText(logs, filename,  pCurrentFolderManualDate);
+			// First ask the user its choice
+			RequestText(logs, folderName,  pCurrentFolderManualDate);
 			std::string answer;
 
 			while (std::cin >> answer && answer != "1" && answer != "2" && answer != "3")
-				RequestText(logs, filename,  pCurrentFolderManualDate);
+				RequestText(logs, folderName,  pCurrentFolderManualDate);
 
 			if (answer == "1")
 				pCurrentFolderManualDate.clear();
@@ -88,11 +102,27 @@ namespace Private
 			}
 		}
 
-		return IO::flowContinue;
+		{
+			// Specify whether this choice propagates to subfolders or not
+			std::string answer;
+			do
+			{
+				logs.info() << "Does this choice also apply to subfolders (y/n)?";
+
+			} while ((answer != "y" && answer != "n") && std::cin >> answer);
+
+			if (answer == "y")
+				pCurrentFolderManualLevel = pFolderLevel;
+			else
+				pCurrentFolderManualLevel = static_cast<unsigned int>(-1);
+
+		}
 	}
 
 	void SortNewPhotosIterator::onEndFolder(const String&, const String&, const String&)
-	{ }
+	{
+		--pFolderLevel;
+	}
 
 
 	SortNewPhotosIterator::Flow SortNewPhotosIterator::onFile(const String&, const String& folder,

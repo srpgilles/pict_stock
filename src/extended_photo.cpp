@@ -270,7 +270,10 @@ namespace SgPhoto
     
     void ExtendedPhoto::newNameWithoutExtension(YString& name) const
     {
-        name.clear() << "Photo_" << pStringTime;
+        name.clear() << "Photo";
+
+        if (pStringTime != "9999") // 9999 is the value put <hen the date has been manually set
+        	name << '_' << pStringTime;
 
         assert(!(!pPhotographer));
         name << '_' << pPhotographer->abbr();

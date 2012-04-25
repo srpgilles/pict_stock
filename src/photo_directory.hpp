@@ -42,7 +42,7 @@ namespace SgPhoto
 		 *
 		 * \return True if the date is known, false otherwise
 		 */
-		bool findDate(const YString& date, std::list<YString>& folders) const;
+		bool findDate(const DateString& date, std::list<YString>& folders) const;
 
 		
 		//! Print the valid folder founds (for debug purposes)

@@ -59,7 +59,6 @@ namespace SgPhoto
 
 			{
 				Private::PopulateDayFolder populateFolder(logs, targetFolder, folderDate, it->second);
-
 				if (!populateFolder.proceed())
 					return false;
 			}

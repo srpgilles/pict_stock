@@ -5,7 +5,7 @@ namespace SgPhoto
 {
 
 
-	inline bool PhotoDirectory::findDate(const YString& date, std::list<YString>& folders) const
+	inline bool PhotoDirectory::findDate(const DateString& date, std::list<YString>& folders) const
 	{
 		assert(folders.size() == 0 && "Only output parameter");
 		auto iterator = pTree.find(date);

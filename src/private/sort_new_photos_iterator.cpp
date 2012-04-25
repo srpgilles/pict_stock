@@ -169,9 +169,7 @@ namespace Private
 	}
 
 	void SortNewPhotosIterator::onTerminate()
-	{
-		logs.debug() << "END\n";
-	}
+	{ }
 
 
 

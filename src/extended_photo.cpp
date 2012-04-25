@@ -95,6 +95,17 @@ namespace SgPhoto
                 ret.push_back(newEntry);
             }
 
+            {
+                 // Parents de Thuy
+                 std::multimap<std::string, String> cameras;
+                 cameras.insert(std::make_pair("Exif.Image.Model", "FinePix S6500fd"));
+
+                 Photographer::Ptr newEntry =
+                     new Photographer("Parents de Thuy", "T", cameras);
+
+                 ret.push_back(newEntry);
+             }
+
             return ret;
 
         }

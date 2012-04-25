@@ -36,15 +36,13 @@ namespace SgPhoto
         virtual ~SortNewPhotos();
         //@}
 
+        //! Perform the actual sorting
+        bool proceed();
+
     public:
 
         //! Logs
         LoggingFacility& logs;
-
-    private:
-
-        //!
-        bool proceed();
 
     private:
 

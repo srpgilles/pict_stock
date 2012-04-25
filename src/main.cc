@@ -13,7 +13,11 @@ int main(int argc, char* const argv[])
 	SgPhoto::PhotoDirectory photoDirectory(logs, "/tmp/devPhotos");
 
 
-	SgPhoto::SortNewPhotos(logs, "/home/sebastien/Multimedia/Photos/A_classer", photoDirectory, true);
+	SgPhoto::SortNewPhotos foo(logs, "/home/sebastien/Multimedia/Photos/A_classer", photoDirectory, true);
+	if (!foo.proceed())
+		return EXIT_FAILURE;
+
+	logs.notice() << "OK";
 
 	return 0;
 }

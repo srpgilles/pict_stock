@@ -10,9 +10,21 @@ namespace SgPhoto
 	}
 
 
-	inline YString ExtendedPhoto::date() const
+	inline DateString ExtendedPhoto::date() const
 	{
 		return pStringDate;
+	}
+
+
+	inline HourString ExtendedPhoto::time() const
+	{
+		return pStringTime;
+	}
+
+
+	inline YString ExtendedPhoto::originalPath() const
+	{
+		return pOriginalPath;
 	}
 
 } // namespace SgPhoto

@@ -42,10 +42,16 @@ namespace SgPhoto
 		//@}
 
 		//! Return true if any problem occurred (either from this class or exiv2)
-		bool problem() const;
+		inline bool problem() const;
 
 		//! Return the date as a string (format YYYYMMDD)
-		YString date() const;
+		inline DateString date() const;
+
+		//! Return the time as a string (format hhmm)
+		inline HourString time() const;
+
+		//! Return the original path of the photo
+		inline YString originalPath() const;
 
 		/*!
 		 * \brief Name given in the output tree, without file extension
@@ -109,6 +115,9 @@ namespace SgPhoto
 
 
 	private:
+
+		//! Path of the photo prior to the sorting
+		YString pOriginalPath;
 
 		//! Smart pointer to exiv2 Image object
 		Exiv2::Image::AutoPtr pImage;

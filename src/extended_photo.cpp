@@ -106,6 +106,7 @@ namespace SgPhoto
 
     ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const String& filename)
         : logs(logs),
+        pOriginalPath(filename),
         pPhotographer(nullptr),
         pStatus(epFine)
     {

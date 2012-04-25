@@ -57,6 +57,19 @@ namespace Private
 
 	private:
 
+		/*!
+		** \brief Scan new photos and check their date matches #pTargetDate
+		**
+		** This should be the case in most cases; but in case you are sorting pictures
+		** with unreliable exif data it might not be
+		** If disagreement, modify the exif by giving a fake date associated with a proper comment
+		*/
+		bool enforceDateInNewPhotos();
+
+
+
+	private:
+
 		//! Folder in which new photos will be stored
 		const YString& pTargetFolder;
 
@@ -65,6 +78,14 @@ namespace Private
 
 		//! New photos to be added in target folder
 		ExtendedPhoto::Vector pNewPhotos;
+
+		/*!
+		** \brief Work variable to properly name all photos in target folder
+		**
+		** Key is the name given by #ExtendedPhoto and values are all photos that would
+		** share this name if we do not introduce something else (an index)
+		 */
+		std::map<YString, ExtendedPhoto::Vector> pPhotosPerName;
 
 
 	};

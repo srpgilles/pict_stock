@@ -15,8 +15,6 @@
 namespace SgPhoto
 {
 
-
-
 	class ExtendedPhoto
 	{
 	public:

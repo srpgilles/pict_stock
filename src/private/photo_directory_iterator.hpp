@@ -79,6 +79,7 @@ namespace Private
 		*/
 		bool checkValidity(const Yuni::String& directory);
 
+
 	 private:
 
 		unsigned int pCounter;

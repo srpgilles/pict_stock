@@ -26,6 +26,7 @@ namespace SgPhoto
 
 	inline DateString ExtendedPhoto::date() const
 	{
+		assert(pStringDate.size() == 8u);
 		return pStringDate;
 	}
 

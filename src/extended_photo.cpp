@@ -129,13 +129,11 @@ namespace SgPhoto
 
             if (!identifyPhotographer())
             	logs.warning() << "Photographer not identified for photo " << filename;
-            else
-            {
-                if (!extractDate())
-                    pStatus = epExiv2Problem;
-            }
 
-        } catch (const std::exception& e)
+            if (!extractDate())
+            	pStatus = epExiv2Problem;
+        }
+        catch (const std::exception& e)
         {
             // I do not use exception myself, so any exception stems from exiv2
             logs.error() << "Exception caught for photo " << filename << ": " << e.what();

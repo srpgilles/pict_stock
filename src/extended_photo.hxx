@@ -27,6 +27,10 @@ namespace SgPhoto
 		return pOriginalPath;
 	}
 
+
+
+
+
 } // namespace SgPhoto
 
 #endif /* EXTENDED_PHOTO_HXX_ */

@@ -111,9 +111,25 @@ namespace Private
 		for (auto it = pNewPhotos.cbegin(), end = pNewPhotos.cend(); it != end; ++it)
 		{
 			ExtendedPhoto::Ptr photoPtr = *it;
+			assert(!(!photoPtr));
 			YString newName;
-			photoPtr->newNameWithoutExtension(newName);
-			pPhotosPerName[newName].push_back(photoPtr);
+			ExtendedPhoto& photo = *photoPtr;
+			photo.newNameWithoutExtension(newName);
+
+			{
+				ExtendedPhoto::Vector& allPhotos = pPhotosPerName[newName];
+				unsigned int size = static_cast<unsigned int>(allPhotos.size());
+
+				bool doPhotoAlreadyExist = false;
+				for (unsigned int i = 0; !doPhotoAlreadyExist && i < size; ++i)
+				{
+					if (*allPhotos[i] == photo)
+						doPhotoAlreadyExist = true;
+				}
+
+				if (!doPhotoAlreadyExist)
+					pPhotosPerName[newName].push_back(photoPtr);
+			}
 		}
 	}
 

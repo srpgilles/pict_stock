@@ -268,11 +268,37 @@ namespace SgPhoto
                 << std::setfill(' ') << std::right
                 << i->count() << "  "
                 << std::dec << i->value()
-                << "\n";
+                << '\n';
         }
 
         return true;
     }
+
+
+    bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2)
+	{
+		const auto& exifData1 = photo1.pImage->exifData();
+
+		YString value1, value2;
+
+		for (auto i = exifData1.begin(), end = exifData1.end(); i != end; ++i)
+		{
+			auto key = i->key();
+			value1.clear();
+			value2.clear();
+
+			assert(photo1.findExifKey(key, value1));
+
+			if (!photo2.findExifKey(key, value2))
+				return false;
+
+			if (value1 != value2)
+				return false;
+		}
+
+		return true;
+
+	}
 
     
     void ExtendedPhoto::newNameWithoutExtension(YString& name) const

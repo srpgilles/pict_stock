@@ -82,6 +82,14 @@ namespace SgPhoto
 		*/
 		bool printExifData(std::ostream& out) const;
 
+		/*!
+		 * Operator==
+		 *
+		 * TODO Find a better way to proceed: it is most inefficient due to the lack of
+		 * simple methods in exiv2 library (namely the possibility to compare easily
+		 * exif data from two different files)
+		 */
+		friend bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
 
 	public:
 
@@ -158,6 +166,10 @@ namespace SgPhoto
 
 
 	};
+
+	//! Operator== : two #ExtendedPhoto are equals if they share the same object *pImage
+	bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
+
 }// namespace SgPhoto
 
 

@@ -99,6 +99,8 @@ namespace Private
 					isValid =  isValidStringDate(buf);
 
 				} while (!isValid && std::cin >> answer);
+
+				pCurrentFolderManualDate = answer;
 			}
 		}
 

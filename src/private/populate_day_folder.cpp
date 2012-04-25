@@ -1,5 +1,5 @@
 #include <yuni/io/directory/info.h>
-
+#include <fstream>
 #include "populate_day_folder.hpp"
 
 using namespace Yuni;
@@ -83,7 +83,7 @@ namespace Private
 	//
 	//					YString targetFullPathWithoutExtension(targetFolder);
 	//
-	//					{
+	//					{#include <fstream>
 	//						YString targetName;
 	//						photo.newNameWithoutExtension(targetName);
 	//						targetFullPathWithoutExtension << IO::Separator << targetName;
@@ -110,6 +110,8 @@ namespace Private
 
 	}
 
+
+
 	bool PopulateDayFolder::enforceDateInNewPhotos()
 	{
 		for (auto it = pNewPhotos.begin(), end = pNewPhotos.end(); it != end; ++it)
@@ -118,11 +120,8 @@ namespace Private
 			assert(!(!photoPtr));
 			ExtendedPhoto& photo = *photoPtr;
 
-			if (photo.date() == pTargetDate)
-				continue;
-
-			logs.notice() << "DISCREPANCY for " << photo.originalPath();
-
+			if (photo.date() != pTargetDate)
+				photo.modifyDate(pTargetDate);
 		}
 
 		return true;

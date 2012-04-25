@@ -235,7 +235,8 @@ namespace SgPhoto
             }
 
             return false;
-        } catch (...)
+        }
+        catch (...)
         {
             return false;
         }
@@ -274,6 +275,59 @@ namespace SgPhoto
         assert(!(!pPhotographer));
         name << '_' << pPhotographer->abbr();
     }
+
+
+    bool ExtendedPhoto::modifyDate(const DateString& newDate)
+    {
+    	assert(newDate.size() == 8u);
+    	Exiv2::ExifData& exifData = pImage->exifData();
+
+    	YString newExifDate(newDate, 0, 4);
+
+    	{
+    		// Prepare new date to put into the exif file
+			newExifDate << ':';
+			newExifDate.append(newDate, 2, 4);
+			newExifDate << ':';
+			newExifDate.append(newDate, 2, 6);
+			newExifDate << " 99:99:99"; // fake hour!
+    	}
+
+    	CString<150, false> comment("The date has been modified manually; ");
+    	{
+    		// Read current value and prepare comment
+
+
+    		String currentDate;
+    		if (findExifKey("Exif.Photo.DateTimeOriginal", currentDate))
+    			comment << "previously Exif.Photo.DateTimeOriginal = " << currentDate;
+    		else if (findExifKey("Exif.Photo.DateTimeDigitized", currentDate))
+    			comment << "previously Exif.Photo.DateTimeDigitized = " << currentDate;
+    		else
+    			comment << "no value was set previously";
+    	}
+
+		try
+		{
+			exifData["Exif.Photo.DateTimeOriginal"] = newExifDate.c_str();
+			exifData["Exif.Photo.DateTimeDigitized"] = newExifDate.c_str();
+			exifData["Exif.Photo.UserComment"] = comment.c_str();
+			pImage->writeMetadata();
+			return true;
+		}
+		catch (const std::exception& e)
+		{
+			logs.debug() << e.what();
+			return false;
+		}
+		catch(...)
+		{
+			logs.debug() << "Not standard exception caught";
+			return false;
+		}
+
+    }
+
 
 }// namespace SgPhoto
 

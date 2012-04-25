@@ -62,12 +62,12 @@ namespace SgPhoto
 		 */
 		void newNameWithoutExtension(YString& name) const;
 
-	public:
-	
-		//! Logging facility
-		mutable LoggingFacility& logs;
-
-	private:
+		/*!
+		 * \brief Modify the date in exif data and add a comment to specify this was done
+		 *
+		 * \param[in] newDate In format YYYYMMDD
+		 */
+		bool modifyDate(const DateString& newDate);
 
 
 		/*!
@@ -82,6 +82,13 @@ namespace SgPhoto
 		*/
 		bool printExifData(std::ostream& out) const;
 
+
+	public:
+
+		//! Logging facility
+		mutable LoggingFacility& logs;
+
+	private:
 
 		/*!
 		** Identify the camera if possible, and deduce from it the photographer

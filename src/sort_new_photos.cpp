@@ -66,7 +66,4 @@ namespace SgPhoto
 	}
 
 
-
-
-
 } // namespace SgPhoto

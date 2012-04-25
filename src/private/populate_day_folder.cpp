@@ -19,6 +19,26 @@ namespace Private
 			return static_cast<unsigned int>(Math::Ceil(log10(static_cast<double>(number + 1u))));
 		}
 
+
+		// Yuni doesn't have any move function for directory; mimic it crudely
+		bool moveFile(LoggingFacility& logs, const YString& origin, const YString& target)
+		{
+			if (IO::File::Copy(origin, target) != IO::errNone)
+			{
+				logs.error() << "Unable to copy " << origin	<< " to " << target;
+				return false;
+			}
+
+			if (IO::File::Delete(origin) != IO::errNone)
+			{
+				logs.error() << "Unable to delete " << origin;
+				return false;
+			}
+			return true;
+		}
+
+
+
 	}// namespace anonymous
 
 
@@ -151,12 +171,11 @@ namespace Private
 				YString name(newIncompleteName);
 				name << ".jpg";
 
-				if (IO::File::Copy(photoPtr->originalPath(), name) != IO::errNone)
-				{
-					logs.error() << "Unable to copy " << photoPtr->originalPath()
-						<< " to " << name;
+				YString originalPath = photoPtr->originalPath();
+
+				// Yuni doesn't seem to have any move function...
+				if (!moveFile(logs, originalPath, name))
 					return false;
-				}
 			}
 			else
 			{
@@ -195,12 +214,8 @@ namespace Private
 
 					if (originalPath != name)
 					{
-						if (IO::File::Copy(originalPath, name) != IO::errNone)
-						{
-							logs.error() << "Unable to copy " << originalPath
-								<< " to " << name;
+						if (!moveFile(logs, originalPath, name))
 							return false;
-						}
 					}
 				}
 			}

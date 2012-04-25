@@ -28,8 +28,6 @@ namespace SgPhoto
 		// Go through #pPicturesToProcess, that includes all new pictures sort by date
 		// (either exif date or manual date depending on input constructor parameter
 		// doFolderManuallyDate)
-		logs.warning() << "COPY INSTEAD OF MOVE DURING DEV";
-
 		for (auto it = pPicturesToProcess.begin(), end = pPicturesToProcess.end();
 			it != end; ++it)
 		{

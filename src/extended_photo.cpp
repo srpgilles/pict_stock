@@ -128,7 +128,7 @@ namespace SgPhoto
             pImage->readMetadata();
 
             if (!identifyPhotographer())
-                pStatus = epInternalProblem;
+            	logs.warning() << "Photographer not identified for photo " << filename;
             else
             {
                 if (!extractDate())
@@ -156,7 +156,6 @@ namespace SgPhoto
             assert(!(!(*it)));
 
             const auto& cameras = (*it)->exifData();
-
 
             String value;
 
@@ -308,8 +307,10 @@ namespace SgPhoto
         if (pStringTime != "9999") // 9999 is the value put <hen the date has been manually set
         	name << '_' << pStringTime;
 
-        assert(!(!pPhotographer));
-        name << '_' << pPhotographer->abbr();
+        if (!pPhotographer)
+        	name << '_' << "UNK";
+        else
+        	name << '_' << pPhotographer->abbr();
     }
 
 

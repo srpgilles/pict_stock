@@ -21,7 +21,7 @@ namespace Private
 	 * and for each day the associated path(s)
 	 *
 	 */
-	class PhotoDirectoryIterator : public Yuni::IO::Directory::IIterator<true>
+	class YUNI_DECL PhotoDirectoryIterator : public Yuni::IO::Directory::IIterator<true>
 	{
 
 	public:

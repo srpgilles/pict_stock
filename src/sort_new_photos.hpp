@@ -8,7 +8,7 @@
 namespace SgPhoto
 {
 
-    class SortNewPhotos
+    class YUNI_DECL SortNewPhotos
     {
 
 

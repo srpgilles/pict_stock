@@ -17,7 +17,7 @@ namespace SgPhoto
 	 * the output photo directory
 	 *
 	 */
-	class PhotoDirectory
+	class YUNI_DECL PhotoDirectory
 	{
 	public:
 		//! Constructor & destructor

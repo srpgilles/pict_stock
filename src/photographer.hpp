@@ -11,7 +11,7 @@
 namespace SgPhoto
 {
 
-	class Photographer
+	class YUNI_DECL Photographer
 	{
 
 	public:

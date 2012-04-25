@@ -10,7 +10,7 @@ namespace Private
 {
 
 
-	class SortNewPhotosIterator : public Yuni::IO::Directory::IIterator<true>
+	class YUNI_DECL SortNewPhotosIterator : public Yuni::IO::Directory::IIterator<true>
 	{
 	public:
 

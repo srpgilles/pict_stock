@@ -15,7 +15,7 @@
 namespace SgPhoto
 {
 
-	class ExtendedPhoto
+	class YUNI_DECL ExtendedPhoto
 	{
 	public:
 

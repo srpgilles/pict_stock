@@ -29,7 +29,7 @@ namespace Private
 	**  [worse]
 	**  	Photo_1313_CSG.jpg [one of the two has been lost]
 	*/
-	class PopulateDayFolder
+	class YUNI_DECL PopulateDayFolder
 	{
 
 	public:

@@ -48,7 +48,12 @@ namespace Private
 		PopulateDayFolder(LoggingFacility& logs, const YString& targetFolder,
 			const DateString& targetDate, ExtendedPhoto::Vector& newPhotos);
 
+		//! Destructor
+		~PopulateDayFolder();
 		//@}
+
+		//! Method that does the actual work
+		bool proceed();
 
 	public:
 
@@ -65,6 +70,25 @@ namespace Private
 		** If disagreement, modify the exif by giving a fake date associated with a proper comment
 		*/
 		bool enforceDateInNewPhotos();
+
+		/*!
+		** \brief Insert existing photos in #pPhotosPerName
+		**
+		*/
+		bool insertExistingPhotos();
+
+		/*!
+		** \brief Insert new photos in #pPhotosPerName
+		**
+		*/
+		void insertNewPhotos();
+
+		/*!
+		** \brief Put all photos with appropriate names in #pTargetFolder
+		**
+		*/
+		bool putPhotosInTarget();
+
 
 
 

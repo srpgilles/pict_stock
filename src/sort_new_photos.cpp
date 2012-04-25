@@ -59,7 +59,12 @@ namespace SgPhoto
 				pPhotoDirectory.createDateFolder(folderDate, targetFolder);
 			}
 
-			Private::PopulateDayFolder(logs, targetFolder, folderDate, it->second);
+			{
+				Private::PopulateDayFolder populateFolder(logs, targetFolder, folderDate, it->second);
+
+				if (!populateFolder.proceed())
+					return false;
+			}
 		}
 		return true;
 

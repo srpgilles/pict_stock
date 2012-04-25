@@ -112,7 +112,14 @@ namespace SgPhoto
     {
         // It is assumed files passed in parameters truly exists
         // (check should occur before call to the class)
-        assert(IO::Exists(filename));
+		#ifndef NDEBUG
+    	if (!IO::Exists(filename))
+    	{
+    		logs.error() << "Photo " << filename << " doesn't exist";
+    		assert(false);
+    	}
+		#endif // NDEBUG
+
 
         try
         {
@@ -320,12 +327,12 @@ namespace SgPhoto
 		}
 		catch (const std::exception& e)
 		{
-			logs.debug() << e.what();
+			logs.error() << e.what();
 			return false;
 		}
 		catch(...)
 		{
-			logs.debug() << "Not standard exception caught";
+			logs.error() << "Non-standard exception caught";
 			return false;
 		}
 

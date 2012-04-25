@@ -92,13 +92,16 @@ namespace Private
 				do
 				{
 					logs.info() << "Please answer the date (under format YYYYMMDD)";
+
+					std::cin >> answer;
+
 					if (answer.size() != 8)
 						continue;
 
 					DateString buf(answer);
 					isValid =  isValidStringDate(buf);
 
-				} while (!isValid && std::cin >> answer);
+				} while (!isValid);
 
 				pCurrentFolderManualDate = answer;
 			}
@@ -110,8 +113,9 @@ namespace Private
 			do
 			{
 				logs.info() << "Does this choice also apply to subfolders (y/n)?";
+				std::cin >> answer;
 
-			} while ((answer != "y" && answer != "n") && std::cin >> answer);
+			} while (answer != "y" && answer != "n");
 
 			if (answer == "y")
 				pCurrentFolderManualLevel = pFolderLevel;

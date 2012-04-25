@@ -54,6 +54,7 @@ namespace SgPhoto
                 std::multimap<std::string, String> cameras;
                 cameras.insert(std::make_pair("Exif.Image.Model", "DSC-W70"));
 
+
                 Photographer::Ptr newEntry =
                     new Photographer("Annie et Christian", "AGC", cameras);
 
@@ -99,6 +100,12 @@ namespace SgPhoto
                  // Parents de Thuy
                  std::multimap<std::string, String> cameras;
                  cameras.insert(std::make_pair("Exif.Image.Model", "FinePix S6500fd"));
+                 cameras.insert(std::make_pair("Exif.Image.Model", "DMC-TZ1"));
+                 cameras.insert(std::make_pair("Exif.Image.Model",
+                		 "SAMSUNG ST550 / SAMSUNG ST560 / VLUU ST550 / SAMSUNG TL225"));
+                 cameras.insert(std::make_pair("Exif.Nikon3.SerialNumber", "6100268"));
+                 cameras.insert(std::make_pair("Exif.Image.ImageDescription", "SONY DSC"));
+
 
                  Photographer::Ptr newEntry =
                      new Photographer("Parents de Thuy", "T", cameras);

@@ -10,10 +10,18 @@ int main(int argc, char* const argv[])
 	(void) argv;
 
 	LoggingFacility logs;
-	SgPhoto::PhotoDirectory photoDirectory(logs, "/tmp/devPhotos");
 
+//	SgPhoto::ExtendedPhoto bar(logs, "/tmp/devPhotos3/2011/M06/J30/Photo_2259_UNK.jpg");
+//	YString name;
+//	bar.newNameWithoutExtension(name);
+//	logs.notice() << name;
+////	bar.printExifData(std::cout);
+//
+//	return 0;
 
-	SgPhoto::SortNewPhotos foo(logs, "/home/sebastien/Multimedia/Photos/A_classer", photoDirectory, false);
+	SgPhoto::PhotoDirectory photoDirectory(logs, "/tmp/devPhotos4");
+
+	SgPhoto::SortNewPhotos foo(logs, "/tmp/devPhotos3", photoDirectory, false);
 	if (!foo.proceed())
 		return EXIT_FAILURE;
 

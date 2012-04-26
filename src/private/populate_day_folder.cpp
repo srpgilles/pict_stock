@@ -20,34 +20,18 @@ namespace Private
 		}
 
 
-		// Yuni doesn't have any move function for directory; mimic it crudely
-		bool moveFile(LoggingFacility& logs, const YString& origin, const YString& target)
-		{
-			if (IO::File::Copy(origin, target) != IO::errNone)
-			{
-				logs.error() << "Unable to copy " << origin	<< " to " << target;
-				return false;
-			}
-
-			if (IO::File::Delete(origin) != IO::errNone)
-			{
-				logs.error() << "Unable to delete " << origin;
-				return false;
-			}
-			return true;
-		}
-
 
 
 	}// namespace anonymous
 
 
 	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs, const YString& targetFolder,
-		const DateString& targetDate, ExtendedPhoto::Vector& newPhotos)
+		const DateString& targetDate, ExtendedPhoto::Vector& newPhotos, const YString& summaryFile)
 		: logs(logs),
 		  pTargetFolder(targetFolder),
 		  pTargetDate(targetDate),
-		  pNewPhotos(newPhotos)
+		  pNewPhotos(newPhotos),
+		  pSummaryFile(summaryFile)
 	{ }
 
 	PopulateDayFolder::~PopulateDayFolder()
@@ -223,6 +207,38 @@ namespace Private
 
 		return true;
 	}
+
+	// Yuni doesn't have any move function for directory; mimic it crudely
+	bool PopulateDayFolder::moveFile(LoggingFacility& logs,
+		const YString& origin, const YString& target) const
+	{
+		{
+			YString content(origin);
+			content << ';' << target << '\n';
+
+			if (!IO::File::AppendContent(pSummaryFile, content))
+			{
+				logs.error() << "Invalid summary file: " << pSummaryFile;
+				return false;
+			}
+		}
+
+		if (IO::File::Copy(origin, target) != IO::errNone)
+		{
+			logs.error() << "Unable to copy " << origin	<< " to " << target;
+			return false;
+		}
+
+		if (IO::File::Delete(origin) != IO::errNone)
+		{
+			logs.error() << "Unable to delete " << origin;
+			return false;
+		}
+
+		return true;
+	}
+
+
 
 
 } // namespace Private

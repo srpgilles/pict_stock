@@ -28,9 +28,11 @@ namespace SgPhoto
 		 * sorting old photos for which date of taking is quite unsure but which folder gives
 		 * this information, albeit not necessarily in the chosen form. To put in the nutshell,
 		 * should be false most of the time...
+		 * \param[in] summaryFile File in which all operations will be saved
 		 */
         explicit SortNewPhotos(LoggingFacility& logs, const Yuni::String& inputDirectory,
-        	PhotoDirectory& photoDirectory, bool doFolderManuallyDate = false);
+        	PhotoDirectory& photoDirectory, const YString& summaryFile,
+        	bool doFolderManuallyDate = false);
 
         //! Destructor
         virtual ~SortNewPhotos();
@@ -58,7 +60,10 @@ namespace SgPhoto
         //! List of all jpeg files to process, sort by date
         std::map<DateString, ExtendedPhoto::Vector> pPicturesToProcess;
 
-    };
+        //! Path to the file in which all operations are recorded
+        const YString pSummaryFile;
+
+    };//! Path to the file in which all operations are recorded
 
 } // end namespace SgPhoto
 

@@ -9,10 +9,11 @@ namespace SgPhoto
 
 
 	SortNewPhotos::SortNewPhotos(LoggingFacility& logs, const String& inputDirectory,
-		PhotoDirectory& photoDirectory, bool doFolderManuallyDate)
+		PhotoDirectory& photoDirectory, const String& summaryFile, bool doFolderManuallyDate)
 		: logs(logs),
 		  pPhotoDirectory(photoDirectory),
-		  pInputDirectory(inputDirectory)
+		  pInputDirectory(inputDirectory),
+		  pSummaryFile(summaryFile)
 	{
 		Private::SortNewPhotosIterator iterator(logs, inputDirectory, doFolderManuallyDate);
 		iterator.picturesToProcess(pPicturesToProcess);
@@ -25,6 +26,14 @@ namespace SgPhoto
 
 	bool SortNewPhotos::proceed()
 	{
+		// Create summary file
+		if (!IO::File::SetContent(pSummaryFile, "origin;target\n"))
+		{
+			logs.error() << "Unable to set content to file \"" << pSummaryFile << '"';
+			return false;
+		}
+
+
 		// Go through #pPicturesToProcess, that includes all new pictures sort by date
 		// (either exif date or manual date depending on input constructor parameter
 		// doFolderManuallyDate)
@@ -58,7 +67,8 @@ namespace SgPhoto
 			}
 
 			{
-				Private::PopulateDayFolder populateFolder(logs, targetFolder, folderDate, it->second);
+				Private::PopulateDayFolder populateFolder(logs, targetFolder, folderDate,
+					it->second, pSummaryFile);
 				if (!populateFolder.proceed())
 					return false;
 			}

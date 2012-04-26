@@ -42,11 +42,13 @@ namespace Private
 		**
 		** \param[in, out] logs Logging facility
 		** \param[in] targetFolder Folder in which the new photo will be inserted. Must exist
-		** \param[in] targetDate
-		** \param[in] newPhotos
+		** \param[in] targetDate Date of the pĥotos inside that folder. Format YYYYMMDD
+		** \param[in] newPhotos List of new photos to be inserted in the target folder
+		** \param[in] summaryFile File in which all operations will be saved
 		*/
 		PopulateDayFolder(LoggingFacility& logs, const YString& targetFolder,
-			const DateString& targetDate, ExtendedPhoto::Vector& newPhotos);
+			const DateString& targetDate, ExtendedPhoto::Vector& newPhotos,
+			const YString& summaryFile);
 
 		//! Destructor
 		~PopulateDayFolder();
@@ -89,7 +91,16 @@ namespace Private
 		*/
 		bool putPhotosInTarget();
 
-
+		/*!
+		** \brief Yuni doesn't have any move function for directory; mimic it crudely
+		**
+		** This method also register the operations done in a file
+		**
+		** \param[in] logs Logging facility
+		** \param[in] origin Original file
+		** \param[in] target Target file
+		*/
+		bool moveFile(LoggingFacility& logs, const YString& origin, const YString& target) const;
 
 
 	private:
@@ -111,7 +122,8 @@ namespace Private
 		 */
 		std::map<YString, ExtendedPhoto::Vector> pPhotosPerName;
 
-
+		//! Path to the file in which all operations are recorded
+		const YString& pSummaryFile;
 	};
 
 

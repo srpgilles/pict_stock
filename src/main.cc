@@ -19,9 +19,11 @@ int main(int argc, char* const argv[])
 //
 //	return 0;
 
-	SgPhoto::PhotoDirectory photoDirectory(logs, "/tmp/devPhotos4");
+	SgPhoto::PhotoDirectory photoDirectory(logs, "/tmp/devPhotos");
 
-	SgPhoto::SortNewPhotos foo(logs, "/tmp/devPhotos3", photoDirectory, false);
+	SgPhoto::SortNewPhotos foo(logs, "/home/sebastien/Multimedia/Photos/A_classer",
+		photoDirectory, "/tmp/summary.txt", false);
+
 	if (!foo.proceed())
 		return EXIT_FAILURE;
 

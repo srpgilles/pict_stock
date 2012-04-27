@@ -1,0 +1,86 @@
+-------------------------------------------------------------------------------
+NOTE: 
+
+* CMake scripts still under developpement. Use them only if you're prepared 
+to fix them. Look TODO-CMAKE.txt for pending task. Thanks for your help.
+
+* The old make and MSVC build files are currently still around but will be 
+considered deprecated for 0.20.0 release. They will disappear once
+the cmake build process is feature-complete, stable and documented. Or
+maybe earlier to force me to get there.
+
+-------------------------------------------------------------------------------
+
+Exiv2 uses cmake, a cross-platform build system, to control the
+compilation process using simple platform and compiler independent
+configuration files.
+
+Cmake resources
+===============
+
+Home: http://www.cmake.org/
+Help: http://www.cmake.org/cmake/help/help.html
+Doc:  http://www.cmake.org/cmake/help/documentation.html
+Wiki: http://www.cmake.org/Wiki/CMake
+FAQ:  http://www.cmake.org/Wiki/CMake_FAQ
+
+
+Building and Installing
+=======================
+
+a) From the command line 
+
+Run the following commands from the top directory (containing this
+file) to configure, build and install the library and utility:
+
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
+    $ make install
+
+To modify the configuration
+
+    $ ccmake ..
+
+Usual CMake options :
+
+-DCMAKE_INSTALL_PREFIX : decide where the program will be install on your computer.
+-DCMAKE_BUILD_TYPE     : decide which type of build you want. You can chose between:
+                         "debugfull".     : for hacking. Include all debug information.
+                         "debug".
+                         "profile".
+                         "relwithdebinfo" : default. use gcc -O2 -g options.
+                         "release"        : generate stripped and optimized bin files. For packaging.
+
+Specific Exiv2 options :
+
+-DEXIV2_ENABLE_SHARED        : Build exiv2 as a shared library (dll).            [default=on ]
+-DEXIV2_ENABLE_XMP           : Build with XMP metadata support.                  [default=on ]
+-DEXIV2_ENABLE_LIBXMP        : Build a static convenience Library for XMP.       [default=off]
+-DEXIV2_ENABLE_PNG           : Build with png support (requires libz).           [default=on ]
+-DEXIV2_ENABLE_NLS           : Build native language support (requires gettext). [default=on ]
+-DEXIV2_ENABLE_PRINTUCS2     : Build with Printucs2.                             [default=on ]
+-DEXIV2_ENABLE_LENSDATA      : Build including lens data.                        [default=on ]
+-DEXIV2_ENABLE_COMMERCIAL    : Build with the EXV_COMMERCIAL_VERSION symbol set. [default=off]
+-DEXIV2_ENABLE_BUILD_SAMPLES : Build the unit tests.                             [default=off]
+-DEXIV2_ENABLE_BUILD_PO      : Build translations files.                         [default=off]
+
+Default install locations
+
+Use -DCMAKE_INSTALL_PREFIX like this :
+
+"cmake . -DCMAKE_INSTALL_PREFIX=/usr"  is equivalent to "./configure --prefix=/usr" with automake/configure.
+
+To uninstall Exiv2, run:
+
+    $ make uninstall
+
+b) Using the cmake GUI
+
+   ccmake
+
+Dependencies
+============
+
+cmake itself

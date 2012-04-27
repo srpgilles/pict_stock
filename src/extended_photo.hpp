@@ -3,8 +3,8 @@
 
 # include <iostream>
 
-# include <exiv2/image.hpp>
-# include <exiv2/exif.hpp>
+# include <exiv2/src/image.hpp>
+# include <exiv2/src/exif.hpp>
 # include <yuni/core/string.h>
 # include <yuni/io/io.h>
 

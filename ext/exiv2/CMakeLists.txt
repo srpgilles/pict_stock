@@ -96,9 +96,9 @@ endif( MSVC )
     ENDIF( EXIV2_ENABLE_XMP )
 #ENDIF( MINGW OR UNIX )
 
-#IF( MINGW OR UNIX )
-    INCLUDE( config/ConfigureChecks.cmake )
-#ENDIF( MINGW OR UNIX )
+
+INCLUDE( config/ConfigureChecks.cmake )
+
 
 SET( INSTALL_TARGET_STANDARD_ARGS
      RUNTIME DESTINATION bin

@@ -30,5 +30,17 @@ ext/yuni/src/yuni/yuni.version
 
 # Exiv2
 exv_conf.h
-exv_msvc.h
+#exv_msvc.h Finally needed for compilation under Windows (which is more of a patch than a real compilation process)
 
+
+# Windows
+*.vcxproj
+*.vcxproj.*
+*.sdf
+*.opensdf
+*.sln
+Debug
+desktop.ini
+*.suo
+yuni.config.msvc*
+*.ipch

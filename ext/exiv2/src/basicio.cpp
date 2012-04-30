@@ -68,6 +68,7 @@ typedef short nlink_t;
 
 # include <windows.h>
 # include <io.h>
+# include <process.h>
 #endif
 
 // *****************************************************************************

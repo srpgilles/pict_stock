@@ -1,4 +1,4 @@
-"Name"     = 'Nany'
+﻿"Name"     = 'Nany'
 "Author"   = 'Bruno BORRI, Damien GERARD'
 "Version"  = '0.1'
 "About"    = 'Grammar for the Nany language, from the Yuni project team'
@@ -27,9 +27,9 @@ DecLiteral     = {Digit}+            ( [UuLl] | [Uu][Ll] | [Ll][Uu] )?
 HexLiteral     = '0'[xX]{Hex Digit}+ ( [UuLl] | [Uu][Ll] | [Ll][Uu] )?
 RealLiteral    = {Digit}*'.'{Digit}+ ( [FfDd] )?
 CharLiteral    = '' ( {Char Chars} | '\'{Printable} ) ''
-TypeQualifier  = 'const' | 'ref' | 'volatile'
+TypeQualifier  = 'const' | 'ref'
 VisibilityQualifier = 'public' | 'protected' | 'private' | 'published'
-OptimQualifier = 'immutable' | 'stable' | 'threadunsafe'
+OptimQualifier = 'immutable' | 'stable' | 'threadunsafe' | 'volatile'
 BuiltInType    = 'void' | 'any' | 'int' | 'uint' | 'int8' | 'uint8' | 'int16' | 'uint16' | 'int32' | 'uint32' | 'int64' | 'uint64' | 'char' | 'float' | 'double' | 'bool' | 'string'
 
 ! -------------------------------------------------
@@ -96,6 +96,7 @@ Comment End = '*#' | '*/'
 ! TODO
 <Class Content> ::= VisibilityQualifier <Class Content>
                | <Method Declaration> <Class Content>
+               | <View Declaration> <Class Content>
                | <Attribute Declaration> ';' <Class Content>
                | <Property Declaration> ';' <Class Content>
                | <Class Declaration> <Class Content> ! Nested class
@@ -176,12 +177,13 @@ Comment End = '*#' | '*/'
 
 <Function Declaration> ::= <Optional Optim Qualifier> 'function' Identifier <Optional Type Parameters> <Optional Parameters> <Return Type Declaration> <Function Body>
 
-<Anonymous Function Declaration> ::= 'function' <Optional Type Parameters> <Optional Parameters> <Return Type Declaration> <Function Body>
-               | OptimQualifier 'function' <Optional Type Parameters> <Optional Parameters> <Return Type Declaration> <Function Body>
+<Anonymous Function Declaration> ::= <Optional Optim Qualifier> 'function' <Optional Type Parameters> <Optional Parameters> <Return Type Declaration> <Function Body>
 
 <Method Declaration> ::= <Optional Optim Qualifier> 'method' Identifier <Optional Type Parameters> <Optional Parameters> <Return Type Declaration> <Function Body>
-               | <Optional Optim Qualifier> 'method' 'new' <Optional Type Parameters> <Optional Parameters> <Return Type Declaration> <Function Body>
                | <Optional Optim Qualifier> 'method' Identifier <Optional Type Parameters> <Optional Parameters> <Return Type Declaration> ';' ! Abstract method declaration
+
+<View Declaration> ::= <Optional Optim Qualifier> 'view' Identifier <Optional Type Parameters> <Optional Parameters> <Return Type Declaration> <Function Body>
+               | <Optional Optim Qualifier> 'view' Identifier <Optional Type Parameters> <Optional Parameters> <Return Type Declaration> ';' ! Abstract view declaration
 
 <Function Body> ::= '{' <Expression> '}'
                | '{' '}' ! Empty body
@@ -221,7 +223,7 @@ Comment End = '*#' | '*/'
 <Argument List Continued> ::= ',' <Possibly Parallel Exp> <Argument List Continued>
                | ! Empty
 
-<Typedef> ::= 'type' Identifier ':=' <Possibly Parallel Exp>
+<Typedef> ::= 'typedef' Identifier ':=' <Possibly Parallel Exp>
 
 
 ! -------------------------------------------------
@@ -278,15 +280,21 @@ Comment End = '*#' | '*/'
                | 'return' <SingleThread Exp>
                | 'break'
                | 'continue'
+               | 'each' '(' <Expression> ')'
                | 'if' <Possibly Parallel Exp> 'then' <Possibly Parallel Exp> <Else Expression>
-               | 'while' <Possibly Parallel Exp> 'do' <Possibly Parallel Exp>
-               | 'for' Identifier 'in' <Expression> 'do' <Possibly Parallel Exp> <Else Expression> 
-               | 'for' Identifier 'in' <Expression> 'order' ':' <Expression> 'packedby' ':' <Expression> 'do' <Possibly Parallel Exp> <Else Expression> 
-               | 'for' Identifier 'in' <Expression> 'order' 'do' <Possibly Parallel Exp> <Else Expression> 
-               | 'timeout' <Possibly Parallel Exp> 'do' <Possibly Parallel Exp>
-               | 'timeout' <Possibly Parallel Exp> 'do' <Possibly Parallel Exp> 'else' <Possibly Parallel Exp>
+               | 'while' <Possibly Parallel Exp> 'do' <Possibly Parallel Exp> <Else Expression>
+               | 'for' <Expression> 'do' <Possibly Parallel Exp> <Else Expression>
+               | 'for' <Expression> 'order' <Order Type> 'do' <Possibly Parallel Exp> <Else Expression> 
+               | 'for' Identifier 'in' <Expression> 'do' <Possibly Parallel Exp> <Else Expression>
+               | 'for' Identifier 'in' <Expression> 'order' <Order Type> 'do' <Possibly Parallel Exp> <Else Expression> 
                | '{' <Expression> '}'
                | '{' '}'
+
+<Order type> ::= 'asc'
+               | 'asc' Identifier
+               | 'desc'
+               | 'desc' Identifier
+               | ! Empty
 
 <Else Expression> ::= 'else' <Possibly Parallel Exp>
                | ! Empty

@@ -54,6 +54,7 @@ namespace Directory
 		typename ThreadingPolicy::MutexLocker locker(*this);
 		typename ThreadingPolicy::MutexLocker locker2(rhs);
 		pRootFolder = rhs.pRootFolder;
+		return *this;
 	}
 
 

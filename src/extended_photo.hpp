@@ -88,6 +88,9 @@ namespace SgPhoto
 		 * TODO Find a better way to proceed: it is most inefficient due to the lack of
 		 * simple methods in exiv2 library (namely the possibility to compare easily
 		 * exif data from two different files)
+		 *
+		 * I earned a bit by beginning with the size check: if file sizes are not equal
+		 * the photo is not the same (should resolve many comparisons quickly)
 		 */
 		friend bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
 

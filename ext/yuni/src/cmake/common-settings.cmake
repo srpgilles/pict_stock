@@ -9,6 +9,7 @@ if(NOT CMAKE_MINOR_VERSION EQUAL 4 OR NOT CMAKE_MAJOR_VERSION EQUAL 2 )
 	cmake_policy(SET CMP0003 NEW)
 endif()
 include(CheckIncludeFile)
+include(CheckCXXCompilerFlag)
 
 #
 # Getting the folder where this file is located
@@ -23,9 +24,18 @@ string(REPLACE "/common-settings.cmake" "" CurrentFolder "${CurrentFolder}")
 #
 include("${CurrentFolder}/DetectInstructionsSets.cmake")
 
+if(NOT MSVC)
+	check_cxx_compiler_flag("-Wunused-but-set-variable -Wunused-but-set-parameter"
+		YUNI_HAS_GCC_UNUSED_BUT_PARAM)
+endif()
+
 
 # Common options to all GCC-based compilers
-set(YUNI_COMMON_GCC_OPTIONS  "-Woverloaded-virtual -Wall -Wextra -Wunused-parameter -Wconversion")# -Wunused-but-set-variable -Wunused-but-set-parameter")
+set(YUNI_COMMON_GCC_OPTIONS  "-Woverloaded-virtual -Wall -Wextra -Wunused-parameter -Wconversion -Wunused-but-set-variable -Wunused-but-set-parameter")
+if (YUNI_HAS_GCC_UNUSED_BUT_PARAM)
+	set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -Wunused-but-set-variable -Wunused-but-set-parameter")
+endif (YUNI_HAS_GCC_UNUSED_BUT_PARAM)
+
 set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -Wmissing-noreturn -Wcast-align  -Wfloat-equal -Wundef")
 set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -D_REENTRANT -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64")
 

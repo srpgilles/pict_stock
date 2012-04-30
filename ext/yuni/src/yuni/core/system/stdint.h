@@ -7,11 +7,15 @@
 ** \brief Standard types used by the Yuni Library
 */
 
-# ifdef YUNI_OS_MSVC
-#	include "windows/msinttypes/stdint.h"
-#	include "windows/msinttypes/inttypes.h"
-# else
+# ifdef YUNI_HAS_STDINT_H
 #	include <stdint.h>
+# else
+#	ifdef YUNI_OS_MSVC
+#		include "windows/msinttypes/stdint.h"
+#		include "windows/msinttypes/inttypes.h"
+# 	else
+#		error "stdint.h is missing for this platform"
+#	endif
 # endif
 
 # ifdef YUNI_OS_MSVC

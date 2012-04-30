@@ -40,7 +40,6 @@ if(YUNI_MODULE_CORE)
 		# Consequently there is no need to specify a path
 		# This is necessary to help distcc as much as possible  (see #340)
 	else()
-		message(STATUS ">>> dsfsdfsd!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!f")
 		add_definitions("-DYUNI_CONFIG_H_LOCATION=\"${CMAKE_CURRENT_BINARY_DIR}/config.h\"")
 	endif()
 	# Core

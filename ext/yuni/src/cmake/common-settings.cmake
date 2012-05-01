@@ -31,7 +31,7 @@ endif()
 
 
 # Common options to all GCC-based compilers
-set(YUNI_COMMON_GCC_OPTIONS  "-Woverloaded-virtual -Wall -Wextra -Wunused-parameter -Wconversion -Wunused-but-set-variable -Wunused-but-set-parameter")
+set(YUNI_COMMON_GCC_OPTIONS  "-Woverloaded-virtual -Wall -Wextra -Wunused-parameter -Wconversion")
 if (YUNI_HAS_GCC_UNUSED_BUT_PARAM)
 	set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -Wunused-but-set-variable -Wunused-but-set-parameter")
 endif (YUNI_HAS_GCC_UNUSED_BUT_PARAM)

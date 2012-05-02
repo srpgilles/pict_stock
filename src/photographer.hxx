@@ -1,7 +1,7 @@
 #ifndef PHOTOGRAPHER_HXX_
 # define PHOTOGRAPHER_HXX_
 
-namespace SgPhoto
+namespace PictStock
 {
 
 	inline YString Photographer::name() const
@@ -22,6 +22,6 @@ namespace SgPhoto
 	}
 
 
-} // namespace SgPhoto
+} // namespace PictStock
 
 #endif /* PHOTOGRAPHER_HXX_ */

@@ -6,10 +6,10 @@
 
 # include <yuni/io/io.h>
 
-# include "sg_photo.hpp"
+# include "pict_stock.hpp"
 # include "private/photo_directory_iterator.hpp"
 
-namespace SgPhoto
+namespace PictStock
 {
 
 	/*!

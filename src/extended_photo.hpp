@@ -8,11 +8,11 @@
 # include <yuni/core/string.h>
 # include <yuni/io/io.h>
 
-# include "sg_photo.hpp"
+# include "pict_stock.hpp"
 # include "private/tools.hpp"
 # include "photographer.hpp"
 
-namespace SgPhoto
+namespace PictStock
 {
 
 	class YUNI_DECL ExtendedPhoto
@@ -173,7 +173,7 @@ namespace SgPhoto
 	//! Operator== : two #ExtendedPhoto are equals if they share the same object *pImage
 	bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
 
-}// namespace SgPhoto
+}// namespace PictStock
 
 
 # include "extended_photo.hxx"

@@ -2,7 +2,7 @@
 
 using namespace Yuni;
 
-namespace SgPhoto
+namespace PictStock
 {
 
 

@@ -4,11 +4,11 @@
 # include <yuni/io/directory/iterator.h>
 # include <yuni/core/string.h>
 
-# include "../sg_photo.hpp"
+# include "../pict_stock.hpp"
 # include "tools.hpp"
 
 
-namespace SgPhoto
+namespace PictStock
 {
 namespace Private
 {
@@ -97,7 +97,7 @@ namespace Private
 	};
 
 } // namespace Private
-} // namespace SgPhoto
+} // namespace PictStock
 
 
 #endif /* PHOTO_DIRECTORY_ITERATOR_HPP_ */

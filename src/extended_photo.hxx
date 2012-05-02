@@ -1,7 +1,7 @@
 #ifndef EXTENDED_PHOTO_HXX_
 # define EXTENDED_PHOTO_HXX_
 
-namespace SgPhoto
+namespace PictStock
 {
 
 	inline bool ExtendedPhoto::problem() const
@@ -46,6 +46,6 @@ namespace SgPhoto
 
 
 
-} // namespace SgPhoto
+} // namespace PictStock
 
 #endif /* EXTENDED_PHOTO_HXX_ */

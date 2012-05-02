@@ -1,7 +1,7 @@
 #ifndef _PRIVATE_TOOLS_HPP_
 #define _PRIVATE_TOOLS_HPP_
 
-namespace SgPhoto
+namespace PictStock
 {
 	typedef Yuni::CString<4, false> HourString;
     typedef Yuni::CString<8, false> DateString;

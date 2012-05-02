@@ -3,7 +3,7 @@
 
 # include "../extended_photo.hpp"
 
-namespace SgPhoto
+namespace PictStock
 {
 namespace Private
 {
@@ -130,7 +130,7 @@ namespace Private
 
 
 } // namespace Private
-} // namespace SgPhoto
+} // namespace PictStock
 
 
 #endif /* POPULATEDAYFOLDER_HPP_ */

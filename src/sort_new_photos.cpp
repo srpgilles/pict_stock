@@ -4,7 +4,7 @@
 
 using namespace Yuni;
 
-namespace SgPhoto
+namespace PictStock
 {
 
 
@@ -78,4 +78,4 @@ namespace SgPhoto
 	}
 
 
-} // namespace SgPhoto
+} // namespace PictStock

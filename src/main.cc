@@ -41,7 +41,7 @@ int main(int argc, char* const argv[])
 
 	LoggingFacility logs;
 
-//	SgPhoto::ExtendedPhoto bar(logs, "/tmp/devPhotos3/2011/M06/J30/Photo_2259_UNK.jpg");
+//	PictStock::ExtendedPhoto bar(logs, "/tmp/devPhotos3/2011/M06/J30/Photo_2259_UNK.jpg");
 //	YString name;
 //	bar.newNameWithoutExtension(name);
 //	logs.notice() << name;
@@ -81,9 +81,9 @@ int main(int argc, char* const argv[])
 	YString logFile(iter->second);
 
 
-	SgPhoto::PhotoDirectory photoDirectory(logs, outputFolder);
+	PictStock::PhotoDirectory photoDirectory(logs, outputFolder);
 
-	SgPhoto::SortNewPhotos foo(logs, inputFolder, photoDirectory, logFile, true);
+	PictStock::SortNewPhotos foo(logs, inputFolder, photoDirectory, logFile, true);
 
 	if (!foo.proceed())
 		return EXIT_FAILURE;

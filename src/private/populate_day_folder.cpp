@@ -7,7 +7,7 @@
 
 using namespace Yuni;
 
-namespace SgPhoto
+namespace PictStock
 {
 namespace Private
 {
@@ -242,4 +242,4 @@ namespace Private
 
 
 } // namespace Private
-} // namespace SgPhoto
+} // namespace PictStock

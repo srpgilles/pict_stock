@@ -4,7 +4,7 @@
 
 using namespace Yuni;
 
-namespace SgPhoto
+namespace PictStock
 {
 
 	namespace
@@ -16,7 +16,7 @@ namespace SgPhoto
 		 ** Quite crude at the moment; should not be written in hard but read
 		 ** instead from a file or a database
 		 **
-		 ** TODO Termporary; should be handled through a sqlite database
+		 ** TODO Temporary; should be handled through a sqlite database
 		 */
 
 		static Photographer::List initPhotographers()
@@ -366,5 +366,5 @@ namespace SgPhoto
 
 	}
 
-} // namespace SgPhoto
+} // namespace PictStock
 

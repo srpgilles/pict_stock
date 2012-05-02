@@ -1,5 +1,5 @@
-add_library(SgPhoto STATIC
-	sg_photo.hpp
+add_library(pict_stock STATIC
+	pict_stock.hpp
 	photo_directory.cpp
 	photo_directory.hpp
 	photo_directory.hxx
@@ -29,7 +29,7 @@ add_executable(test
 
 
 target_link_libraries(test
-	SgPhoto
+	pict_stock
 	exiv2
 	yuni-static-core
 )

@@ -1,7 +1,7 @@
 #ifndef DATE_TOOLS_HXX_
 # define DATE_TOOLS_HXX_
 
-namespace SgPhoto
+namespace PictStock
 {
 namespace Private
 {
@@ -123,7 +123,7 @@ namespace Private
 	} // namespace anonymous
 
 } // namespace Private
-} // namespace SgPhoto
+} // namespace PictStock
 
 
 #endif /* DATE_TOOLS_HXX_ */

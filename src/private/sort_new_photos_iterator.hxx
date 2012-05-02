@@ -1,7 +1,7 @@
 #ifndef SORT_NEW_PHOTOS_ITERATOR_HXX_
 # define SORT_NEW_PHOTOS_ITERATOR_HXX_
 
-namespace SgPhoto
+namespace PictStock
 {
 namespace Private
 {
@@ -14,6 +14,6 @@ namespace Private
 	}
 
 } // namespace Private
-} // namespace SgPhoto
+} // namespace PictStock
 
 #endif /* SORT_NEW_PHOTOS_ITERATOR_HXX_ */

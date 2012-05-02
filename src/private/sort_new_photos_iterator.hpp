@@ -4,7 +4,7 @@
 # include <yuni/io/directory/iterator.h>
 # include "../extended_photo.hpp"
 
-namespace SgPhoto
+namespace PictStock
 {
 namespace Private
 {
@@ -132,7 +132,7 @@ namespace Private
 
 	};
 } // namespace Private
-} // namespace SgPhoto
+} // namespace PictStock
 
 # include "sort_new_photos_iterator.hxx"
 

@@ -1,6 +1,6 @@
 #include "photographer.hpp"
 
-namespace SgPhoto
+namespace PictStock
 {
 	Photographer::Photographer(const YString& name,
 		const YString& abbrev,
@@ -10,4 +10,4 @@ namespace SgPhoto
 		  pCameras(cameras)
 	{ }
 
-} // namespace SgPhoto
+} // namespace PictStock

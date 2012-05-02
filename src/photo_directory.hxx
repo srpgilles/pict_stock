@@ -1,7 +1,7 @@
 #ifndef PHOTO_DIRECTORY_HXX_
 #define PHOTO_DIRECTORY_HXX_
 
-namespace SgPhoto
+namespace PictStock
 {
 
 
@@ -19,7 +19,7 @@ namespace SgPhoto
 
 
 
-} // namespace SgPḧoto
+} // namespace PictStock
 
 
 #endif /* PHOTO_DIRECTORY_HXX_ */

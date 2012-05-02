@@ -6,9 +6,9 @@
 # include <list>
 # include <map>
 
-# include "sg_photo.hpp"
+# include "pict_stock.hpp"
 
-namespace SgPhoto
+namespace PictStock
 {
 
 	class YUNI_DECL Photographer
@@ -70,7 +70,7 @@ namespace SgPhoto
 	};
 
 
-} // namespace SgPhoto
+} // namespace PictStock
 
 #include "photographer.hxx"
 

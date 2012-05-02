@@ -1,7 +1,7 @@
 #include "sort_new_photos_iterator.hpp"
 #include "date_tools.hxx"
 
-namespace SgPhoto
+namespace PictStock
 {
 namespace Private
 {
@@ -175,5 +175,5 @@ namespace Private
 
 
 } // namespace Private
-} // namespace SgPhoto
+} // namespace PictStock
 

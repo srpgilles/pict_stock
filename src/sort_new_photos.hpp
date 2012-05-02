@@ -5,7 +5,7 @@
 # include "photo_directory.hpp"
 # include "private/sort_new_photos_iterator.hpp"
 
-namespace SgPhoto
+namespace PictStock
 {
 
     class YUNI_DECL SortNewPhotos
@@ -65,7 +65,7 @@ namespace SgPhoto
 
     };//! Path to the file in which all operations are recorded
 
-} // end namespace SgPhoto
+} // end namespace PictStock
 
 
 #endif	/* SORT_NEW_PHOTOS_HPP */

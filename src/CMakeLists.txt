@@ -1,4 +1,4 @@
-add_library(SgPhoto SHARED
+add_library(SgPhoto STATIC
 	sg_photo.hpp
 	photo_directory.cpp
 	photo_directory.hpp

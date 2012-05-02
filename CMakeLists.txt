@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
 project(SgPhotos)
 
@@ -14,3 +14,7 @@ include_directories(ext)
 add_subdirectory(ext/exiv2)
 add_subdirectory(ext/yuni/src)
 add_subdirectory(src)
+
+IF( MSVC )
+	install(FILES exiv2 DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+ENDIF( MSVC )

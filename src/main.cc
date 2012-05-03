@@ -1,4 +1,3 @@
-#include <set>
 #include "sort_new_photos.hpp"
 #include <yuni/core/getopt.h>
 
@@ -130,26 +129,47 @@ namespace
 		return it->second;
 	}
 
+
+
 } // namespace anonymous
 
 
 
 
-int main(int argc, char* const argv[])
+int main(int argc, char* argv[])
 {
-	// To avoid compilation warnings
-	(void) argc;
-	(void) argv;
-
 	LoggingFacility logs;
+
+
+	bool doAskModifyDate;
+
+	GetOpt::Parser parser;
+	String parameterFile;
+	parser.addParagraph("\nMandatory option(s):\n");
+	parser.add(parameterFile, ' ', "parameter_file", "Parameters file");
+	parser.addParagraph("\nVery seldom and specific option(s):\n");
+	AnyString description("If this flag is present, ask whenever a new folder is scanner for"
+		" new photos whether a date is to be manually entered; if so the exif of the pictures "
+		" inside that directory will be modified if the date doesn't match the date already there. "
+		"This is useful for instance when applying the program to photos which exif date are "
+		"uncertain but date are known are known otherwise.");
+	parser.addFlag(doAskModifyDate, ' ', "do_ask_modify_date", description);
+	parser.addParagraph("\nHelp:\n");
+
+	if (!parser(argc, argv))
+	{
+		logs.fatal("Command line parsing failed. Here is the help description of the program:");
+		parser.helpUsage(argv[0]);
+		exit(EXIT_FAILURE);
+	}
 
 	try
 	{
-		const ReadParameterFile parameters(logs, "parameters2.ini");
+		const ReadParameterFile parameters(logs, parameterFile);
 
 		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"]);
 		PictStock::SortNewPhotos sortNewPhotos(logs, parameters["inputFolder"], photoDirectory,
-			parameters["logFile"], true);
+			parameters["logFile"], doAskModifyDate);
 
 		if (!sortNewPhotos.proceed())
 			return EXIT_FAILURE;

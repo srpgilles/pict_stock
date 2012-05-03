@@ -108,8 +108,6 @@ namespace
 	{
 		for (auto it = pParameters.cbegin(), end = pParameters.cend(); it != end; ++it)
 		{
-			logs.checkpoint() << it->first << '\t' << it->second;
-
 			if ((it->second).empty())
 			{
 				logs.error("Parameter ") << it->first << " not filled in parameters "
@@ -162,6 +160,9 @@ int main(int argc, char* argv[])
 		parser.helpUsage(argv[0]);
 		exit(EXIT_FAILURE);
 	}
+
+	if (parameterFile.empty())
+		parameterFile = "parameters.ini";
 
 	try
 	{

@@ -23,12 +23,12 @@ add_library(pict_stock STATIC
 )
 
 
-add_executable(test
+add_executable(PictStock
 	main.cc
 )
 
 
-target_link_libraries(test
+target_link_libraries(PictStock
 	pict_stock
 	exiv2
 	yuni-static-core

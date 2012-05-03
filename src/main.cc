@@ -154,7 +154,7 @@ int main(int argc, char* const argv[])
 		if (!sortNewPhotos.proceed())
 			return EXIT_FAILURE;
 	}
-	catch(...)
+	catch(const std::exception& e)
 	{
 		exit(EXIT_FAILURE);
 	}

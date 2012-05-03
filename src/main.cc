@@ -1,37 +1,139 @@
-#include "photo_directory.hpp"
-#include "extended_photo.hpp"
+#include <set>
 #include "sort_new_photos.hpp"
+#include <yuni/core/getopt.h>
+
+using namespace Yuni;
 
 namespace
 {
+
+
 	/*!
-	 * \brief read the parameter file and check the expected fields are there
+	 * \brief Read the parameter file and check the expected fields are there
 	 *
 	 * \param File Parameters file. It is expected to fill values inputFolder,
 	 * outputFolder and logFile
+	 * \param mandatoryKeys Keys that are expected in the parameters file
 	 * \param[out] parameters Parameters read
 
-	 * \return True if the value swere all correctly read
+	 * \return True if the values were all correctly read
 	 */
-	bool readParameterFile(LoggingFacility& logs, const YString& file,
-			std::map<Yuni::CString<12, false>, YString>& parameters)
+	class ReadParameterFile
 	{
-		YString key, value;
+	public:
 
-		if (!Yuni::IO::File::ReadLineByLine(file, [&] (const YString& line)
+		// Type of keys in the parameters file
+		typedef CString<12, false> KeyString;
+
+		/*!
+		 ** Constructor
+		 **
+		 ** It read the parameter files, load into the class the values that were expected
+		 ** and finally check all expected values were actually filled
+		 */
+		ReadParameterFile(LoggingFacility& logs, const YString& file);
+
+		//! Access to parameters; return false if one is not known
+		const String& operator[](const KeyString& key) const;
+
+
+	public:
+
+		//! Logs
+		mutable LoggingFacility& logs;
+
+
+	private:
+
+		//! Check #pParameters is correctly filled
+		bool checkParameters() const;
+
+
+
+	private:
+
+		//! Parameter file
+		const String& pFile;
+
+		/*!
+		** \brief Map containing all relevant values read and their associated values
+		**
+		** Important: before call to #proceed only the keyx are defined; values are left empty
+		*/
+		std::map<KeyString, String> pParameters;
+
+
+	};
+
+
+	ReadParameterFile::ReadParameterFile(LoggingFacility& logs, const YString& file)
+		: logs(logs),
+		  pFile(file),
+		  pParameters({{"inputFolder",""}, {"outputFolder",""}, {"logFile",""}})
+	{
+
+		// Assign values from the parameter file
+		String key, value;
+		auto end = pParameters.end();
+
+		if (!IO::File::ReadLineByLine(pFile, [&] (const String& line)
 		{
 			line.extractKeyValue(key, value, false);
-			parameters[key] = value;
+
+			auto it = pParameters.find(key);
+
+			if (it == end)
+			{
+				// Check the key read belongs to the mandatory list given in constructor
+				// If not, issue a warning
+				logs.warning() << "Parameter " << key << " read in file not foreseen; "
+					"it will be ignored";
+			}
+			else
+			{
+				value.trim();
+				it->second = value;
+			}
 		}))
 		{
-			logs.error() << "Unable to read file " << file;
-			return false;
+			logs.fatal() << "Unable to read file " << pFile;
+			throw std::exception();
+		}
+
+		if (!checkParameters())
+			throw std::exception();
+	}
+
+
+	bool ReadParameterFile::checkParameters() const
+	{
+		for (auto it = pParameters.cbegin(), end = pParameters.cend(); it != end; ++it)
+		{
+			logs.checkpoint() << it->first << '\t' << it->second;
+
+			if ((it->second).empty())
+			{
+				logs.error("Parameter ") << it->first << " not filled in parameters "
+					"file " << pFile;
+				return false;
+			}
 		}
 
 		return true;
 	}
 
+
+	const String& ReadParameterFile::operator[](const KeyString& key) const
+	{
+		auto it = pParameters.find(key);
+		assert(it != pParameters.end() && "Should be enforced in #proceed() method");
+		return it->second;
+	}
+
 } // namespace anonymous
+
+
+
 
 int main(int argc, char* const argv[])
 {
@@ -41,54 +143,21 @@ int main(int argc, char* const argv[])
 
 	LoggingFacility logs;
 
-//	PictStock::ExtendedPhoto bar(logs, "/tmp/devPhotos3/2011/M06/J30/Photo_2259_UNK.jpg");
-//	YString name;
-//	bar.newNameWithoutExtension(name);
-//	logs.notice() << name;
-////	bar.printExifData(std::cout);
-//
-//	return 0;
-
-	std::map<Yuni::CString<12, false>, YString> parameters;
-
-	if (!readParameterFile(logs, "parameters.ini", parameters))
-		exit(EXIT_FAILURE);
-
-	auto end = parameters.cend();
-
-	auto iter = parameters.find("inputFolder");
-	if (iter == end)
+	try
 	{
-		logs.fatal() << "inputFolder not read in parameter file";
+		const ReadParameterFile parameters(logs, "parameters2.ini");
+
+		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"]);
+		PictStock::SortNewPhotos sortNewPhotos(logs, parameters["inputFolder"], photoDirectory,
+			parameters["logFile"], true);
+
+		if (!sortNewPhotos.proceed())
+			return EXIT_FAILURE;
+	}
+	catch(...)
+	{
 		exit(EXIT_FAILURE);
 	}
-	YString inputFolder(iter->second);
-
-	iter = parameters.find("outputFolder");
-	if (iter == end)
-	{
-		logs.fatal() << "outputFolder not read in parameter file";
-		exit(EXIT_FAILURE);
-	}
-	YString outputFolder(iter->second);
-
-	iter = parameters.find("logFile");
-	if (iter == end)
-	{
-		logs.fatal() << "logFile not read in parameter file";
-		exit(EXIT_FAILURE);
-	}
-	YString logFile(iter->second);
-
-
-	PictStock::PhotoDirectory photoDirectory(logs, outputFolder);
-
-	PictStock::SortNewPhotos foo(logs, inputFolder, photoDirectory, logFile, true);
-
-	if (!foo.proceed())
-		return EXIT_FAILURE;
-
-	logs.notice() << "OK";
 
 	return 0;
 }

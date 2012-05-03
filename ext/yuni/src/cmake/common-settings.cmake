@@ -24,17 +24,16 @@ string(REPLACE "/common-settings.cmake" "" CurrentFolder "${CurrentFolder}")
 #
 include("${CurrentFolder}/DetectInstructionsSets.cmake")
 
-if(NOT MSVC)
-	check_cxx_compiler_flag("-Wunused-but-set-variable -Wunused-but-set-parameter"
-		YUNI_HAS_GCC_UNUSED_BUT_PARAM)
-endif()
-
 
 # Common options to all GCC-based compilers
 set(YUNI_COMMON_GCC_OPTIONS  "-Woverloaded-virtual -Wall -Wextra -Wunused-parameter -Wconversion")
-if (YUNI_HAS_GCC_UNUSED_BUT_PARAM)
-	set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -Wunused-but-set-variable -Wunused-but-set-parameter")
-endif (YUNI_HAS_GCC_UNUSED_BUT_PARAM)
+if(NOT MSVC)
+	check_cxx_compiler_flag("-Wunused-but-set-variable -Wunused-but-set-parameter"
+		YUNI_HAS_GCC_UNUSED_BUT_PARAM)
+	if (YUNI_HAS_GCC_UNUSED_BUT_PARAM)
+		set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -Wunused-but-set-variable -Wunused-but-set-parameter")
+	endif (YUNI_HAS_GCC_UNUSED_BUT_PARAM)
+endif()
 
 set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -Wmissing-noreturn -Wcast-align  -Wfloat-equal -Wundef")
 set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -D_REENTRANT -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64")

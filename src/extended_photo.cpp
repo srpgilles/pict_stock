@@ -203,8 +203,6 @@ namespace PictStock
 
 		typedef CString<4, false> TinyString;
 
-		boost::regex  e("(\\d{4}[- ]){3}\\d{4}");
-
 		{
 			// Proceed to extract the date and write in format YYYYMMDD
 			pStringDate.resize(8);

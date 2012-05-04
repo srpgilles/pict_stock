@@ -17,4 +17,5 @@ add_subdirectory(src)
 
 IF( MSVC )
 	install(FILES exiv2 DESTINATION ${EXECUTABLE_OUTPUT_PATH})
+	install(FILES parameters.ini DESTINATION ${EXECUTABLE_OUTPUT_PATH})
 ENDIF( MSVC )

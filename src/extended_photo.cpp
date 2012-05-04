@@ -114,13 +114,13 @@ namespace PictStock
 	{
 		// It is assumed files passed in parameters truly exists
 		// (check should occur before call to the class)
-#ifndef NDEBUG
+		#ifndef NDEBUG
 		if (!IO::Exists(filename))
 		{
 			logs.error() << "Photo " << filename << " doesn't exist";
 			assert(false);
 		}
-#endif // NDEBUG
+		#endif // NDEBUG
 
 		try
 		{
@@ -141,6 +141,7 @@ namespace PictStock
 			pStatus = epExiv2Problem;
 		}
 	}
+
 
 	bool ExtendedPhoto::identifyPhotographer()
 	{
@@ -203,7 +204,6 @@ namespace PictStock
 
 		{
 			// Proceed to extract the date and write in format YYYYMMDD
-			// TODO Replace that with time stamp
 			pStringDate.resize(8);
 			pStringDate.fill('0');
 
@@ -307,7 +307,7 @@ namespace PictStock
 	{
 		name.clear() << "Photo";
 
-		if (pStringTime != "9999") // 9999 is the value put <hen the date has been manually set
+		if (pStringTime != "9999") // 9999 is the value when the date has been manually set
 			name << '_' << pStringTime;
 
 		if (!pPhotographer)

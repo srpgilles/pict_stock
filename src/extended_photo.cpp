@@ -1,6 +1,7 @@
 #include "extended_photo.hpp"
 #include <iostream>
 #include <iomanip>
+#include <boost/regex.hpp>
 
 using namespace Yuni;
 
@@ -201,6 +202,8 @@ namespace PictStock
 		}
 
 		typedef CString<4, false> TinyString;
+
+		boost::regex  e("(\\d{4}[- ]){3}\\d{4}");
 
 		{
 			// Proceed to extract the date and write in format YYYYMMDD

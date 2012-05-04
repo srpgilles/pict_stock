@@ -33,3 +33,14 @@ target_link_libraries(PictStock
 	exiv2
 	yuni-static-core
 )
+
+
+add_executable(dev
+	main_dev.cpp
+)
+
+target_link_libraries(dev
+	pict_stock
+	exiv2
+	yuni-static-core
+)

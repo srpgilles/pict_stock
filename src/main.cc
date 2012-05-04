@@ -143,8 +143,9 @@ int main(int argc, char* argv[])
 
 	GetOpt::Parser parser;
 	String parameterFile;
-	parser.addParagraph("\nMandatory option(s):\n");
-	parser.add(parameterFile, ' ', "parameter_file", "Parameters file");
+	parser.addParagraph("\nUsual option(s):\n");
+	parser.add(parameterFile, ' ', "parameter_file", "Parameters file. If not precised "
+		"parameters.ini in current folder is attempted.");
 	parser.addParagraph("\nVery seldom and specific option(s):\n");
 	AnyString description("If this flag is present, ask whenever a new folder is scanner for"
 		" new photos whether a date is to be manually entered; if so the exif of the pictures "
@@ -161,6 +162,7 @@ int main(int argc, char* argv[])
 		exit(EXIT_FAILURE);
 	}
 
+	// Default values
 	if (parameterFile.empty())
 		parameterFile = "parameters.ini";
 

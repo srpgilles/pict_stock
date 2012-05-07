@@ -37,8 +37,8 @@ int main(int argc, char* argv[])
 		boost::cmatch foo;
 		logs.notice() << *it << '\t' << regex_match(it->c_str(), foo, e);
 		logs.notice() << foo.size();
-		for (auto it2 = foo.begin(), end2 = foo.end(); it2 != end2; ++it2)
-			std::cout << "\t|" << *it2 << "|\n";
+		for (auto it = foo.begin(), end = foo.end(); it != end; ++it)
+			std::cout << "\t|" << *it << "|\n";
 	}
 
 	return 0;

@@ -106,6 +106,24 @@ namespace PictStock
 			return ret;
 
 		}
+
+
+		static const boost::regex RegexDateFormatting(
+			"\\A(\\d{2,4})" // Year with 2 or 4 digits
+			":" // separator
+			"(\\d{2}| \\d{1})" // Month with either 2 digits or one space and one digit
+			":" // separator
+			"(\\d{2}| \\d{1})" // Day with either 2 digits or one space and one digit
+			" " // separator
+			"(\\d{2}| \\d{1})" // Hour with either 2 digits or one space and one digit
+			":" // separator
+			"(\\d{2}| \\d{1})" // Minute with either 2 digits or one space and one digit
+			":" // separator
+			"(\\d{2}| \\d{1})" // Seconds with either 2 digits or one space and one digit
+			"\\z");
+
+
+
 	} // anonymous namespace
 
 	const Photographer::List ExtendedPhoto::pPhotographers = initPhotographers();
@@ -189,36 +207,20 @@ namespace PictStock
 				return false;
 		}
 
-		std::vector<int> dateAsVect;
-
-		// Now parse this date to extract year, month, day, hour, minute, second
-		dateRead.split(dateAsVect, " :");
-
-		if (dateAsVect.size() != 6)
+		boost::cmatch match;
+		if (regex_match(dateRead.c_str(), match, RegexDateFormatting))
 		{
-			logs.fatal() << "Date is expected to follow format %y:%m:%d %h:%m:%s, "
-					"which was not the case of " << dateRead << "\n";
+			assert(match.size() == 7u && "First one is complete expression, others the sub-expressions");
+			pStringDate = DateString(match[1].str());
+			pStringDate << match[2].str() << match[3].str();
+			pStringTime = HourString(match[4].str());
+			pStringTime << match[5].str();
+			return true;
+		}
+		else
+		{
+			logs.error("Unable to interpret date for file ") << pOriginalPath;
 			return false;
-		}
-
-		typedef CString<4, false> TinyString;
-
-		{
-			// Proceed to extract the date and write in format YYYYMMDD
-			pStringDate.resize(8);
-			pStringDate.fill('0');
-
-			pStringDate.overwrite(TinyString(dateAsVect[0]));
-			pStringDate.overwriteRight(2, TinyString(dateAsVect[1]));
-			pStringDate.overwriteRight(TinyString(dateAsVect[2]));
-		}
-
-		{
-			// Same stuff for hour and minutes (seconds are dropped)
-			pStringTime.resize(4);
-			pStringTime.fill('0');
-			pStringTime.overwriteRight(2, TinyString(dateAsVect[3]));
-			pStringTime.overwriteRight(TinyString(dateAsVect[4]));
 		}
 
 		return true;

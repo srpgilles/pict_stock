@@ -93,7 +93,6 @@ namespace Private
 		** to this date
 		*/
 		ValidDirectoriesType pValidDirectories;
-
 	};
 
 } // namespace Private

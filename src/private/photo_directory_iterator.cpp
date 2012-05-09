@@ -43,7 +43,7 @@ namespace Private
 		const String&, const String& /*name*/)
 	{
 		// Valid directories must include at least three components (for year, month, day)
-		if (pCounter++ < 3)
+		if (++pCounter < 3)
 			return IO::flowContinue;
 
 		if (checkValidity(completePath))

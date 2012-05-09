@@ -109,9 +109,9 @@ namespace Private
 		return true;
 	}
 
+
 	void PopulateDayFolder::insertNewPhotos()
 	{
-		// TODO Check new photos aren't redundant with pre-existing ones
 		for (auto it = pNewPhotos.cbegin(), end = pNewPhotos.cend(); it != end; ++it)
 		{
 			ExtendedPhoto::Ptr photoPtr = *it;

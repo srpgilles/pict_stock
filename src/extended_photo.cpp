@@ -108,18 +108,23 @@ namespace PictStock
 		}
 
 
+		/*!
+		** \brief Regular expression for date formatting
+		**
+		** Basically format is YYYY:MM:DD HH:mm:SS
+		*/
 		static const boost::regex RegexDateFormatting(
-			"\\A(\\d{2,4})" // Year with 2 or 4 digits
+			"\\A(\\d{4})" // Year
 			":" // separator
-			"(\\d{2}| \\d{1})" // Month with either 2 digits or one space and one digit
+			"(\\d{2}| \\d{1}|  )" // Month
 			":" // separator
-			"(\\d{2}| \\d{1})" // Day with either 2 digits or one space and one digit
+			"(\\d{2}| \\d{1}|  )" // Day
 			" " // separator
-			"(\\d{2}| \\d{1})" // Hour with either 2 digits or one space and one digit
+			"(\\d{2}| \\d{1}|  )" // Hour
 			":" // separator
-			"(\\d{2}| \\d{1})" // Minute with either 2 digits or one space and one digit
+			"(\\d{2}| \\d{1}|  )" // Minute
 			":" // separator
-			"(\\d{2}| \\d{1})" // Seconds with either 2 digits or one space and one digit
+			"(\\d{2}| \\d{1}|  )" // Seconds
 			"\\z");
 
 
@@ -310,7 +315,7 @@ namespace PictStock
 	{
 		name.clear() << "Photo";
 
-		if (pStringTime != "9999") // 9999 is the value when the date has been manually set
+		if (!pStringTime.empty()) // Empty value when the date has been manually set
 			name << '_' << pStringTime;
 
 		if (!pPhotographer)
@@ -332,7 +337,7 @@ namespace PictStock
 			newExifDate.append(newDate, 2, 4);
 			newExifDate << ':';
 			newExifDate.append(newDate, 2, 6);
-			newExifDate << " 99:99:99"; // fake hour!
+			newExifDate << "   :  :  "; // keep hour empty!
 		}
 
 		CString<150, false> comment("The date has been modified manually; ");

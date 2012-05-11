@@ -20,6 +20,8 @@ add_library(pict_stock STATIC
 	private/populate_day_folder.hpp
 	private/date_tools.hxx
 	private/tools.hpp
+	private/format_folder.hpp
+	private/format_folder.hxx
 )
 
 

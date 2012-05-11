@@ -2,6 +2,7 @@
 #include <boost/regex.hpp>
 #include "private/photo_directory_iterator.hpp"
 
+#ifdef USE_BOOST_REGULAR_EXPR
 namespace TestRegex
 {
 	void testRegex(LoggingFacility& logs)
@@ -33,6 +34,7 @@ namespace TestRegex
 		}
 	}
 };
+#endif // USE_BOOST_REGULAR_EXPR
 
 
 namespace TestExtendedPhoto

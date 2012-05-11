@@ -1,7 +1,10 @@
 #include "extended_photo.hpp"
 #include <iostream>
 #include <iomanip>
-#include <boost/regex.hpp>
+
+#ifdef USE_BOOST_REGULAR_EXPR
+# include <boost/regex.hpp>
+#endif //USE_BOOST_REGULAR_EXPR
 
 using namespace Yuni;
 
@@ -107,7 +110,7 @@ namespace PictStock
 
 		}
 
-
+		#ifdef USE_BOOST_REGULAR_EXPR
 		/*!
 		** \brief Regular expression for date formatting
 		**
@@ -126,7 +129,7 @@ namespace PictStock
 			":" // separator
 			"(\\d{2}| \\d{1}|  )" // Seconds
 			"\\z");
-
+		#endif // USE_BOOST_REGULAR_EXPR
 
 
 	} // anonymous namespace
@@ -212,6 +215,7 @@ namespace PictStock
 				return false;
 		}
 
+		#ifdef USE_BOOST_REGULAR_EXPR
 		boost::cmatch match;
 		if (regex_match(dateRead.c_str(), match, RegexDateFormatting))
 		{
@@ -227,6 +231,9 @@ namespace PictStock
 			logs.error("Unable to interpret date for file ") << pOriginalPath;
 			return false;
 		}
+		#else
+		YUNI_STATIC_ASSERT(false, TheImplementationIsMissing);
+		#endif  // USE_BOOST_REGULAR_EXPR
 
 		return true;
 	}
@@ -318,10 +325,10 @@ namespace PictStock
 		if (!pStringTime.empty()) // Empty value when the date has been manually set
 			name << '_' << pStringTime;
 
-		if (!pPhotographer)
-			name << '_' << "UNK";
-		else
+		if (!(!pPhotographer))
 			name << '_' << pPhotographer->abbr();
+		//else
+		//	name << '_' << "UNK";
 	}
 
 	bool ExtendedPhoto::modifyDate(const DateString& newDate)

@@ -9,20 +9,6 @@ namespace TestRegex
 {
 	void testRegex(LoggingFacility& logs)
 	{
-		boost::regex e(
-			"\\A(\\d{2,4})" // Year with 2 or 4 digits
-			":" // separator
-			"(\\d{2}| \\d{1})" // Month with either 2 digits or one space and one digit
-			":" // separator
-			"(\\d{2}| \\d{1})" // Day with either 2 digits or one space and one digit
-			" " // separator
-			"(\\d{2}| \\d{1})" // Hour with either 2 digits or one space and one digit
-			":" // separator
-			"(\\d{2}| \\d{1})" // Minute with either 2 digits or one space and one digit
-			":" // separator
-			"(\\d{2}| \\d{1})" // Seconds with either 2 digits or one space and one digit
-			"\\z"
-		);
 
 		std::list<YString> tests = {"2012:01:01 17:21:03",
 				"2012: 01: 01 17 :21: 03",
@@ -30,6 +16,7 @@ namespace TestRegex
 				"2012: 1: 1 17:21: 3",
 				"2010:13:01 01:01:01",
 				"2010:12:32 01:01:01",
+				"2010:12:42 01:01:01",
 				"2010:12:12 25:01:01",
 				"2010:12:12 23:01:01",
 				"2010:12:12 23:61:01",

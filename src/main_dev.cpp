@@ -1,6 +1,7 @@
 #include "extended_photo.hpp"
 #include <boost/regex.hpp>
 #include "private/photo_directory_iterator.hpp"
+#include "private/path_format.hpp"
 
 #ifdef USE_BOOST_REGULAR_EXPR
 namespace TestRegex
@@ -90,6 +91,14 @@ namespace TestExtendedPhoto
 				::PictStock::ExtendedPhoto photo(logs, *it);
 		}
 	}
+}
+
+
+namespace TestPathFormat
+{
+
+
+
 
 
 }
@@ -102,7 +111,9 @@ int main(int argc, char* argv[])
 	LoggingFacility logs;
 
 	//TestRegex::testRegex(logs);
-	TestExtendedPhoto::testExtendedPhoto(logs);
+	//TestExtendedPhoto::testExtendedPhoto(logs);
+
+
 
 	return 0;
 }

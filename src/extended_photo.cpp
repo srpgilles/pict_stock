@@ -1,10 +1,7 @@
 #include "extended_photo.hpp"
+
 #include <iostream>
 #include <iomanip>
-
-#ifdef USE_BOOST_REGULAR_EXPR
-# include <boost/regex.hpp>
-#endif //USE_BOOST_REGULAR_EXPR
 
 using namespace Yuni;
 
@@ -110,28 +107,6 @@ namespace PictStock
 
 		}
 
-		#ifdef USE_BOOST_REGULAR_EXPR
-		/*!
-		** \brief Regular expression for date formatting
-		**
-		** Basically format is YYYY:MM:DD HH:mm:SS
-		*/
-		static const boost::regex RegexDateFormatting(
-			"\\A(\\d{4})" // Year
-			":" // separator
-			"(\\d{2}| \\d{1}|  )" // Month
-			":" // separator
-			"(\\d{2}| \\d{1}|  )" // Day
-			" " // separator
-			"(\\d{2}| \\d{1}|  )" // Hour
-			":" // separator
-			"(\\d{2}| \\d{1}|  )" // Minute
-			":" // separator
-			"(\\d{2}| \\d{1}|  )" // Seconds
-			"\\z");
-		#endif // USE_BOOST_REGULAR_EXPR
-
-
 	} // anonymous namespace
 
 	const Photographer::List ExtendedPhoto::pPhotographers = initPhotographers();
@@ -215,28 +190,9 @@ namespace PictStock
 				return false;
 		}
 
-		#ifdef USE_BOOST_REGULAR_EXPR
-		boost::cmatch match;
-		if (regex_match(dateRead.c_str(), match, RegexDateFormatting))
-		{
-			assert(match.size() == 7u && "First one is complete expression, others the sub-expressions");
-			pStringDate = DateString(match[1].str());
-			pStringDate << match[2].str() << match[3].str();
-			pStringTime = HourString(match[4].str());
-			pStringTime << match[5].str();
-			return true;
-		}
-		else
-		{
-			logs.error("Unable to interpret date for file ") << pOriginalPath;
-			return false;
-		}
-		#else
-		YUNI_STATIC_ASSERT(false, TheImplementationIsMissing);
-		#endif  // USE_BOOST_REGULAR_EXPR
-
-		return true;
+		return Private::dateFromExif(logs, pDate, dateRead);
 	}
+
 
 	bool ExtendedPhoto::findExifKey(const std::string& key, String& value) const
 	{
@@ -318,18 +274,24 @@ namespace PictStock
 
 	}
 
+
 	void ExtendedPhoto::newNameWithoutExtension(YString& name) const
 	{
 		name.clear() << "Photo";
 
-		if (!pStringTime.empty()) // Empty value when the date has been manually set
-			name << '_' << pStringTime;
+		auto time = this->time();
+		assert(time.size() == 4u);
+		time.trim();
+
+		if (!time.empty())
+			name << '_' << time;
 
 		if (!(!pPhotographer))
 			name << '_' << pPhotographer->abbr();
 		//else
 		//	name << '_' << "UNK";
 	}
+
 
 	bool ExtendedPhoto::modifyDate(const DateString& newDate)
 	{

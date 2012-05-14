@@ -26,14 +26,19 @@ namespace PictStock
 
 	inline DateString ExtendedPhoto::date() const
 	{
-		assert(pStringDate.size() == 8u);
-		return pStringDate;
+		// Only during transition; this function will disappear!
+		DateString buf(pDate.year);
+		buf << pDate.month << pDate.day;
+		return buf;
 	}
 
 
 	inline HourString ExtendedPhoto::time() const
 	{
-		return pStringTime;
+		// Only during transition; this function will disappear!
+		DateString buf(pDate.hour);
+		buf << pDate.minute;
+		return buf;
 	}
 
 

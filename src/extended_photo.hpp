@@ -11,6 +11,7 @@
 # include "pict_stock.hpp"
 # include "private/tools.hpp"
 # include "photographer.hpp"
+# include "private/date.hpp"
 
 namespace PictStock
 {
@@ -141,16 +142,8 @@ namespace PictStock
 		//! Smart pointer to the photographer
 		Photographer::Ptr pPhotographer;
 
-		// TODO Introduce time stamp instead of strings (but be sure there is portability!)
-		/*!
-		** Date of the photo, in format YYYYMMDD
-		*/
-		DateString pStringDate;
-
-		/*!
-		** Time of the photo, in format hhmm
-		*/
-		HourString pStringTime;
+		//! Object which manages date data
+		Private::Date pDate;
 
 		/*! true if a problem occurred with exiv library */
 		Status pStatus;

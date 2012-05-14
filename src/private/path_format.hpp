@@ -1,10 +1,11 @@
-#ifndef FOLDER_FORMAT_HPP_
-# define FOLDER_FORMAT_HPP_
+#ifndef PATH_FORMAT_HPP_
+# define PATH_FORMAT_HPP_
 
-#include <yuni/core/string.h>
-#ifdef USE_BOOST_REGULAR_EXPR
-#include <boost/regex.hpp>
-#endif // USE_BOOST_REGULAR_EXPR
+# include <yuni/core/string.h>
+# ifdef USE_BOOST_REGULAR_EXPR
+#  include <boost/regex.hpp>
+# endif // USE_BOOST_REGULAR_EXPR
+# include "../pict_stock.hpp"
 
 
 namespace PictStock
@@ -15,7 +16,7 @@ namespace Private
 	/*!
 	** \brief Class in charge of handling the model of output format provided in input parameters
 	*/
-	class YUNI_DECL FolderFormat
+	class YUNI_DECL PathFormat
 	{
 	public:
 
@@ -40,15 +41,25 @@ namespace Private
 		** 		An example:
 		** 			%y/M%m/J%d/Photo_%H%M_%P.jpg
 		** 			will lead to
-		** 			2009/04/02/Photo_14_05_CSG.jpg for a photo that would have been taken at that date
+		** 			2009/M04/J02/Photo_14_05_CSG.jpg for a photo that would have been taken at that date
 		** 			by photographer indexed by letter CSG (as a matter of fact this is class
 		** 			#ExtendedPhoto which will be in charge of implementing this, not current one)
+		**
+		** 		Wildcards such as * can also be used (as a matter of fact format is almost
+		** 		a regular expression; only %x terms will be replaced by some more appropriates
+		** 		to form a valid regular expression
+		**
 		 */
-		explicit FolderFormat(const YString& format);
+		explicit PathFormat(LoggingFacility& logs, const AnyString& format);
 
 		//@}
 
 
+
+	public:
+
+		//! Logs
+		mutable LoggingFacility& logs;
 
 
 	private:
@@ -65,4 +76,4 @@ namespace Private
 }// namespace Private
 }// namespace PictStock
 
-#endif /* FOLDER_FORMAT_HPP_ */
+#endif /* PATH_FORMAT_HPP_ */

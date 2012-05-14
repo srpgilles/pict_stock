@@ -24,11 +24,11 @@ namespace Private
 			":" // separator
 			"([ |0|1|2]\\d{1}|3[0|1])" // Day; no check for adequacy month day (for instance 30 Feb is allowed)
 			" " // separator
-			"([ |0|1]\\d{1}|2[0-4])" // Hour
+			"([ |0|1]\\d{1}|2[0-4]|  )" // Hour; empty is allowed
 			":" // separator
-			"([ 0-5]\\d{1})" // Minute
+			"([ 0-5]\\d{1}|  )" // Minute; empty is allowed
 			":" // separator
-			"([ 0-5]\\d{1})" // Seconds
+			"([ 0-5]\\d{1}|  )" // Seconds; empty is allowed
 			"\\z");
 		#endif // USE_BOOST_REGULAR_EXPR
 	} // anonymous namespace

@@ -2,6 +2,7 @@
 #include <boost/regex.hpp>
 #include "private/photo_directory_iterator.hpp"
 #include "private/path_format.hpp"
+#include "private/date.hpp"
 
 #ifdef USE_BOOST_REGULAR_EXPR
 namespace TestRegex
@@ -23,15 +24,25 @@ namespace TestRegex
 			"\\z"
 		);
 
-		std::list<YString> tests = {"2012:01:01 17:21:03", "2012: 01: 01 17 :21: 03", "2012:1:1 17:21:3", "2012: 1: 1 17:21: 3"};
+		std::list<YString> tests = {"2012:01:01 17:21:03",
+				"2012: 01: 01 17 :21: 03",
+				"2012:1:1 17:21:3",
+				"2012: 1: 1 17:21: 3",
+				"2010:13:01 01:01:01",
+				"2010:12:32 01:01:01",
+				"2010:12:12 25:01:01",
+				"2010:12:12 23:01:01",
+				"2010:12:12 23:61:01",
+				"2010:12:12 23:51:71",
+
+
+
+		};
 
 		for (auto it = tests.cbegin(), end = tests.cend(); it != end; ++it)
 		{
-			boost::cmatch foo;
-			logs.notice() << *it << '\t' << regex_match(it->c_str(), foo, e);
-			logs.notice() << foo.size();
-			for (auto it = foo.begin(), end = foo.end(); it != end; ++it)
-				std::cout << "\t|" << *it << "|\n";
+			::PictStock::Private::Date mydate;
+			logs.notice() << *it << '\t' << dateFromExif(logs, mydate, *it);
 		}
 	}
 };
@@ -110,7 +121,7 @@ int main(int argc, char* argv[])
 
 	LoggingFacility logs;
 
-	//TestRegex::testRegex(logs);
+	TestRegex::testRegex(logs);
 	//TestExtendedPhoto::testExtendedPhoto(logs);
 
 

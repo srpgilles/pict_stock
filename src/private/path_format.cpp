@@ -24,10 +24,6 @@ namespace Private
 
 		logs.notice("PATH = ") << path;
 		logs.notice("FILE = ") << filename;
-
-
-
-
 	}
 
 }// namespace Private

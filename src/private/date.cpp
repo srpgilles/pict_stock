@@ -11,25 +11,28 @@ namespace Private
 {
 	namespace
 	{
+		static const YString expression =
+			YString("\\A")
+			<< yearRegex
+			<< ':' // separator
+			<< monthRegex
+			<< ':' // separator
+			<< dayRegex
+			<< ' ' // separator
+			<< hourRegex
+			<< ':' // separator
+			<< minuteRegex
+			<< ':' // separator
+			<< secondRegex
+			<< "\\z";
+
 		#ifdef USE_BOOST_REGULAR_EXPR
 		/*!
 		** \brief Regular expression for date formatting
 		**
 		** Basically format is YYYY:MM:DD HH:mm:SS
 		*/
-		static const boost::regex RegexDateFormatting(
-			"\\A(\\d{4})" // Year
-			":" // separator
-			"( \\d{1}|0\\d{1}|10|11|12)" // Month
-			":" // separator
-			"([ |0|1|2]\\d{1}|3[0|1])" // Day; no check for adequacy month day (for instance 30 Feb is allowed)
-			" " // separator
-			"([ |0|1]\\d{1}|2[0-4]|  )" // Hour; empty is allowed
-			":" // separator
-			"([ 0-5]\\d{1}|  )" // Minute; empty is allowed
-			":" // separator
-			"([ 0-5]\\d{1}|  )" // Seconds; empty is allowed
-			"\\z");
+		static const boost::regex RegexDateFormatting(expression.c_str());
 		#endif // USE_BOOST_REGULAR_EXPR
 	} // anonymous namespace
 

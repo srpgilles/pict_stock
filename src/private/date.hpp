@@ -11,7 +11,7 @@ namespace Private
 namespace Date
 {
 
-	static const YString yearRegex = "( \\d{1}|0\\d{1}|10|11|12)";
+	static const YString yearRegex = "(\\d{4})";
 	static const YString monthRegex = "( \\d{1}|0\\d{1}|10|11|12)";
 	static const YString dayRegex = "([ |0|1|2]\\d{1}|3[0|1])"; // no check for adequacy month day (for instance 30 Feb is allowed)
 	static const YString hourRegex = "([ |0|1]\\d{1}|2[0-4]|  )"; // empty allowed

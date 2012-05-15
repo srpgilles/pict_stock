@@ -28,8 +28,8 @@ namespace TestRegex
 
 		for (auto it = tests.cbegin(), end = tests.cend(); it != end; ++it)
 		{
-			::PictStock::Private::Date mydate;
-			logs.notice() << *it << '\t' << dateFromExif(logs, mydate, *it);
+			::PictStock::Private::Date::Date mydate;
+			logs.notice() << *it << '\t' << fromExif(logs, mydate, *it);
 		}
 	}
 };
@@ -94,7 +94,15 @@ namespace TestExtendedPhoto
 
 namespace TestPathFormat
 {
+	void test(LoggingFacility& logs)
+	{
+		::PictStock::Private::PathFormat(logs, "%y/ThePhotographerIs%P/M%m/J%d/Photo_%H%M_%P.jpg");
 
+
+
+
+
+	}
 
 
 
@@ -108,10 +116,10 @@ int main(int argc, char* argv[])
 
 	LoggingFacility logs;
 
-	TestRegex::testRegex(logs);
+	//TestRegex::testRegex(logs);
 	//TestExtendedPhoto::testExtendedPhoto(logs);
 
-
+	TestPathFormat::test(logs);
 
 	return 0;
 }

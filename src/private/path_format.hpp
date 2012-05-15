@@ -49,6 +49,11 @@ namespace Private
 		** 		a regular expression; only %x terms will be replaced by some more appropriates
 		** 		to form a valid regular expression
 		**
+		** 		Please notice that I'd rather use Yuni::String substitution instead of regex one
+		** 		as I am under the impress regex one would imply lots of unnecessary copy assignations
+		** 		(lots of temporary strings would be defined). I guess it's useful in some cases,
+		** 		but it seems rather overkill for my own purposes
+		**
 		 */
 		explicit PathFormat(LoggingFacility& logs, const AnyString& format);
 

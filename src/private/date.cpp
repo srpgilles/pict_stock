@@ -9,6 +9,8 @@ namespace PictStock
 {
 namespace Private
 {
+namespace Date
+{
 	namespace
 	{
 		static const YString expression =
@@ -38,7 +40,7 @@ namespace Private
 
 
 
-	bool dateFromExif(LoggingFacility& logs, Date& out, const YString& dateRead)
+	bool fromExif(LoggingFacility& logs, Date& out, const YString& dateRead)
 	{
 		#ifdef USE_BOOST_REGULAR_EXPR
 		boost::cmatch match;
@@ -64,7 +66,7 @@ namespace Private
 		#endif  // USE_BOOST_REGULAR_EXPR
 	}
 
-
+} // namespace Date
 } // namespace Private
 } // namespace PictStock
 

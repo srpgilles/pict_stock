@@ -60,6 +60,8 @@ namespace Private
 		//@}
 
 
+		bool isOk(const AnyString& path) const;
+
 
 	public:
 

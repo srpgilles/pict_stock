@@ -33,11 +33,13 @@ namespace Private
 		path.replace("%H", Date::hourRegex);
 		path.replace("%M", Date::minuteRegex);
 		path.replace("%S", Date::secondRegex);
-		//path.replace("%P",
+		path.replace("%P", YString(".*"));
 
 		pRegExFolder = boost::regex(path.c_str());
 
 		logs.notice(path);
+
+
 
 
 
@@ -52,6 +54,13 @@ namespace Private
 //			** 			%P for the photographer
 
 	}
+
+
+	bool PathFormat::isOk(const AnyString& path) const
+	{
+		return (regex_search(path.c_str(), pRegExFolder));
+	}
+
 
 }// namespace Private
 }// namespace PictStock

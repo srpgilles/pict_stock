@@ -96,9 +96,13 @@ namespace TestPathFormat
 {
 	void test(LoggingFacility& logs)
 	{
-		::PictStock::Private::PathFormat(logs, "%y/ThePhotographerIs%P/M%m/J%d/Photo_%H%M_%P.jpg");
+		::PictStock::Private::PathFormat foo(logs, "%y/ThePhotographerIs%P/M%m/J%d/Photo_%H%M_%P.jpg");
 
+		YString bar1("2012/ThePhotographerIsMe/M03/J08");
+		logs.notice("1 -> ") << foo.isOk(bar1);
 
+		YString bar2("2012/ThePhotographerIsKJLDJKLD0987/M03/J08");
+		logs.notice("2 -> ") << foo.isOk(bar2);
 
 
 

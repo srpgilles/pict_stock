@@ -27,7 +27,7 @@ namespace Traits
 	struct Year
 	{
 		static const SymbolString Symbol() { return "%y"; }
-		static const RegexString Regex() { return "\\d{4}"; }
+		static const RegexString Regex() { return "(\\d{4})"; }
 		enum { index = feYear };
 	};
 

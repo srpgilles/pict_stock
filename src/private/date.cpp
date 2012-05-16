@@ -4,28 +4,27 @@
 
 #include "../pict_stock.hpp"
 #include "date.hpp"
+#include "traits/traits.hpp"
 
 namespace PictStock
 {
 namespace Private
 {
-namespace Date
-{
 	namespace
 	{
 		static const YString expression =
 			YString("\\A")
-			<< yearRegex
+			<< Traits::Year::Regex()
 			<< ':' // separator
-			<< monthRegex
+			<< Traits::Month::Regex()
 			<< ':' // separator
-			<< dayRegex
+			<< Traits::Day::Regex()
 			<< ' ' // separator
-			<< hourRegex
+			<< Traits::Hour::Regex()
 			<< ':' // separator
-			<< minuteRegex
+			<< Traits::Minute::Regex()
 			<< ':' // separator
-			<< secondRegex
+			<< Traits::Second::Regex()
 			<< "\\z";
 
 		#ifdef USE_BOOST_REGULAR_EXPR
@@ -40,7 +39,7 @@ namespace Date
 
 
 
-	bool fromExif(LoggingFacility& logs, Date& out, const YString& dateRead)
+	bool dateFromExif(LoggingFacility& logs, Date& out, const YString& dateRead)
 	{
 		#ifdef USE_BOOST_REGULAR_EXPR
 		boost::cmatch match;
@@ -66,7 +65,6 @@ namespace Date
 		#endif  // USE_BOOST_REGULAR_EXPR
 	}
 
-} // namespace Date
 } // namespace Private
 } // namespace PictStock
 

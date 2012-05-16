@@ -28,8 +28,8 @@ namespace TestRegex
 
 		for (auto it = tests.cbegin(), end = tests.cend(); it != end; ++it)
 		{
-			::PictStock::Private::Date::Date mydate;
-			logs.notice() << *it << '\t' << fromExif(logs, mydate, *it);
+			::PictStock::Private::Date mydate;
+			logs.notice() << *it << "|" << dateFromExif(logs, mydate, *it);
 		}
 	}
 };
@@ -96,13 +96,24 @@ namespace TestPathFormat
 {
 	void test(LoggingFacility& logs)
 	{
-		::PictStock::Private::PathFormat foo(logs, "%y/ThePhotographerIs%P/M%m/J%d/Photo_%H%M_%P.jpg");
+		::PictStock::Private::PathFormat foo(logs, "%y/ThePhotographerIs%PM%m/J%d/Photo_%H%M_%P.jpg");
 
 		YString bar1("2012/ThePhotographerIsMe/M03/J08");
-		logs.notice("1 -> ") << foo.isOk(bar1);
 
-		YString bar2("2012/ThePhotographerIsKJLDJKLD0987/M03/J08");
-		logs.notice("2 -> ") << foo.isOk(bar2);
+		boost::cmatch m1,m2;
+		logs.notice("1 -> ") << foo.isOk(bar1, m1);
+
+		YString bar2("2012/ThePhotographerIsMe/AdditionalIrrelevantTextM03/J08");
+		logs.notice("2 -> ") << foo.isOk(bar2, m2);
+
+		logs.notice() << m1.size() << "|" << m2.size();
+
+		logs.notice() << m1[0].str() << "|" << m2[0].str();
+		logs.notice() << m1[1].str() << "|" << m2[1].str();
+		logs.notice() << m1[2].str() << "|" << m2[2].str();
+		logs.notice() << m1[3].str() << "|" << m2[3].str();
+
+		logs.notice() << (m1 == m2);
 
 
 

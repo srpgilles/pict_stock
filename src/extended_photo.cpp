@@ -190,7 +190,7 @@ namespace PictStock
 				return false;
 		}
 
-		return Private::Date::fromExif(logs, pDate, dateRead);
+		return Private::dateFromExif(logs, pDate, dateRead);
 	}
 
 

@@ -1,17 +1,20 @@
 #ifndef PATH_FORMAT_HPP_
 # define PATH_FORMAT_HPP_
 
+# include <bitset>
 # include <yuni/core/string.h>
 # ifdef USE_BOOST_REGULAR_EXPR
 #  include <boost/regex.hpp>
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../pict_stock.hpp"
-
+# include "date.hpp"
+# include "traits/traits.hpp"
 
 namespace PictStock
 {
 namespace Private
 {
+
 
 	/*!
 	** \brief Class in charge of handling the model of output format provided in input parameters
@@ -60,7 +63,7 @@ namespace Private
 		//@}
 
 
-		bool isOk(const AnyString& path) const;
+		bool isOk(const AnyString& path, boost::cmatch& m) const;
 
 
 	public:
@@ -71,13 +74,36 @@ namespace Private
 
 	private:
 
+		/*!
+		** \brief Determine whether the symbol belonging to TraitsT is in the folder string,
+		** and if so replace it to form the regex
+		*/
+		template<class TraitsT>
+		void setRegExFolderHelper(YString& path);
+
+		/*!
+		** \brief Set #pDoFolderContains and #pRegExFolder
+		**
+		*/
+		void setRegExFolder(const YString& path);
+
+	private:
+
 		#ifdef USE_BOOST_REGULAR_EXPR
 		//! Regex formed from the input format; filename itself is not considered here
 		boost::regex pRegExFolder;
 		#endif // USE_BOOST_REGULAR_EXPR
 
+		/*!
+		** \brief Bitset which specifies which kind of informations the folder part is expected
+		** to contain
+		**
+		** Index is given by traits classes
+		*/
+		std::bitset<Traits::feSize> pDoFolderContains;
 
-
+		//! Expected filename format
+		YString pFilenameFormat;
 	};
 
 }// namespace Private

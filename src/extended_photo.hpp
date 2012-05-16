@@ -143,7 +143,7 @@ namespace PictStock
 		Photographer::Ptr pPhotographer;
 
 		//! Object which manages date data
-		Private::Date::Date pDate;
+		Private::Date pDate;
 
 		/*! true if a problem occurred with exiv library */
 		Status pStatus;

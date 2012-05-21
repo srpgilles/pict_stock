@@ -11,11 +11,28 @@ namespace PictStock
 namespace Private
 {
 
+	PathFormatException::PathFormatException(const AnyString& msg)
+		: pMessage(msg)
+	{ }
+
+
+	PathFormatException::~PathFormatException() throw()
+	{ }
+
+
+	const char* PathFormatException::what() const throw()
+	{
+		return pMessage.c_str();
+	}
+
 
 	PathFormat::PathFormat(LoggingFacility& logs, const AnyString& format)
 		: logs(logs)
 	{
 		String path, filename;
+
+		if (format.contains('('))
+			throw PathFormatException("Format shouldn't include any parenthesis");
 
 		{
 			// Split the path and the filename
@@ -30,12 +47,7 @@ namespace Private
 		if (path.notEmpty())
 		{
 			// Create the regular expression used to match the folders
-			// TODO: put that in private method or function
-
 			setRegExFolder(path);
-
-
-
 		}
 
 		{
@@ -47,7 +59,7 @@ namespace Private
 	}
 
 	template<class TraitsT>
-	void PathFormat::setRegExFolderHelper(YString& path)
+	void PathFormat::setRegExFolderHelper(String& path)
 	{
 		if (path.contains(TraitsT::Symbol()))
 		{
@@ -56,10 +68,10 @@ namespace Private
 		}
 	}
 
-	void PathFormat::setRegExFolder(const YString& path)
+	void PathFormat::setRegExFolder(const String& path)
 	{
 		assert(path.notEmpty());
-		YString helper(path);
+		String helper(path);
 		setRegExFolderHelper<Traits::Year>(helper);
 		setRegExFolderHelper<Traits::Month>(helper);
 		setRegExFolderHelper<Traits::Day>(helper);

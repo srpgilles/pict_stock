@@ -70,7 +70,7 @@ namespace Traits
 	struct Photographer
 	{
 		static const SymbolString Symbol() { return "%P"; }
-		static const RegexString Regex() { return ".*"; }
+		static const RegexString Regex() { return "(.*)"; }
 		enum { index = fePhotographer };
 	};
 

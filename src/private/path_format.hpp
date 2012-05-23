@@ -103,14 +103,7 @@ namespace Private
 	private:
 
 		/*!
-		** \brief Determine whether the symbol belonging to TraitsT is in the folder string,
-		** and if so replace it to form the regex
-		*/
-		template<class TraitsT>
-		void setRegExFolderHelper(YString& path);
-
-		/*!
-		** \brief Set #pDoFolderContains and #pRegExFolder
+		** \brief Set #pSymbolOrdering and #pRegExFolder
 		**
 		*/
 		void setRegExFolder(const YString& path);
@@ -134,6 +127,7 @@ namespace Private
 		Element::Vector pSymbolOrdering;
 
 
+		//! List of all elements that might be used in regex expression (day, month, photographer, etc...)
 		static const Element::Vector pElements;
 
 

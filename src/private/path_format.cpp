@@ -70,21 +70,9 @@ namespace Private
 
 	}
 
-	template<class TraitsT>
-	void PathFormat::setRegExFolderHelper(String& path)
-	{
-		//auto pos = path.indexOf(0, TraitsT::Symbol());
-
-//		if (pos != String::npos)
-//			buf[pos] = i;
-
-	}
-
 	void PathFormat::setRegExFolder(const String& path)
 	{
 		assert(path.notEmpty());
-		String helper(path);
-
 
 		{
 			// First determine the ordering of the symbols found in user-defined expression
@@ -93,14 +81,14 @@ namespace Private
 
 			for (size_t i = 0u, size = pElements.size(); i < size; ++i)
 			{
-				auto element = pElements[i];
-				assert(!(!element));
-				auto pos = path.indexOf(0, element->symbol());
+				auto elementPtr = pElements[i];
+				assert(!(!elementPtr));
+				auto pos = path.indexOf(0, elementPtr->symbol());
 
 				if (pos != String::npos)
 				{
 					logs.notice() << pos;
-					positions[pos] = element;
+					positions[pos] = elementPtr;
 				}
 			}
 
@@ -115,17 +103,37 @@ namespace Private
 			}
 		}
 
-		logs.notice("HERE");
-		for (size_t i = 1u, size = pSymbolOrdering.size(); i < size; ++i)
 		{
-			auto foo = pSymbolOrdering[i];
-			assert(!(!foo));
-			logs.warning() << foo->symbol();
+			// Determine regex expression by replacing symbols by adequate expression
+			// If one is present more than once, only the first one is enclosed within parenthesis
+			// (due to the way regex_results works)
+
+			String helper(path);
+
+			for (size_t i = 1u, size = pSymbolOrdering.size(); i < size; ++i)
+			{
+				// We must use a trick as some useful string methods don't exist
+				// (count the number of occurrence of a given substring, or replace only
+				// first occurrence)
+				auto elementPtr = pSymbolOrdering[i];
+				assert(!(!elementPtr));
+				auto& element = *elementPtr;
+				auto symbol = element.symbol();
+				auto regex = element.regex();
+				unsigned int pos = helper.find(symbol);
+				assert(pos != String::npos && "If equal, something went wrong above");
+
+				// First replace second and more occurrences
+				helper.replace(pos + 1u, symbol, regex);
+
+				// Now replace the first expression
+				String buf('(');
+				buf << regex << ')';
+				helper.replace(symbol, buf);
+			}
+
+			pRegExFolder = boost::regex(helper.c_str());
 		}
-		logs.notice("THERE");
-
-
-		pRegExFolder = boost::regex(helper.c_str());
 	}
 
 

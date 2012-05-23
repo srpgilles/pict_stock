@@ -1,21 +1,20 @@
 #ifndef PATH_FORMAT_HPP_
 # define PATH_FORMAT_HPP_
 
-# include <bitset>
 # include <yuni/core/string.h>
 # ifdef USE_BOOST_REGULAR_EXPR
 #  include <boost/regex.hpp>
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../pict_stock.hpp"
 # include "date.hpp"
-# include "traits/traits.hpp"
+# include "element.hpp"
 
 namespace PictStock
 {
 namespace Private
 {
 
-	class PathFormatException : public std::exception
+	class YUNI_DECL PathFormatException : public std::exception
 	{
 	public:
 
@@ -40,6 +39,10 @@ namespace Private
 		//! Text describing the exception
 		YString pMessage;
 	};
+
+
+
+
 
 	/*!
 	** \brief Class in charge of handling the model of output format provided in input parameters
@@ -120,12 +123,19 @@ namespace Private
 		#endif // USE_BOOST_REGULAR_EXPR
 
 		/*!
-		** \brief Bitset which specifies which kind of informations the folder part is expected
-		** to contain
+		** \brief Vector in which are stored the elements found in uqser-defined
+		** expression in the correct order
 		**
-		** Index is given by traits classes
+		** First entry is deliberately left with nullptr: in regex match the first entry
+		** is always the entire expression, and I'd rather avoid using +1 everywhere
+		** to match indexing of vector and indexing of match_result
+		**
 		*/
-		std::bitset<Traits::feSize> pDoFolderContains;
+		Element::Vector pSymbolOrdering;
+
+
+		static const Element::Vector pElements;
+
 
 		//! Expected filename format
 		YString pFilenameFormat;

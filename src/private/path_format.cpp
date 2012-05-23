@@ -1,7 +1,6 @@
 
 #include "path_format.hpp"
 #include <yuni/io/file.h>
-#include "traits/traits.hpp"
 
 
 using namespace Yuni;
@@ -10,6 +9,19 @@ namespace PictStock
 {
 namespace Private
 {
+	const Element::Vector PathFormat::pElements =
+		{
+			new Element("%y", "\\d{4}"), // year
+			new Element("%m", " \\d{1}|0\\d{1}|10|11|12"), // month
+			new Element("%d", "[ |0|1|2]\\d{1}|3[0|1]"), // day
+			new Element("%H", "[ |0|1]\\d{1}|2[0-4]|  "), // hour
+			new Element("%M", "[ 0-5]\\d{1}|  "), // minute
+			new Element("%S", "[ 0-5]\\d{1}|  "), // second
+			new Element("%P", ".*") // photographer
+		};
+
+
+
 
 	PathFormatException::PathFormatException(const AnyString& msg)
 		: pMessage(msg)
@@ -61,24 +73,57 @@ namespace Private
 	template<class TraitsT>
 	void PathFormat::setRegExFolderHelper(String& path)
 	{
-		if (path.contains(TraitsT::Symbol()))
-		{
-			path.replace(TraitsT::Symbol(), TraitsT::Regex());
-			pDoFolderContains[TraitsT::index] = true;
-		}
+		//auto pos = path.indexOf(0, TraitsT::Symbol());
+
+//		if (pos != String::npos)
+//			buf[pos] = i;
+
 	}
 
 	void PathFormat::setRegExFolder(const String& path)
 	{
 		assert(path.notEmpty());
 		String helper(path);
-		setRegExFolderHelper<Traits::Year>(helper);
-		setRegExFolderHelper<Traits::Month>(helper);
-		setRegExFolderHelper<Traits::Day>(helper);
-		setRegExFolderHelper<Traits::Hour>(helper);
-		setRegExFolderHelper<Traits::Minute>(helper);
-		setRegExFolderHelper<Traits::Second>(helper);
-		setRegExFolderHelper<Traits::Photographer>(helper);
+
+
+		{
+			// First determine the ordering of the symbols found in user-defined expression
+			typedef std::map<unsigned int, Element::Ptr> Position_Symbol;
+			Position_Symbol positions;
+
+			for (size_t i = 0u, size = pElements.size(); i < size; ++i)
+			{
+				auto element = pElements[i];
+				assert(!(!element));
+				auto pos = path.indexOf(0, element->symbol());
+
+				if (pos != String::npos)
+				{
+					logs.notice() << pos;
+					positions[pos] = element;
+				}
+			}
+
+			assert(pSymbolOrdering.empty() && "Method should only be called once in construction");
+			pSymbolOrdering.reserve(positions.size() + 1u); // +1u as first is deliberately left empty
+			pSymbolOrdering.push_back(nullptr);
+
+			for (auto it = positions.cbegin(), end = positions.cend(); it != end; ++it)
+			{
+				assert(!(!(it->second)));
+				pSymbolOrdering.push_back(it->second);
+			}
+		}
+
+		logs.notice("HERE");
+		for (size_t i = 1u, size = pSymbolOrdering.size(); i < size; ++i)
+		{
+			auto foo = pSymbolOrdering[i];
+			assert(!(!foo));
+			logs.warning() << foo->symbol();
+		}
+		logs.notice("THERE");
+
 
 		pRegExFolder = boost::regex(helper.c_str());
 	}

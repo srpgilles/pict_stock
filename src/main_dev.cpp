@@ -98,7 +98,7 @@ namespace TestPathFormat
 	{
 		try
 		{
-			::PictStock::Private::PathFormat foo(logs, "%y/ThePhot(ographerIs%P/M%m/J%d/Photo_%H%M_%P.jpg");
+			::PictStock::Private::PathFormat foo(logs, "%y/ThePhotographerIs%P/M%m/J%d/Photo_%H%M_%P.jpg");
 
 			YString bar1("2012/ThePhotographerIsMe/M03/J08");
 

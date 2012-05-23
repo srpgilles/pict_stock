@@ -24,7 +24,8 @@ add_library(pict_stock STATIC
 	private/path_format.hpp
 	private/date.cpp
 	private/date.hpp
-	private/traits/traits.hpp
+	private/element.cpp
+	private/element.hpp
 )
 
 

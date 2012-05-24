@@ -94,6 +94,7 @@ namespace Private
 					positions[pos] = elementPtr;
 					pDoFolderContains[element.nature] = true;
 				}
+				// no else: by default a bitset is filled with false everywhere
 			}
 
 			assert(pSymbolOrdering.empty() && "Method should only be called once in construction");

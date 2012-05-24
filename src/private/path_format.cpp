@@ -9,15 +9,17 @@ namespace PictStock
 {
 namespace Private
 {
+
+
 	const Element::Vector PathFormat::pElements =
 		{
-			new Element("%y", "\\d{4}"), // year
-			new Element("%m", " \\d{1}|0\\d{1}|10|11|12"), // month
-			new Element("%d", "[ |0|1|2]\\d{1}|3[0|1]"), // day
-			new Element("%H", "[ |0|1]\\d{1}|2[0-4]|  "), // hour
-			new Element("%M", "[ 0-5]\\d{1}|  "), // minute
-			new Element("%S", "[ 0-5]\\d{1}|  "), // second
-			new Element("%P", ".*") // photographer
+			new Element(Elements::year, "%y", "\\d{4}"), // year
+			new Element(Elements::month, "%m", " \\d{1}|0\\d{1}|10|11|12"), // month
+			new Element(Elements::day, "%d", "[ |0|1|2]\\d{1}|3[0|1]"), // day
+			new Element(Elements::hour, "%H", "[ |0|1]\\d{1}|2[0-4]|  "), // hour
+			new Element(Elements::minute, "%M", "[ 0-5]\\d{1}|  "), // minute
+			new Element(Elements::second, "%S", "[ 0-5]\\d{1}|  "), // second
+			new Element(Elements::photographer, "%P", ".*") // photographer
 		};
 
 

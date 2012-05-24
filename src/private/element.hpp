@@ -9,6 +9,21 @@ namespace Private
 {
 
 
+	namespace Elements
+	{
+		enum Nature
+		{
+			year = 0,
+			month,
+			day,
+			hour,
+			minute,
+			second,
+			photographer
+		};
+	}
+
+
 	class YUNI_DECL Element
 	{
 	public:
@@ -23,7 +38,7 @@ namespace Private
 		typedef std::vector<Ptr> Vector;
 
 		//! Constructor
-		Element(const SymbolString& symbol, const RegexString& regex);
+		Element(const Elements::Nature nature, const SymbolString& symbol, const RegexString& regex);
 
 		//! Regex
 		RegexString regex() const;
@@ -39,6 +54,9 @@ namespace Private
 
 		//! Regex expression to put when looking for the element in an existing path
 		RegexString pRegex;
+
+		//! Enum used as an id for the type of element considered
+		const Elements::Nature pNature;
 	};
 
 

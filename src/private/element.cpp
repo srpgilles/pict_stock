@@ -6,9 +6,10 @@ namespace PictStock
 namespace Private
 {
 
-	Element::Element(const SymbolString& symbol, const RegexString& regex)
+	Element::Element(const Elements::Nature nature, const SymbolString& symbol, const RegexString& regex)
 		: pSymbol(symbol),
-		  pRegex(regex)
+		  pRegex(regex),
+		  pNature(nature)
 	{ }
 
 

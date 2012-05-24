@@ -3,6 +3,8 @@
 
 namespace PictStock
 {
+namespace Private
+{
 
 	inline YString Photographer::name() const
 	{
@@ -22,6 +24,7 @@ namespace PictStock
 	}
 
 
+} // namespace Private
 } // namespace PictStock
 
 #endif /* PHOTOGRAPHER_HXX_ */

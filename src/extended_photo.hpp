@@ -1,8 +1,6 @@
 #ifndef EXTENDED_PHOTO_HPP_
 # define EXTENDED_PHOTO_HPP_
 
-# include <iostream>
-
 # include <exiv2/src/image.hpp>
 # include <exiv2/src/exif.hpp>
 # include <yuni/core/string.h>
@@ -10,7 +8,7 @@
 
 # include "pict_stock.hpp"
 # include "private/tools.hpp"
-# include "photographer.hpp"
+# include "private/photographer.hpp"
 # include "private/date.hpp"
 
 namespace PictStock
@@ -140,7 +138,7 @@ namespace PictStock
 		Exiv2::Image::AutoPtr pImage;
 
 		//! Smart pointer to the photographer
-		Photographer::Ptr pPhotographer;
+		Private::Photographer::Ptr pPhotographer;
 
 		//! Object which manages date data
 		Private::Date pDate;
@@ -158,7 +156,7 @@ namespace PictStock
 		** abbreviation of the photographer
 		**
 		*/
-		static const Photographer::List pPhotographers;
+		static const Private::Photographer::List pPhotographers;
 
 
 	};

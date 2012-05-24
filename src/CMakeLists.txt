@@ -8,9 +8,9 @@ add_library(pict_stock STATIC
 	extended_photo.hxx
 	sort_new_photos.cpp
 	sort_new_photos.hpp
-	photographer.cpp
-	photographer.hpp
-	photographer.hxx
+	private/photographer.cpp
+	private/photographer.hpp
+	private/photographer.hxx
 	private/photo_directory_iterator.cpp
 	private/photo_directory_iterator.hpp
 	private/sort_new_photos_iterator.cpp

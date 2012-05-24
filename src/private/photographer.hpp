@@ -6,9 +6,11 @@
 # include <list>
 # include <map>
 
-# include "pict_stock.hpp"
+# include "../pict_stock.hpp"
 
 namespace PictStock
+{
+namespace Private
 {
 
 	class YUNI_DECL Photographer
@@ -69,7 +71,7 @@ namespace PictStock
 		ExifDataType pCameras;
 	};
 
-
+} // namespace Private
 } // namespace PictStock
 
 #include "photographer.hxx"

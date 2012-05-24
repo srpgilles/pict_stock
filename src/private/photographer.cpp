@@ -2,6 +2,9 @@
 
 namespace PictStock
 {
+namespace Private
+{
+
 	Photographer::Photographer(const YString& name,
 		const YString& abbrev,
 		const ExifDataType& cameras)
@@ -10,4 +13,5 @@ namespace PictStock
 		  pCameras(cameras)
 	{ }
 
+} // namespace Private
 } // namespace PictStock

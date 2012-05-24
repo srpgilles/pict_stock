@@ -7,9 +7,9 @@ namespace Private
 {
 
 	Element::Element(const Elements::Nature nature, const SymbolString& symbol, const RegexString& regex)
-		: pSymbol(symbol),
-		  pRegex(regex),
-		  pNature(nature)
+		: nature(nature),
+		  pSymbol(symbol),
+		  pRegex(regex)
 	{ }
 
 

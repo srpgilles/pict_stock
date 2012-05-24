@@ -75,6 +75,7 @@ namespace Private
 	void PathFormat::setRegExFolder(const String& path)
 	{
 		assert(path.notEmpty());
+		assert(pDoFolderContains.size() == pElements.size());
 
 		{
 			// First determine the ordering of the symbols found in user-defined expression
@@ -85,12 +86,13 @@ namespace Private
 			{
 				auto elementPtr = pElements[i];
 				assert(!(!elementPtr));
-				auto pos = path.indexOf(0, elementPtr->symbol());
+				auto& element = *elementPtr;
+				auto pos = path.indexOf(0, element.symbol());
 
 				if (pos != String::npos)
 				{
-					logs.notice() << pos;
 					positions[pos] = elementPtr;
+					pDoFolderContains[element.nature] = true;
 				}
 			}
 

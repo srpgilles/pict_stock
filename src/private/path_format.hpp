@@ -1,6 +1,7 @@
 #ifndef PATH_FORMAT_HPP_
 # define PATH_FORMAT_HPP_
 
+# include <bitset>
 # include <yuni/core/string.h>
 # ifdef USE_BOOST_REGULAR_EXPR
 #  include <boost/regex.hpp>
@@ -125,6 +126,9 @@ namespace Private
 		**
 		*/
 		Element::Vector pSymbolOrdering;
+
+		//! Bitset to know whether a given elemen,t is in the folder path
+		std::bitset<Elements::size> pDoFolderContains;
 
 
 		//! List of all elements that might be used in regex expression (day, month, photographer, etc...)

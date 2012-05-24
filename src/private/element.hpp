@@ -19,7 +19,8 @@ namespace Private
 			hour,
 			minute,
 			second,
-			photographer
+			photographer,
+			size
 		};
 	}
 
@@ -46,6 +47,9 @@ namespace Private
 		//! Symbol
 		SymbolString symbol() const;
 
+		//! Enum used as an id for the type of element considered
+		const Elements::Nature nature;
+
 
 	private:
 
@@ -55,8 +59,7 @@ namespace Private
 		//! Regex expression to put when looking for the element in an existing path
 		RegexString pRegex;
 
-		//! Enum used as an id for the type of element considered
-		const Elements::Nature pNature;
+
 	};
 
 

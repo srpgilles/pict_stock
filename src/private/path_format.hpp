@@ -8,7 +8,7 @@
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../pict_stock.hpp"
 # include "date.hpp"
-# include "element.hpp"
+# include "photographer.hpp"
 
 namespace PictStock
 {
@@ -92,7 +92,33 @@ namespace Private
 		//@}
 
 
-		bool isOk(const AnyString& path, boost::cmatch& m) const;
+		/*!
+		** \brief Given a date and a photographer, determine what can be used as key when
+		** considering pre-existing pictures in target folder
+		*/
+		void determineKey(Yuni::CString<30, false>& out,
+			const Date& date, const Photographer& photographer) const;
+
+
+		/*!
+		** \brief Check whether a path complies with the user-defined path format
+		**
+		** \param[in] path Path being checked
+		** \param[out] out Match result object, which allows to extract relevant informations
+		** from the regex. Meaning of each index may be retrieved with the help of #pSymbolOrdering:
+		** for instance index 1 match the type of Element at pSymbolOrdering[1]
+		*/
+		bool isOk(const AnyString& path, boost::cmatch& out) const;
+
+
+		/*!
+		** \brief Given a date and a photographer, generate the default output path matching it
+		**
+		** It is the minimal choice: many other expressions would also match the date and photographer
+		** but we choose the minimal one
+		*/
+		void determineMinimalPath(Yuni::CString<30, false>& out,
+			const Date& date, const Photographer& photographer) const;
 
 
 	public:
@@ -111,13 +137,19 @@ namespace Private
 
 	private:
 
+		//! User-defined path format
+		YString pPathFormat;
+
+		//! User-defined file format
+		YString pFileFormat;
+
 		#ifdef USE_BOOST_REGULAR_EXPR
 		//! Regex formed from the input format; filename itself is not considered here
 		boost::regex pRegExFolder;
 		#endif // USE_BOOST_REGULAR_EXPR
 
 		/*!
-		** \brief Vector in which are stored the elements found in uqser-defined
+		** \brief Vector in which are stored the elements found in user-defined
 		** expression in the correct order
 		**
 		** First entry is deliberately left with nullptr: in regex match the first entry
@@ -125,18 +157,15 @@ namespace Private
 		** to match indexing of vector and indexing of match_result
 		**
 		*/
-		Element::Vector pSymbolOrdering;
+		Traits::Element::Vector pSymbolOrdering;
 
 		//! Bitset to know whether a given elemen,t is in the folder path
 		std::bitset<Elements::size> pDoFolderContains;
 
 
 		//! List of all elements that might be used in regex expression (day, month, photographer, etc...)
-		static const Element::Vector pElements;
+		static const Traits::Element::Vector pElements;
 
-
-		//! Expected filename format
-		YString pFilenameFormat;
 	};
 
 }// namespace Private

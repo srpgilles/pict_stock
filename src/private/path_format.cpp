@@ -11,15 +11,15 @@ namespace Private
 {
 
 
-	const Element::Vector PathFormat::pElements =
+	const Traits::Element::Vector PathFormat::pElements =
 		{
-			new Element(Elements::year, "%y", "\\d{4}"), // year
-			new Element(Elements::month, "%m", " \\d{1}|0\\d{1}|10|11|12"), // month
-			new Element(Elements::day, "%d", "[ |0|1|2]\\d{1}|3[0|1]"), // day
-			new Element(Elements::hour, "%H", "[ |0|1]\\d{1}|2[0-4]|  "), // hour
-			new Element(Elements::minute, "%M", "[ 0-5]\\d{1}|  "), // minute
-			new Element(Elements::second, "%S", "[ 0-5]\\d{1}|  "), // second
-			new Element(Elements::photographer, "%P", ".*") // photographer
+			new Traits::Year(),
+			new Traits::Month(),
+			new Traits::Day(),
+			new Traits::Hour(),
+			new Traits::Minute(),
+			new Traits::Second(),
+			new Traits::Photographer()
 		};
 
 
@@ -43,25 +43,23 @@ namespace Private
 	PathFormat::PathFormat(LoggingFacility& logs, const AnyString& format)
 		: logs(logs)
 	{
-		String path, filename;
-
 		if (format.contains('('))
 			throw PathFormatException("Format shouldn't include any parenthesis");
 
 		{
 			// Split the path and the filename
-			IO::ExtractFilePath(path, format);
+			IO::ExtractFilePath(pPathFormat, format);
 
-			if (path.empty())
-				filename = format;
+			if (pPathFormat.empty())
+				pFileFormat = format;
 			else
-				IO::ExtractFileName(filename, format);
+				IO::ExtractFileName(pFileFormat, format);
 		}
 
-		if (path.notEmpty())
+		if (pPathFormat.notEmpty())
 		{
 			// Create the regular expression used to match the folders
-			setRegExFolder(path);
+			setRegExFolder(pPathFormat);
 		}
 
 		{
@@ -79,7 +77,7 @@ namespace Private
 
 		{
 			// First determine the ordering of the symbols found in user-defined expression
-			typedef std::map<unsigned int, Element::Ptr> Position_Symbol;
+			typedef std::map<unsigned int, Traits::Element::Ptr> Position_Symbol;
 			Position_Symbol positions;
 
 			for (size_t i = 0u, size = pElements.size(); i < size; ++i)
@@ -142,9 +140,83 @@ namespace Private
 	}
 
 
+	void PathFormat::determineKey(Yuni::CString<30, false>& out,
+		const Date& date, const Photographer& photographer) const
+	{
+		assert(out.empty());
+
+		if (pDoFolderContains.test(Elements::year))
+			out << date.year;
+
+		if (pDoFolderContains.test(Elements::month))
+			out << date.month;
+
+		if (pDoFolderContains.test(Elements::day))
+			out << date.day;
+
+		if (pDoFolderContains.test(Elements::hour))
+			out << date.hour;
+
+		if (pDoFolderContains.test(Elements::minute))
+			out << date.minute;
+
+		if (pDoFolderContains.test(Elements::second))
+			out << date.second;
+
+		if (pDoFolderContains.test(Elements::photographer))
+			out << photographer.abbr();
+	}
+
+
 	bool PathFormat::isOk(const AnyString& path, boost::cmatch& m) const
 	{
 		return (regex_search(path.c_str(), m, pRegExFolder));
+	}
+
+
+	void PathFormat::determineMinimalPath(Yuni::CString<30, false>& out,
+		const Date& date, const Photographer& photographer) const
+	{
+		assert(out.empty());
+
+		out = pPathFormat;
+
+		for (auto it = pElements.cbegin(), end = pElements.cend(); it != end; ++it)
+		{
+			Traits::Element::Ptr elementPtr = *it;
+			assert(!(!elementPtr));
+			const Traits::Element& element = *elementPtr;
+
+//			if (pDoFolderContains.test(element.nature))
+//				out.replace(element.symbol, date.year);
+
+
+
+
+
+		}
+
+
+//		if (pDoFolderContains.test(Elements::year))
+//			out.replace(
+//
+//		if (pDoFolderContains.test(Elements::month))
+//			out << date.month;
+//
+//		if (pDoFolderContains.test(Elements::day))
+//			out << date.day;
+//
+//		if (pDoFolderContains.test(Elements::hour))
+//			out << date.hour;
+//
+//		if (pDoFolderContains.test(Elements::minute))
+//			out << date.minute;
+//
+//		if (pDoFolderContains.test(Elements::second))
+//			out << date.second;
+//
+//		if (pDoFolderContains.test(Elements::photographer))
+//			out << photographer.abbr();
 	}
 
 

@@ -8,6 +8,8 @@ add_library(pict_stock STATIC
 	extended_photo.hxx
 	sort_new_photos.cpp
 	sort_new_photos.hpp
+	private/traits/traits.cpp
+	private/traits/traits.hpp
 	private/photographer.cpp
 	private/photographer.hpp
 	private/photographer.hxx
@@ -24,8 +26,8 @@ add_library(pict_stock STATIC
 	private/path_format.hpp
 	private/date.cpp
 	private/date.hpp
-	private/element.cpp
-	private/element.hpp
+	private/relevant_informations.cpp
+	private/relevant_informations.hpp
 )
 
 

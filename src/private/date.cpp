@@ -4,7 +4,6 @@
 
 #include "../pict_stock.hpp"
 #include "date.hpp"
-#include "traits/traits.hpp"
 
 namespace PictStock
 {

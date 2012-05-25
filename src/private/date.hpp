@@ -1,8 +1,9 @@
 #ifndef DATE_HPP_
 # define DATE_HPP_
 
-#include <yuni/core/string.h>
-#include "../pict_stock.hpp"
+# include <yuni/core/string.h>
+# include "../pict_stock.hpp"
+# include "traits/traits.hpp"
 
 namespace PictStock
 {
@@ -18,6 +19,9 @@ namespace Private
 	struct YUNI_DECL Date
 	{
 		typedef Yuni::CString<4, false> DateString;
+
+		//! Smart pointer most adapted for the class
+		typedef Yuni::SmartPtr<Date> Ptr;
 
 		DateString year;
 		DateString month;

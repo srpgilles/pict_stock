@@ -1,7 +1,8 @@
-#ifndef PICT_STOCK_PRIVATE_TRAITS_TRAITS_HPP
-# define PICT_STOCK_PRIVATE_TRAITS_TRAITS_HPP
+#ifndef ELEMENT_HPP
+# define ELEMENT_HPP
 
 # include <yuni/core/string.h>
+# include "traits/traits.hpp"
 
 namespace PictStock
 {
@@ -9,20 +10,6 @@ namespace Private
 {
 
 
-	namespace Elements
-	{
-		enum Nature
-		{
-			year = 0,
-			month,
-			day,
-			hour,
-			minute,
-			second,
-			photographer,
-			size
-		};
-	}
 
 
 	class YUNI_DECL Element

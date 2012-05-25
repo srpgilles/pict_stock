@@ -30,7 +30,7 @@ namespace Private
 		//@}
 
 		//! Return the proper information associated with index given
-		Yuni::CString<10, false> value(Elements::Nature natureIndex) const;
+		Yuni::CString<10, false> value(unsigned int natureIndex) const;
 
 	public:
 

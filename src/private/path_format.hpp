@@ -7,8 +7,7 @@
 #  include <boost/regex.hpp>
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../pict_stock.hpp"
-# include "date.hpp"
-# include "photographer.hpp"
+# include "relevant_informations.hpp"
 
 namespace PictStock
 {
@@ -97,7 +96,7 @@ namespace Private
 		** considering pre-existing pictures in target folder
 		*/
 		void determineKey(Yuni::CString<30, false>& out,
-			const Date& date, const Photographer& photographer) const;
+			const RelevantInformations& infos) const;
 
 
 		/*!
@@ -118,7 +117,7 @@ namespace Private
 		** but we choose the minimal one
 		*/
 		void determineMinimalPath(Yuni::CString<30, false>& out,
-			const Date& date, const Photographer& photographer) const;
+			const RelevantInformations& infos) const;
 
 
 	public:

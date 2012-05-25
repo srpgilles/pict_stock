@@ -13,7 +13,7 @@ namespace Private
 	}
 
 
-	Yuni::CString<10, false> RelevantInformations::value(Elements::Nature natureIndex) const
+	Yuni::CString<10, false> RelevantInformations::value(unsigned int natureIndex) const
 	{
 		assert(!(!pDatePtr));
 		const Date& date = *pDatePtr;
@@ -33,16 +33,18 @@ namespace Private
 		case Elements::second:
 			return date.second;
 		case Elements::photographer:
-		{
-			assert(!(!pPhotographerPtr));
-			return pPhotographerPtr->abbr();
-		}
+			{
+				assert(!(!pPhotographerPtr));
+				return pPhotographerPtr->abbr();
+			}
 		case Elements::size:
 			assert(false && "Should never be invoked");
 			logs.fatal("RelevantInformations::value() should never be invoked with very last index");
 			exit(EXIT_FAILURE);
 			break;
-		}
+		}// switch
+
+		return ""; // to avoid compilation warning
 	}
 
 

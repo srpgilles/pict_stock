@@ -141,30 +141,15 @@ namespace Private
 
 
 	void PathFormat::determineKey(Yuni::CString<30, false>& out,
-		const Date& date, const Photographer& photographer) const
+		const RelevantInformations& infos) const
 	{
 		assert(out.empty());
 
-		if (pDoFolderContains.test(Elements::year))
-			out << date.year;
-
-		if (pDoFolderContains.test(Elements::month))
-			out << date.month;
-
-		if (pDoFolderContains.test(Elements::day))
-			out << date.day;
-
-		if (pDoFolderContains.test(Elements::hour))
-			out << date.hour;
-
-		if (pDoFolderContains.test(Elements::minute))
-			out << date.minute;
-
-		if (pDoFolderContains.test(Elements::second))
-			out << date.second;
-
-		if (pDoFolderContains.test(Elements::photographer))
-			out << photographer.abbr();
+		for (unsigned int i = 0u; i < Elements::size; ++i)
+		{
+			if (pDoFolderContains.test(i))
+				out << infos.value(i);
+		}
 	}
 
 
@@ -175,7 +160,7 @@ namespace Private
 
 
 	void PathFormat::determineMinimalPath(Yuni::CString<30, false>& out,
-		const Date& date, const Photographer& photographer) const
+		const RelevantInformations& infos) const
 	{
 		assert(out.empty());
 
@@ -187,13 +172,8 @@ namespace Private
 			assert(!(!elementPtr));
 			const Traits::Element& element = *elementPtr;
 
-//			if (pDoFolderContains.test(element.nature))
-//				out.replace(element.symbol, date.year);
-
-
-
-
-
+			if (pDoFolderContains.test(element.nature))
+				out.replace(element.symbol(), infos.value(element.nature));
 		}
 
 

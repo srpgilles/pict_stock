@@ -16,6 +16,9 @@ namespace Private
 	{
 	public:
 
+		//! Smart pointer most adapted for the class
+		typedef Yuni::SmartPtr<RelevantInformations> Ptr;
+
 		//! Constructor & destructor
 		//@{
 

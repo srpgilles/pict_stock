@@ -51,7 +51,7 @@ namespace PictStock
 		** 		to form a valid regular expression
 		 *
 		 */
-		explicit PhotoDirectory(LoggingFacility& logs, Yuni::String pFolder, const YString& pathFormat);
+		explicit PhotoDirectory(LoggingFacility& logs, const Yuni::String& pFolder, const YString& pathFormat);
 
 		//! Destructor
 		~PhotoDirectory();
@@ -73,14 +73,14 @@ namespace PictStock
 		void print(std::ostream& out) const;
 
 		/*!
-		 * \briefCreate the basic folder matching a peculiar date
+		 * \brief Create the minimal basic folder matching a peculiar set of informations
+		 * (date, photographer) and store it in the class data
 		 *
-		 *  \param[in] date Date for which the folde ris to be created
 		 *  \param[out] folder Name of the folder created
 		 *
 		 *  \return True If creation went right
 		 */
-		bool createDateFolder(const DateString& date, YString& folder);
+		bool createDateFolder(YString& folder, const ExtendedPhoto& photo);
 
 
 	public:

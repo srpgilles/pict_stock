@@ -65,6 +65,11 @@ namespace PictStock
 		bool printExifData(std::ostream& out) const;
 
 		/*!
+		** \brief Get relevant informations for processing the photo
+		*/
+		Private::RelevantInformations::Ptr informations() const;
+
+		/*!
 		 * Operator==
 		 *
 		 * TODO Find a better way to proceed: it is most inefficient due to the lack of
@@ -121,7 +126,7 @@ namespace PictStock
 		Exiv2::Image::AutoPtr pImage;
 
 		//! Object which manages date data
-		Private::RelevantInformations pRelevantInformations;
+		Private::RelevantInformations::Ptr pRelevantInformations;
 
 		/*! true if a problem occurred with exiv library */
 		Status pStatus;

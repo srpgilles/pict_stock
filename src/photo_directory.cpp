@@ -6,7 +6,7 @@ namespace PictStock
 {
 
 
-	PhotoDirectory::PhotoDirectory(LoggingFacility& logs, Yuni::String folder, const YString& pathFormat)
+	PhotoDirectory::PhotoDirectory(LoggingFacility& logs, const Yuni::String& folder, const YString& pathFormat)
 		: logs(logs),
 		  pMainFolder(folder),
 		  pPathFormat(new Private::PathFormat(logs, pathFormat))
@@ -41,26 +41,19 @@ namespace PictStock
 	}
 
 
-	bool PhotoDirectory::createDateFolder(const DateString& date, YString& folder)
+	bool PhotoDirectory::createDateFolder(YString& folder, const ExtendedPhoto& photo)
 	{
-		// TODO Should be handled with regexp later (more peculiarly the same regex
-		// than the one used when scanning already existing directories...)
-		DateString year, month, day;
-		year.assign(date, 4);
-		month.assign(date, 2, 4);
-		day.assign(date, 2, 6);
-
-		assert(folder.size() == 0 && "Only output parameter");
-		folder << pMainFolder << IO::Separator;
-		folder << year << IO::Separator
-			<< 'M' << month << IO::Separator
-			<< 'J' << day;
+		assert(!(!pPathFormat));
+		auto& pathFormat = *pPathFormat;
+		pathFormat.determineMinimalFolder(folder, photo);
 
 		if (!IO::Directory::Create(folder))
 			return false;
 
 		// Add new folder in the tree
-		pTree.insert(std::make_pair(date, std::list<String>(1, folder)));
+		String key;
+		pathFormat.determineFolderKey(key, photo);
+		pTree.insert(std::make_pair(key, std::list<String>(1, folder)));
 
 		return true;
 	}

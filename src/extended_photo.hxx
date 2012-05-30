@@ -31,6 +31,12 @@ namespace PictStock
 	}
 
 
+	inline Private::RelevantInformations::Ptr ExtendedPhoto::informations() const
+	{
+		return pRelevantInformations;
+	}
+
+
 
 
 

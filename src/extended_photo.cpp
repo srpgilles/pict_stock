@@ -114,7 +114,7 @@ namespace PictStock
 	ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const String& filename)
 			: logs(logs),
 			  pOriginalPath(filename),
-			  pRelevantInformations(logs),
+			  (new Private::RelevantInformations(logs)),
 			  pStatus(epFine)
 	{
 		// It is assumed files passed in parameters truly exists
@@ -164,13 +164,16 @@ namespace PictStock
 
 			String value;
 
+			assert((!(!pRelevantInformations)));
+			auto& relevantInformations = *pRelevantInformations;
+
 			for (auto itMap = cameras.cbegin(), endMap = cameras.cend(); itMap != endMap; ++itMap)
 			{
 				if (findExifKey(itMap->first, value))
 				{
 					if (value == itMap->second)
 					{
-						pRelevantInformations.setPhotographer(*it);
+						relevantInformations.setPhotographer(*it);
 						return true;
 					}
 				}
@@ -201,7 +204,8 @@ namespace PictStock
 		if (!ret)
 			return false;
 
-		pRelevantInformations.setDate(datePtr);
+		assert(!(!pRelevantInformations));
+		pRelevantInformations->setDate(datePtr);
 		return true;
 	}
 

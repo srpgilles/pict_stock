@@ -1,6 +1,7 @@
 
 #include "path_format.hpp"
 #include <yuni/io/file.h>
+#include "../extended_photo.hpp"
 
 
 using namespace Yuni;
@@ -156,6 +157,16 @@ namespace Private
 	}
 
 
+	void PathFormatHelper::determineMinimalPath(Yuni::String& out,
+		const ExtendedPhoto& photo) const
+	{
+		RelevantInformations::Ptr infosPtr = photo.informations();
+		assert(!(!infosPtr));
+		auto& infos = *infosPtr;
+		determineMinimalPath(out, infos);
+	}
+
+
 	PathFormat::PathFormat(LoggingFacility& logs, const AnyString& format)
 		: logs(logs),
 		  pFolderPart(nullptr),
@@ -196,22 +207,37 @@ namespace Private
 	}
 
 
-	void PathFormat::determineMinimalFolder(Yuni::String& out, const RelevantInformations& infos) const
+	void PathFormat::determineMinimalFolder(Yuni::String& out, const ExtendedPhoto& photo) const
 	{
 		assert(out.empty());
 
 		if (!pFolderPart)
 			return ;
 
-		return pFolderPart->determineMinimalPath(out, infos);
+		return pFolderPart->determineMinimalPath(out, photo);
 	}
 
 
-	void PathFormat::determineMinimalFilename(Yuni::String& out, const RelevantInformations& infos) const
+	void PathFormat::determineMinimalFilename(Yuni::String& out, const ExtendedPhoto& photo) const
 	{
 		assert(!(!pFilePart));
 
-		return pFilePart->determineMinimalPath(out, infos);
+		return pFilePart->determineMinimalPath(out, photo);
+	}
+
+
+	/*!
+	** \brief Given a date and a photographer, determine what can be used as key when
+	** considering pre-existing pictures in target folder
+	*/
+	void PathFormat::determineFolderKey(Yuni::CString<30, false>& out,
+		const ExtendedPhoto& photo) const
+	{
+		Private::RelevantInformations::Ptr infosPtr = photo.informations();
+		assert(!(!infosPtr));
+		auto& infos = *infosPtr;
+		assert(!(!pFolderPart));
+		pFolderPart->determineKey(out, infos);
 	}
 
 

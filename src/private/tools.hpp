@@ -3,10 +3,7 @@
 
 namespace PictStock
 {
-	typedef Yuni::CString<4, false> HourString;
-    typedef Yuni::CString<8, false> DateString;
-
-    typedef std::map<DateString, std::list<Yuni::String> > ValidDirectoriesType;
+    typedef std::multimap<CString<30, false>, Yuni::String> ValidDirectoriesType;
 
 }
 

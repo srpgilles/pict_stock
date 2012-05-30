@@ -11,6 +11,10 @@
 
 namespace PictStock
 {
+	// Forward declaration
+	class ExtendedPhoto;
+
+
 namespace Private
 {
 
@@ -124,6 +128,16 @@ namespace Private
 			const RelevantInformations& infos) const;
 
 
+		/*!
+		** \brief Given a date and a photographer, generate the default output path matching it
+		**
+		** It is the minimal choice: many other expressions would also match the date and photographer
+		** but we choose the minimal one
+		*/
+		void determineMinimalPath(Yuni::String& out,
+			const ExtendedPhoto& photo) const;
+
+
 	public:
 
 		//! Logs
@@ -230,7 +244,7 @@ namespace Private
 		** It is the minimal choice: many other expressions would also match the date and photographer
 		** but we choose the minimal one
 		*/
-		void determineMinimalFolder(Yuni::String& out, const RelevantInformations& infos) const;
+		void determineMinimalFolder(Yuni::String& out, const ExtendedPhoto& photo) const;
 
 
 		/*!
@@ -239,7 +253,13 @@ namespace Private
 		** There are no numbers or .jpg extension: these are added in higher level classes
 		**
 		*/
-		void determineMinimalFilename(Yuni::String& out, const RelevantInformations& infos) const;
+		void determineMinimalFilename(Yuni::String& out, const ExtendedPhoto& photo) const;
+
+		/*!
+		** \brief Given a date and a photographer, determine what can be used as key when
+		** considering pre-existing pictures in target folder
+		*/
+		void determineFolderKey(Yuni::CString<30, false>& out, const ExtendedPhoto& photo) const;
 
 
 	public:

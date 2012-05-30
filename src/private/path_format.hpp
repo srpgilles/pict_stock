@@ -209,6 +209,9 @@ namespace Private
 		explicit PathFormat(LoggingFacility& logs, const AnyString& format);
 		//@}
 
+		//! Smart pointer most adapted for the class
+		typedef Yuni::SmartPtr<PathFormat> Ptr;
+
 
 		/*!
 		** \brief Check whether the folder part of a path complies with the user-defined path format

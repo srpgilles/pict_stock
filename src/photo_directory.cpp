@@ -6,9 +6,10 @@ namespace PictStock
 {
 
 
-	PhotoDirectory::PhotoDirectory(LoggingFacility& logs, Yuni::String folder)
+	PhotoDirectory::PhotoDirectory(LoggingFacility& logs, Yuni::String folder, const YString& pathFormat)
 		: logs(logs),
-		  pMainFolder(folder)
+		  pMainFolder(folder),
+		  pPathFormat(new Private::PathFormat(logs, pathFormat))
 	{
 		Private::PhotoDirectoryIterator iterator(logs);
 		iterator.add(folder);

@@ -7,9 +7,9 @@ using namespace Yuni;
 namespace PictStock
 {
 
-
 	SortNewPhotos::SortNewPhotos(LoggingFacility& logs, const String& inputDirectory,
-		PhotoDirectory& photoDirectory, const String& summaryFile, bool doFolderManuallyDate)
+		PhotoDirectory& photoDirectory, const String& summaryFile,
+		bool doFolderManuallyDate)
 		: logs(logs),
 		  pPhotoDirectory(photoDirectory),
 		  pInputDirectory(inputDirectory),

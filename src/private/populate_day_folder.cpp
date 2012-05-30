@@ -103,7 +103,8 @@ namespace Private
 			ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, file);
 
 			YString newName;
-			photoPtr->newNameWithoutExtension(newName);
+			assert(false && "Incomplete (dev)");
+			//photoPtr->newNameWithoutExtension(newName);
 			pPhotosPerName[newName].push_back(photoPtr);
 		}
 
@@ -119,7 +120,8 @@ namespace Private
 			assert(!(!photoPtr));
 			YString newName;
 			ExtendedPhoto& photo = *photoPtr;
-			photo.newNameWithoutExtension(newName);
+			assert(false && "Incomplete (dev)");
+			//photo.newNameWithoutExtension(newName);
 
 			{
 				ExtendedPhoto::Vector& allPhotos = pPhotosPerName[newName];

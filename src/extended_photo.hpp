@@ -43,16 +43,6 @@ namespace PictStock
 		//! Return the original path of the photo
 		inline YString originalPath() const;
 
-		/*!
-		 * \brief Name given in the output tree, without file extension
-		 *
-		 * \param[out] name Name
-		 *
-		 * This name does not consider possible files that would obtain the
-		 * same name; a suffix will have to be added to avoid overwriting
-		 * other pictures (handled in #SortNewPhotos class)
-		 */
-		void newNameWithoutExtension(YString& name) const;
 
 		/*!
 		 * \brief Modify the date in exif data and add a comment to specify this was done

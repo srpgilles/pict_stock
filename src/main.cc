@@ -170,7 +170,7 @@ int main(int argc, char* argv[])
 	{
 		const ReadParameterFile parameters(logs, parameterFile);
 
-		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"]);
+		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"], parameters["pathFormat"]);
 		PictStock::SortNewPhotos sortNewPhotos(logs, parameters["inputFolder"], photoDirectory,
 			parameters["logFile"], doAskModifyDate);
 

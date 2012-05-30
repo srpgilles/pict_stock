@@ -8,6 +8,7 @@
 
 # include "pict_stock.hpp"
 # include "private/photo_directory_iterator.hpp"
+# include "private/path_format.hpp"
 
 namespace PictStock
 {
@@ -26,8 +27,31 @@ namespace PictStock
 		 * \brief Constructor
 		 *
 		 * \param pFolder Folder in which photos are sort
+		 * \param[in] pathFormat Format given by the user; the rules are:
+		** 		. folder separator is indicated as '/', whatever the system you are working on
+		** 		. format must end with ".jpg" (case insensitive)
+		** 		. special commands that will be inserted depending on the photo considered
+		** 		These commands are:
+		** 			%y for the year
+		** 			%m for month
+		** 			%d for day
+		** 			%H for hour
+		** 			%M for minutes
+		** 			%S for seconds
+		** 			%P for the photographer
+		** 		An example:
+		** 			%y/M%m/J%d/Photo_%H%M_%P.jpg
+		** 			will lead to
+		** 			2009/M04/J02/Photo_14_05_CSG.jpg for a photo that would have been taken at that date
+		** 			by photographer indexed by letter CSG (as a matter of fact this is class
+		** 			#ExtendedPhoto which will be in charge of implementing this, not current one)
+		**
+		** 		Wildcards such as * can also be used (as a matter of fact format is almost
+		** 		a regular expression; only %x terms will be replaced by some more appropriates
+		** 		to form a valid regular expression
+		 *
 		 */
-		explicit PhotoDirectory(LoggingFacility& logs, Yuni::String pFolder);
+		explicit PhotoDirectory(LoggingFacility& logs, Yuni::String pFolder, const YString& pathFormat);
 
 		//! Destructor
 		~PhotoDirectory();
@@ -68,6 +92,9 @@ namespace PictStock
 
 		//! Main folder in which all photos are stored in the end
 		YString pMainFolder;
+
+		//! Object in charge of enforcing user-defined format
+		Private::PathFormat::Ptr pPathFormat;
 
 		/*!
 		** \brief List of valid directories found in photo directory

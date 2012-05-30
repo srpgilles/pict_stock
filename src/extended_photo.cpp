@@ -283,25 +283,6 @@ namespace PictStock
 		}
 
 		return true;
-
-	}
-
-
-	void ExtendedPhoto::newNameWithoutExtension(YString& name) const
-	{
-		name.clear() << "Photo";
-
-//		auto time = this->time();
-//		assert(time.size() == 4u);
-//		time.trim();
-//
-//		if (!time.empty())
-//			name << '_' << time;
-//
-//		if (!(!pPhotographer))
-//			name << '_' << pPhotographer->abbr();
-		//else
-		//	name << '_' << "UNK";
 	}
 
 

@@ -4,6 +4,7 @@
 # include "extended_photo.hpp"
 # include "photo_directory.hpp"
 # include "private/sort_new_photos_iterator.hpp"
+# include "private/path_format.hpp"
 
 namespace PictStock
 {
@@ -52,9 +53,9 @@ namespace PictStock
         PhotoDirectory& pPhotoDirectory;
 
         /*!
-         ** Directory in which all JPG files are to be scanned and sort in the
-         ** righteous #pPhotoDirectory
-         */
+        ** Directory in which all JPG files are to be scanned and sort in the
+        ** righteous #pPhotoDirectory
+        */
         Yuni::String pInputDirectory;
 
         //! List of all jpeg files to process, sort by date

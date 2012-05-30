@@ -42,7 +42,7 @@ namespace Private
 	{
 		#ifdef USE_BOOST_REGULAR_EXPR
 		boost::cmatch match;
-		logs.notice() << expression;
+
 		if (regex_search(dateRead.c_str(), match, RegexDateFormatting))
 		{
 			assert(match.size() == 7u && "First one is complete expression, others the sub-expressions");

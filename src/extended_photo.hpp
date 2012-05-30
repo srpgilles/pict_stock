@@ -86,10 +86,6 @@ namespace PictStock
 		 */
 		friend bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
 
-
-		// TMP
-		Private::RelevantInformations infos() const { return pRelevantInformations; }
-
 	public:
 
 		//! Logging facility

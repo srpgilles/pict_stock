@@ -13,17 +13,17 @@ namespace Private
 	{
 		static const YString expression =
 			YString("\\A")
-			<< Traits::Year::Regex()
+			<< '(' << Traits::Year::Regex() << ')'
 			<< ':' // separator
-			<< Traits::Month::Regex()
+			<< '(' << Traits::Month::Regex() << ')'
 			<< ':' // separator
-			<< Traits::Day::Regex()
+			<< '(' << Traits::Day::Regex() << ')'
 			<< ' ' // separator
-			<< Traits::Hour::Regex()
+			<< '(' << Traits::Hour::Regex() << ')'
 			<< ':' // separator
-			<< Traits::Minute::Regex()
+			<< '(' << Traits::Minute::Regex() << ')'
 			<< ':' // separator
-			<< Traits::Second::Regex()
+			<< '(' << Traits::Second::Regex() << ')'
 			<< "\\z";
 
 		#ifdef USE_BOOST_REGULAR_EXPR
@@ -42,7 +42,8 @@ namespace Private
 	{
 		#ifdef USE_BOOST_REGULAR_EXPR
 		boost::cmatch match;
-		if (regex_match(dateRead.c_str(), match, RegexDateFormatting))
+		logs.notice() << expression;
+		if (regex_search(dateRead.c_str(), match, RegexDateFormatting))
 		{
 			assert(match.size() == 7u && "First one is complete expression, others the sub-expressions");
 			out.year = match[1].str();
@@ -55,7 +56,7 @@ namespace Private
 		}
 		else
 		{
-			logs.error("Unable to interpret date ") << dateRead << "; does not match expected format";
+			logs.error("Unable to interpret date \"") << dateRead << "\"; does not match expected format";
 			return false;
 		}
 		#else

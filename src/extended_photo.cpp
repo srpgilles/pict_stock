@@ -112,7 +112,10 @@ namespace PictStock
 	const Private::Photographer::List ExtendedPhoto::pPhotographers = initPhotographers();
 
 	ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const String& filename)
-			: logs(logs), pOriginalPath(filename), pPhotographer(nullptr), pStatus(epFine)
+			: logs(logs),
+			  pOriginalPath(filename),
+			  pRelevantInformations(logs),
+			  pStatus(epFine)
 	{
 		// It is assumed files passed in parameters truly exists
 		// (check should occur before call to the class)
@@ -167,7 +170,7 @@ namespace PictStock
 				{
 					if (value == itMap->second)
 					{
-						pPhotographer = *it;
+						pRelevantInformations.setPhotographer(*it);
 						return true;
 					}
 				}
@@ -190,7 +193,16 @@ namespace PictStock
 				return false;
 		}
 
-		return Private::dateFromExif(logs, pDate, dateRead);
+		Private::Date::Ptr datePtr = new Private::Date();
+		Private::Date& date = *datePtr;
+
+		bool ret = Private::dateFromExif(logs, date, dateRead);
+
+		if (!ret)
+			return false;
+
+		pRelevantInformations.setDate(datePtr);
+		return true;
 	}
 
 
@@ -279,15 +291,15 @@ namespace PictStock
 	{
 		name.clear() << "Photo";
 
-		auto time = this->time();
-		assert(time.size() == 4u);
-		time.trim();
-
-		if (!time.empty())
-			name << '_' << time;
-
-		if (!(!pPhotographer))
-			name << '_' << pPhotographer->abbr();
+//		auto time = this->time();
+//		assert(time.size() == 4u);
+//		time.trim();
+//
+//		if (!time.empty())
+//			name << '_' << time;
+//
+//		if (!(!pPhotographer))
+//			name << '_' << pPhotographer->abbr();
 		//else
 		//	name << '_' << "UNK";
 	}

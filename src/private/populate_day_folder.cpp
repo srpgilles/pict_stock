@@ -67,11 +67,12 @@ namespace Private
 			assert(!(!photoPtr));
 			ExtendedPhoto& photo = *photoPtr;
 
-			if (photo.date() != pTargetDate)
-			{
-				if (!photo.modifyDate(pTargetDate))
-					return false;
-			}
+			logs.warning("TMP DEBUG");
+//			if (photo.date() != pTargetDate)
+//			{
+//				if (!photo.modifyDate(pTargetDate))
+//					return false;
+//			}
 		}
 
 		return true;

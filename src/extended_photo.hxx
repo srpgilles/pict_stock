@@ -24,23 +24,6 @@ namespace PictStock
 	}
 
 
-	inline DateString ExtendedPhoto::date() const
-	{
-		// Only during transition; this function will disappear!
-		DateString buf(pDate.year);
-		buf << pDate.month << pDate.day;
-		return buf;
-	}
-
-
-	inline HourString ExtendedPhoto::time() const
-	{
-		// Only during transition; this function will disappear!
-		DateString buf(pDate.hour);
-		buf << pDate.minute;
-		return buf;
-	}
-
 
 	inline YString ExtendedPhoto::originalPath() const
 	{

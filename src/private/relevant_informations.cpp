@@ -6,10 +6,21 @@ namespace Private
 {
 
 	RelevantInformations::RelevantInformations(LoggingFacility& logs)
-		: logs(logs)
+		: logs(logs),
+		  pPhotographerPtr(nullptr),
+		  pDatePtr(nullptr)
 	{
-		// Define it later
 
+	}
+
+	void RelevantInformations::setPhotographer(const Photographer::Ptr& photographer)
+	{
+		pPhotographerPtr = photographer;
+	}
+
+	void RelevantInformations::setDate(const Date::Ptr& date)
+	{
+		pDatePtr = date;
 	}
 
 

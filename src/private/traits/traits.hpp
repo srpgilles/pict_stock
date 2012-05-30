@@ -49,7 +49,7 @@ namespace Traits
 		Year();
 
 		static const SymbolString Symbol() { return "%y"; }
-		static const RegexString Regex() { return "(\\d{4})"; }
+		static const RegexString Regex() { return "\\d{4}"; }
 
 		virtual const SymbolString symbol() const { return Symbol(); }
 		virtual const RegexString regex() const { return Regex(); }
@@ -63,7 +63,7 @@ namespace Traits
 		Month();
 
 		static const SymbolString Symbol() { return "%m"; }
-		static const RegexString Regex() { return "( \\d{1}|0\\d{1}|10|11|12)"; }
+		static const RegexString Regex() { return " \\d{1}|0\\d{1}|10|11|12"; }
 
 		virtual const SymbolString symbol() const { return Symbol(); }
 		virtual const RegexString regex() const { return Regex(); }
@@ -77,7 +77,7 @@ namespace Traits
 		Day();
 
 		static const SymbolString Symbol() { return "%d"; }
-		static const RegexString Regex() { return  "([ |0|1|2]\\d{1}|3[0|1])"; } // no check for adequacy month day (for instance 30 Elements::b is allowed)
+		static const RegexString Regex() { return  "[ |0|1|2]\\d{1}|3[0|1]"; } // no check for adequacy month day (for instance 30 Elements::b is allowed)
 
 		virtual const SymbolString symbol() const { return Symbol(); }
 		virtual const RegexString regex() const { return Regex(); }
@@ -91,7 +91,7 @@ namespace Traits
 		Hour();
 
 		static const SymbolString Symbol() { return "%H"; }
-		static const RegexString Regex() { return  "([ |0|1]\\d{1}|2[0-4]|  )"; } // empty allowed
+		static const RegexString Regex() { return  "[ |0|1]\\d{1}|2[0-4]|  "; } // empty allowed
 
 		virtual const SymbolString symbol() const { return Symbol(); }
 		virtual const RegexString regex() const { return Regex(); }
@@ -105,7 +105,7 @@ namespace Traits
 		Minute();
 
 		static const SymbolString Symbol() { return "%M"; }
-		static const RegexString Regex() { return  "([ 0-5]\\d{1}|  )"; } // empty is allowed
+		static const RegexString Regex() { return  "[ 0-5]\\d{1}|  "; } // empty is allowed
 
 		virtual const SymbolString symbol() const { return Symbol(); }
 		virtual const RegexString regex() const { return Regex(); }
@@ -119,7 +119,7 @@ namespace Traits
 		Second();
 
 		static const SymbolString Symbol() { return "%S"; }
-		static const RegexString Regex() { return  "([ 0-5]\\d{1}|  )"; } // empty is allowed
+		static const RegexString Regex() { return  "[ 0-5]\\d{1}|  "; } // empty is allowed
 
 		virtual const SymbolString symbol() const { return Symbol(); }
 		virtual const RegexString regex() const { return Regex(); }
@@ -133,7 +133,7 @@ namespace Traits
 		Photographer();
 
 		static const SymbolString Symbol() { return "%P"; }
-		static const RegexString Regex() { return "(.*)"; }
+		static const RegexString Regex() { return ".*"; }
 
 		virtual const SymbolString symbol() const { return Symbol(); }
 		virtual const RegexString regex() const { return Regex(); }

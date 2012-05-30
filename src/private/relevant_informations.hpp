@@ -29,6 +29,13 @@ namespace Private
 
 		//@}
 
+		//! Set the photographer
+		void setPhotographer(const Photographer::Ptr& photographer);
+
+		//! Set the date
+		void setDate(const Date::Ptr& date);
+
+
 		//! Return the proper information associated with index given
 		Yuni::CString<10, false> value(unsigned int natureIndex) const;
 

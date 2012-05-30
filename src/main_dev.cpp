@@ -86,7 +86,10 @@ namespace TestExtendedPhoto
 		{
 			const YString& file = *it;
 			if (file.endsWith("JPG") || file.endsWith("jpg"))
+			{
+				YString buf;
 				::PictStock::ExtendedPhoto photo(logs, *it);
+			}
 		}
 	}
 }
@@ -100,13 +103,13 @@ namespace TestPathFormat
 		{
 			::PictStock::Private::PathFormat foo(logs, "%y/ThePhotographerIs%P/Y%y/M%m/J%d/Photo_%H%M_%P.jpg");
 
-			YString bar1("2012/ThePhotographerIsMe/M03/J08");
+			YString bar1("2012/ThePhotographerIsMe/Y2009/M03/J08");
 
 			boost::cmatch m1,m2;
-			logs.notice("1 -> ") << foo.isOk(bar1, m1);
+			logs.notice("1 -> ") << foo.doFolderMatch(bar1, m1);
 
 			YString bar2("2012/ThePhotographerIsMe/AdditionalIrrelevantTextM03/J08");
-			logs.notice("2 -> ") << foo.isOk(bar2, m2);
+			logs.notice("2 -> ") << foo.doFolderMatch(bar2, m2);
 
 			logs.notice() << m1.size() << "|" << m2.size();
 
@@ -138,9 +141,9 @@ int main(int argc, char* argv[])
 	LoggingFacility logs;
 
 	//TestRegex::testRegex(logs);
-	//TestExtendedPhoto::testExtendedPhoto(logs);
+	TestExtendedPhoto::testExtendedPhoto(logs);
 
-	TestPathFormat::test(logs);
+	//TestPathFormat::test(logs);
 
 	return 0;
 }

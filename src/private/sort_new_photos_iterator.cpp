@@ -163,7 +163,11 @@ namespace Private
 			pPicturesToProcess[pCurrentFolderManualDate].push_back(photoPtr);
 		}
 		else
-			pPicturesToProcess[photoPtr->date()].push_back(photoPtr);
+		{
+			logs.warning("TMP FOR DEBUG PURPOSES!");
+			//pPicturesToProcess[photoPtr->date()].push_back(photoPtr);
+			pPicturesToProcess["FOO"].push_back(photoPtr);
+		}
 
 		return IO::flowContinue;
 	}

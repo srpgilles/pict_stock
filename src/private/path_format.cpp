@@ -11,7 +11,7 @@ namespace Private
 {
 
 
-	const Traits::Element::Vector PathFormat::pElements =
+	const Traits::Element::Vector PathFormatHelper::pElements =
 		{
 			new Traits::Year(),
 			new Traits::Month(),
@@ -40,40 +40,19 @@ namespace Private
 	}
 
 
-	PathFormat::PathFormat(LoggingFacility& logs, const AnyString& format)
-		: logs(logs)
+	PathFormatHelper::PathFormatHelper(LoggingFacility& logs, const AnyString& format)
+		: logs(logs),
+		  pFormat(format)
 	{
-		if (format.contains('('))
-			throw PathFormatException("Format shouldn't include any parenthesis");
-
-		{
-			// Split the path and the filename
-			IO::ExtractFilePath(pPathFormat, format);
-
-			if (pPathFormat.empty())
-				pFileFormat = format;
-			else
-				IO::ExtractFileName(pFileFormat, format);
-		}
-
-		if (pPathFormat.notEmpty())
-		{
-			// Create the regular expression used to match the folders
-			setRegExFolder(pPathFormat);
-		}
-
-		{
-			// Keep here expected form of the filename
-
-
-		}
-
+		setRegEx();
 	}
 
-	void PathFormat::setRegExFolder(const String& path)
+
+	void PathFormatHelper::setRegEx()
 	{
+		const auto& path = pFormat;
 		assert(path.notEmpty());
-		assert(pDoFolderContains.size() == pElements.size());
+		assert(pDoContains.size() == pElements.size());
 
 		{
 			// First determine the ordering of the symbols found in user-defined expression
@@ -90,7 +69,7 @@ namespace Private
 				if (pos != String::npos)
 				{
 					positions[pos] = elementPtr;
-					pDoFolderContains[element.nature] = true;
+					pDoContains[element.nature] = true;
 				}
 				// no else: by default a bitset is filled with false everywhere
 			}
@@ -126,7 +105,6 @@ namespace Private
 				unsigned int pos = helper.find(symbol);
 				assert(pos != String::npos && "If equal, something went wrong above");
 
-				// First replace second and more occurrences
 				helper.replace(pos + 1u, symbol, regex);
 
 				// Now replace the first expression
@@ -135,36 +113,36 @@ namespace Private
 				helper.replace(symbol, buf);
 			}
 
-			pRegExFolder = boost::regex(helper.c_str());
+			pRegEx = boost::regex(helper.c_str());
 		}
 	}
 
 
-	void PathFormat::determineKey(Yuni::CString<30, false>& out,
+	void PathFormatHelper::determineKey(Yuni::CString<30, false>& out,
 		const RelevantInformations& infos) const
 	{
 		assert(out.empty());
 
 		for (unsigned int i = 0u; i < Elements::size; ++i)
 		{
-			if (pDoFolderContains.test(i))
+			if (pDoContains.test(i))
 				out << infos.value(i);
 		}
 	}
 
 
-	bool PathFormat::isOk(const AnyString& path, boost::cmatch& m) const
+	bool PathFormatHelper::isOk(const AnyString& path, boost::cmatch& m) const
 	{
-		return (regex_search(path.c_str(), m, pRegExFolder));
+		return (regex_search(path.c_str(), m, pRegEx));
 	}
 
 
-	void PathFormat::determineMinimalPath(Yuni::CString<30, false>& out,
+	void PathFormatHelper::determineMinimalPath(String& out,
 		const RelevantInformations& infos) const
 	{
 		assert(out.empty());
 
-		out = pPathFormat;
+		out = pFormat;
 
 		for (auto it = pElements.cbegin(), end = pElements.cend(); it != end; ++it)
 		{
@@ -172,31 +150,68 @@ namespace Private
 			assert(!(!elementPtr));
 			const Traits::Element& element = *elementPtr;
 
-			if (pDoFolderContains.test(element.nature))
+			if (pDoContains.test(element.nature))
 				out.replace(element.symbol(), infos.value(element.nature));
 		}
+	}
 
 
-//		if (pDoFolderContains.test(Elements::year))
-//			out.replace(
-//
-//		if (pDoFolderContains.test(Elements::month))
-//			out << date.month;
-//
-//		if (pDoFolderContains.test(Elements::day))
-//			out << date.day;
-//
-//		if (pDoFolderContains.test(Elements::hour))
-//			out << date.hour;
-//
-//		if (pDoFolderContains.test(Elements::minute))
-//			out << date.minute;
-//
-//		if (pDoFolderContains.test(Elements::second))
-//			out << date.second;
-//
-//		if (pDoFolderContains.test(Elements::photographer))
-//			out << photographer.abbr();
+	PathFormat::PathFormat(LoggingFacility& logs, const AnyString& format)
+		: logs(logs),
+		  pFolderPart(nullptr),
+		  pFilePart(nullptr)
+	{
+		if (format.contains('('))
+			throw PathFormatException("Format shouldn't include any parenthesis");
+
+		{
+			String folderName, fileName;
+
+			// Split the path and the filename
+			IO::ExtractFilePath(folderName, format);
+
+			if (folderName.empty())
+				fileName = format;
+			else
+			{
+				IO::ExtractFileName(fileName, format);
+				if (IO::Separator != '/')
+					folderName.replace('/', IO::Separator);
+
+				pFolderPart = new PathFormatHelper(logs, folderName);
+			}
+
+			pFilePart = new PathFormatHelper(logs, fileName);
+		}
+	}
+
+
+	bool PathFormat::doFolderMatch(const AnyString& path, boost::cmatch& out) const
+	{
+		// Trivial case: if no folder defined any path match
+		if (!pFolderPart)
+			return true;
+
+		return pFolderPart->isOk(path, out);
+	}
+
+
+	void PathFormat::determineMinimalFolder(Yuni::String& out, const RelevantInformations& infos) const
+	{
+		assert(out.empty());
+
+		if (!pFolderPart)
+			return ;
+
+		return pFolderPart->determineMinimalPath(out, infos);
+	}
+
+
+	void PathFormat::determineMinimalFilename(Yuni::String& out, const RelevantInformations& infos) const
+	{
+		assert(!(!pFilePart));
+
+		return pFilePart->determineMinimalPath(out, infos);
 	}
 
 

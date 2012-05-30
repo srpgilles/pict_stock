@@ -8,8 +8,7 @@
 
 # include "pict_stock.hpp"
 # include "private/tools.hpp"
-# include "private/photographer.hpp"
-# include "private/date.hpp"
+# include "private/relevant_informations.hpp"
 
 namespace PictStock
 {
@@ -40,12 +39,6 @@ namespace PictStock
 
 		//! Return true if any problem occurred (either from this class or exiv2)
 		inline bool problem() const;
-
-		//! Return the date as a string (format YYYYMMDD)
-		inline DateString date() const;
-
-		//! Return the time as a string (format hhmm)
-		inline HourString time() const;
 
 		//! Return the original path of the photo
 		inline YString originalPath() const;
@@ -93,6 +86,10 @@ namespace PictStock
 		 */
 		friend bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
 
+
+		// TMP
+		Private::RelevantInformations infos() const { return pRelevantInformations; }
+
 	public:
 
 		//! Logging facility
@@ -137,11 +134,8 @@ namespace PictStock
 		//! Smart pointer to exiv2 Image object
 		Exiv2::Image::AutoPtr pImage;
 
-		//! Smart pointer to the photographer
-		Private::Photographer::Ptr pPhotographer;
-
 		//! Object which manages date data
-		Private::Date pDate;
+		Private::RelevantInformations pRelevantInformations;
 
 		/*! true if a problem occurred with exiv library */
 		Status pStatus;

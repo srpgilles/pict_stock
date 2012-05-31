@@ -49,7 +49,7 @@ namespace PictStock
 		 *
 		 * \param[in] newDate In format YYYYMMDD
 		 */
-		bool modifyDate(const DateString& newDate);
+		bool modifyDate(const Yuni::CString<8, false>& newDate);
 
 
 		/*!
@@ -128,9 +128,8 @@ namespace PictStock
 		//! Object which manages date data
 		Private::RelevantInformations::Ptr pRelevantInformations;
 
-		/*! true if a problem occurred with exiv library */
+		/*! True if a problem occurred with exiv library */
 		Status pStatus;
-
 
 
 	private:

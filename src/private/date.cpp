@@ -65,6 +65,24 @@ namespace Private
 		#endif  // USE_BOOST_REGULAR_EXPR
 	}
 
+
+	bool operator == (const Date& lhs, const Date& rhs)
+	{
+		return lhs.year == rhs.year &&
+			lhs.month == rhs.month &&
+			lhs.day == rhs.day &&
+			lhs.hour == rhs.hour &&
+			lhs.minute == rhs.minute &&
+			lhs.second == rhs.second;
+	}
+
+
+	bool operator != (const Date& lhs, const Date& rhs)
+	{
+		return !(operator == (lhs, rhs));
+	}
+	}
+
 } // namespace Private
 } // namespace PictStock
 

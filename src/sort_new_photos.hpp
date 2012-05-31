@@ -59,7 +59,7 @@ namespace PictStock
         Yuni::String pInputDirectory;
 
         //! List of all jpeg files to process, sort by date
-        std::map<DateString, ExtendedPhoto::Vector> pPicturesToProcess;
+        std::map<Private::RelevantInformations::Ptr, ExtendedPhoto::Vector> pPicturesToProcess;
 
         //! Path to the file in which all operations are recorded
         const YString pSummaryFile;

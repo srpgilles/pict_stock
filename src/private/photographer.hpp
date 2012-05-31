@@ -69,7 +69,14 @@ namespace Private
 
 		//! List of keys/values identifying the photographer in exif data (see #ExifDataType)
 		ExifDataType pCameras;
+
+
+		friend bool operator==(const Photographer& lhs, const Photographer& rhs);
+		friend bool operator!=(const Photographer& lhs, const Photographer& rhs);
 	};
+
+	bool operator==(const Photographer& lhs, const Photographer& rhs);
+	bool operator!=(const Photographer& lhs, const Photographer& rhs);
 
 } // namespace Private
 } // namespace PictStock

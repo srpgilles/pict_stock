@@ -58,19 +58,6 @@ namespace PictStock
 
 		//@}
 
-		/*!
-		 * \brief Check whether the date of the photo has already been handled or not
-		 *
-		 * \param[in] date Date in format YYYYMMDD
-		 * \param[out] folders List of the folders associated to the date
-		 *
-		 * \return True if the date is known, false otherwise
-		 */
-		bool findDate(const DateString& date, std::list<YString>& folders) const;
-
-		
-		//! Print the valid folder founds (for debug purposes)
-		void print(std::ostream& out) const;
 
 		/*!
 		 * \brief Create the minimal basic folder matching a peculiar set of informations
@@ -80,7 +67,7 @@ namespace PictStock
 		 *
 		 *  \return True If creation went right
 		 */
-		bool createDateFolder(YString& folder, const ExtendedPhoto& photo);
+		bool createFolder(YString& folder, const ExtendedPhoto& photo);
 
 
 	public:
@@ -98,9 +85,6 @@ namespace PictStock
 
 		/*!
 		** \brief List of valid directories found in photo directory
-		**
-		** Key is YYYYMMDD, value is the list of paths associated
-		** to this date
 		*/
 		ValidDirectoriesType pTree;
 	};

@@ -1,4 +1,7 @@
 add_library(pict_stock STATIC
+	private/relevant_informations.cpp
+	private/relevant_informations.hpp
+	####
 	pict_stock.hpp
 	photo_directory.cpp
 	photo_directory.hpp
@@ -26,13 +29,12 @@ add_library(pict_stock STATIC
 	private/path_format.hpp
 	private/date.cpp
 	private/date.hpp
-	private/relevant_informations.cpp
-	private/relevant_informations.hpp
+	
 )
 
 
 add_executable(PictStock
-	main.cc
+	main.cpp
 )
 
 target_link_libraries(PictStock
@@ -51,5 +53,14 @@ target_link_libraries(dev
 	pict_stock
 	exiv2
 	boost_regex
+	yuni-static-core
+)
+
+
+add_executable(test
+	main_test.cpp
+)
+
+target_link_libraries(test
 	yuni-static-core
 )

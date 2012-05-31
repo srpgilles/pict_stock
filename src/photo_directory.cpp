@@ -1,4 +1,5 @@
 #include "photo_directory.hpp"
+#include "extended_photo.hpp"
 
 using namespace Yuni;
 
@@ -6,12 +7,15 @@ namespace PictStock
 {
 
 
-	PhotoDirectory::PhotoDirectory(LoggingFacility& logs, const Yuni::String& folder, const YString& pathFormat)
+	PhotoDirectory::PhotoDirectory(LoggingFacility& logs, const Yuni::String& folder, const YString& strPathFormat)
 		: logs(logs),
 		  pMainFolder(folder),
-		  pPathFormat(new Private::PathFormat(logs, pathFormat))
+		  pPathFormat(new Private::PathFormat(logs, strPathFormat))
 	{
-		Private::PhotoDirectoryIterator iterator(logs);
+		assert(!(!pPathFormat));
+		auto& pathFormat = *pPathFormat;
+
+		Private::PhotoDirectoryIterator iterator(logs, pathFormat);
 		iterator.add(folder);
 
 		if (!iterator.start())
@@ -29,31 +33,22 @@ namespace PictStock
 	{ }
 
 
-	void PhotoDirectory::print(std::ostream& out) const
-	{
-		for (auto it = pTree.cbegin(), end = pTree.cend(); it != end; ++it)
-		{
-			out << "Date = " << it->first << '\n';
 
-			for (auto dir = it->second.cbegin(), end = it->second.cend(); dir != end; ++dir)
-				out << '\t' << *dir << '\n';
-		}
-	}
-
-
-	bool PhotoDirectory::createDateFolder(YString& folder, const ExtendedPhoto& photo)
+	bool PhotoDirectory::createFolder(YString& folder, const ExtendedPhoto& photo)
 	{
 		assert(!(!pPathFormat));
 		auto& pathFormat = *pPathFormat;
 		pathFormat.determineMinimalFolder(folder, photo);
 
-		if (!IO::Directory::Create(folder))
+		if ((!IO::Directory::Exists(folder)) && (!IO::Directory::Create(folder)))
 			return false;
 
 		// Add new folder in the tree
-		String key;
-		pathFormat.determineFolderKey(key, photo);
-		pTree.insert(std::make_pair(key, std::list<String>(1, folder)));
+		auto infosPtr = photo.informations();
+		assert(!(!infosPtr));
+		Private::RelevantInformations onlyUsefulInfos =
+			infosPtr->onlyUsefulOnes(pathFormat.folderContent());
+		pTree.insert(std::make_pair(onlyUsefulInfos, folder));
 
 		return true;
 	}

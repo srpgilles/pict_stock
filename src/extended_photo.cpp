@@ -114,7 +114,7 @@ namespace PictStock
 	ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const String& filename)
 			: logs(logs),
 			  pOriginalPath(filename),
-			  (new Private::RelevantInformations(logs)),
+			  pRelevantInformations(new Private::RelevantInformations(logs)),
 			  pStatus(epFine)
 	{
 		// It is assumed files passed in parameters truly exists
@@ -196,8 +196,7 @@ namespace PictStock
 				return false;
 		}
 
-		Private::Date::Ptr datePtr = new Private::Date();
-		Private::Date& date = *datePtr;
+		Private::Date date;
 
 		bool ret = Private::dateFromExif(logs, date, dateRead);
 
@@ -205,7 +204,7 @@ namespace PictStock
 			return false;
 
 		assert(!(!pRelevantInformations));
-		pRelevantInformations->setDate(datePtr);
+		pRelevantInformations->setDate(date);
 		return true;
 	}
 
@@ -290,7 +289,7 @@ namespace PictStock
 	}
 
 
-	bool ExtendedPhoto::modifyDate(const DateString& newDate)
+	bool ExtendedPhoto::modifyDate(const Yuni::CString<8, false>& newDate)
 	{
 		assert(newDate.size() == 8u);
 		Exiv2::ExifData& exifData = pImage->exifData();

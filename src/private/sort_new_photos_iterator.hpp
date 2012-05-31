@@ -44,12 +44,12 @@ namespace Private
 		//@}
 
 		/*!
-		 * \brief Return the list of all pictures sort by date
+		 * \brief Return the list of all pictures sort by relevant informations
 		 *
 		 * \param[out] out PicturesToProcess Key is date under format YYYYMMDD,
 		 * value if a list of #ExtendedPhoto pointers
 		 */
-		void picturesToProcess(std::map<DateString, ExtendedPhoto::Vector>& out) const;
+		void picturesToProcess(std::map<RelevantInformations::Ptr, ExtendedPhoto::Vector>& out) const;
 
 	public:
 
@@ -85,7 +85,7 @@ namespace Private
 	private:
 
 		//! List of all jpeg files to process, sort by date
-		std::map<DateString, ExtendedPhoto::Vector> pPicturesToProcess;
+		std::map<RelevantInformations::Ptr, ExtendedPhoto::Vector> pPicturesToProcess;
 
 		//!
 
@@ -102,12 +102,12 @@ namespace Private
 		const bool pDoFolderManualDate;
 
 		/*!
-		 * \brief Current manual date entrie in case #pDoFolderManualDate is true and date
+		 * \brief Current manual date entry in case #pDoFolderManualDate is true and date
 		 * has been set manually.
 		 *
 		 * Empty otherwise
 		 */
-		DateString pCurrentFolderManualDate;
+		Yuni::CString<8, false> pCurrentFolderManualDate;
 
 		/*!
 		 * \brief Tells at which folder level we currently stand

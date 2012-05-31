@@ -40,34 +40,19 @@ namespace PictStock
 		for (auto it = pPicturesToProcess.begin(), end = pPicturesToProcess.end();
 			it != end; ++it)
 		{
-			const DateString& folderDate = it->first;
+			const auto& folderInfos = it->first;
 
 			std::list<YString> folders;
 			YString targetFolder;
 
-			if (!pPhotoDirectory.findDate(folderDate, folders))
+			if (!pPhotoDirectory.createFolder(targetFolder, folderInfos))
 			{
-				if (!pPhotoDirectory.createDateFolder(folderDate, targetFolder))
-				{
-				  logs.error() << "Unable to create folder related to date " << folderDate;
-				  return false;
-				}
-			}
-			else
-			{
-				// TODO LATER
-				// One or more output folders already exist; see which one to use
-				// (or possibly create a new one)
-
-				// FOR NOW, use default one
-				// We don't care about return value: if not existing it is created
-				// and added to the tree, if existing false is returned but folder
-				// correctly set
-				pPhotoDirectory.createDateFolder(folderDate, targetFolder);
+				logs.error() << "Unable to create folder related to date " << folderInfos;
+				return false;
 			}
 
 			{
-				Private::PopulateDayFolder populateFolder(logs, targetFolder, folderDate,
+				Private::PopulateDayFolder populateFolder(logs, targetFolder, folderInfos,
 					it->second, pSummaryFile);
 				if (!populateFolder.proceed())
 					return false;

@@ -12,6 +12,8 @@ namespace PictStock
 {
 namespace Private
 {
+	// Forward declaration
+	class PathFormat;
 
 	/*!
 	 * \brief A derived class from Yuni::IO::Directory::IIterator in charge
@@ -29,7 +31,7 @@ namespace Private
 		//! Constructor & destructor
 		//@{
 		//! Constructor
-		PhotoDirectoryIterator(LoggingFacility& logs);
+		PhotoDirectoryIterator(LoggingFacility& logs, const PathFormat& pathFormat);
 
 		//! Destructor
 		virtual ~PhotoDirectoryIterator();
@@ -82,9 +84,11 @@ namespace Private
 
 	 private:
 
-		unsigned int pCounter;
 		unsigned int pFolderCount;
 		unsigned int pValidFolderCount;
+
+		//! Object in charge of checking whether a directory is legit or not
+		const PathFormat& pPathFormat;
 
 		/*!
 		** \brief List of valid directories found in photo directory

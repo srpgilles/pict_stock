@@ -40,10 +40,6 @@ namespace Private
 
 	bool PopulateDayFolder::proceed()
 	{
-		// Modify if necessary the date in exif
-		if (!enforceDateInNewPhotos())
-			return false;
-
 		// Load into #pPhotosPerName the photo already in target directory
 		if (!insertExistingPhotos())
 			return false;
@@ -59,24 +55,6 @@ namespace Private
 	}
 
 
-	bool PopulateDayFolder::enforceDateInNewPhotos()
-	{
-		for (auto it = pNewPhotos.begin(), end = pNewPhotos.end(); it != end; ++it)
-		{
-			ExtendedPhoto::Ptr photoPtr = *it;
-			assert(!(!photoPtr));
-			ExtendedPhoto& photo = *photoPtr;
-
-			logs.warning("TMP DEBUG");
-//			if (photo.date() != pTargetDate)
-//			{
-//				if (!photo.modifyDate(pTargetDate))
-//					return false;
-//			}
-		}
-
-		return true;
-	}
 
 	bool PopulateDayFolder::insertExistingPhotos()
 	{

@@ -53,7 +53,7 @@ namespace Private
 	{
 		const auto& path = pFormat;
 		assert(path.notEmpty());
-		assert(pDoContains.size() == pElements.size());
+		assert(doContains.size() == pElements.size());
 
 		{
 			// First determine the ordering of the symbols found in user-defined expression
@@ -70,14 +70,13 @@ namespace Private
 				if (pos != String::npos)
 				{
 					positions[pos] = elementPtr;
-					pDoContains[element.nature] = true;
+					doContains[element.nature] = true;
 				}
 				// no else: by default a bitset is filled with false everywhere
 			}
 
 			assert(pSymbolOrdering.empty() && "Method should only be called once in construction");
-			pSymbolOrdering.reserve(positions.size() + 1u); // +1u as first is deliberately left empty
-			pSymbolOrdering.push_back(nullptr);
+			pSymbolOrdering.reserve(positions.size());
 
 			for (auto it = positions.cbegin(), end = positions.cend(); it != end; ++it)
 			{
@@ -119,22 +118,24 @@ namespace Private
 	}
 
 
-	void PathFormatHelper::determineKey(Yuni::CString<30, false>& out,
-		const RelevantInformations& infos) const
+	bool PathFormatHelper::isOk(const AnyString& path,
+		std::unordered_map<Traits::Element, CString<10, false> >& values) const
 	{
-		assert(out.empty());
+		assert(values.size() == 0u);
+		boost::cmatch m;
 
-		for (unsigned int i = 0u; i < Elements::size; ++i)
+		if (!regex_search(path.c_str(), m, pRegEx))
+			return false;
+
+		unsigned int size = pSymbolOrdering.size();
+
+		for (unsigned int i = 0u; i < size; ++i)
 		{
-			if (pDoContains.test(i))
-				out << infos.value(i);
+			values[pSymbolOrdering[i]] = m[i + 1u];
+			// + 1u because regex elements begin at 1; 0 is the full expression
 		}
-	}
 
-
-	bool PathFormatHelper::isOk(const AnyString& path, boost::cmatch& m) const
-	{
-		return (regex_search(path.c_str(), m, pRegEx));
+		return true;
 	}
 
 
@@ -151,7 +152,7 @@ namespace Private
 			assert(!(!elementPtr));
 			const Traits::Element& element = *elementPtr;
 
-			if (pDoContains.test(element.nature))
+			if (doContains.test(element.nature))
 				out.replace(element.symbol(), infos.value(element.nature));
 		}
 	}
@@ -197,7 +198,8 @@ namespace Private
 	}
 
 
-	bool PathFormat::doFolderMatch(const AnyString& path, boost::cmatch& out) const
+	bool PathFormat::doFolderMatch(const AnyString& path,
+		std::unordered_map<Traits::Element, CString<10, false> >& out) const
 	{
 		// Trivial case: if no folder defined any path match
 		if (!pFolderPart)
@@ -226,19 +228,12 @@ namespace Private
 	}
 
 
-	/*!
-	** \brief Given a date and a photographer, determine what can be used as key when
-	** considering pre-existing pictures in target folder
-	*/
-	void PathFormat::determineFolderKey(Yuni::CString<30, false>& out,
-		const ExtendedPhoto& photo) const
+	const std::bitset<Elements::size>& PathFormat::folderContent() const
 	{
-		Private::RelevantInformations::Ptr infosPtr = photo.informations();
-		assert(!(!infosPtr));
-		auto& infos = *infosPtr;
 		assert(!(!pFolderPart));
-		pFolderPart->determineKey(out, infos);
+		return pFolderPart->doContains;
 	}
+
 
 
 }// namespace Private

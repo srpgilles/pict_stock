@@ -8,7 +8,7 @@ namespace Private
 
 
 	inline void SortNewPhotosIterator::picturesToProcess(
-		std::map<DateString, ExtendedPhoto::Vector>& out) const
+		std::map<RelevantInformations::Ptr, ExtendedPhoto::Vector>& out) const
 	{
 		out = pPicturesToProcess;
 	}

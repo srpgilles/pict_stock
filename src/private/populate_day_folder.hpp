@@ -47,7 +47,7 @@ namespace Private
 		** \param[in] summaryFile File in which all operations will be saved
 		*/
 		PopulateDayFolder(LoggingFacility& logs, const YString& targetFolder,
-			const DateString& targetDate, ExtendedPhoto::Vector& newPhotos,
+			const Yuni::CString<8, false>& targetDate, ExtendedPhoto::Vector& newPhotos,
 			const YString& summaryFile);
 
 		//! Destructor
@@ -64,14 +64,6 @@ namespace Private
 
 	private:
 
-		/*!
-		** \brief Scan new photos and check their date matches #pTargetDate
-		**
-		** This should be the case in most cases; but in case you are sorting pictures
-		** with unreliable exif data it might not be
-		** If disagreement, modify the exif by giving a fake date associated with a proper comment
-		*/
-		bool enforceDateInNewPhotos();
 
 		/*!
 		** \brief Insert existing photos in #pPhotosPerName
@@ -109,7 +101,7 @@ namespace Private
 		const YString& pTargetFolder;
 
 		//! Date of the photos to put into target folder
-		const DateString& pTargetDate;
+		const Yuni::CString<8, false>& pTargetDate;
 
 		//! New photos to be added in target folder
 		ExtendedPhoto::Vector pNewPhotos;

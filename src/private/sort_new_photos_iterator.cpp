@@ -149,6 +149,9 @@ namespace Private
 		String fullName;
 		fullName << folder << IO::Separator << name;
 		ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, fullName);
+		auto infosPtr = photoPtr->informations();
+		assert(!(!infosPtr));
+		auto& infos = *infosPtr;
 
 		if (photoPtr->problem())
 		{
@@ -160,14 +163,10 @@ namespace Private
 		if (!pCurrentFolderManualDate.empty())
 		{
 			assert(pDoFolderManualDate);
-			pPicturesToProcess[pCurrentFolderManualDate].push_back(photoPtr);
+			infos.changeDate(pCurrentFolderManualDate);
 		}
-		else
-		{
-			logs.warning("TMP FOR DEBUG PURPOSES!");
-			//pPicturesToProcess[photoPtr->date()].push_back(photoPtr);
-			pPicturesToProcess["FOO"].push_back(photoPtr);
-		}
+
+		pPicturesToProcess[infosPtr].push_back(photoPtr);
 
 		return IO::flowContinue;
 	}

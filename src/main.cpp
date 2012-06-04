@@ -156,11 +156,7 @@ int main(int argc, char* argv[])
 	parser.addParagraph("\nHelp:\n");
 
 	if (!parser(argc, argv))
-	{
-		logs.fatal("Command line parsing failed. Here is the help description of the program:");
-		parser.helpUsage(argv[0]);
 		exit(EXIT_FAILURE);
-	}
 
 	// Default values
 	if (parameterFile.empty())

@@ -37,8 +37,10 @@ namespace PictStock
 	bool PhotoDirectory::createFolder(YString& folder, const Private::RelevantInformations& infos)
 	{
 		assert(!(!pPathFormat));
+
 		auto& pathFormat = *pPathFormat;
-		pathFormat.determineMinimalFolder(folder, infos);
+
+		pathFormat.determineMinimalFolder(folder, pMainFolder, infos);
 
 		if ((!IO::Directory::Exists(folder)) && (!IO::Directory::Create(folder)))
 			return false;

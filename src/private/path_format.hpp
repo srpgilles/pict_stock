@@ -251,7 +251,7 @@ namespace Private
 		** It is the minimal choice: many other expressions would also match the date and photographer
 		** but we choose the minimal one
 		*/
-		void determineMinimalFolder(Yuni::String& out, const ExtendedPhoto& photo) const;
+		void determineMinimalFolder(Yuni::String& out, const YString& mainFolder, const ExtendedPhoto& photo) const;
 
 		/*!
 		** \brief Given a date and a photographer, generate the default output path matching it
@@ -259,7 +259,7 @@ namespace Private
 		** It is the minimal choice: many other expressions would also match the date and photographer
 		** but we choose the minimal one
 		*/
-		void determineMinimalFolder(Yuni::String& out, const RelevantInformations& infos) const;
+		void determineMinimalFolder(Yuni::String& out, const YString& mainFolder, const RelevantInformations& infos) const;
 
 
 		/*!

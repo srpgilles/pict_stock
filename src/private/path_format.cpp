@@ -245,28 +245,41 @@ namespace Private
 
 
 
-	void PathFormat::determineMinimalFolder(Yuni::String& out, const ExtendedPhoto& photo) const
+	void PathFormat::determineMinimalFolder(Yuni::String& out,
+		const YString& mainFolder, const ExtendedPhoto& photo) const
 	{
 		assert(out.empty());
 
 		if (!pFolderPart)
 			return ;
 
-		pFolderPart->determineMinimalPath(out, photo);
+		YString buf;
+		pFolderPart->determineMinimalPath(buf, photo);
+
+		out = mainFolder;
+		out << IO::Separator << buf;
+
 	}
 
-	void PathFormat::determineMinimalFolder(Yuni::String& out, const RelevantInformations& infos) const
+
+	void PathFormat::determineMinimalFolder(Yuni::String& out,
+		const YString& mainFolder, const RelevantInformations& infos) const
 	{
 		assert(out.empty());
 
 		if (!pFolderPart)
 			return ;
 
-		pFolderPart->determineMinimalPath(out, infos);
+		YString buf;
+		pFolderPart->determineMinimalPath(buf, infos);
+
+		out = mainFolder;
+		out << IO::Separator << buf;
 	}
 
 
-	void PathFormat::determineMinimalFilename(Yuni::String& out, const ExtendedPhoto& photo) const
+	void PathFormat::determineMinimalFilename(Yuni::String& out,
+		const ExtendedPhoto& photo) const
 	{
 		assert(!(!pFilePart));
 

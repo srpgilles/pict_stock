@@ -53,8 +53,6 @@ namespace Private
 			out.minute = match[5].str();
 			out.second = match[6].str();
 
-			logs.notice() << "MONTH = " << out.month;
-
 			return true;
 		}
 		else

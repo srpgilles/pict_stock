@@ -198,8 +198,6 @@ namespace PictStock
 
 		Private::Date date;
 
-		logs.notice() << dateRead;
-
 		bool ret = Private::dateFromExif(logs, date, dateRead);
 
 		if (!ret)

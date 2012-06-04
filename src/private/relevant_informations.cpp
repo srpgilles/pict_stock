@@ -131,7 +131,7 @@ namespace Private
 
 	bool RelevantInformations::isEmpty() const
 	{
-		if (!pPhotographerPtr)
+		if (!(!pPhotographerPtr))
 			return false;
 
 		return pDate.isEmpty();

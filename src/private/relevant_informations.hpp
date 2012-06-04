@@ -82,6 +82,11 @@ namespace Private
 		*/
 		friend bool operator<(const RelevantInformations& lhs, const RelevantInformations& rhs);
 
+		/*!
+		** \brief True if no relevant data in the object
+		*/
+		bool isEmpty() const;
+
 	public:
 
 		mutable LoggingFacility& logs;

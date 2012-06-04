@@ -138,6 +138,29 @@ namespace Private
 		return true;
 	}
 
+	bool PathFormatHelper::isOk(const AnyString& path,
+		RelevantInformations& out) const
+	{
+		assert(out.isEmpty() && "If not, improper call to this method");
+		boost::cmatch m;
+
+		if (!regex_search(path.c_str(), m, pRegEx))
+			return false;
+
+		size_t size = pSymbolOrdering.size();
+
+		for (unsigned int i = 0u; i < size; ++i)
+		{
+			auto ptr = pSymbolOrdering[i];
+			assert(!(!ptr));
+
+			out.setValue(ptr->nature, m[i + 1u].str());
+			// + 1u because regex elements begin at 1; 0 is the full expression
+		}
+
+		return true;
+	}
+
 
 	void PathFormatHelper::determineMinimalPath(String& out,
 		const RelevantInformations& infos) const
@@ -207,6 +230,19 @@ namespace Private
 
 		return pFolderPart->isOk(path, out);
 	}
+
+
+
+	bool PathFormat::doFolderMatch(const AnyString& path, RelevantInformations& infos) const
+	{
+		// Trivial case: if no folder defined any path match
+		if (!pFolderPart)
+			return true;
+
+		return pFolderPart->isOk(path, infos);
+	}
+
+
 
 
 	void PathFormat::determineMinimalFolder(Yuni::String& out, const ExtendedPhoto& photo) const

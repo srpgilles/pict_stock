@@ -127,6 +127,15 @@ namespace Private
 	}
 
 
+	bool RelevantInformations::isEmpty() const
+	{
+		if (!pPhotographerPtr)
+			return false;
+
+		return pDate.isEmpty();
+	}
+
+
 	bool operator==(const RelevantInformations& lhs, const RelevantInformations& rhs)
 	{
 		if (lhs.pDate != rhs.pDate)

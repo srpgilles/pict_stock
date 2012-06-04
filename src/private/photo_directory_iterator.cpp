@@ -67,11 +67,14 @@ namespace Private
 
 	bool PhotoDirectoryIterator::checkValidity(const String& directory)
 	{
-		std::map<Traits::Element::Ptr, Yuni::CString<10, false> > buf;
+		std::map<Traits::Element::Ptr, Yuni::CString<10, false> > elements;
 
-		if (pPathFormat.doFolderMatch(directory, buf))
+		if (pPathFormat.doFolderMatch(directory, elements))
 		{
 			auto foo = pPathFormat.folderContent();
+
+			//RelevantInformations infos =
+			//pValidDirectories;
 			//pPathFormat.determineFolderKey(buf, )
 			//pValidDirectories.insert(make_pair(pPathFormat.));
 		}

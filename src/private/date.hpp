@@ -29,6 +29,10 @@ namespace Private
 		DateString hour;
 		DateString minute;
 		DateString second;
+
+		//! True if no value is set, false otherwise
+		bool isEmpty() const;
+
 	};
 
 	bool operator == (const Date& lhs, const Date& rhs);

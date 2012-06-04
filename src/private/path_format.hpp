@@ -110,6 +110,15 @@ namespace Private
 
 
 		/*!
+		** \brief Check whether the folder part of a path complies with the user-defined path format
+		**
+		** \param[in] path Path being checked
+		** \param[out] out #RelevantInformations object in which only relevant fields have been completed
+		*/
+		bool isOk(const AnyString& path, RelevantInformations& out) const;
+
+
+		/*!
 		** \brief Given a date and a photographer, generate the default output path matching it
 		**
 		** It is the minimal choice: many other expressions would also match the date and photographer
@@ -224,6 +233,15 @@ namespace Private
 		*/
 		bool doFolderMatch(const AnyString& path,
 			std::map<Traits::Element::Ptr, Yuni::CString<10, false> >& out) const;
+
+
+		/*!
+		** \brief Check whether the folder part of a path complies with the user-defined path format
+		**
+		** \param[in] path Path being checked
+		** \param[out] out #RelevantInformations object in which only relevant fields have been completed
+		*/
+		bool doFolderMatch(const AnyString& path, RelevantInformations& out) const;
 
 
 

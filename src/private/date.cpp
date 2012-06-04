@@ -103,6 +103,17 @@ namespace Private
 		return (lhs.second < rhs.second);
 	}
 
+
+	bool Date::isEmpty() const
+	{
+		return year.empty()
+			&& month.empty()
+			&& day.empty()
+			&& hour.empty()
+			&& minute.empty()
+			&& second.empty();
+	}
+
 } // namespace Private
 } // namespace PictStock
 

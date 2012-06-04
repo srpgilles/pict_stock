@@ -76,6 +76,12 @@ namespace Private
 		friend bool operator==(const RelevantInformations& lhs, const RelevantInformations& rhs);
 		friend bool operator!=(const RelevantInformations& lhs, const RelevantInformations& rhs);
 
+		/*!
+		** \brief Actual order doesn't matter much: the point is to be able to use RelevantInformations
+		** as a key in a map
+		*/
+		friend bool operator<(const RelevantInformations& lhs, const RelevantInformations& rhs);
+
 	public:
 
 		mutable LoggingFacility& logs;
@@ -93,7 +99,7 @@ namespace Private
 
 	bool operator==(const RelevantInformations& lhs, const RelevantInformations& rhs);
 	bool operator!=(const RelevantInformations& lhs, const RelevantInformations& rhs);
-
+	bool operator<(const RelevantInformations& lhs, const RelevantInformations& rhs);
 
 } // namespace PictStock
 } // namespace Private

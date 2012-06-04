@@ -7,11 +7,12 @@ typedef Yuni::Logs::Logger<> LoggingFacility;
 
 namespace PictStock
 {
+namespace Private
+{
 
 
 
-
-
+} // namespace Private
 } // namespace PictStock
 
 

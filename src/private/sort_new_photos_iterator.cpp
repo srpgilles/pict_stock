@@ -1,5 +1,6 @@
 #include "sort_new_photos_iterator.hpp"
 #include "date_tools.hxx"
+#include "path_format.hpp"
 
 namespace PictStock
 {
@@ -24,8 +25,9 @@ namespace Private
 	using namespace Yuni;
 
 	SortNewPhotosIterator::SortNewPhotosIterator(LoggingFacility& logs,
-		const String& inputDirectory, bool doFolderManualDate)
+		const String& inputDirectory, const PathFormat& pathFormat, bool doFolderManualDate)
 		: logs(logs),
+		  pPathFormat(pathFormat),
 		  pDoFolderManualDate(doFolderManualDate),
 		  pFolderLevel(0u),
 		  pCurrentFolderManualLevel(static_cast<unsigned int>(-1))
@@ -166,7 +168,9 @@ namespace Private
 			infos.changeDate(pCurrentFolderManualDate);
 		}
 
-		pPicturesToProcess[infosPtr].push_back(photoPtr);
+		auto usefulInfos = infos.onlyUsefulOnes(pPathFormat.folderContent());
+
+		pPicturesToProcess[usefulInfos].push_back(photoPtr);
 
 		return IO::flowContinue;
 	}

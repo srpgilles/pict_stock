@@ -5,8 +5,11 @@ namespace PictStock
 {
 namespace Private
 {
+	typedef Yuni::CString<8, false> DateString;
+
 	namespace // anonymous
 	{
+
 		/*!
 		 * \brief Analyze a part of the subfolder and decide whether this
 		 * is a valid date or not

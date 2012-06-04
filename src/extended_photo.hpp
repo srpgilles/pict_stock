@@ -1,6 +1,7 @@
 #ifndef EXTENDED_PHOTO_HPP_
 # define EXTENDED_PHOTO_HPP_
 
+# include <map>
 # include <exiv2/src/image.hpp>
 # include <exiv2/src/exif.hpp>
 # include <yuni/core/string.h>
@@ -147,6 +148,9 @@ namespace PictStock
 
 	//! Operator== : two #ExtendedPhoto are equals if they share the same object *pImage
 	bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
+
+
+	typedef std::map<Private::RelevantInformations, ExtendedPhoto::Vector> OrderedPhotos;
 
 }// namespace PictStock
 

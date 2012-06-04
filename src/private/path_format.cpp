@@ -119,7 +119,7 @@ namespace Private
 
 
 	bool PathFormatHelper::isOk(const AnyString& path,
-		std::unordered_map<Traits::Element, CString<10, false> >& values) const
+		std::map<Traits::Element::Ptr, CString<10, false> >& values) const
 	{
 		assert(values.size() == 0u);
 		boost::cmatch m;
@@ -127,11 +127,11 @@ namespace Private
 		if (!regex_search(path.c_str(), m, pRegEx))
 			return false;
 
-		unsigned int size = pSymbolOrdering.size();
+		size_t size = pSymbolOrdering.size();
 
 		for (unsigned int i = 0u; i < size; ++i)
 		{
-			values[pSymbolOrdering[i]] = m[i + 1u];
+			values[pSymbolOrdering[i]] = m[i + 1u].str();
 			// + 1u because regex elements begin at 1; 0 is the full expression
 		}
 
@@ -199,7 +199,7 @@ namespace Private
 
 
 	bool PathFormat::doFolderMatch(const AnyString& path,
-		std::unordered_map<Traits::Element, CString<10, false> >& out) const
+		std::map<Traits::Element::Ptr, CString<10, false> >& out) const
 	{
 		// Trivial case: if no folder defined any path match
 		if (!pFolderPart)
@@ -216,7 +216,17 @@ namespace Private
 		if (!pFolderPart)
 			return ;
 
-		return pFolderPart->determineMinimalPath(out, photo);
+		pFolderPart->determineMinimalPath(out, photo);
+	}
+
+	void PathFormat::determineMinimalFolder(Yuni::String& out, const RelevantInformations& infos) const
+	{
+		assert(out.empty());
+
+		if (!pFolderPart)
+			return ;
+
+		pFolderPart->determineMinimalPath(out, infos);
 	}
 
 
@@ -224,7 +234,7 @@ namespace Private
 	{
 		assert(!(!pFilePart));
 
-		return pFilePart->determineMinimalPath(out, photo);
+		pFilePart->determineMinimalPath(out, photo);
 	}
 
 

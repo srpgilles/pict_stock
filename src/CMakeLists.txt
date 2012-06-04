@@ -1,7 +1,5 @@
 add_library(pict_stock STATIC
-	private/relevant_informations.cpp
-	private/relevant_informations.hpp
-	####
+	
 	pict_stock.hpp
 	photo_directory.cpp
 	photo_directory.hpp
@@ -23,12 +21,14 @@ add_library(pict_stock STATIC
 	private/sort_new_photos_iterator.hxx
 	private/populate_day_folder.cpp
 	private/populate_day_folder.hpp
-	private/date_tools.hxx
 	private/tools.hpp
 	private/path_format.cpp
 	private/path_format.hpp
 	private/date.cpp
 	private/date.hpp
+	private/date_tools.hxx
+	private/relevant_informations.cpp
+	private/relevant_informations.hpp
 	
 )
 

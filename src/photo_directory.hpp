@@ -67,13 +67,17 @@ namespace PictStock
 		 *
 		 *  \return True If creation went right
 		 */
-		bool createFolder(YString& folder, const ExtendedPhoto& photo);
+		bool createFolder(YString& folder, const Private::RelevantInformations& infos);
 
+
+		//! Return the path format defined by the user
+		inline Private::PathFormat::Ptr pathFormat() const;
 
 	public:
 
 		//! Logging facility
 		mutable LoggingFacility& logs;
+
 
 	private:
 
@@ -90,7 +94,7 @@ namespace PictStock
 	};
 
 
-} // namespace SgPĥoto
+} // namespace PictStock
 
 # include "photo_directory.hxx"
 

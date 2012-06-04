@@ -7,8 +7,7 @@ namespace Private
 {
 
 
-	inline void SortNewPhotosIterator::picturesToProcess(
-		std::map<RelevantInformations::Ptr, ExtendedPhoto::Vector>& out) const
+	inline void SortNewPhotosIterator::picturesToProcess(OrderedPhotos& out) const
 	{
 		out = pPicturesToProcess;
 	}

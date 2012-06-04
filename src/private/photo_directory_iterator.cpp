@@ -1,5 +1,4 @@
 #include "photo_directory_iterator.hpp"
-#include "date_tools.hxx"
 #include "path_format.hpp"
 
 using namespace Yuni;
@@ -68,13 +67,19 @@ namespace Private
 
 	bool PhotoDirectoryIterator::checkValidity(const String& directory)
 	{
-		boost::cmatch regexMatch;
-		if (pPathFormat.doFolderMatch(directory, regexMatch))
+		std::map<Traits::Element::Ptr, Yuni::CString<10, false> > buf;
+
+		if (pPathFormat.doFolderMatch(directory, buf))
 		{
 			auto foo = pPathFormat.folderContent();
 			//pPathFormat.determineFolderKey(buf, )
 			//pValidDirectories.insert(make_pair(pPathFormat.));
 		}
+
+		// TODO Complete!
+
+
+		return true;
 
 //		// Split the path in subfolders to see if they are legit directories
 //		std::vector<String> subPath;

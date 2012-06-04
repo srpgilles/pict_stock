@@ -34,20 +34,19 @@ namespace PictStock
 
 
 
-	bool PhotoDirectory::createFolder(YString& folder, const ExtendedPhoto& photo)
+	bool PhotoDirectory::createFolder(YString& folder, const Private::RelevantInformations& infos)
 	{
 		assert(!(!pPathFormat));
 		auto& pathFormat = *pPathFormat;
-		pathFormat.determineMinimalFolder(folder, photo);
+		pathFormat.determineMinimalFolder(folder, infos);
 
 		if ((!IO::Directory::Exists(folder)) && (!IO::Directory::Create(folder)))
 			return false;
 
 		// Add new folder in the tree
-		auto infosPtr = photo.informations();
-		assert(!(!infosPtr));
 		Private::RelevantInformations onlyUsefulInfos =
-			infosPtr->onlyUsefulOnes(pathFormat.folderContent());
+			infos.onlyUsefulOnes(pathFormat.folderContent());
+
 		pTree.insert(std::make_pair(onlyUsefulInfos, folder));
 
 		return true;

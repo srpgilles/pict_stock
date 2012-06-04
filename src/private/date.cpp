@@ -81,6 +81,26 @@ namespace Private
 	{
 		return !(operator == (lhs, rhs));
 	}
+
+
+	bool operator < (const Date& lhs, const Date& rhs)
+	{
+		if (lhs.year < rhs.year)
+			return true;
+
+		if (lhs.month < rhs.month)
+			return true;
+
+		if (lhs.day < rhs.day)
+			return true;
+
+		if (lhs.hour < rhs.hour)
+			return true;
+
+		if (lhs.minute < rhs.minute)
+			return true;
+
+		return (lhs.second < rhs.second);
 	}
 
 } // namespace Private

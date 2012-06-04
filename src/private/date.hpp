@@ -33,6 +33,7 @@ namespace Private
 
 	bool operator == (const Date& lhs, const Date& rhs);
 	bool operator != (const Date& lhs, const Date& rhs);
+	bool operator < (const Date& lhs, const Date& rhs);
 
 	//! Interpret the string dateRead and extract from it the date.
 	bool dateFromExif(LoggingFacility& logs, Date& out, const YString& dateRead);

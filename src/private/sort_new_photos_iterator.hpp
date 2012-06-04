@@ -9,6 +9,9 @@ namespace PictStock
 namespace Private
 {
 
+	//! Forward declaration
+	class PathFormat;
+
 
 	class YUNI_DECL SortNewPhotosIterator : public Yuni::IO::Directory::IIterator<false>
 	{
@@ -37,7 +40,8 @@ namespace Private
 		 * should be false most of the time...
 		 */
 		explicit SortNewPhotosIterator(LoggingFacility& logs,
-			const Yuni::String& inputDirectory, bool doFolderManualDate = false);
+			const Yuni::String& inputDirectory, const PathFormat& pathFormat,
+			bool doFolderManualDate = false);
 
 		//! Destructor
 		virtual ~SortNewPhotosIterator();
@@ -49,7 +53,7 @@ namespace Private
 		 * \param[out] out PicturesToProcess Key is date under format YYYYMMDD,
 		 * value if a list of #ExtendedPhoto pointers
 		 */
-		void picturesToProcess(std::map<RelevantInformations::Ptr, ExtendedPhoto::Vector>& out) const;
+		void picturesToProcess(OrderedPhotos& out) const;
 
 	public:
 
@@ -84,8 +88,11 @@ namespace Private
 
 	private:
 
+		//!
+		const PathFormat& pPathFormat;
+
 		//! List of all jpeg files to process, sort by date
-		std::map<RelevantInformations::Ptr, ExtendedPhoto::Vector> pPicturesToProcess;
+		OrderedPhotos pPicturesToProcess;
 
 		//!
 

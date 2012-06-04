@@ -2,12 +2,12 @@
 # define _PRIVATE_TOOLS_HPP_
 
 # include "relevant_informations.hpp"
-# include <unordered_map>
+# include <map>
 
 namespace PictStock
 {
 	//typedef Yuni::CString<30, false> KeyString;
-    typedef std::unordered_multimap<Private::RelevantInformations, Yuni::String> ValidDirectoriesType;
+    typedef std::multimap<Private::RelevantInformations, Yuni::String> ValidDirectoriesType;
 
 } // namespace PictStock
 

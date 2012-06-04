@@ -42,12 +42,12 @@ namespace Private
 		**
 		** \param[in, out] logs Logging facility
 		** \param[in] targetFolder Folder in which the new photo will be inserted. Must exist
-		** \param[in] targetDate Date of the pĥotos inside that folder. Format YYYYMMDD
+		** \param[in] targetInfos Informations relevant for the target
 		** \param[in] newPhotos List of new photos to be inserted in the target folder
 		** \param[in] summaryFile File in which all operations will be saved
 		*/
 		PopulateDayFolder(LoggingFacility& logs, const YString& targetFolder,
-			const Yuni::CString<8, false>& targetDate, ExtendedPhoto::Vector& newPhotos,
+			const RelevantInformations& targetInfos, ExtendedPhoto::Vector& newPhotos,
 			const YString& summaryFile);
 
 		//! Destructor
@@ -101,7 +101,7 @@ namespace Private
 		const YString& pTargetFolder;
 
 		//! Date of the photos to put into target folder
-		const Yuni::CString<8, false>& pTargetDate;
+		const RelevantInformations& pTargetInformations;
 
 		//! New photos to be added in target folder
 		ExtendedPhoto::Vector pNewPhotos;

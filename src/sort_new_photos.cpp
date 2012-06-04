@@ -15,7 +15,10 @@ namespace PictStock
 		  pInputDirectory(inputDirectory),
 		  pSummaryFile(summaryFile)
 	{
-		Private::SortNewPhotosIterator iterator(logs, inputDirectory, doFolderManuallyDate);
+		auto pathFormatPtr = pPhotoDirectory.pathFormat();
+		assert(!(!pathFormatPtr));
+
+		Private::SortNewPhotosIterator iterator(logs, inputDirectory, *pathFormatPtr, doFolderManuallyDate);
 		iterator.picturesToProcess(pPicturesToProcess);
 	}
 
@@ -47,7 +50,7 @@ namespace PictStock
 
 			if (!pPhotoDirectory.createFolder(targetFolder, folderInfos))
 			{
-				logs.error() << "Unable to create folder related to date " << folderInfos;
+				logs.error() << "Unable to create folder " << targetFolder;
 				return false;
 			}
 

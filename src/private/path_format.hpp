@@ -1,7 +1,7 @@
 #ifndef PATH_FORMAT_HPP_
 # define PATH_FORMAT_HPP_
 
-# include <unordered_map>
+# include <map>
 # include <bitset>
 # include <yuni/core/string.h>
 # ifdef USE_BOOST_REGULAR_EXPR
@@ -106,7 +106,7 @@ namespace Private
 		** \param[out] out Map giving all values read in the path
 		*/
 		bool isOk(const AnyString& path,
-			std::unordered_map<Traits::Element, Yuni::CString<10, false> >& out) const;
+			std::map<Traits::Element::Ptr, Yuni::CString<10, false> >& out) const;
 
 
 		/*!
@@ -223,7 +223,7 @@ namespace Private
 		** for instance index 1 match the type of Element at pSymbolOrdering[1]
 		*/
 		bool doFolderMatch(const AnyString& path,
-			std::unordered_map<Traits::Element, Yuni::CString<10, false> >& out) const;
+			std::map<Traits::Element::Ptr, Yuni::CString<10, false> >& out) const;
 
 
 
@@ -234,6 +234,14 @@ namespace Private
 		** but we choose the minimal one
 		*/
 		void determineMinimalFolder(Yuni::String& out, const ExtendedPhoto& photo) const;
+
+		/*!
+		** \brief Given a date and a photographer, generate the default output path matching it
+		**
+		** It is the minimal choice: many other expressions would also match the date and photographer
+		** but we choose the minimal one
+		*/
+		void determineMinimalFolder(Yuni::String& out, const RelevantInformations& infos) const;
 
 
 		/*!

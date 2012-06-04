@@ -148,7 +148,16 @@ namespace Private
 		return !(operator == (lhs, rhs));
 	}
 
+	bool operator<(const RelevantInformations& lhs, const RelevantInformations& rhs)
+	{
+		if (lhs.pDate == rhs.pDate)
+			return false;
 
+		if (rhs.pDate < lhs.pDate)
+			return false;
+
+		return (lhs.pPhotographerPtr < rhs.pPhotographerPtr);
+	}
 
 } // namespace Private
 } // namespace PictStock

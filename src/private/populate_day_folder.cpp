@@ -26,10 +26,10 @@ namespace Private
 
 
 	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs, const YString& targetFolder,
-		const DateString& targetDate, ExtendedPhoto::Vector& newPhotos, const YString& summaryFile)
+		const RelevantInformations& targetInfos, ExtendedPhoto::Vector& newPhotos, const YString& summaryFile)
 		: logs(logs),
 		  pTargetFolder(targetFolder),
-		  pTargetDate(targetDate),
+		  pTargetInformations(targetInfos),
 		  pNewPhotos(newPhotos),
 		  pSummaryFile(summaryFile)
 	{ }

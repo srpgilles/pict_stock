@@ -168,6 +168,13 @@ namespace Private
 		if (rhs.pDate < lhs.pDate)
 			return false;
 
+		// Totally subjective here; the point is to ensure key in map container
+		if (!(lhs.pPhotographerPtr))
+			return true;
+
+		if (!(rhs.pPhotographerPtr))
+			return false; // opposite of the one above to ensure consistency
+
 		return (lhs.pPhotographerPtr < rhs.pPhotographerPtr);
 	}
 

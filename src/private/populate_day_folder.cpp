@@ -23,9 +23,12 @@ namespace Private
 	}// namespace anonymous
 
 
-	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs, const PathFormat& pathFormat,
+	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs,
+		const PathFormat& pathFormat,
 		const YString& targetFolder,
-		const RelevantInformations& targetInfos, ExtendedPhoto::Vector& newPhotos, const YString& summaryFile)
+		const RelevantInformations& targetInfos,
+		ExtendedPhoto::Vector& newPhotos,
+		const YString& summaryFile)
 		: logs(logs),
 		  pTargetFolder(targetFolder),
 		  pTargetInformations(targetInfos),
@@ -208,11 +211,18 @@ namespace Private
 			return false;
 		}
 
-		if (IO::File::Delete(origin) != IO::errNone)
+		static bool alreadyDisplayed = false;
+
+		if (!alreadyDisplayed)
 		{
-			logs.error() << "Unable to delete " << origin;
-			return false;
+			logs.warning("DEV - not deleting input files");
+			alreadyDisplayed = true;
 		}
+//		if (IO::File::Delete(origin) != IO::errNone)
+//		{
+//			logs.error() << "Unable to delete " << origin;
+//			return false;
+//		}
 
 		return true;
 	}

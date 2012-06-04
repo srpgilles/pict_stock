@@ -145,5 +145,8 @@ int main(int argc, char* argv[])
 
 	//TestPathFormat::test(logs);
 
+	PictStock::ExtendedPhoto photo(logs, "/tmp/devPhotos/2010/M10/J26/Photo_1016_T.jpg");
+
+
 	return 0;
 }

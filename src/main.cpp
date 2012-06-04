@@ -57,7 +57,6 @@ namespace
 		/*!
 		** \brief Map containing all relevant values read and their associated values
 		**
-		** Important: before call to #proceed only the keyx are defined; values are left empty
 		*/
 		std::map<KeyString, String> pParameters;
 
@@ -68,7 +67,12 @@ namespace
 	ReadParameterFile::ReadParameterFile(LoggingFacility& logs, const YString& file)
 		: logs(logs),
 		  pFile(file),
-		  pParameters({{"inputFolder",""}, {"outputFolder",""}, {"logFile",""}})
+		  pParameters({
+			{"inputFolder",""},
+			{"outputFolder",""},
+			{"logFile",""},
+			{"pathFormat", ""}
+			})
 	{
 
 		// Assign values from the parameter file
@@ -123,7 +127,13 @@ namespace
 	const String& ReadParameterFile::operator[](const KeyString& key) const
 	{
 		auto it = pParameters.find(key);
-		assert(it != pParameters.end() && "Should be enforced in #proceed() method");
+
+		if (it == pParameters.end())
+		{
+			logs.fatal("Parameter \"") << key << "\" was not foreseen";
+			exit(EXIT_FAILURE);
+		}
+
 		return it->second;
 	}
 

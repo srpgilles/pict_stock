@@ -97,8 +97,7 @@ namespace Private
 			assert(!(!photoPtr));
 			YString newName;
 			ExtendedPhoto& photo = *photoPtr;
-			assert(false && "Incomplete (dev)");
-			//photo.newNameWithoutExtension(newName);
+			pPathFormat.determineMinimalFilename(newName, *photoPtr);
 
 			{
 				ExtendedPhoto::Vector& allPhotos = pPhotosPerName[newName];

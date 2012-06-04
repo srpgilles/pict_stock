@@ -84,7 +84,9 @@ namespace Private
 			return date.second;
 		case Elements::photographer:
 			{
-				assert(!(!pPhotographerPtr));
+				if (!pPhotographerPtr)
+					return "UNK";
+
 				return pPhotographerPtr->abbr();
 			}
 		case Elements::size:

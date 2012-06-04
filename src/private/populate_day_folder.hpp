@@ -8,6 +8,9 @@ namespace PictStock
 namespace Private
 {
 
+	//! Forward declaration
+	class PathFormat;
+
 	/*!
 	** \brief A proxy method of #SortPhotos in charge of inserting new photos inside a given target folder
 	**
@@ -46,7 +49,8 @@ namespace Private
 		** \param[in] newPhotos List of new photos to be inserted in the target folder
 		** \param[in] summaryFile File in which all operations will be saved
 		*/
-		PopulateDayFolder(LoggingFacility& logs, const YString& targetFolder,
+		PopulateDayFolder(LoggingFacility& logs, const PathFormat& pathFormat,
+			const YString& targetFolder,
 			const RelevantInformations& targetInfos, ExtendedPhoto::Vector& newPhotos,
 			const YString& summaryFile);
 
@@ -102,6 +106,9 @@ namespace Private
 
 		//! Date of the photos to put into target folder
 		const RelevantInformations& pTargetInformations;
+
+		//!
+		const PathFormat& pPathFormat;
 
 		//! New photos to be added in target folder
 		ExtendedPhoto::Vector pNewPhotos;

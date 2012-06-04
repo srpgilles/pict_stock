@@ -55,8 +55,11 @@ namespace PictStock
 			}
 
 			{
-				Private::PopulateDayFolder populateFolder(logs, targetFolder, folderInfos,
-					it->second, pSummaryFile);
+				auto pathFormatPtr = pPhotoDirectory.pathFormat();
+				assert(!(!pathFormatPtr));
+
+				Private::PopulateDayFolder populateFolder(logs, *pathFormatPtr,
+					targetFolder, folderInfos, it->second, pSummaryFile);
 				if (!populateFolder.proceed())
 					return false;
 			}

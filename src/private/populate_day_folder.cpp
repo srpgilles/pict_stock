@@ -4,6 +4,7 @@
 #include <yuni/core/math.h>
 #include <fstream>
 #include "populate_day_folder.hpp"
+#include "path_format.hpp"
 
 using namespace Yuni;
 
@@ -19,17 +20,16 @@ namespace Private
 			return static_cast<unsigned int>(Math::Ceil(log10(static_cast<double>(number + 1u))));
 		}
 
-
-
-
 	}// namespace anonymous
 
 
-	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs, const YString& targetFolder,
+	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs, const PathFormat& pathFormat,
+		const YString& targetFolder,
 		const RelevantInformations& targetInfos, ExtendedPhoto::Vector& newPhotos, const YString& summaryFile)
 		: logs(logs),
 		  pTargetFolder(targetFolder),
 		  pTargetInformations(targetInfos),
+		  pPathFormat(pathFormat),
 		  pNewPhotos(newPhotos),
 		  pSummaryFile(summaryFile)
 	{ }
@@ -81,8 +81,7 @@ namespace Private
 			ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, file);
 
 			YString newName;
-			assert(false && "Incomplete (dev)");
-			//photoPtr->newNameWithoutExtension(newName);
+			pPathFormat.determineMinimalFilename(newName, *photoPtr);
 			pPhotosPerName[newName].push_back(photoPtr);
 		}
 

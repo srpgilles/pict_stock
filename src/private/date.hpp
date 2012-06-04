@@ -2,6 +2,7 @@
 # define DATE_HPP_
 
 # include <yuni/core/string.h>
+# include <ostream>
 # include "../pict_stock.hpp"
 # include "traits/traits.hpp"
 
@@ -32,6 +33,9 @@ namespace Private
 
 		//! True if no value is set, false otherwise
 		bool isEmpty() const;
+
+		//! Print, for debug purposes
+		void print(std::ostream& out) const;
 
 	};
 

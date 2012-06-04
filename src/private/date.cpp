@@ -52,6 +52,9 @@ namespace Private
 			out.hour = match[4].str();
 			out.minute = match[5].str();
 			out.second = match[6].str();
+
+			logs.notice() << "MONTH = " << out.month;
+
 			return true;
 		}
 		else
@@ -113,6 +116,35 @@ namespace Private
 			&& minute.empty()
 			&& second.empty();
 	}
+
+
+	void Date::print(std::ostream& out) const
+	{
+		if (isEmpty())
+		{
+			out << "Empty!" << '\n';
+			return;
+		}
+
+		if (!year.empty())
+			out << "Year = " << year << '\n';
+
+		if (!month.empty())
+			out << "Month = " << month << '\n';
+
+		if (!day.empty())
+			out << "Day = " << day << '\n';
+
+		if (!hour.empty())
+			out << "Hour = " << hour << '\n';
+
+		if (!minute.empty())
+			out << "Minute = " << minute << '\n';
+
+		if (!second.empty())
+			out << "Second = " << second << '\n';
+	}
+
 
 } // namespace Private
 } // namespace PictStock

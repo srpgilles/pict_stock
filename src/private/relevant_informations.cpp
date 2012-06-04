@@ -159,6 +159,7 @@ namespace Private
 		return !(operator == (lhs, rhs));
 	}
 
+
 	bool operator<(const RelevantInformations& lhs, const RelevantInformations& rhs)
 	{
 		if (lhs.pDate == rhs.pDate)
@@ -168,6 +169,18 @@ namespace Private
 			return false;
 
 		return (lhs.pPhotographerPtr < rhs.pPhotographerPtr);
+	}
+
+
+	void RelevantInformations::print(std::ostream& out) const
+	{
+		out << "Relevant informations are:\n\tDate:\n";
+		pDate.print(out);
+		out << "\tPhotographer:\n";
+		if (!pPhotographerPtr)
+			out << "Empty!" << '\n';
+		else
+			out << pPhotographerPtr->abbr();
 	}
 
 } // namespace Private

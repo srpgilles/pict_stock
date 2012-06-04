@@ -3,9 +3,11 @@
 # define RELEVANT_INFORMATIONS_HPP_
 
 # include <bitset>
+# include <ostream>
 # include "date.hpp"
 # include "photographer.hpp"
 # include "element.hpp"
+
 
 namespace PictStock
 {
@@ -86,6 +88,9 @@ namespace Private
 		** \brief True if no relevant data in the object
 		*/
 		bool isEmpty() const;
+
+		//! Print, for debug purposes
+		void print(std::ostream& out) const;
 
 	public:
 

@@ -6,6 +6,12 @@
 
 using namespace Yuni;
 
+# ifdef USE_BOOST_REGULAR_EXPR
+namespace regexNS = boost;
+# else
+namespace regexNS = std;
+# endif // USE_BOOST_REGULAR_EXPR
+
 namespace PictStock
 {
 namespace Private
@@ -113,7 +119,7 @@ namespace Private
 				helper.replace(symbol, buf);
 			}
 
-			pRegEx = boost::regex(helper.c_str());
+			pRegEx = regexNS::regex(helper.c_str());
 		}
 	}
 
@@ -122,7 +128,7 @@ namespace Private
 		std::map<Traits::Element::Ptr, CString<10, false> >& values) const
 	{
 		assert(values.size() == 0u);
-		boost::cmatch m;
+		regexNS::cmatch m;
 
 		if (!regex_search(path.c_str(), m, pRegEx))
 			return false;
@@ -142,7 +148,7 @@ namespace Private
 		RelevantInformations& out) const
 	{
 		assert(out.isEmpty() && "If not, improper call to this method");
-		boost::cmatch m;
+		regexNS::cmatch m;
 
 		if (!regex_search(path.c_str(), m, pRegEx))
 			return false;

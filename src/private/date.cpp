@@ -1,9 +1,14 @@
-#ifdef USE_BOOST_REGULAR_EXPR
-# include <boost/regex.hpp>
-#endif //USE_BOOST_REGULAR_EXPR
-
 #include "../pict_stock.hpp"
 #include "date.hpp"
+
+#ifdef USE_BOOST_REGULAR_EXPR
+# include <boost/regex.hpp>
+namespace regexNS = boost;
+# else // USE_BOOST_REGULAR_EXPR
+# include <regex>
+namespace regexNS = std;
+#endif // USE_BOOST_REGULAR_EXPR
+
 
 namespace PictStock
 {
@@ -26,22 +31,19 @@ namespace Private
 			<< '(' << Traits::Second::Regex() << ')'
 			<< "\\z";
 
-		#ifdef USE_BOOST_REGULAR_EXPR
 		/*!
 		** \brief Regular expression for date formatting
 		**
 		** Basically format is YYYY:MM:DD HH:mm:SS
 		*/
-		static const boost::regex RegexDateFormatting(expression.c_str());
-		#endif // USE_BOOST_REGULAR_EXPR
+		static const regexNS::regex RegexDateFormatting(expression.c_str());
 	} // anonymous namespace
 
 
 
 	bool dateFromExif(LoggingFacility& logs, Date& out, const YString& dateRead)
 	{
-		#ifdef USE_BOOST_REGULAR_EXPR
-		boost::cmatch match;
+		regexNS::cmatch match;
 
 		if (regex_search(dateRead.c_str(), match, RegexDateFormatting))
 		{
@@ -60,10 +62,6 @@ namespace Private
 			logs.error("Unable to interpret date \"") << dateRead << "\"; does not match expected format";
 			return false;
 		}
-		#else
-		YUNI_STATIC_ASSERT(false, TheImplementationIsMissing);
-		return false; // to avoid compilation warning
-		#endif  // USE_BOOST_REGULAR_EXPR
 	}
 
 

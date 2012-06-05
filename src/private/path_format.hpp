@@ -6,6 +6,8 @@
 # include <yuni/core/string.h>
 # ifdef USE_BOOST_REGULAR_EXPR
 #  include <boost/regex.hpp>
+# else // USE_BOOST_REGULAR_EXPR
+#  include <regex>
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../pict_stock.hpp"
 # include "relevant_informations.hpp"
@@ -163,6 +165,8 @@ namespace Private
 		#ifdef USE_BOOST_REGULAR_EXPR
 		//! Regex formed from the input format; filename itself is not considered here
 		boost::regex pRegEx;
+		#else
+		std::regex pRegEx;
 		#endif // USE_BOOST_REGULAR_EXPR
 
 		/*!

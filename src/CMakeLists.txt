@@ -27,10 +27,11 @@ add_library(pict_stock STATIC
 
 target_link_libraries(pict_stock
 	extended_photo
-	exiv2
-	boost_regex
-	yuni-static-core
 )
+
+if (UNIX)
+	target_link_libraries(pict_stock boost_regex)
+endif (UNIX)
 
 
 add_executable(PictStock
@@ -38,11 +39,7 @@ add_executable(PictStock
 )
 
 target_link_libraries(PictStock
-	extended_photo
 	pict_stock
-	exiv2
-	boost_regex
-	yuni-static-core
 )
 
 
@@ -51,11 +48,7 @@ add_executable(dev
 )
 
 target_link_libraries(dev
-	extended_photo
 	pict_stock
-	exiv2
-	boost_regex
-	yuni-static-core
 
 )
 

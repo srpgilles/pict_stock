@@ -15,6 +15,9 @@ add_library(extended_photo STATIC
 
 target_link_libraries(extended_photo
 	exiv2
-	boost_regex
 	yuni-static-core
 )
+
+if (UNIX)
+	target_link_libraries(extended_photo boost_regex)
+endif (UNIX)

@@ -10,8 +10,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 
 	/*!
 	** \brief Class in charge of holding informations that can be used
@@ -113,8 +111,8 @@ namespace Private
 	bool operator!=(const PathInformations& lhs, const PathInformations& rhs);
 	bool operator<(const PathInformations& lhs, const PathInformations& rhs);
 
+
 } // namespace PictStock
-} // namespace Private
 
 
 

@@ -8,8 +8,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 
 
 	/*!
@@ -46,7 +44,6 @@ namespace Private
 	//! Interpret the string dateRead and extract from it the date.
 	bool dateFromExif(LoggingFacility& logs, Date& out, const YString& dateRead);
 
-} // namespace Private
 } // namespace PictStock
 
 

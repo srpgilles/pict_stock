@@ -18,8 +18,6 @@ namespace PictStock
 	class ExtendedPhoto;
 
 
-namespace Private
-{
 
 	class YUNI_DECL PathFormatException : public std::exception
 	{
@@ -294,7 +292,6 @@ namespace Private
 	};
 
 
-}// namespace Private
 }// namespace PictStock
 
 #endif /* PATH_FORMAT_HPP_ */

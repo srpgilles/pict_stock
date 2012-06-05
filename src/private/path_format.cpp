@@ -14,8 +14,6 @@ namespace regexNS = std;
 
 namespace PictStock
 {
-namespace Private
-{
 
 
 	const Traits::Element::Vector PathFormatHelper::pElements =
@@ -301,5 +299,4 @@ namespace Private
 
 
 
-}// namespace Private
 }// namespace PictStock

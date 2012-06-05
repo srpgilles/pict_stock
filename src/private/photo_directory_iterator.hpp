@@ -10,8 +10,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 	// Forward declaration
 	class PathFormat;
 
@@ -99,7 +97,6 @@ namespace Private
 		ValidDirectoriesType pValidDirectories;
 	};
 
-} // namespace Private
 } // namespace PictStock
 
 

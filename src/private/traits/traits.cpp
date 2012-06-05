@@ -2,8 +2,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 namespace Traits
 {
 
@@ -41,5 +39,4 @@ namespace Traits
 
 
 } // namespace Traits
-} // namespace Private
 } // namespace PictStock

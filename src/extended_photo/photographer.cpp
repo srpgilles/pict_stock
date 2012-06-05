@@ -2,8 +2,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 
 	Photographer::Photographer(const YString& name,
 		const YString& abbrev,
@@ -32,5 +30,4 @@ namespace Private
 	}
 
 
-} // namespace Private
 } // namespace PictStock

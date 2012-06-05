@@ -10,8 +10,6 @@ using namespace Yuni;
 
 namespace PictStock
 {
-namespace Private
-{
 	namespace // anonymous
 	{
 		// A function to determine the number of digits of an unsigned int
@@ -223,5 +221,4 @@ namespace Private
 
 
 
-} // namespace Private
 } // namespace PictStock

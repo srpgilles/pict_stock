@@ -67,11 +67,11 @@ namespace PictStock
 		 *
 		 *  \return True If creation went right
 		 */
-		bool createFolder(YString& folder, const Private::PathInformations& infos);
+		bool createFolder(YString& folder, const PathInformations& infos);
 
 
 		//! Return the path format defined by the user
-		inline Private::PathFormat::Ptr pathFormat() const;
+		inline PathFormat::Ptr pathFormat() const;
 
 	public:
 
@@ -85,7 +85,7 @@ namespace PictStock
 		YString pMainFolder;
 
 		//! Object in charge of enforcing user-defined format
-		Private::PathFormat::Ptr pPathFormat;
+		PathFormat::Ptr pPathFormat;
 
 		/*!
 		** \brief List of valid directories found in photo directory

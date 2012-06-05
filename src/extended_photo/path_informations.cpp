@@ -3,8 +3,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 
 	PathInformations::PathInformations(LoggingFacility& logs)
 		: logs(logs),
@@ -190,5 +188,4 @@ namespace Private
 			out << pPhotographerPtr->abbr();
 	}
 
-} // namespace Private
 } // namespace PictStock

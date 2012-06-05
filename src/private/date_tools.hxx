@@ -3,8 +3,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 	typedef Yuni::CString<8, false> DateString;
 
 	namespace // anonymous
@@ -125,7 +123,6 @@ namespace Private
 
 	} // namespace anonymous
 
-} // namespace Private
 } // namespace PictStock
 
 

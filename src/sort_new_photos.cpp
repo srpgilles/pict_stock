@@ -18,7 +18,7 @@ namespace PictStock
 		auto pathFormatPtr = pPhotoDirectory.pathFormat();
 		assert(!(!pathFormatPtr));
 
-		Private::SortNewPhotosIterator iterator(logs, inputDirectory, *pathFormatPtr, doFolderManuallyDate);
+		SortNewPhotosIterator iterator(logs, inputDirectory, *pathFormatPtr, doFolderManuallyDate);
 		iterator.picturesToProcess(pPicturesToProcess);
 	}
 
@@ -58,7 +58,7 @@ namespace PictStock
 				auto pathFormatPtr = pPhotoDirectory.pathFormat();
 				assert(!(!pathFormatPtr));
 
-				Private::PopulateDayFolder populateFolder(logs, *pathFormatPtr,
+				PopulateDayFolder populateFolder(logs, *pathFormatPtr,
 					targetFolder, folderInfos, it->second, pSummaryFile);
 				if (!populateFolder.proceed())
 					return false;

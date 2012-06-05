@@ -7,7 +7,7 @@
 namespace PictStock
 {
 	//typedef Yuni::CString<30, false> KeyString;
-    typedef std::multimap<Private::PathInformations, YString>
+    typedef std::multimap<PathInformations, YString>
     	ValidDirectoriesType;
 
 } // namespace PictStock

@@ -12,8 +12,7 @@ namespace regexNS = std;
 
 namespace PictStock
 {
-namespace Private
-{
+
 	namespace
 	{
 		static const YString expression =
@@ -26,7 +25,7 @@ namespace Private
 			<< ' ' // separator
 			<< '(' << Traits::Hour::Regex() << ')'
 			<< ':' // separator
-			<< '(' << Traits::Minute::Regex() << ')'
+			<< '(' <<  Traits::Minute::Regex() << ')'
 			<< ':' // separator
 			<< '(' << Traits::Second::Regex() << ')'
 			<< "\\z";
@@ -142,7 +141,6 @@ namespace Private
 	}
 
 
-} // namespace Private
 } // namespace PictStock
 
 

@@ -28,7 +28,7 @@ namespace TestRegex
 
 		for (auto it = tests.cbegin(), end = tests.cend(); it != end; ++it)
 		{
-			::PictStock::Private::Date mydate;
+			::PictStock::Date mydate;
 			logs.notice() << *it << "|" << dateFromExif(logs, mydate, *it);
 		}
 	}
@@ -38,7 +38,7 @@ namespace TestRegex
 
 //namespace TestExtendedPhoto
 //{
-//	class TestPhotoDir : public ::PictStock::Private::PhotoDirectoryIterator
+//	class TestPhotoDir : public ::PictStock::PhotoDirectoryIterator
 //	{
 //	public:
 //		TestPhotoDir(LoggingFacility& logs)
@@ -101,7 +101,7 @@ namespace TestRegex
 //	{
 //		try
 //		{
-//			::PictStock::Private::PathFormat foo(logs, "%y/ThePhotographerIs%P/Y%y/M%m/J%d/Photo_%H%M_%P.jpg");
+//			::PictStock::PathFormat foo(logs, "%y/ThePhotographerIs%P/Y%y/M%m/J%d/Photo_%H%M_%P.jpg");
 //
 //			YString bar1("2012/ThePhotographerIsMe/Y2009/M03/J08");
 //
@@ -120,7 +120,7 @@ namespace TestRegex
 //
 //			logs.notice() << (m1 == m2);
 //		}
-//		//catch(const ::PictStock::Private::PathFormatException& e)
+//		//catch(const ::PictStock::PathFormatException& e)
 //		catch(const std::exception& e)
 //		{
 //			logs.error() << e.what();

@@ -10,8 +10,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 
 	class YUNI_DECL Photographer
 	{
@@ -78,7 +76,6 @@ namespace Private
 	bool operator==(const Photographer& lhs, const Photographer& rhs);
 	bool operator!=(const Photographer& lhs, const Photographer& rhs);
 
-} // namespace Private
 } // namespace PictStock
 
 #include "photographer.hxx"

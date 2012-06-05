@@ -10,12 +10,12 @@ namespace PictStock
 	PhotoDirectory::PhotoDirectory(LoggingFacility& logs, const Yuni::String& folder, const YString& strPathFormat)
 		: logs(logs),
 		  pMainFolder(folder),
-		  pPathFormat(new Private::PathFormat(logs, strPathFormat))
+		  pPathFormat(new PathFormat(logs, strPathFormat))
 	{
 		assert(!(!pPathFormat));
 		auto& pathFormat = *pPathFormat;
 
-		Private::PhotoDirectoryIterator iterator(logs, pathFormat);
+		PhotoDirectoryIterator iterator(logs, pathFormat);
 		iterator.add(folder);
 
 		if (!iterator.start())
@@ -34,7 +34,7 @@ namespace PictStock
 
 
 
-	bool PhotoDirectory::createFolder(YString& folder, const Private::PathInformations& infos)
+	bool PhotoDirectory::createFolder(YString& folder, const PathInformations& infos)
 	{
 		assert(!(!pPathFormat));
 
@@ -46,7 +46,7 @@ namespace PictStock
 			return false;
 
 		// Add new folder in the tree
-		Private::PathInformations onlyUsefulInfos =
+		PathInformations onlyUsefulInfos =
 			infos.onlyUsefulOnes(pathFormat.folderContent());
 
 		pTree.insert(std::make_pair(onlyUsefulInfos, folder));

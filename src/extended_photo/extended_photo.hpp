@@ -68,7 +68,7 @@ namespace PictStock
 		/*!
 		** \brief Get relevant informations for processing the photo
 		*/
-		Private::PathInformations::Ptr informations() const;
+		PathInformations::Ptr informations() const;
 
 		/*!
 		 * Operator==
@@ -127,7 +127,7 @@ namespace PictStock
 		Exiv2::Image::AutoPtr pImage;
 
 		//! Object which manages date data
-		Private::PathInformations::Ptr pPathInformations;
+		PathInformations::Ptr pPathInformations;
 
 		/*! True if a problem occurred with exiv library */
 		Status pStatus;
@@ -141,7 +141,7 @@ namespace PictStock
 		** abbreviation of the photographer
 		**
 		*/
-		static const Private::Photographer::List pPhotographers;
+		static const Photographer::List pPhotographers;
 
 
 	};
@@ -150,7 +150,7 @@ namespace PictStock
 	bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
 
 
-	typedef std::map<Private::PathInformations, ExtendedPhoto::Vector> OrderedPhotos;
+	typedef std::map<PathInformations, ExtendedPhoto::Vector> OrderedPhotos;
 
 }// namespace PictStock
 

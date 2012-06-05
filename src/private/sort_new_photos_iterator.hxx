@@ -3,8 +3,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 
 
 	inline void SortNewPhotosIterator::picturesToProcess(OrderedPhotos& out) const
@@ -12,7 +10,6 @@ namespace Private
 		out = pPicturesToProcess;
 	}
 
-} // namespace Private
 } // namespace PictStock
 
 #endif /* SORT_NEW_PHOTOS_ITERATOR_HXX_ */

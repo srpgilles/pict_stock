@@ -5,8 +5,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 namespace Elements // waiting MSVC implement enum class...
 {
 	enum Nature
@@ -143,7 +141,6 @@ namespace Traits
 
 
 } // namespace Traits
-} // namespace Private
 } // namespace PictStock
 
 #endif // PICT_STOCK_PRIVATE_TRAITS_TRAITS_HPP

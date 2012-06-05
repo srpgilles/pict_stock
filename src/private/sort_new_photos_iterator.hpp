@@ -6,8 +6,6 @@
 
 namespace PictStock
 {
-namespace Private
-{
 
 	//! Forward declaration
 	class PathFormat;
@@ -138,7 +136,6 @@ namespace Private
 
 
 	};
-} // namespace Private
 } // namespace PictStock
 
 # include "sort_new_photos_iterator.hxx"

@@ -31,7 +31,7 @@ namespace PictStock
 	}
 
 
-	inline Private::PathInformations::Ptr ExtendedPhoto::informations() const
+	inline PathInformations::Ptr ExtendedPhoto::informations() const
 	{
 		return pPathInformations;
 	}

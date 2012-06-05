@@ -10,7 +10,7 @@
 #  include <regex>
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../pict_stock.hpp"
-# include "../extended_photo/relevant_informations.hpp"
+# include "../extended_photo/path_informations.hpp"
 
 namespace PictStock
 {
@@ -115,9 +115,9 @@ namespace Private
 		** \brief Check whether the folder part of a path complies with the user-defined path format
 		**
 		** \param[in] path Path being checked
-		** \param[out] out #RelevantInformations object in which only relevant fields have been completed
+		** \param[out] out #pathInformations object in which only path fields have been completed
 		*/
-		bool isOk(const AnyString& path, RelevantInformations& out) const;
+		bool isOk(const AnyString& path, PathInformations& out) const;
 
 
 		/*!
@@ -127,7 +127,7 @@ namespace Private
 		** but we choose the minimal one
 		*/
 		void determineMinimalPath(Yuni::String& out,
-			const RelevantInformations& infos) const;
+			const PathInformations& infos) const;
 
 
 		/*!
@@ -245,7 +245,7 @@ namespace Private
 		** \param[in] path Path being checked
 		** \param[out] out #RelevantInformations object in which only relevant fields have been completed
 		*/
-		bool doFolderMatch(const AnyString& path, RelevantInformations& out) const;
+		bool doFolderMatch(const AnyString& path, PathInformations& out) const;
 
 
 
@@ -263,7 +263,7 @@ namespace Private
 		** It is the minimal choice: many other expressions would also match the date and photographer
 		** but we choose the minimal one
 		*/
-		void determineMinimalFolder(Yuni::String& out, const YString& mainFolder, const RelevantInformations& infos) const;
+		void determineMinimalFolder(Yuni::String& out, const YString& mainFolder, const PathInformations& infos) const;
 
 
 		/*!

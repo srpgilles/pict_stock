@@ -1,4 +1,4 @@
-#include "relevant_informations.hpp"
+#include "path_informations.hpp"
 
 
 namespace PictStock
@@ -6,25 +6,25 @@ namespace PictStock
 namespace Private
 {
 
-	RelevantInformations::RelevantInformations(LoggingFacility& logs)
+	PathInformations::PathInformations(LoggingFacility& logs)
 		: logs(logs),
 		  pPhotographerPtr(nullptr)
 	{ }
 
 
-	void RelevantInformations::setPhotographer(const Photographer::Ptr& photographer)
+	void PathInformations::setPhotographer(const Photographer::Ptr& photographer)
 	{
 		pPhotographerPtr = photographer;
 	}
 
 
-	void RelevantInformations::setDate(const Date& date)
+	void PathInformations::setDate(const Date& date)
 	{
 		pDate = date;
 	}
 
 
-	void RelevantInformations::setValue(unsigned int natureIndex, const AnyString& value)
+	void PathInformations::setValue(unsigned int natureIndex, const AnyString& value)
 	{
 		Date& date = pDate;
 
@@ -64,7 +64,7 @@ namespace Private
 	}
 
 
-	Yuni::CString<10, false> RelevantInformations::value(unsigned int natureIndex) const
+	Yuni::CString<10, false> PathInformations::value(unsigned int natureIndex) const
 	{
 		const Date& date = pDate;
 
@@ -100,7 +100,7 @@ namespace Private
 	}
 
 
-	void RelevantInformations::changeDate(const Yuni::CString<8, false>& newDate)
+	void PathInformations::changeDate(const Yuni::CString<8, false>& newDate)
 	{
 		auto& date = pDate;
 
@@ -114,10 +114,10 @@ namespace Private
 	}
 
 
-	RelevantInformations RelevantInformations::onlyUsefulOnes(
+	PathInformations PathInformations::onlyUsefulOnes(
 		const std::bitset<Elements::size>& arePresent) const
 	{
-		RelevantInformations ret(logs);
+		PathInformations ret(logs);
 
 		for (unsigned int i = 0u; i < Elements::size; ++i)
 		{
@@ -129,7 +129,7 @@ namespace Private
 	}
 
 
-	bool RelevantInformations::isEmpty() const
+	bool PathInformations::isEmpty() const
 	{
 		if (!(!pPhotographerPtr))
 			return false;
@@ -138,7 +138,7 @@ namespace Private
 	}
 
 
-	bool operator==(const RelevantInformations& lhs, const RelevantInformations& rhs)
+	bool operator==(const PathInformations& lhs, const PathInformations& rhs)
 	{
 		if (lhs.pDate != rhs.pDate)
 			return false;
@@ -154,13 +154,13 @@ namespace Private
 	}
 
 
-	bool operator!=(const RelevantInformations& lhs, const RelevantInformations& rhs)
+	bool operator!=(const PathInformations& lhs, const PathInformations& rhs)
 	{
 		return !(operator == (lhs, rhs));
 	}
 
 
-	bool operator<(const RelevantInformations& lhs, const RelevantInformations& rhs)
+	bool operator<(const PathInformations& lhs, const PathInformations& rhs)
 	{
 		if (lhs.pDate == rhs.pDate)
 			return false;
@@ -179,7 +179,7 @@ namespace Private
 	}
 
 
-	void RelevantInformations::print(std::ostream& out) const
+	void PathInformations::print(std::ostream& out) const
 	{
 		out << "Relevant informations are:\n\tDate:\n";
 		pDate.print(out);

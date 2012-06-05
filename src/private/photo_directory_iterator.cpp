@@ -67,7 +67,7 @@ namespace Private
 
 	bool PhotoDirectoryIterator::checkValidity(const String& directory)
 	{
-		RelevantInformations usefulInformations(logs);
+		PathInformations usefulInformations(logs);
 
 		if (pPathFormat.doFolderMatch(directory, usefulInformations))
 		{

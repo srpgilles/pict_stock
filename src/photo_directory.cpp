@@ -34,7 +34,7 @@ namespace PictStock
 
 
 
-	bool PhotoDirectory::createFolder(YString& folder, const Private::RelevantInformations& infos)
+	bool PhotoDirectory::createFolder(YString& folder, const Private::PathInformations& infos)
 	{
 		assert(!(!pPathFormat));
 
@@ -46,7 +46,7 @@ namespace PictStock
 			return false;
 
 		// Add new folder in the tree
-		Private::RelevantInformations onlyUsefulInfos =
+		Private::PathInformations onlyUsefulInfos =
 			infos.onlyUsefulOnes(pathFormat.folderContent());
 
 		pTree.insert(std::make_pair(onlyUsefulInfos, folder));

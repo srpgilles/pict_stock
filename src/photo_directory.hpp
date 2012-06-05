@@ -24,10 +24,10 @@ namespace PictStock
 		//! Constructor & destructor
 		//@{
 		/*!
-		 * \brief Constructor
-		 *
-		 * \param pFolder Folder in which photos are sort
-		 * \param[in] pathFormat Format given by the user; the rules are:
+		** \brief Constructor
+		**
+		** \param pFolder Folder in which photos are sort
+		** \param[in] pathFormat Format given by the user; the rules are:
 		** 		. folder separator is indicated as '/', whatever the system you are working on
 		** 		. format must end with ".jpg" (case insensitive)
 		** 		. special commands that will be inserted depending on the photo considered
@@ -67,7 +67,7 @@ namespace PictStock
 		 *
 		 *  \return True If creation went right
 		 */
-		bool createFolder(YString& folder, const Private::RelevantInformations& infos);
+		bool createFolder(YString& folder, const Private::PathInformations& infos);
 
 
 		//! Return the path format defined by the user

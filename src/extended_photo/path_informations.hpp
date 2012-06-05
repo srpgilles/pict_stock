@@ -13,13 +13,16 @@ namespace PictStock
 namespace Private
 {
 
-
-	class YUNI_DECL RelevantInformations
+	/*!
+	** \brief Class in charge of holding informations that can be used
+	** to determine the path of the file in the photo directory
+	*/
+	class YUNI_DECL PathInformations
 	{
 	public:
 
 		//! Smart pointer most adapted for the class
-		typedef Yuni::SmartPtr<RelevantInformations> Ptr;
+		typedef Yuni::SmartPtr<PathInformations> Ptr;
 
 		//! Constructor & destructor
 		//@{
@@ -30,7 +33,7 @@ namespace Private
 		 * \param[in] logs Logging facility
 		 *
 		 */
-		explicit RelevantInformations(LoggingFacility& logs);
+		explicit PathInformations(LoggingFacility& logs);
 
 		//@}
 
@@ -71,17 +74,17 @@ namespace Private
 		** \param[in] arePresent Bitset telling for each element whether they are considered
 		** or not. Such a bitset is expected to be one of those defined in #PathFormatHelper class
 		 */
-		RelevantInformations onlyUsefulOnes(const std::bitset<Elements::size>& arePresent) const;
+		PathInformations onlyUsefulOnes(const std::bitset<Elements::size>& arePresent) const;
 
 
-		friend bool operator==(const RelevantInformations& lhs, const RelevantInformations& rhs);
-		friend bool operator!=(const RelevantInformations& lhs, const RelevantInformations& rhs);
+		friend bool operator==(const PathInformations& lhs, const PathInformations& rhs);
+		friend bool operator!=(const PathInformations& lhs, const PathInformations& rhs);
 
 		/*!
 		** \brief Actual order doesn't matter much: the point is to be able to use RelevantInformations
 		** as a key in a map
 		*/
-		friend bool operator<(const RelevantInformations& lhs, const RelevantInformations& rhs);
+		friend bool operator<(const PathInformations& lhs, const PathInformations& rhs);
 
 		/*!
 		** \brief True if no relevant data in the object
@@ -106,9 +109,9 @@ namespace Private
 	};
 
 
-	bool operator==(const RelevantInformations& lhs, const RelevantInformations& rhs);
-	bool operator!=(const RelevantInformations& lhs, const RelevantInformations& rhs);
-	bool operator<(const RelevantInformations& lhs, const RelevantInformations& rhs);
+	bool operator==(const PathInformations& lhs, const PathInformations& rhs);
+	bool operator!=(const PathInformations& lhs, const PathInformations& rhs);
+	bool operator<(const PathInformations& lhs, const PathInformations& rhs);
 
 } // namespace PictStock
 } // namespace Private

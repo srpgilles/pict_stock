@@ -145,7 +145,7 @@ namespace Private
 	}
 
 	bool PathFormatHelper::isOk(const AnyString& path,
-		RelevantInformations& out) const
+		PathInformations& out) const
 	{
 		assert(out.isEmpty() && "If not, improper call to this method");
 		regexNS::cmatch m;
@@ -169,7 +169,7 @@ namespace Private
 
 
 	void PathFormatHelper::determineMinimalPath(String& out,
-		const RelevantInformations& infos) const
+		const PathInformations& infos) const
 	{
 		assert(out.empty());
 
@@ -190,7 +190,7 @@ namespace Private
 	void PathFormatHelper::determineMinimalPath(Yuni::String& out,
 		const ExtendedPhoto& photo) const
 	{
-		RelevantInformations::Ptr infosPtr = photo.informations();
+		PathInformations::Ptr infosPtr = photo.informations();
 		assert(!(!infosPtr));
 		auto& infos = *infosPtr;
 		determineMinimalPath(out, infos);
@@ -239,7 +239,7 @@ namespace Private
 
 
 
-	bool PathFormat::doFolderMatch(const AnyString& path, RelevantInformations& infos) const
+	bool PathFormat::doFolderMatch(const AnyString& path, PathInformations& infos) const
 	{
 		// Trivial case: if no folder defined any path match
 		if (!pFolderPart)
@@ -269,7 +269,7 @@ namespace Private
 
 
 	void PathFormat::determineMinimalFolder(Yuni::String& out,
-		const YString& mainFolder, const RelevantInformations& infos) const
+		const YString& mainFolder, const PathInformations& infos) const
 	{
 		assert(out.empty());
 

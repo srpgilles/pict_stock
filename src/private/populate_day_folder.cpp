@@ -26,7 +26,7 @@ namespace Private
 	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs,
 		const PathFormat& pathFormat,
 		const YString& targetFolder,
-		const RelevantInformations& targetInfos,
+		const PathInformations& targetInfos,
 		ExtendedPhoto::Vector& newPhotos,
 		const YString& summaryFile)
 		: logs(logs),

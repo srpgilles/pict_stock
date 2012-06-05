@@ -51,7 +51,7 @@ namespace Private
 		*/
 		PopulateDayFolder(LoggingFacility& logs, const PathFormat& pathFormat,
 			const YString& targetFolder,
-			const RelevantInformations& targetInfos, ExtendedPhoto::Vector& newPhotos,
+			const PathInformations& targetInfos, ExtendedPhoto::Vector& newPhotos,
 			const YString& summaryFile);
 
 		//! Destructor
@@ -105,7 +105,7 @@ namespace Private
 		const YString& pTargetFolder;
 
 		//! Date of the photos to put into target folder
-		const RelevantInformations& pTargetInformations;
+		const PathInformations& pTargetInformations;
 
 		//!
 		const PathFormat& pPathFormat;

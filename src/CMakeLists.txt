@@ -10,8 +10,8 @@ add_library(pict_stock STATIC
 	extended_photo/extended_photo.hxx
 	extended_photo/date.cpp
 	extended_photo/date.hpp
-	extended_photo/relevant_informations.cpp
-	extended_photo/relevant_informations.hpp
+	extended_photo/path_informations.cpp
+	extended_photo/path_informations.hpp
 	
 	private/date_tools.hxx
 	sort_new_photos.cpp

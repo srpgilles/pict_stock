@@ -9,7 +9,7 @@
 
 # include "../pict_stock.hpp"
 # include "../private/tools.hpp"
-# include "relevant_informations.hpp"
+# include "path_informations.hpp"
 
 namespace PictStock
 {
@@ -68,7 +68,7 @@ namespace PictStock
 		/*!
 		** \brief Get relevant informations for processing the photo
 		*/
-		Private::RelevantInformations::Ptr informations() const;
+		Private::PathInformations::Ptr informations() const;
 
 		/*!
 		 * Operator==
@@ -127,7 +127,7 @@ namespace PictStock
 		Exiv2::Image::AutoPtr pImage;
 
 		//! Object which manages date data
-		Private::RelevantInformations::Ptr pRelevantInformations;
+		Private::PathInformations::Ptr pPathInformations;
 
 		/*! True if a problem occurred with exiv library */
 		Status pStatus;
@@ -150,7 +150,7 @@ namespace PictStock
 	bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
 
 
-	typedef std::map<Private::RelevantInformations, ExtendedPhoto::Vector> OrderedPhotos;
+	typedef std::map<Private::PathInformations, ExtendedPhoto::Vector> OrderedPhotos;
 
 }// namespace PictStock
 

@@ -6,6 +6,7 @@
 # include <ostream>
 # include "date.hpp"
 # include "photographer.hpp"
+# include "../photo_directory/private/traits/traits.hpp"
 
 
 namespace PictStock

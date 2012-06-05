@@ -1,5 +1,6 @@
 #include "../pict_stock.hpp"
 #include "date.hpp"
+#include "../photo_directory/private/traits/traits.hpp"
 
 #ifdef USE_BOOST_REGULAR_EXPR
 # include <boost/regex.hpp>

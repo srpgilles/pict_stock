@@ -1,7 +1,7 @@
 
 #include "path_format.hpp"
 #include <yuni/io/file.h>
-#include "../extended_photo.hpp"
+#include "../extended_photo/extended_photo.hpp"
 
 
 using namespace Yuni;

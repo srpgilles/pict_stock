@@ -2,7 +2,7 @@
 # define SORT_NEW_PHOTOS_ITERATOR_HPP_
 
 # include <yuni/io/directory/iterator.h>
-# include "../extended_photo.hpp"
+# include "../extended_photo/extended_photo.hpp"
 
 namespace PictStock
 {

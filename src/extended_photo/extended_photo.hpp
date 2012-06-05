@@ -7,9 +7,9 @@
 # include <yuni/core/string.h>
 # include <yuni/io/io.h>
 
-# include "pict_stock.hpp"
-# include "private/tools.hpp"
-# include "private/relevant_informations.hpp"
+# include "../pict_stock.hpp"
+# include "../private/tools.hpp"
+# include "relevant_informations.hpp"
 
 namespace PictStock
 {

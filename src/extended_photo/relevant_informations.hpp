@@ -6,7 +6,6 @@
 # include <ostream>
 # include "date.hpp"
 # include "photographer.hpp"
-# include "element.hpp"
 
 
 namespace PictStock

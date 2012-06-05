@@ -1,8 +1,8 @@
-#include "extended_photo.hpp"
+#include "extended_photo/extended_photo.hpp"
 #include <boost/regex.hpp>
 #include "private/photo_directory_iterator.hpp"
 #include "private/path_format.hpp"
-#include "private/date.hpp"
+
 
 #ifdef USE_BOOST_REGULAR_EXPR
 namespace TestRegex

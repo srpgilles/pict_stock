@@ -4,16 +4,23 @@ add_library(pict_stock STATIC
 	photo_directory.cpp
 	photo_directory.hpp
 	photo_directory.hxx
-	extended_photo.cpp
-	extended_photo.hpp
-	extended_photo.hxx
+	
+	extended_photo/extended_photo.cpp
+	extended_photo/extended_photo.hpp
+	extended_photo/extended_photo.hxx
+	extended_photo/date.cpp
+	extended_photo/date.hpp
+	extended_photo/relevant_informations.cpp
+	extended_photo/relevant_informations.hpp
+	
+	private/date_tools.hxx
 	sort_new_photos.cpp
 	sort_new_photos.hpp
 	private/traits/traits.cpp
 	private/traits/traits.hpp
-	private/photographer.cpp
-	private/photographer.hpp
-	private/photographer.hxx
+	extended_photo/photographer.cpp
+	extended_photo/photographer.hpp
+	extended_photo/photographer.hxx
 	private/photo_directory_iterator.cpp
 	private/photo_directory_iterator.hpp
 	private/sort_new_photos_iterator.cpp
@@ -24,11 +31,7 @@ add_library(pict_stock STATIC
 	private/tools.hpp
 	private/path_format.cpp
 	private/path_format.hpp
-	private/date.cpp
-	private/date.hpp
-	private/date_tools.hxx
-	private/relevant_informations.cpp
-	private/relevant_informations.hpp
+	
 	
 )
 

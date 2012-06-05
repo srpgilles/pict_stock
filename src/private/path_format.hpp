@@ -10,7 +10,7 @@
 #  include <regex>
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../pict_stock.hpp"
-# include "relevant_informations.hpp"
+# include "../extended_photo/relevant_informations.hpp"
 
 namespace PictStock
 {

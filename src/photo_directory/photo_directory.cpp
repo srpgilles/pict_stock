@@ -1,5 +1,5 @@
 #include "photo_directory.hpp"
-#include "extended_photo/extended_photo.hpp"
+#include "../extended_photo/extended_photo.hpp"
 
 using namespace Yuni;
 

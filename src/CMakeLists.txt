@@ -1,18 +1,18 @@
 add_subdirectory(extended_photo)
+add_subdirectory(photo_directory)
+
+
 
 add_library(pict_stock STATIC
 	
 	pict_stock.hpp
-	photo_directory.cpp
-	photo_directory.hpp
-	photo_directory.hxx
+
 	
 	sort_new_photos.cpp
 	sort_new_photos.hpp
 	private/traits/traits.cpp
 	private/traits/traits.hpp
-	private/photo_directory_iterator.cpp
-	private/photo_directory_iterator.hpp
+
 	private/sort_new_photos_iterator.cpp
 	private/sort_new_photos_iterator.hpp
 	private/sort_new_photos_iterator.hxx
@@ -26,6 +26,7 @@ add_library(pict_stock STATIC
 
 target_link_libraries(pict_stock
 	extended_photo
+	photo_directory
 )
 
 if (UNIX)

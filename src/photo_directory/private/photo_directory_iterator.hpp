@@ -4,8 +4,8 @@
 # include <yuni/io/directory/iterator.h>
 # include <yuni/core/string.h>
 
-# include "../pict_stock.hpp"
-# include "tools.hpp"
+# include "../../pict_stock.hpp"
+# include "../../private/tools.hpp"
 
 
 namespace PictStock

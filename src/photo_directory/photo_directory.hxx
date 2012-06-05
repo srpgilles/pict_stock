@@ -11,8 +11,6 @@ namespace PictStock
 	}
 
 
-
-
 } // namespace PictStock
 
 

@@ -13,6 +13,7 @@ add_library(sort_new_photos STATIC
 target_link_libraries(sort_new_photos
 	exiv2
 	yuni-static-core
+	photo_directory
 )
 
 if (UNIX)

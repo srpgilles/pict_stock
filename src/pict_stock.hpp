@@ -12,6 +12,7 @@ namespace PictStock
 
     typedef std::multimap<PathInformations, YString>
     	ValidDirectoriesType;
+
 } // namespace PictStock
 
 

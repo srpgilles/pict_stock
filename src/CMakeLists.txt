@@ -9,8 +9,6 @@ add_executable(PictStock
 
 target_link_libraries(PictStock
 	sort_new_photos
-	photo_directory
-	extended_photo
 )
 
 
@@ -20,8 +18,6 @@ add_executable(dev
 
 target_link_libraries(dev
 	sort_new_photos
-	photo_directory
-	extended_photo
 
 )
 

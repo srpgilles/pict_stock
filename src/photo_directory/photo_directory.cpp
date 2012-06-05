@@ -1,5 +1,6 @@
 #include "photo_directory.hpp"
 #include "private/photo_directory_iterator.hpp"
+#include "../extended_photo/path_informations.hpp"
 
 using namespace Yuni;
 

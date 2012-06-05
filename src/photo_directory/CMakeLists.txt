@@ -16,6 +16,7 @@ add_library(photo_directory STATIC
 )
 
 target_link_libraries(photo_directory
+	extended_photo
 	exiv2
 	yuni-static-core
 )

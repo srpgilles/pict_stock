@@ -10,8 +10,9 @@
 #  include <regex>
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../pict_stock.hpp"
-# include "../extended_photo/path_informations.hpp"
+//# include "../extended_photo/path_informations.hpp"
 # include "private/path_format_helpers.hpp"
+
 
 namespace PictStock
 {

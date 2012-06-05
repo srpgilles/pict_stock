@@ -1,6 +1,13 @@
 #include "sort_new_photos_iterator.hpp"
-#include "date_tools.hxx"
 #include "path_format.hpp"
+
+
+# ifdef USE_BOOST_REGULAR_EXPR
+namespace regexNS = boost;
+# else
+namespace regexNS = std;
+# endif // USE_BOOST_REGULAR_EXPR
+
 
 namespace PictStock
 {
@@ -17,6 +24,24 @@ namespace PictStock
 				logs.info() << "\t3 -> yes (use date currently in memory which is "
 					<< dateInMemory << ")";
 		}
+
+		static const YString expression =
+			YString("\\A")
+			<< '(' << Traits::Year::Regex() << ')'
+			<< ':' // separator
+			<< '(' << Traits::Month::Regex() << ')'
+			<< ':' // separator
+			<< '(' << Traits::Day::Regex() << ')'
+			<< "\\z";
+
+		/*!
+		** \brief Regular expression for date formatting
+		**
+		** Basically format is YYYY:MM:DD HH:mm:SS
+		*/
+		static const regexNS::regex RegexDateFormatting(expression.c_str());
+
+
 	}
 
 
@@ -89,18 +114,15 @@ namespace PictStock
 			else if (answer == "2")
 			{
 				bool isValid = false;
+				regexNS::cmatch match;
+
 				do
 				{
 					logs.info() << "Please answer the date (under format YYYYMMDD)";
 
 					std::cin >> answer;
 
-					if (answer.size() != 8)
-						continue;
-
-					DateString buf(answer);
-					isValid =  isValidStringDate(buf);
-
+					isValid = regex_search(answer.c_str(), match, RegexDateFormatting);
 				} while (!isValid);
 
 				pCurrentFolderManualDate = answer;

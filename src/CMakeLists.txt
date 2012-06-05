@@ -7,7 +7,6 @@ add_library(pict_stock STATIC
 	photo_directory.hpp
 	photo_directory.hxx
 	
-	private/date_tools.hxx
 	sort_new_photos.cpp
 	sort_new_photos.hpp
 	private/traits/traits.cpp

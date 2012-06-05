@@ -1,5 +1,6 @@
-#ifndef PATH_FORMAT_HPP_
-# define PATH_FORMAT_HPP_
+
+#ifndef PATH_FORMAT_HELPERS_HPP_
+# define PATH_FORMAT_HELPERS_HPP_
 
 # include <map>
 # include <bitset>
@@ -9,21 +10,54 @@
 # else // USE_BOOST_REGULAR_EXPR
 #  include <regex>
 # endif // USE_BOOST_REGULAR_EXPR
-# include "../pict_stock.hpp"
-# include "../extended_photo/path_informations.hpp"
-# include "private/path_format_helpers.hpp"
+# include "../../pict_stock.hpp"
+# include "traits/traits.hpp"
+
 
 namespace PictStock
 {
-	// Forward declarations
+	// Forward declaration
 	class ExtendedPhoto;
-	class PathInformations;
 
-
-
-	class YUNI_DECL PathFormat
+namespace Private
+{
+	class YUNI_DECL PathFormatException : public std::exception
 	{
 	public:
+
+		//! Constructor & destructor
+		//@{
+		/*!
+		** \brief Constructor
+		**
+		** \param msg Message describing the problem encountered
+		*/
+		PathFormatException(const AnyString& msg);
+
+		virtual ~PathFormatException() throw();
+
+		//@}
+
+		//! Overwrite what method
+		virtual const char* what() const throw();
+
+	private:
+
+		//! Text describing the exception
+		YString pMessage;
+	};
+
+
+
+
+
+	/*!
+	** \brief Class in charge of handling the model of output format provided in input parameters
+	*/
+	class YUNI_DECL PathFormatHelper
+	{
+	public:
+
 
 		//! Constructor & destructor
 		//@{
@@ -59,22 +93,21 @@ namespace PictStock
 		** 		but it seems rather overkill for my own purposes
 		**
 		 */
-		explicit PathFormat(LoggingFacility& logs, const AnyString& format);
+		explicit PathFormatHelper(LoggingFacility& logs, const AnyString& format);
+
 		//@}
 
 		//! Smart pointer most adapted for the class
-		typedef Yuni::SmartPtr<PathFormat> Ptr;
+		typedef Yuni::SmartPtr<PathFormatHelper> Ptr;
 
 
 		/*!
-		** \brief Check whether the folder part of a path complies with the user-defined path format
+		** \brief Check whether a path complies with the user-defined path format
 		**
 		** \param[in] path Path being checked
-		** \param[out] out Match result object, which allows to extract relevant informations
-		** from the regex. Meaning of each index may be retrieved with the help of #pFolderPart::pSymbolOrdering:
-		** for instance index 1 match the type of Element at pSymbolOrdering[1]
+		** \param[out] out Map giving all values read in the path
 		*/
-		bool doFolderMatch(const AnyString& path,
+		bool isOk(const AnyString& path,
 			std::map<Traits::Element::Ptr, Yuni::CString<10, false> >& out) const;
 
 
@@ -82,9 +115,10 @@ namespace PictStock
 		** \brief Check whether the folder part of a path complies with the user-defined path format
 		**
 		** \param[in] path Path being checked
-		** \param[out] out #RelevantInformations object in which only relevant fields have been completed
+		** \param[out] out #pathInformations object in which only path fields have been completed
 		*/
-		bool doFolderMatch(const AnyString& path, PathInformations& out) const;
+		bool isOk(const AnyString& path, PathInformations& out) const;
+
 
 		/*!
 		** \brief Given a date and a photographer, generate the default output path matching it
@@ -92,7 +126,9 @@ namespace PictStock
 		** It is the minimal choice: many other expressions would also match the date and photographer
 		** but we choose the minimal one
 		*/
-		void determineMinimalFolder(Yuni::String& out, const YString& mainFolder, const ExtendedPhoto& photo) const;
+		void determineMinimalPath(Yuni::String& out,
+			const PathInformations& infos) const;
+
 
 		/*!
 		** \brief Given a date and a photographer, generate the default output path matching it
@@ -100,37 +136,55 @@ namespace PictStock
 		** It is the minimal choice: many other expressions would also match the date and photographer
 		** but we choose the minimal one
 		*/
-		void determineMinimalFolder(Yuni::String& out, const YString& mainFolder, const PathInformations& infos) const;
-
-
-		/*!
-		** \brief Given a date and a photographer, generate the default filename
-		**
-		** There are no numbers or .jpg extension: these are added in higher level classes
-		**
-		*/
-		void determineMinimalFilename(Yuni::String& out, const ExtendedPhoto& photo) const;
-
-
-		//! Tells whether Elements are present in folder part or not
-		const std::bitset<Elements::size>& folderContent() const;
-
+		void determineMinimalPath(Yuni::String& out,
+			const ExtendedPhoto& photo) const;
 
 
 	public:
 
+		//! Logs
 		mutable LoggingFacility& logs;
+
+		//! Bitset to know whether a given element is in the folder path
+		std::bitset<Elements::size> doContains;
+
 
 	private:
 
-		//! Manage the part of path before the filename
-		Private::PathFormatHelper::Ptr pFolderPart;
+		/*!
+		** \brief Set #pSymbolOrdering and #pRegEx
+		**
+		*/
+		void setRegEx();
 
-		//! Manage the filename only, without considering the folder
-		Private::PathFormatHelper::Ptr pFilePart;
+	private:
+
+		//! User-defined path format
+		YString pFormat;
+
+		#ifdef USE_BOOST_REGULAR_EXPR
+		//! Regex formed from the input format; filename itself is not considered here
+		boost::regex pRegEx;
+		#else
+		std::regex pRegEx;
+		#endif // USE_BOOST_REGULAR_EXPR
+
+		/*!
+		** \brief Vector in which are stored the elements found in user-defined
+		** expression in the correct order
+		**
+		*/
+		Traits::Element::Vector pSymbolOrdering;
+
+		//! List of all elements that might be used in regex expression (day, month, photographer, etc...)
+		static const Traits::Element::Vector pElements;
+
 	};
 
 
-}// namespace PictStock
+} // namespace Private
+} // namespace PictStock
 
-#endif /* PATH_FORMAT_HPP_ */
+
+
+#endif /* PATH_FORMAT_HELPERS_HPP_ */

@@ -4,11 +4,13 @@
 #include <yuni/core/math.h>
 #include <fstream>
 #include "populate_day_folder.hpp"
-#include "../../private/path_format.hpp"
+#include "../../photo_directory/path_format.hpp"
 
 using namespace Yuni;
 
 namespace PictStock
+{
+namespace Private
 {
 	namespace // anonymous
 	{
@@ -220,5 +222,5 @@ namespace PictStock
 
 
 
-
+} // namespace Private
 } // namespace PictStock

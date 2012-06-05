@@ -11,6 +11,9 @@ namespace regexNS = std;
 
 namespace PictStock
 {
+namespace Private
+{
+
 	namespace // anonymous
 	{
 		void RequestText(LoggingFacility& logs, const AnyString& folderName, const YString& dateInMemory)
@@ -199,6 +202,6 @@ namespace PictStock
 	{ }
 
 
-
+} // namespace Private
 } // namespace PictStock
 

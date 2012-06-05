@@ -5,9 +5,11 @@
 
 namespace PictStock
 {
-
 	//! Forward declaration
 	class PathFormat;
+
+namespace Private
+{
 
 	/*!
 	** \brief A proxy method of #SortPhotos in charge of inserting new photos inside a given target folder
@@ -125,7 +127,7 @@ namespace PictStock
 
 
 
-
+} // namespace Private
 } // namespace PictStock
 
 

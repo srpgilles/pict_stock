@@ -10,6 +10,8 @@ namespace PictStock
 	//! Forward declaration
 	class PathFormat;
 
+namespace Private
+{
 
 	class YUNI_DECL SortNewPhotosIterator : public Yuni::IO::Directory::IIterator<false>
 	{
@@ -136,6 +138,8 @@ namespace PictStock
 
 
 	};
+
+} // namespace Private
 } // namespace PictStock
 
 # include "sort_new_photos_iterator.hxx"

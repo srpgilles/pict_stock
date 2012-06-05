@@ -5,6 +5,8 @@ using namespace Yuni;
 
 namespace PictStock
 {
+namespace Private
+{
 
 
 	PhotoDirectoryIterator::PhotoDirectoryIterator(LoggingFacility& logs, const PathFormat& pathFormat)
@@ -76,5 +78,5 @@ namespace PictStock
 		return false;
 	}
 
-
+} // namespace Private
 } // namespace PictStock

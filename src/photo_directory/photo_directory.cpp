@@ -1,5 +1,6 @@
 #include "photo_directory.hpp"
 #include "../extended_photo/extended_photo.hpp"
+#include "private/photo_directory_iterator.hpp"
 
 using namespace Yuni;
 
@@ -15,7 +16,7 @@ namespace PictStock
 		assert(!(!pPathFormat));
 		auto& pathFormat = *pPathFormat;
 
-		PhotoDirectoryIterator iterator(logs, pathFormat);
+		Private::PhotoDirectoryIterator iterator(logs, pathFormat);
 		iterator.add(folder);
 
 		if (!iterator.start())

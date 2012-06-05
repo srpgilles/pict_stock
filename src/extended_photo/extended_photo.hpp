@@ -8,7 +8,6 @@
 # include <yuni/io/io.h>
 
 # include "../pict_stock.hpp"
-# include "../private/tools.hpp"
 # include "path_informations.hpp"
 
 namespace PictStock

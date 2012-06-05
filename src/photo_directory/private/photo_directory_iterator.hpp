@@ -5,13 +5,15 @@
 # include <yuni/core/string.h>
 
 # include "../../pict_stock.hpp"
-# include "../../private/tools.hpp"
 
 
 namespace PictStock
 {
 	// Forward declaration
 	class PathFormat;
+
+namespace Private
+{
 
 	/*!
 	 * \brief A derived class from Yuni::IO::Directory::IIterator in charge
@@ -97,6 +99,7 @@ namespace PictStock
 		ValidDirectoriesType pValidDirectories;
 	};
 
+} // namespace Private
 } // namespace PictStock
 
 

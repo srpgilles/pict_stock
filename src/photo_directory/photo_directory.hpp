@@ -7,7 +7,6 @@
 # include <yuni/io/io.h>
 
 # include "../pict_stock.hpp"
-# include "private/photo_directory_iterator.hpp"
 # include "../private/path_format.hpp"
 
 namespace PictStock

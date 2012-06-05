@@ -1,5 +1,4 @@
 #include "photo_directory.hpp"
-#include "../extended_photo/extended_photo.hpp"
 #include "private/photo_directory_iterator.hpp"
 
 using namespace Yuni;

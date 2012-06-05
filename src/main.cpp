@@ -1,4 +1,4 @@
-#include "sort_new_photos.hpp"
+#include "sort_new_photos/sort_new_photos.hpp"
 #include <yuni/core/getopt.h>
 
 using namespace Yuni;

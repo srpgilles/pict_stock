@@ -1,7 +1,7 @@
 #ifndef POPULATE_DAY_FOLDER_HPP_
 # define POPULATE_DAY_FOLDER_HPP_
 
-# include "../extended_photo/extended_photo.hpp"
+# include "../../extended_photo/extended_photo.hpp"
 
 namespace PictStock
 {

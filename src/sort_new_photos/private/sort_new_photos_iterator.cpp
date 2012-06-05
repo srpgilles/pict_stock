@@ -1,5 +1,5 @@
 #include "sort_new_photos_iterator.hpp"
-#include "path_format.hpp"
+#include "../../photo_directory/path_format.hpp"
 
 
 # ifdef USE_BOOST_REGULAR_EXPR

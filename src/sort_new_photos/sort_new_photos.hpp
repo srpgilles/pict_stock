@@ -1,10 +1,10 @@
 #ifndef SORT_NEW_PHOTOS_HPP
 # define SORT_NEW_PHOTOS_HPP
 
-# include "extended_photo/extended_photo.hpp"
-# include "photo_directory/photo_directory.hpp"
+# include "../extended_photo/extended_photo.hpp"
+# include "../photo_directory/photo_directory.hpp"
 # include "private/sort_new_photos_iterator.hpp"
-# include "private/path_format.hpp"
+# include "../photo_directory/path_format.hpp"
 
 namespace PictStock
 {

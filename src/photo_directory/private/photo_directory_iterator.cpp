@@ -1,5 +1,5 @@
 #include "photo_directory_iterator.hpp"
-#include "../../private/path_format.hpp"
+#include "../path_format.hpp"
 
 using namespace Yuni;
 

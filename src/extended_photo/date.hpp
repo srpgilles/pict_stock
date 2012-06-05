@@ -4,7 +4,7 @@
 # include <yuni/core/string.h>
 # include <ostream>
 # include "../pict_stock.hpp"
-# include "../private/traits/traits.hpp"
+# include "../photo_directory/private/traits/traits.hpp"
 
 namespace PictStock
 {

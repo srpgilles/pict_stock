@@ -1,37 +1,6 @@
 add_subdirectory(extended_photo)
 add_subdirectory(photo_directory)
-
-
-
-add_library(pict_stock STATIC
-	
-	pict_stock.hpp
-
-	
-	sort_new_photos.cpp
-	sort_new_photos.hpp
-	private/traits/traits.cpp
-	private/traits/traits.hpp
-
-	private/sort_new_photos_iterator.cpp
-	private/sort_new_photos_iterator.hpp
-	private/sort_new_photos_iterator.hxx
-	private/populate_day_folder.cpp
-	private/populate_day_folder.hpp
-	private/tools.hpp
-	private/path_format.cpp
-	private/path_format.hpp
-)
-
-
-target_link_libraries(pict_stock
-	extended_photo
-	photo_directory
-)
-
-if (UNIX)
-	target_link_libraries(pict_stock boost_regex)
-endif (UNIX)
+add_subdirectory(sort_new_photos)
 
 
 add_executable(PictStock
@@ -39,7 +8,9 @@ add_executable(PictStock
 )
 
 target_link_libraries(PictStock
-	pict_stock
+	sort_new_photos
+	photo_directory
+	extended_photo
 )
 
 
@@ -48,7 +19,9 @@ add_executable(dev
 )
 
 target_link_libraries(dev
-	pict_stock
+	sort_new_photos
+	photo_directory
+	extended_photo
 
 )
 

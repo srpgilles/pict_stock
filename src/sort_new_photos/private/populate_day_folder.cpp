@@ -4,7 +4,7 @@
 #include <yuni/core/math.h>
 #include <fstream>
 #include "populate_day_folder.hpp"
-#include "path_format.hpp"
+#include "../../private/path_format.hpp"
 
 using namespace Yuni;
 

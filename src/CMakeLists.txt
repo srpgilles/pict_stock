@@ -1,3 +1,5 @@
+add_subdirectory(extended_photo)
+
 add_library(pict_stock STATIC
 	
 	pict_stock.hpp
@@ -5,22 +7,11 @@ add_library(pict_stock STATIC
 	photo_directory.hpp
 	photo_directory.hxx
 	
-	extended_photo/extended_photo.cpp
-	extended_photo/extended_photo.hpp
-	extended_photo/extended_photo.hxx
-	extended_photo/date.cpp
-	extended_photo/date.hpp
-	extended_photo/path_informations.cpp
-	extended_photo/path_informations.hpp
-	
 	private/date_tools.hxx
 	sort_new_photos.cpp
 	sort_new_photos.hpp
 	private/traits/traits.cpp
 	private/traits/traits.hpp
-	extended_photo/photographer.cpp
-	extended_photo/photographer.hpp
-	extended_photo/photographer.hxx
 	private/photo_directory_iterator.cpp
 	private/photo_directory_iterator.hpp
 	private/sort_new_photos_iterator.cpp
@@ -31,8 +22,14 @@ add_library(pict_stock STATIC
 	private/tools.hpp
 	private/path_format.cpp
 	private/path_format.hpp
-	
-	
+)
+
+
+target_link_libraries(pict_stock
+	extended_photo
+	exiv2
+	boost_regex
+	yuni-static-core
 )
 
 
@@ -41,6 +38,7 @@ add_executable(PictStock
 )
 
 target_link_libraries(PictStock
+	extended_photo
 	pict_stock
 	exiv2
 	boost_regex
@@ -53,10 +51,12 @@ add_executable(dev
 )
 
 target_link_libraries(dev
+	extended_photo
 	pict_stock
 	exiv2
 	boost_regex
 	yuni-static-core
+
 )
 
 

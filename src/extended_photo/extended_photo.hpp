@@ -1,16 +1,14 @@
 #ifndef EXTENDED_PHOTO_HPP_
 # define EXTENDED_PHOTO_HPP_
 
-# include <iostream>
-
+# include <map>
 # include <exiv2/src/image.hpp>
 # include <exiv2/src/exif.hpp>
 # include <yuni/core/string.h>
 # include <yuni/io/io.h>
 
-# include "pict_stock.hpp"
-# include "private/tools.hpp"
-# include "photographer.hpp"
+# include "../pict_stock.hpp"
+# include "path_informations.hpp"
 
 namespace PictStock
 {
@@ -42,32 +40,16 @@ namespace PictStock
 		//! Return true if any problem occurred (either from this class or exiv2)
 		inline bool problem() const;
 
-		//! Return the date as a string (format YYYYMMDD)
-		inline DateString date() const;
-
-		//! Return the time as a string (format hhmm)
-		inline HourString time() const;
-
 		//! Return the original path of the photo
 		inline YString originalPath() const;
 
-		/*!
-		 * \brief Name given in the output tree, without file extension
-		 *
-		 * \param[out] name Name
-		 *
-		 * This name does not consider possible files that would obtain the
-		 * same name; a suffix will have to be added to avoid overwriting
-		 * other pictures (handled in #SortNewPhotos class)
-		 */
-		void newNameWithoutExtension(YString& name) const;
 
 		/*!
 		 * \brief Modify the date in exif data and add a comment to specify this was done
 		 *
 		 * \param[in] newDate In format YYYYMMDD
 		 */
-		bool modifyDate(const DateString& newDate);
+		bool modifyDate(const Yuni::CString<8, false>& newDate);
 
 
 		/*!
@@ -81,6 +63,11 @@ namespace PictStock
 		**
 		*/
 		bool printExifData(std::ostream& out) const;
+
+		/*!
+		** \brief Get relevant informations for processing the photo
+		*/
+		PathInformations::Ptr informations() const;
 
 		/*!
 		 * Operator==
@@ -138,23 +125,11 @@ namespace PictStock
 		//! Smart pointer to exiv2 Image object
 		Exiv2::Image::AutoPtr pImage;
 
-		//! Smart pointer to the photographer
-		Photographer::Ptr pPhotographer;
+		//! Object which manages date data
+		PathInformations::Ptr pPathInformations;
 
-		// TODO Introduce time stamp instead of strings (but be sure there is portability!)
-		/*!
-		** Date of the photo, in format YYYYMMDD
-		*/
-		DateString pStringDate;
-
-		/*!
-		** Time of the photo, in format hhmm
-		*/
-		HourString pStringTime;
-
-		/*! true if a problem occurred with exiv library */
+		/*! True if a problem occurred with exiv library */
 		Status pStatus;
-
 
 
 	private:
@@ -172,6 +147,9 @@ namespace PictStock
 
 	//! Operator== : two #ExtendedPhoto are equals if they share the same object *pImage
 	bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
+
+
+	typedef std::map<PathInformations, ExtendedPhoto::Vector> OrderedPhotos;
 
 }// namespace PictStock
 

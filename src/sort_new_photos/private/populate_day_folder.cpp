@@ -4,6 +4,7 @@
 #include <yuni/core/math.h>
 #include <fstream>
 #include "populate_day_folder.hpp"
+#include "../../photo_directory/path_format.hpp"
 
 using namespace Yuni;
 
@@ -19,17 +20,19 @@ namespace Private
 			return static_cast<unsigned int>(Math::Ceil(log10(static_cast<double>(number + 1u))));
 		}
 
-
-
-
 	}// namespace anonymous
 
 
-	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs, const YString& targetFolder,
-		const DateString& targetDate, ExtendedPhoto::Vector& newPhotos, const YString& summaryFile)
+	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs,
+		const PathFormat& pathFormat,
+		const YString& targetFolder,
+		const PathInformations& targetInfos,
+		ExtendedPhoto::Vector& newPhotos,
+		const YString& summaryFile)
 		: logs(logs),
 		  pTargetFolder(targetFolder),
-		  pTargetDate(targetDate),
+		  pTargetInformations(targetInfos),
+		  pPathFormat(pathFormat),
 		  pNewPhotos(newPhotos),
 		  pSummaryFile(summaryFile)
 	{ }
@@ -40,10 +43,6 @@ namespace Private
 
 	bool PopulateDayFolder::proceed()
 	{
-		// Modify if necessary the date in exif
-		if (!enforceDateInNewPhotos())
-			return false;
-
 		// Load into #pPhotosPerName the photo already in target directory
 		if (!insertExistingPhotos())
 			return false;
@@ -59,23 +58,6 @@ namespace Private
 	}
 
 
-	bool PopulateDayFolder::enforceDateInNewPhotos()
-	{
-		for (auto it = pNewPhotos.begin(), end = pNewPhotos.end(); it != end; ++it)
-		{
-			ExtendedPhoto::Ptr photoPtr = *it;
-			assert(!(!photoPtr));
-			ExtendedPhoto& photo = *photoPtr;
-
-			if (photo.date() != pTargetDate)
-			{
-				if (!photo.modifyDate(pTargetDate))
-					return false;
-			}
-		}
-
-		return true;
-	}
 
 	bool PopulateDayFolder::insertExistingPhotos()
 	{
@@ -102,23 +84,23 @@ namespace Private
 			ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, file);
 
 			YString newName;
-			photoPtr->newNameWithoutExtension(newName);
+			pPathFormat.determineMinimalFilename(newName, *photoPtr);
 			pPhotosPerName[newName].push_back(photoPtr);
 		}
 
 		return true;
 	}
 
+
 	void PopulateDayFolder::insertNewPhotos()
 	{
-		// TODO Check new photos aren't redundant with pre-existing ones
 		for (auto it = pNewPhotos.cbegin(), end = pNewPhotos.cend(); it != end; ++it)
 		{
 			ExtendedPhoto::Ptr photoPtr = *it;
 			assert(!(!photoPtr));
 			YString newName;
 			ExtendedPhoto& photo = *photoPtr;
-			photo.newNameWithoutExtension(newName);
+			pPathFormat.determineMinimalFilename(newName, *photoPtr);
 
 			{
 				ExtendedPhoto::Vector& allPhotos = pPhotosPerName[newName];
@@ -237,7 +219,6 @@ namespace Private
 
 		return true;
 	}
-
 
 
 

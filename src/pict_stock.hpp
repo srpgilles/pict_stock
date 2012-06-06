@@ -7,10 +7,11 @@ typedef Yuni::Logs::Logger<> LoggingFacility;
 
 namespace PictStock
 {
+	// Forward declaration
+	class PathInformations;
 
-
-
-
+    typedef std::multimap<PathInformations, YString>
+    	ValidDirectoriesType;
 
 } // namespace PictStock
 

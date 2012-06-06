@@ -6,9 +6,7 @@ namespace PictStock
 namespace Private
 {
 
-
-	inline void SortNewPhotosIterator::picturesToProcess(
-		std::map<DateString, ExtendedPhoto::Vector>& out) const
+	inline void SortNewPhotosIterator::picturesToProcess(OrderedPhotos& out) const
 	{
 		out = pPicturesToProcess;
 	}

@@ -1,10 +1,19 @@
 #include "sort_new_photos_iterator.hpp"
-#include "date_tools.hxx"
+#include "../../photo_directory/path_format.hpp"
+
+
+# ifdef USE_BOOST_REGULAR_EXPR
+namespace regexNS = boost;
+# else
+namespace regexNS = std;
+# endif // USE_BOOST_REGULAR_EXPR
+
 
 namespace PictStock
 {
 namespace Private
 {
+
 	namespace // anonymous
 	{
 		void RequestText(LoggingFacility& logs, const AnyString& folderName, const YString& dateInMemory)
@@ -18,14 +27,33 @@ namespace Private
 				logs.info() << "\t3 -> yes (use date currently in memory which is "
 					<< dateInMemory << ")";
 		}
+
+		static const YString expression =
+			YString("\\A")
+			<< '(' << Traits::Year::Regex() << ')'
+			<< ':' // separator
+			<< '(' << Traits::Month::Regex() << ')'
+			<< ':' // separator
+			<< '(' << Traits::Day::Regex() << ')'
+			<< "\\z";
+
+		/*!
+		** \brief Regular expression for date formatting
+		**
+		** Basically format is YYYY:MM:DD HH:mm:SS
+		*/
+		static const regexNS::regex RegexDateFormatting(expression.c_str());
+
+
 	}
 
 
 	using namespace Yuni;
 
 	SortNewPhotosIterator::SortNewPhotosIterator(LoggingFacility& logs,
-		const String& inputDirectory, bool doFolderManualDate)
+		const String& inputDirectory, const PathFormat& pathFormat, bool doFolderManualDate)
 		: logs(logs),
+		  pPathFormat(pathFormat),
 		  pDoFolderManualDate(doFolderManualDate),
 		  pFolderLevel(0u),
 		  pCurrentFolderManualLevel(static_cast<unsigned int>(-1))
@@ -89,18 +117,15 @@ namespace Private
 			else if (answer == "2")
 			{
 				bool isValid = false;
+				regexNS::cmatch match;
+
 				do
 				{
 					logs.info() << "Please answer the date (under format YYYYMMDD)";
 
 					std::cin >> answer;
 
-					if (answer.size() != 8)
-						continue;
-
-					DateString buf(answer);
-					isValid =  isValidStringDate(buf);
-
+					isValid = regex_search(answer.c_str(), match, RegexDateFormatting);
 				} while (!isValid);
 
 				pCurrentFolderManualDate = answer;
@@ -149,6 +174,9 @@ namespace Private
 		String fullName;
 		fullName << folder << IO::Separator << name;
 		ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, fullName);
+		auto infosPtr = photoPtr->informations();
+		assert(!(!infosPtr));
+		auto& infos = *infosPtr;
 
 		if (photoPtr->problem())
 		{
@@ -160,18 +188,18 @@ namespace Private
 		if (!pCurrentFolderManualDate.empty())
 		{
 			assert(pDoFolderManualDate);
-			pPicturesToProcess[pCurrentFolderManualDate].push_back(photoPtr);
+			infos.changeDate(pCurrentFolderManualDate);
 		}
-		else
-			pPicturesToProcess[photoPtr->date()].push_back(photoPtr);
+
+		auto usefulInfos = infos.onlyUsefulOnes(pPathFormat.folderContent());
+
+		pPicturesToProcess[usefulInfos].push_back(photoPtr);
 
 		return IO::flowContinue;
 	}
 
 	void SortNewPhotosIterator::onTerminate()
 	{ }
-
-
 
 
 } // namespace Private

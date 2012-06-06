@@ -7,15 +7,18 @@ using namespace Yuni;
 namespace PictStock
 {
 
-
 	SortNewPhotos::SortNewPhotos(LoggingFacility& logs, const String& inputDirectory,
-		PhotoDirectory& photoDirectory, const String& summaryFile, bool doFolderManuallyDate)
+		PhotoDirectory& photoDirectory, const String& summaryFile,
+		bool doFolderManuallyDate)
 		: logs(logs),
 		  pPhotoDirectory(photoDirectory),
 		  pInputDirectory(inputDirectory),
 		  pSummaryFile(summaryFile)
 	{
-		Private::SortNewPhotosIterator iterator(logs, inputDirectory, doFolderManuallyDate);
+		auto pathFormatPtr = pPhotoDirectory.pathFormat();
+		assert(!(!pathFormatPtr));
+
+		Private::SortNewPhotosIterator iterator(logs, inputDirectory, *pathFormatPtr, doFolderManuallyDate);
 		iterator.picturesToProcess(pPicturesToProcess);
 	}
 
@@ -40,35 +43,23 @@ namespace PictStock
 		for (auto it = pPicturesToProcess.begin(), end = pPicturesToProcess.end();
 			it != end; ++it)
 		{
-			const DateString& folderDate = it->first;
+			const auto& folderInfos = it->first;
 
 			std::list<YString> folders;
 			YString targetFolder;
 
-			if (!pPhotoDirectory.findDate(folderDate, folders))
+			if (!pPhotoDirectory.createFolder(targetFolder, folderInfos))
 			{
-				if (!pPhotoDirectory.createDateFolder(folderDate, targetFolder))
-				{
-				  logs.error() << "Unable to create folder related to date " << folderDate;
-				  return false;
-				}
-			}
-			else
-			{
-				// TODO LATER
-				// One or more output folders already exist; see which one to use
-				// (or possibly create a new one)
-
-				// FOR NOW, use default one
-				// We don't care about return value: if not existing it is created
-				// and added to the tree, if existing false is returned but folder
-				// correctly set
-				pPhotoDirectory.createDateFolder(folderDate, targetFolder);
+				logs.error() << "Unable to create folder " << targetFolder;
+				return false;
 			}
 
 			{
-				Private::PopulateDayFolder populateFolder(logs, targetFolder, folderDate,
-					it->second, pSummaryFile);
+				auto pathFormatPtr = pPhotoDirectory.pathFormat();
+				assert(!(!pathFormatPtr));
+
+				Private::PopulateDayFolder populateFolder(logs, *pathFormatPtr,
+					targetFolder, folderInfos, it->second, pSummaryFile);
 				if (!populateFolder.proceed())
 					return false;
 			}

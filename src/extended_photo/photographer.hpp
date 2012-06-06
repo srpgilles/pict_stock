@@ -6,7 +6,7 @@
 # include <list>
 # include <map>
 
-# include "pict_stock.hpp"
+# include "../pict_stock.hpp"
 
 namespace PictStock
 {
@@ -67,8 +67,14 @@ namespace PictStock
 
 		//! List of keys/values identifying the photographer in exif data (see #ExifDataType)
 		ExifDataType pCameras;
+
+
+		friend bool operator==(const Photographer& lhs, const Photographer& rhs);
+		friend bool operator!=(const Photographer& lhs, const Photographer& rhs);
 	};
 
+	bool operator==(const Photographer& lhs, const Photographer& rhs);
+	bool operator!=(const Photographer& lhs, const Photographer& rhs);
 
 } // namespace PictStock
 

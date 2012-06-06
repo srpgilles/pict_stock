@@ -1,4 +1,4 @@
-#include "sort_new_photos.hpp"
+#include "sort_new_photos/sort_new_photos.hpp"
 #include <yuni/core/getopt.h>
 
 using namespace Yuni;
@@ -57,7 +57,6 @@ namespace
 		/*!
 		** \brief Map containing all relevant values read and their associated values
 		**
-		** Important: before call to #proceed only the keyx are defined; values are left empty
 		*/
 		std::map<KeyString, String> pParameters;
 
@@ -68,7 +67,12 @@ namespace
 	ReadParameterFile::ReadParameterFile(LoggingFacility& logs, const YString& file)
 		: logs(logs),
 		  pFile(file),
-		  pParameters({{"inputFolder",""}, {"outputFolder",""}, {"logFile",""}})
+		  pParameters({
+			{"inputFolder",""},
+			{"outputFolder",""},
+			{"logFile",""},
+			{"pathFormat", ""}
+			})
 	{
 
 		// Assign values from the parameter file
@@ -123,7 +127,13 @@ namespace
 	const String& ReadParameterFile::operator[](const KeyString& key) const
 	{
 		auto it = pParameters.find(key);
-		assert(it != pParameters.end() && "Should be enforced in #proceed() method");
+
+		if (it == pParameters.end())
+		{
+			logs.fatal("Parameter \"") << key << "\" was not foreseen";
+			exit(EXIT_FAILURE);
+		}
+
 		return it->second;
 	}
 
@@ -156,11 +166,7 @@ int main(int argc, char* argv[])
 	parser.addParagraph("\nHelp:\n");
 
 	if (!parser(argc, argv))
-	{
-		logs.fatal("Command line parsing failed. Here is the help description of the program:");
-		parser.helpUsage(argv[0]);
 		exit(EXIT_FAILURE);
-	}
 
 	// Default values
 	if (parameterFile.empty())
@@ -170,7 +176,7 @@ int main(int argc, char* argv[])
 	{
 		const ReadParameterFile parameters(logs, parameterFile);
 
-		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"]);
+		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"], parameters["pathFormat"]);
 		PictStock::SortNewPhotos sortNewPhotos(logs, parameters["inputFolder"], photoDirectory,
 			parameters["logFile"], doAskModifyDate);
 

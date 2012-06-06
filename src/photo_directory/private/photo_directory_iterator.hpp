@@ -4,12 +4,14 @@
 # include <yuni/io/directory/iterator.h>
 # include <yuni/core/string.h>
 
-# include "../pict_stock.hpp"
-# include "tools.hpp"
+# include "../../pict_stock.hpp"
 
 
 namespace PictStock
 {
+	// Forward declaration
+	class PathFormat;
+
 namespace Private
 {
 
@@ -29,7 +31,7 @@ namespace Private
 		//! Constructor & destructor
 		//@{
 		//! Constructor
-		PhotoDirectoryIterator(LoggingFacility& logs);
+		PhotoDirectoryIterator(LoggingFacility& logs, const PathFormat& pathFormat);
 
 		//! Destructor
 		virtual ~PhotoDirectoryIterator();
@@ -82,9 +84,11 @@ namespace Private
 
 	 private:
 
-		unsigned int pCounter;
 		unsigned int pFolderCount;
 		unsigned int pValidFolderCount;
+
+		//! Object in charge of checking whether a directory is legit or not
+		const PathFormat& pPathFormat;
 
 		/*!
 		** \brief List of valid directories found in photo directory
@@ -93,7 +97,6 @@ namespace Private
 		** to this date
 		*/
 		ValidDirectoriesType pValidDirectories;
-
 	};
 
 } // namespace Private

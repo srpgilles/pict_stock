@@ -1,10 +1,13 @@
 #ifndef POPULATE_DAY_FOLDER_HPP_
 # define POPULATE_DAY_FOLDER_HPP_
 
-# include "../extended_photo.hpp"
+# include "../../extended_photo/extended_photo.hpp"
 
 namespace PictStock
 {
+	//! Forward declaration
+	class PathFormat;
+
 namespace Private
 {
 
@@ -42,12 +45,13 @@ namespace Private
 		**
 		** \param[in, out] logs Logging facility
 		** \param[in] targetFolder Folder in which the new photo will be inserted. Must exist
-		** \param[in] targetDate Date of the pĥotos inside that folder. Format YYYYMMDD
+		** \param[in] targetInfos Informations relevant for the target
 		** \param[in] newPhotos List of new photos to be inserted in the target folder
 		** \param[in] summaryFile File in which all operations will be saved
 		*/
-		PopulateDayFolder(LoggingFacility& logs, const YString& targetFolder,
-			const DateString& targetDate, ExtendedPhoto::Vector& newPhotos,
+		PopulateDayFolder(LoggingFacility& logs, const PathFormat& pathFormat,
+			const YString& targetFolder,
+			const PathInformations& targetInfos, ExtendedPhoto::Vector& newPhotos,
 			const YString& summaryFile);
 
 		//! Destructor
@@ -64,14 +68,6 @@ namespace Private
 
 	private:
 
-		/*!
-		** \brief Scan new photos and check their date matches #pTargetDate
-		**
-		** This should be the case in most cases; but in case you are sorting pictures
-		** with unreliable exif data it might not be
-		** If disagreement, modify the exif by giving a fake date associated with a proper comment
-		*/
-		bool enforceDateInNewPhotos();
 
 		/*!
 		** \brief Insert existing photos in #pPhotosPerName
@@ -109,7 +105,10 @@ namespace Private
 		const YString& pTargetFolder;
 
 		//! Date of the photos to put into target folder
-		const DateString& pTargetDate;
+		const PathInformations& pTargetInformations;
+
+		//!
+		const PathFormat& pPathFormat;
 
 		//! New photos to be added in target folder
 		ExtendedPhoto::Vector pNewPhotos;
@@ -125,7 +124,6 @@ namespace Private
 		//! Path to the file in which all operations are recorded
 		const YString& pSummaryFile;
 	};
-
 
 
 

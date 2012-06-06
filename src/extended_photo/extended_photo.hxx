@@ -24,22 +24,16 @@ namespace PictStock
 	}
 
 
-	inline DateString ExtendedPhoto::date() const
-	{
-		assert(pStringDate.size() == 8u);
-		return pStringDate;
-	}
-
-
-	inline HourString ExtendedPhoto::time() const
-	{
-		return pStringTime;
-	}
-
 
 	inline YString ExtendedPhoto::originalPath() const
 	{
 		return pOriginalPath;
+	}
+
+
+	inline PathInformations::Ptr ExtendedPhoto::informations() const
+	{
+		return pPathInformations;
 	}
 
 

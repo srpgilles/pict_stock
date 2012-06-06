@@ -1,4 +1,5 @@
 #include "extended_photo.hpp"
+
 #include <iostream>
 #include <iomanip>
 
@@ -105,22 +106,26 @@ namespace PictStock
 			return ret;
 
 		}
+
 	} // anonymous namespace
 
 	const Photographer::List ExtendedPhoto::pPhotographers = initPhotographers();
 
 	ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const String& filename)
-			: logs(logs), pOriginalPath(filename), pPhotographer(nullptr), pStatus(epFine)
+			: logs(logs),
+			  pOriginalPath(filename),
+			  pPathInformations(new PathInformations(logs)),
+			  pStatus(epFine)
 	{
 		// It is assumed files passed in parameters truly exists
 		// (check should occur before call to the class)
-#ifndef NDEBUG
+		#ifndef NDEBUG
 		if (!IO::Exists(filename))
 		{
 			logs.error() << "Photo " << filename << " doesn't exist";
 			assert(false);
 		}
-#endif // NDEBUG
+		#endif // NDEBUG
 
 		try
 		{
@@ -142,6 +147,7 @@ namespace PictStock
 		}
 	}
 
+
 	bool ExtendedPhoto::identifyPhotographer()
 	{
 		// Unfortunately, there is no generic exif tag to identify a camera, and
@@ -158,13 +164,16 @@ namespace PictStock
 
 			String value;
 
+			assert((!(!pPathInformations)));
+			auto& relevantInformations = *pPathInformations;
+
 			for (auto itMap = cameras.cbegin(), endMap = cameras.cend(); itMap != endMap; ++itMap)
 			{
 				if (findExifKey(itMap->first, value))
 				{
 					if (value == itMap->second)
 					{
-						pPhotographer = *it;
+						relevantInformations.setPhotographer(*it);
 						return true;
 					}
 				}
@@ -187,41 +196,18 @@ namespace PictStock
 				return false;
 		}
 
-		std::vector<int> dateAsVect;
+		Date date;
 
-		// Now parse this date to extract year, month, day, hour, minute, second
-		dateRead.split(dateAsVect, " :");
+		bool ret = dateFromExif(logs, date, dateRead);
 
-		if (dateAsVect.size() != 6)
-		{
-			logs.fatal() << "Date is expected to follow format %y:%m:%d %h:%m:%s, "
-					"which was not the case of " << dateRead << "\n";
+		if (!ret)
 			return false;
-		}
 
-		typedef CString<4, false> TinyString;
-
-		{
-			// Proceed to extract the date and write in format YYYYMMDD
-			// TODO Replace that with time stamp
-			pStringDate.resize(8);
-			pStringDate.fill('0');
-
-			pStringDate.overwrite(TinyString(dateAsVect[0]));
-			pStringDate.overwriteRight(2, TinyString(dateAsVect[1]));
-			pStringDate.overwriteRight(TinyString(dateAsVect[2]));
-		}
-
-		{
-			// Same stuff for hour and minutes (seconds are dropped)
-			pStringTime.resize(4);
-			pStringTime.fill('0');
-			pStringTime.overwriteRight(2, TinyString(dateAsVect[3]));
-			pStringTime.overwriteRight(TinyString(dateAsVect[4]));
-		}
-
+		assert(!(!pPathInformations));
+		pPathInformations->setDate(date);
 		return true;
 	}
+
 
 	bool ExtendedPhoto::findExifKey(const std::string& key, String& value) const
 	{
@@ -300,23 +286,10 @@ namespace PictStock
 		}
 
 		return true;
-
 	}
 
-	void ExtendedPhoto::newNameWithoutExtension(YString& name) const
-	{
-		name.clear() << "Photo";
 
-		if (pStringTime != "9999") // 9999 is the value put <hen the date has been manually set
-			name << '_' << pStringTime;
-
-		if (!pPhotographer)
-			name << '_' << "UNK";
-		else
-			name << '_' << pPhotographer->abbr();
-	}
-
-	bool ExtendedPhoto::modifyDate(const DateString& newDate)
+	bool ExtendedPhoto::modifyDate(const Yuni::CString<8, false>& newDate)
 	{
 		assert(newDate.size() == 8u);
 		Exiv2::ExifData& exifData = pImage->exifData();
@@ -329,7 +302,7 @@ namespace PictStock
 			newExifDate.append(newDate, 2, 4);
 			newExifDate << ':';
 			newExifDate.append(newDate, 2, 6);
-			newExifDate << " 99:99:99"; // fake hour!
+			newExifDate << "   :  :  "; // keep hour empty!
 		}
 
 		CString<150, false> comment("The date has been modified manually; ");

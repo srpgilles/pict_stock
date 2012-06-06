@@ -1,9 +1,10 @@
 #ifndef SORT_NEW_PHOTOS_HPP
 # define SORT_NEW_PHOTOS_HPP
 
-# include "extended_photo.hpp"
-# include "photo_directory.hpp"
+# include "../extended_photo/extended_photo.hpp"
+# include "../photo_directory/photo_directory.hpp"
 # include "private/sort_new_photos_iterator.hpp"
+# include "../photo_directory/path_format.hpp"
 
 namespace PictStock
 {
@@ -52,13 +53,13 @@ namespace PictStock
         PhotoDirectory& pPhotoDirectory;
 
         /*!
-         ** Directory in which all JPG files are to be scanned and sort in the
-         ** righteous #pPhotoDirectory
-         */
+        ** Directory in which all JPG files are to be scanned and sort in the
+        ** righteous #pPhotoDirectory
+        */
         Yuni::String pInputDirectory;
 
         //! List of all jpeg files to process, sort by date
-        std::map<DateString, ExtendedPhoto::Vector> pPicturesToProcess;
+        OrderedPhotos pPicturesToProcess;
 
         //! Path to the file in which all operations are recorded
         const YString pSummaryFile;

@@ -2,13 +2,16 @@
 # define SORT_NEW_PHOTOS_ITERATOR_HPP_
 
 # include <yuni/io/directory/iterator.h>
-# include "../extended_photo.hpp"
+# include "../../extended_photo/extended_photo.hpp"
 
 namespace PictStock
 {
+
+	//! Forward declaration
+	class PathFormat;
+
 namespace Private
 {
-
 
 	class YUNI_DECL SortNewPhotosIterator : public Yuni::IO::Directory::IIterator<false>
 	{
@@ -37,19 +40,20 @@ namespace Private
 		 * should be false most of the time...
 		 */
 		explicit SortNewPhotosIterator(LoggingFacility& logs,
-			const Yuni::String& inputDirectory, bool doFolderManualDate = false);
+			const Yuni::String& inputDirectory, const PathFormat& pathFormat,
+			bool doFolderManualDate = false);
 
 		//! Destructor
 		virtual ~SortNewPhotosIterator();
 		//@}
 
 		/*!
-		 * \brief Return the list of all pictures sort by date
+		 * \brief Return the list of all pictures sort by relevant informations
 		 *
 		 * \param[out] out PicturesToProcess Key is date under format YYYYMMDD,
 		 * value if a list of #ExtendedPhoto pointers
 		 */
-		void picturesToProcess(std::map<DateString, ExtendedPhoto::Vector>& out) const;
+		void picturesToProcess(OrderedPhotos& out) const;
 
 	public:
 
@@ -84,8 +88,11 @@ namespace Private
 
 	private:
 
+		//!
+		const PathFormat& pPathFormat;
+
 		//! List of all jpeg files to process, sort by date
-		std::map<DateString, ExtendedPhoto::Vector> pPicturesToProcess;
+		OrderedPhotos pPicturesToProcess;
 
 		//!
 
@@ -102,12 +109,12 @@ namespace Private
 		const bool pDoFolderManualDate;
 
 		/*!
-		 * \brief Current manual date entrie in case #pDoFolderManualDate is true and date
+		 * \brief Current manual date entry in case #pDoFolderManualDate is true and date
 		 * has been set manually.
 		 *
 		 * Empty otherwise
 		 */
-		DateString pCurrentFolderManualDate;
+		Yuni::CString<8, false> pCurrentFolderManualDate;
 
 		/*!
 		 * \brief Tells at which folder level we currently stand
@@ -131,6 +138,7 @@ namespace Private
 
 
 	};
+
 } // namespace Private
 } // namespace PictStock
 

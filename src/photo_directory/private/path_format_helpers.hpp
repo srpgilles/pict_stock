@@ -102,16 +102,6 @@ namespace Private
 
 
 		/*!
-		** \brief Check whether a path complies with the user-defined path format
-		**
-		** \param[in] path Path being checked
-		** \param[out] out Map giving all values read in the path
-		*/
-		bool isOk(const AnyString& path,
-			std::map<Traits::Element::Ptr, Yuni::CString<10, false> >& out) const;
-
-
-		/*!
 		** \brief Check whether the folder part of a path complies with the user-defined path format
 		**
 		** \param[in] path Path being checked

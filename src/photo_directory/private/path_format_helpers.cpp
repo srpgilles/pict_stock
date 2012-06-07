@@ -123,26 +123,6 @@ namespace Private
 
 
 	bool PathFormatHelper::isOk(const AnyString& path,
-		std::map<Traits::Element::Ptr, CString<10, false> >& values) const
-	{
-		assert(values.size() == 0u);
-		regexNS::cmatch m;
-
-		if (!regex_search(path.c_str(), m, pRegEx))
-			return false;
-
-		size_t size = pSymbolOrdering.size();
-
-		for (unsigned int i = 0u; i < size; ++i)
-		{
-			values[pSymbolOrdering[i]] = m[i + 1u].str();
-			// + 1u because regex elements begin at 1; 0 is the full expression
-		}
-
-		return true;
-	}
-
-	bool PathFormatHelper::isOk(const AnyString& path,
 		PathInformations& out) const
 	{
 		assert(out.isEmpty() && "If not, improper call to this method");

@@ -66,19 +66,6 @@ namespace PictStock
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<PathFormat> Ptr;
 
-
-		/*!
-		** \brief Check whether the folder part of a path complies with the user-defined path format
-		**
-		** \param[in] path Path being checked
-		** \param[out] out Match result object, which allows to extract relevant informations
-		** from the regex. Meaning of each index may be retrieved with the help of #pFolderPart::pSymbolOrdering:
-		** for instance index 1 match the type of Element at pSymbolOrdering[1]
-		*/
-		bool doFolderMatch(const AnyString& path,
-			std::map<Traits::Element::Ptr, Yuni::CString<10, false> >& out) const;
-
-
 		/*!
 		** \brief Check whether the folder part of a path complies with the user-defined path format
 		**

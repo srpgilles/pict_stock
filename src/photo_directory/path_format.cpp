@@ -46,18 +46,6 @@ namespace PictStock
 	}
 
 
-	bool PathFormat::doFolderMatch(const AnyString& path,
-		std::map<Traits::Element::Ptr, CString<10, false> >& out) const
-	{
-		// Trivial case: if no folder defined any path match
-		if (!pFolderPart)
-			return true;
-
-		return pFolderPart->isOk(path, out);
-	}
-
-
-
 	bool PathFormat::doFolderMatch(const AnyString& path, PathInformations& infos) const
 	{
 		// Trivial case: if no folder defined any path match

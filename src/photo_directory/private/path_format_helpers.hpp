@@ -12,6 +12,7 @@
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../../pict_stock.hpp"
 # include "traits/traits.hpp"
+# include <tuple>
 
 
 namespace PictStock
@@ -48,7 +49,56 @@ namespace Private
 	};
 
 
+	typedef Yuni::CString<4, false> SymbolString;
+	typedef Yuni::CString<30, true> RegexString;
 
+	struct Year
+	{
+		static const SymbolString Symbol() { return "%y"; }
+		static const RegexString Regex() { return "\\d{4}"; }
+	};
+
+
+	struct Month
+	{
+		static const SymbolString Symbol() { return "%m"; }
+		static const RegexString Regex() { return " \\d{1}|0\\d{1}|10|11|12"; }
+	};
+
+
+	struct Day
+	{
+		static const SymbolString Symbol() { return "%d"; }
+		static const RegexString Regex() { return  "[ |0|1|2]\\d{1}|3[0|1]"; } // no check for adequacy month day (for instance 30 Elements::b is allowed)
+	};
+
+
+	struct Hour
+	{
+		static const SymbolString Symbol() { return "%H"; }
+		static const RegexString Regex() { return  "[ |0|1]\\d{1}|2[0-4]|  "; } // empty allowed
+	};
+
+
+	struct Minute
+	{
+		static const SymbolString Symbol() { return "%M"; }
+		static const RegexString Regex() { return  "[ 0-5]\\d{1}|  "; } // empty is allowed
+	};
+
+
+	struct Second
+	{
+		static const SymbolString Symbol() { return "%S"; }
+		static const RegexString Regex() { return  "[ 0-5]\\d{1}|  "; } // empty is allowed
+	};
+
+
+	struct Photographer
+	{
+		static const SymbolString Symbol() { return "%P"; }
+		static const RegexString Regex() { return ".*"; }
+	};
 
 
 	/*!
@@ -147,6 +197,27 @@ namespace Private
 		*/
 		void setRegEx();
 
+		/*!
+		** \brief Look in the user-defined format to find the positions of relevant informations
+		**
+		** All types in the tuple list will be tried out to check whether their symbol is present
+		** in the user defined format. If so, a vector will be returned with the index of the
+		** relevant symbols in the appropriate order.
+		**
+		** For instance, if format = "%d/%y", only year and day informations are considered
+		** (and month ones for instance are ignored - I know it's a pretty stupid choice, but
+		** I'll use this one for the sake of example)
+		**
+		** The output vector will feature the positions of year and day values in the tuple list.
+		**
+		** So for instance if list is { Year, Month, Day, Hour, Minute, Second }, the
+		** output vector will return (2, 0)
+		** meaning the first informations found is index 2 in the tuple list (namely day)
+		** and second one is year
+		*/
+		void interpretUserDefinedFormat();
+
+
 	private:
 
 		//! User-defined path format
@@ -169,12 +240,27 @@ namespace Private
 		//! List of all elements that might be used in regex expression (day, month, photographer, etc...)
 		static const Traits::Element::Vector pElements;
 
+		//! Tuple of all possible relevant elements in the user-defined format
+		typedef std::tuple<Year, Month, Day, Hour, Minute, Second, Photographer> TupleType;
+
+		/*!
+		** \brief Vector in charge of keeping the book to know which informations is stored where
+		**
+		** An example will value here thousands of explanations:
+		**   if pPositions = {3, 1, 4}
+		**
+		**   it means fourth, second and fifth element of TupleType are encountered in this
+		**   order in user-defined format (so Hour, Month and Minute) and others
+		**   aren't seen at all
+		*/
+		std::vector<size_t> pPositions;
+
 	};
 
 
 } // namespace Private
 } // namespace PictStock
 
-
+# include "path_format_helpers.hxx"
 
 #endif /* PATH_FORMAT_HELPERS_HPP_ */

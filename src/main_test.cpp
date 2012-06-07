@@ -118,7 +118,7 @@ findInStringHelper(std::array<unsigned int, std::tuple_size<TupleT>::value>& out
 */
 
 template<class TupleT>
-inline void findInString(std::vector<size_t>& out, const YString& format)
+void findInString(std::vector<size_t>& out, const YString& format)
 {
 	assert(out.empty());
 
@@ -162,7 +162,7 @@ int main(int argc, char* argv[])
 
 	findInString<TupleType>(foo, buf);
 
-	for (unsigned int i = 0u; i < size; ++i)
+	for (unsigned int i = 0u, size = foo.size(); i < size; ++i)
 		logs.notice() << "Position " << i << '\t' << foo.at(i);
 
 	//for (auto it = foo.begin(), end = foo.end(); it != end; ++it)

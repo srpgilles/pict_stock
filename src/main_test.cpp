@@ -3,6 +3,7 @@
 #include <yuni/core/string.h>
 #include <utility>
 #include <iostream>
+#include <array>
 #include <vector>
 
 using namespace Yuni;
@@ -63,58 +64,82 @@ void print()
 	printHelper<0, TupleT>();
 }
 
-struct BaseElement
-{
-	typedef Yuni::SmartPtr<BaseElement> Ptr;
-	typedef std::vector<Ptr> Vector;
-};
 
 template<class T>
-struct MyElement : public BaseElement
+struct MyElement
 {
 	typedef T Type;
-	unsigned int position;
-
-	MyElement(unsigned int position);
 };
 
-template<class T>
-MyElement<T>::MyElement(unsigned int position)
-	: position(position)
-{ }
+//template<class T>
+//MyElement<T>::MyElement(unsigned int position)
+//	: BaseElement(position)
+//{ }
 
-template<class T, class U>
-bool operator < (const MyElement<T>& t, const MyElement<U>& u)
-{
-	return t.position < u.position;
-}
 
 template<std::size_t I = 0, class TupleT>
 typename std::enable_if<I == std::tuple_size<TupleT>::value, void>::type
-  findInStringHelper(BaseElement::Vector& /*out*/, const YString& /*format*/)
+  findInStringHelper(std::array<unsigned int, std::tuple_size<TupleT>::value>& /*out*/, const YString& /*format*/)
   { }
 
 template<std::size_t I = 0, class TupleT>
 typename std::enable_if<I < std::tuple_size<TupleT>::value, void>::type
-findInStringHelper(BaseElement::Vector& out, const YString& format)
+findInStringHelper(std::array<unsigned int, std::tuple_size<TupleT>::value>& out, const YString& format)
   {
 	typedef typename std::tuple_element<I, TupleT>::type type;
 
 	unsigned int pos = format.find(type::Symbol());
 
-	if (pos != String::npos)
-	{
-		out.push_back(new MyElement<type>(pos));
-	}
+	//if (pos != String::npos)
+	out[I] = pos; // npos possibly stored
 
-    //std::cout << std::tuple_element<I, TupleT>::type::Symbol() << std::endl;
+	//std::cout << std::tuple_element<I, TupleT>::type::Symbol() << std::endl;
     findInStringHelper<I + 1, TupleT>(out, format);
   }
 
+
+/*!
+** \brief Look in the user-defined format to find the positions of relevant informations
+**
+** All types in the tuple list will be tried out to check whether their symbol is present
+** in the user defined format. If so, a vector will be returned with the index of the
+** relevant symbols in the appropriate order.
+**
+** For instance, if format = "%d/%y", only year and day informations are considered
+** (and month ones for instance are ignored - I know it's a pretty stupid choice, but
+** I'll use this one for the sake of example)
+**
+** The output vector will feature the positions of year and day values in the tuple list.
+**
+** So for instance if list is { Year, Month, Day, Hour, Minute, Second }, the
+** output vector will return (2, 0)
+** meaning the first informations found is index 2 in the tuple list (namely day)
+** and second one is year
+*/
+
 template<class TupleT>
-inline void findInString(BaseElement::Vector& out, const YString& format)
+inline void findInString(std::vector<size_t>& out, const YString& format)
 {
-	findInStringHelper<0, TupleT>(out, format);
+	assert(out.empty());
+
+	// First, find whether symbols are present and store the position in an array.
+	// If not found, store npos instead of position value
+	std::array<unsigned int, std::tuple_size<TupleT>::value> buf;
+	findInStringHelper<0, TupleT>(buf, format);
+
+	// Prepare the output vector
+	std::map<unsigned int, size_t> helper;
+
+	for (size_t i = 0u, size = buf.size(); i < size; ++i)
+	{
+		if (buf[i] == String::npos)
+			continue;
+
+		helper[buf[i]] = i;
+	}
+
+	for (auto it = helper.cbegin(), end = helper.cend(); it != end; ++it)
+		out.push_back(it->second);
 }
 
 
@@ -128,16 +153,21 @@ int main(int argc, char* argv[])
 
 	typedef std::tuple_element<0, TupleType>::type type;
 
-	//print<0, std::tuple_size<TupleType>::value, TupleType>();
 
+	YString buf("%d/%y/jfkldjfl"); // month left aside on purpose
 
-	YString buf("%y/jfkldjfl/%d"); // month left aside on purpose
+	auto size = std::tuple_size<TupleType>::value;
 
-	BaseElement::Vector foo;
+	std::vector<size_t> foo;
 
 	findInString<TupleType>(foo, buf);
 
-	logs.notice() << foo.size();
+	for (unsigned int i = 0u; i < size; ++i)
+		logs.notice() << "Position " << i << '\t' << foo.at(i);
+
+	//for (auto it = foo.begin(), end = foo.end(); it != end; ++it)
+	//	logs.notice() << it->first << '\t' << it->second.Symbol();
+
 
 
 	//logs.notice() << myTuple.get<O>;

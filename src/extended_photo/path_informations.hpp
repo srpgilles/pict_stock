@@ -50,16 +50,17 @@ namespace PictStock
 		//! Set the date
 		void setDate(const Date& date);
 
-
-		//! Return the proper information associated with index given
-		Yuni::CString<10, false> value(unsigned int natureIndex) const;
-
 		/*!
-		** \brief Set the value of a given index
+		** \brief Set the value of one element from an existing object
 		**
-		** This is intended to be used when a regex has been operated over a path
-		 */
-		void setValue(unsigned int natureIndex, const AnyString& value);
+		** For instance, take the month from input object and put it in current one
+		**
+		** This is useful when PathInformations object are used a key in a map
+		**
+		** \tparam[in] An element that can be found in the typelist Private::TupleType
+		*/
+		template<class ElementT>
+		void setElement(const PathInformations& input);
 
 		/*!
 		** \brief Change the date
@@ -108,8 +109,6 @@ namespace PictStock
 
 
 } // namespace PictStock
-
-
 
 
 #endif /* RELEVANT_INFORMATIONS_HPP_ */

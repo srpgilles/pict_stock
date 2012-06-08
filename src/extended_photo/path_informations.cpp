@@ -21,83 +21,46 @@ namespace PictStock
 		pDate = date;
 	}
 
-
-	void PathInformations::setValue(unsigned int natureIndex, const AnyString& value)
+	template<>
+	void PathInformations::setElement<Private::Year>(const PathInformations& input)
 	{
-		logs.fatal("[DEV] PathInformations::setValue deactivated");
-//		Date& date = pDate;
-//
-//		switch(natureIndex)
-//		{
-//		case Elements::year:
-//			date.year = value;
-//			break;
-//		case Elements::month:
-//			date.month = value;
-//			break;
-//		case Elements::day:
-//			date.day = value;
-//			break;
-//		case Elements::hour:
-//			date.hour = value;
-//			break;
-//		case Elements::minute:
-//			date.minute = value;
-//			break;
-//		case Elements::second:
-//			date.second = value;
-//			break;
-//		case Elements::photographer:
-//			{
-//				std::multimap<std::string, Yuni::String> buf;
-//				pPhotographerPtr = new Photographer("", value, buf);
-//				break;
-//			}
-//		case Elements::size:
-//			assert(false && "Should never be invoked");
-//			logs.fatal("RelevantInformations::value() should never be invoked with very last index");
-//			exit(EXIT_FAILURE);
-//			break;
-//		}// switch
-
+		pDate.year = input.pDate.year;
 	}
 
-
-	Yuni::CString<10, false> PathInformations::value(unsigned int natureIndex) const
+	template<>
+	void PathInformations::setElement<Private::Month>(const PathInformations& input)
 	{
-		logs.fatal("[DEV] PathInformations::value deactivated");
+		pDate.month = input.pDate.month;
+	}
 
-//		const Date& date = pDate;
-//
-//		switch(natureIndex)
-//		{
-//		case Elements::year:
-//			return date.year;
-//		case Elements::month:
-//			return date.month;
-//		case Elements::day:
-//			return date.day;
-//		case Elements::hour:
-//			return date.hour;
-//		case Elements::minute:
-//			return date.minute;
-//		case Elements::second:
-//			return date.second;
-//		case Elements::photographer:
-//			{
-//				if (!pPhotographerPtr)
-//					return "UNK";
-//
-//				return pPhotographerPtr->abbr();
-//			}
-//		case Elements::size:
-//			assert(false && "Should never be invoked");
-//			logs.fatal("RelevantInformations::value() should never be invoked with very last index");
-//			exit(EXIT_FAILURE);
-//			break;
-//		}// switch
+	template<>
+	void PathInformations::setElement<Private::Day>(const PathInformations& input)
+	{
+		pDate.day = input.pDate.day;
+	}
 
-		return ""; // to avoid compilation warning
+	template<>
+	void PathInformations::setElement<Private::Hour>(const PathInformations& input)
+	{
+		pDate.hour = input.pDate.hour;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Minute>(const PathInformations& input)
+	{
+		pDate.minute = input.pDate.minute;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Second>(const PathInformations& input)
+	{
+		pDate.second = input.pDate.second;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Photographer>(const PathInformations& input)
+	{
+		pPhotographerPtr = input.pPhotographerPtr; // valid even with nullptr
 	}
 
 

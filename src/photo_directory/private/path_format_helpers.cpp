@@ -39,9 +39,7 @@ namespace Private
 
 			array[I] = pos; // npos possibly stored
 
-			if (pos != String::pos)
-
-			interpretUserDefinedFormatHelper<I + 1, TupleType>(out, format);
+			interpretUserDefinedFormatHelper<I + 1>(array, format);
 		  }
 
 
@@ -65,6 +63,59 @@ namespace Private
 		{
 			if (doContains.test(I))
 				usefulInformations.setValue(I, completeInformations.value(I));
+
+			onlyUsefulOnesHelper<I + 1>(usefulInformations, completeInformations, doContains);
+		}
+
+
+		/*!
+		** \brief Recursion to replace symbols by appropriate regular expression
+		**
+		** \param[out] out Regex that is requested
+		** \param[in, out] helper In the very first call, the user-define format.
+		** Each recursion will replace the symbol considered by the proper regex
+		** \param[in] doContains Tells whether the symbol is present or not. If not,
+		** no need to bother with two calls to string::replace!
+		*/
+		template<std::size_t I = 0>
+		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
+			determineRegexHelper(
+				regexNS::regex& out,
+				YString& helper,
+				const std::bitset<std::tuple_size<TupleType>::value>& /*doContains*/
+				)
+		{
+			out = regexNS::regex(helper.c_str());
+		}
+
+
+		template<std::size_t I = 0>
+		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
+			determineRegexHelper(
+				regexNS::regex& out,
+				YString& helper,
+				const std::bitset<std::tuple_size<TupleType>::value>& doContains
+				)
+		{
+			if (doContains.test(I))
+			{
+				typedef typename std::tuple_element<I, TupleType>::type type;
+				auto symbol = type::Symbol();
+				auto regex = type::Regex();
+
+				unsigned int pos = helper.find(symbol);
+				assert(pos != String::npos && "If equal, doContains test is bullshit!");
+
+				helper.replace(pos + 1u, symbol, regex);
+
+				// Now replace the first expression with parenthesis (for regex match)
+				String buf('(');
+				buf << regex << ')';
+				helper.replace(symbol, buf);
+			}
+
+			// Recursion
+			determineRegexHelper<I + 1>(out, helper, doContains);
 		}
 
 
@@ -102,17 +153,6 @@ namespace Private
 	}
 
 
-	const Traits::Element::Vector PathFormatHelper::pElements =
-		{
-			new Traits::Year(),
-			new Traits::Month(),
-			new Traits::Day(),
-			new Traits::Hour(),
-			new Traits::Minute(),
-			new Traits::Second(),
-			new Traits::Photographer()
-		};
-
 
 
 
@@ -143,67 +183,18 @@ namespace Private
 	{
 		const auto& path = pFormat;
 		assert(path.notEmpty());
-		assert(doContains.size() == pElements.size());
 
 		{
 			// First determine the ordering of the symbols found in user-defined expression
-			typedef std::map<unsigned int, Traits::Element::Ptr> Position_Symbol;
-			Position_Symbol positions;
-
-			for (size_t i = 0u, size = pElements.size(); i < size; ++i)
-			{
-				auto elementPtr = pElements[i];
-				assert(!(!elementPtr));
-				auto& element = *elementPtr;
-				auto pos = path.indexOf(0, element.symbol());
-
-				if (pos != String::npos)
-				{
-					positions[pos] = elementPtr;
-					doContains[element.nature] = true;
-				}
-				// no else: by default a bitset is filled with false everywhere
-			}
-
-			assert(pSymbolOrdering.empty() && "Method should only be called once in construction");
-			pSymbolOrdering.reserve(positions.size());
-
-			for (auto it = positions.cbegin(), end = positions.cend(); it != end; ++it)
-			{
-				assert(!(!(it->second)));
-				pSymbolOrdering.push_back(it->second);
-			}
+			interpretUserDefinedFormat();
 		}
 
 		{
 			// Determine regex expression by replacing symbols by adequate expression
 			// If one is present more than once, only the first one is enclosed within parenthesis
 			// (due to the way regex_results works)
-
 			String helper(path);
-
-			for (size_t i = 1u, size = pSymbolOrdering.size(); i < size; ++i)
-			{
-				// We must use a trick as some useful string methods don't exist
-				// (count the number of occurrence of a given substring, or replace only
-				// first occurrence)
-				auto elementPtr = pSymbolOrdering[i];
-				assert(!(!elementPtr));
-				auto& element = *elementPtr;
-				auto symbol = element.symbol();
-				auto regex = element.regex();
-				unsigned int pos = helper.find(symbol);
-				assert(pos != String::npos && "If equal, something went wrong above");
-
-				helper.replace(pos + 1u, symbol, regex);
-
-				// Now replace the first expression
-				String buf('(');
-				buf << regex << ')';
-				helper.replace(symbol, buf);
-			}
-
-			pRegEx = regexNS::regex(helper.c_str());
+			determineRegexHelper<0>(pRegEx, helper, pDoContains);
 		}
 	}
 

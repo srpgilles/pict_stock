@@ -188,17 +188,6 @@ namespace Private
 		#endif // USE_BOOST_REGULAR_EXPR
 
 		/*!
-		** \brief Vector in which are stored the elements found in user-defined
-		** expression in the correct order
-		**
-		*/
-		//Traits::Element::Vector pSymbolOrdering;
-
-		//! List of all elements that might be used in regex expression (day, month, photographer, etc...)
-		//static const Traits::Element::Vector pElements;
-
-
-		/*!
 		** \brief Vector in charge of keeping the book to know which informations is stored where
 		**
 		** An example will value here thousands of explanations:

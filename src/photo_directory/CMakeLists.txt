@@ -8,8 +8,6 @@ add_library(photo_directory STATIC
 	path_format.hpp
 	private/photo_directory_iterator.cpp
 	private/photo_directory_iterator.hpp
-	private/traits/traits.cpp
-	private/traits/traits.hpp
 	private/path_format_helpers.cpp
 	private/path_format_helpers.hpp
 	

@@ -66,19 +66,6 @@ namespace PictStock
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<PathFormat> Ptr;
 
-
-		/*!
-		** \brief Check whether the folder part of a path complies with the user-defined path format
-		**
-		** \param[in] path Path being checked
-		** \param[out] out Match result object, which allows to extract relevant informations
-		** from the regex. Meaning of each index may be retrieved with the help of #pFolderPart::pSymbolOrdering:
-		** for instance index 1 match the type of Element at pSymbolOrdering[1]
-		*/
-		bool doFolderMatch(const AnyString& path,
-			std::map<Traits::Element::Ptr, Yuni::CString<10, false> >& out) const;
-
-
 		/*!
 		** \brief Check whether the folder part of a path complies with the user-defined path format
 		**
@@ -113,9 +100,17 @@ namespace PictStock
 		void determineMinimalFilename(Yuni::String& out, const ExtendedPhoto& photo) const;
 
 
-		//! Tells whether Elements are present in folder part or not
-		const std::bitset<Elements::size>& folderContent() const;
-
+		/*!
+		** \brief Create a new RelevantInformations object featuring only informations useful
+		** to determine the folder part of the user-defined format
+		**
+		** For instance, if the folder part of a path contains only year and month,
+		** returned object will have these values filled and all others set to
+		** empty string
+		**
+		** \param[in] input The original #PathInformations object
+		 */
+		PathInformations onlyUsefulFolderElements(const PathInformations& input) const;
 
 
 	public:

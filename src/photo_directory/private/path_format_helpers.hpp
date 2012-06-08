@@ -11,7 +11,7 @@
 #  include <regex>
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../../pict_stock.hpp"
-# include "traits/traits.hpp"
+#include "../../extended_photo/path_informations.hpp"
 
 
 namespace PictStock
@@ -46,9 +46,6 @@ namespace Private
 		//! Text describing the exception
 		YString pMessage;
 	};
-
-
-
 
 
 	/*!
@@ -102,16 +99,6 @@ namespace Private
 
 
 		/*!
-		** \brief Check whether a path complies with the user-defined path format
-		**
-		** \param[in] path Path being checked
-		** \param[out] out Map giving all values read in the path
-		*/
-		bool isOk(const AnyString& path,
-			std::map<Traits::Element::Ptr, Yuni::CString<10, false> >& out) const;
-
-
-		/*!
 		** \brief Check whether the folder part of a path complies with the user-defined path format
 		**
 		** \param[in] path Path being checked
@@ -139,14 +126,26 @@ namespace Private
 		void determineMinimalPath(Yuni::String& out,
 			const ExtendedPhoto& photo) const;
 
+		/*!
+		** \brief Create a new RelevantInformations object featuring only informations useful
+		** to determine the path
+		**
+		** For instance, if the folder part of a path contains only year and month,
+		** returned object will have these values filled and all others set to
+		** empty string
+		**
+		** \param[in] input The original #PathInformations object
+		 */
+		PathInformations onlyUsefulElements(const PathInformations& input) const;
+
 
 	public:
 
 		//! Logs
 		mutable LoggingFacility& logs;
 
-		//! Bitset to know whether a given element is in the folder path
-		std::bitset<Elements::size> doContains;
+		typedef std::map<unsigned int, unsigned int> MatchingType;
+
 
 
 	private:
@@ -156,6 +155,27 @@ namespace Private
 		**
 		*/
 		void setRegEx();
+
+		/*!
+		** \brief Look in the user-defined format to find the positions of relevant informations
+		**
+		** All types in the tuple list will be tried out to check whether their symbol is present
+		** in the user defined format. If so, a vector will be returned with the index of the
+		** relevant symbols in the appropriate order.
+		**
+		** For instance, if format = "%d/%y", only year and day informations are considered
+		** (and month ones for instance are ignored - I know it's a pretty stupid choice, but
+		** I'll use this one for the sake of example)
+		**
+		** The output vector will feature the positions of year and day values in the tuple list.
+		**
+		** So for instance if list is { Year, Month, Day, Hour, Minute, Second }, the
+		** output vector will return (2, 0)
+		** meaning the first informations found is index 2 in the tuple list (namely day)
+		** and second one is year
+		*/
+		void interpretUserDefinedFormat();
+
 
 	private:
 
@@ -169,22 +189,35 @@ namespace Private
 		std::regex pRegEx;
 		#endif // USE_BOOST_REGULAR_EXPR
 
+
 		/*!
-		** \brief Vector in which are stored the elements found in user-defined
-		** expression in the correct order
+		**  \brief Container which tells the index to match an element from a regex_match
 		**
+		**  For instance, if Month was found in the format checkout out and the user-defined
+		**  format is %P/%y/%m/%d
+		**  pMatching will store the pair (2, 3) where 2 is the index of month in #Private::TupleList
+		**  and 3 is the index you need to provide to the regex object to obtain the associated value
+		**  (indexing begins at 1 for these objects)
 		*/
-		Traits::Element::Vector pSymbolOrdering;
+		MatchingType pMatching;
 
-		//! List of all elements that might be used in regex expression (day, month, photographer, etc...)
-		static const Traits::Element::Vector pElements;
-
+		/*!
+		** \brief Bitset to know whether a given element is in the folder path
+		**
+		** Index is the one in Private::TupleType
+		**
+		** IMPORTANT: There is a redundancy of informations with pMatching keys,
+		** to be dealt with later
+		*/
+		std::bitset<std::tuple_size<TupleType>::value> pDoContains;
 	};
+
+
+
 
 
 } // namespace Private
 } // namespace PictStock
-
 
 
 #endif /* PATH_FORMAT_HELPERS_HPP_ */

@@ -1,8 +1,10 @@
 #include "path_informations.hpp"
 
+using namespace Yuni;
 
 namespace PictStock
 {
+
 
 	PathInformations::PathInformations(LoggingFacility& logs)
 		: logs(logs),
@@ -21,80 +23,133 @@ namespace PictStock
 		pDate = date;
 	}
 
-
-	void PathInformations::setValue(unsigned int natureIndex, const AnyString& value)
+	template<>
+	void PathInformations::setElement<Private::Year>(const AnyString& input)
 	{
-		Date& date = pDate;
+		pDate.year = input;
+	}
 
-		switch(natureIndex)
-		{
-		case Elements::year:
-			date.year = value;
-			break;
-		case Elements::month:
-			date.month = value;
-			break;
-		case Elements::day:
-			date.day = value;
-			break;
-		case Elements::hour:
-			date.hour = value;
-			break;
-		case Elements::minute:
-			date.minute = value;
-			break;
-		case Elements::second:
-			date.second = value;
-			break;
-		case Elements::photographer:
-			{
-				std::multimap<std::string, Yuni::String> buf;
-				pPhotographerPtr = new Photographer("", value, buf);
-				break;
-			}
-		case Elements::size:
-			assert(false && "Should never be invoked");
-			logs.fatal("RelevantInformations::value() should never be invoked with very last index");
-			exit(EXIT_FAILURE);
-			break;
-		}// switch
+	template<>
+	void PathInformations::setElement<Private::Month>(const AnyString& input)
+	{
+		pDate.month = input;
+	}
 
+	template<>
+	void PathInformations::setElement<Private::Day>(const AnyString& input)
+	{
+		pDate.day = input;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Hour>(const AnyString& input)
+	{
+		pDate.hour = input;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Minute>(const AnyString& input)
+	{
+		pDate.minute = input;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Second>(const AnyString& input)
+	{
+		pDate.second = input;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Photographer>(const AnyString& input)
+	{
+		std::multimap<std::string, Yuni::String> empty;
+		pPhotographerPtr = new Photographer("", input, empty);
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Year>(const PathInformations& input)
+	{
+		pDate.year = input.pDate.year;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Month>(const PathInformations& input)
+	{
+		pDate.month = input.pDate.month;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Day>(const PathInformations& input)
+	{
+		pDate.day = input.pDate.day;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Hour>(const PathInformations& input)
+	{
+		pDate.hour = input.pDate.hour;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Minute>(const PathInformations& input)
+	{
+		pDate.minute = input.pDate.minute;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Second>(const PathInformations& input)
+	{
+		pDate.second = input.pDate.second;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Photographer>(const PathInformations& input)
+	{
+		pPhotographerPtr = input.pPhotographerPtr; // valid even with nullptr
 	}
 
 
-	Yuni::CString<10, false> PathInformations::value(unsigned int natureIndex) const
+	template<>
+	AnyString PathInformations::getElement<Private::Year>() const
 	{
-		const Date& date = pDate;
+		return pDate.year;
+	}
 
-		switch(natureIndex)
-		{
-		case Elements::year:
-			return date.year;
-		case Elements::month:
-			return date.month;
-		case Elements::day:
-			return date.day;
-		case Elements::hour:
-			return date.hour;
-		case Elements::minute:
-			return date.minute;
-		case Elements::second:
-			return date.second;
-		case Elements::photographer:
-			{
-				if (!pPhotographerPtr)
-					return "UNK";
+	template<>
+	AnyString PathInformations::getElement<Private::Month>() const
+	{
+		return pDate.month;
+	}
 
-				return pPhotographerPtr->abbr();
-			}
-		case Elements::size:
-			assert(false && "Should never be invoked");
-			logs.fatal("RelevantInformations::value() should never be invoked with very last index");
-			exit(EXIT_FAILURE);
-			break;
-		}// switch
+	template<>
+	AnyString PathInformations::getElement<Private::Day>() const
+	{
+		return pDate.day;
+	}
 
-		return ""; // to avoid compilation warning
+	template<>
+	AnyString PathInformations::getElement<Private::Hour>() const
+	{
+		return pDate.hour;
+	}
+
+	template<>
+	AnyString PathInformations::getElement<Private::Minute>() const
+	{
+		return pDate.minute;
+	}
+
+	template<>
+	AnyString PathInformations::getElement<Private::Second>() const
+	{
+		return pDate.second;
+	}
+
+	template<>
+	AnyString PathInformations::getElement<Private::Photographer>() const
+	{
+		assert(!(!pPhotographerPtr));
+		return pPhotographerPtr->abbr();
 	}
 
 
@@ -109,21 +164,6 @@ namespace PictStock
 		date.hour = "  ";
 		date.minute = "  ";
 		date.second = "  ";
-	}
-
-
-	PathInformations PathInformations::onlyUsefulOnes(
-		const std::bitset<Elements::size>& arePresent) const
-	{
-		PathInformations ret(logs);
-
-		for (unsigned int i = 0u; i < Elements::size; ++i)
-		{
-			if (arePresent.test(i))
-				ret.setValue(i, value(i));
-		}
-
-		return ret;
 	}
 
 

@@ -6,11 +6,18 @@
 # include <ostream>
 # include "date.hpp"
 # include "photographer.hpp"
-# include "../photo_directory/private/traits/traits.hpp"
+# include "private/date_helpers.hpp"
+# include "private/photographer_helpers.hpp"
+# include <tuple>
 
 
 namespace PictStock
 {
+	namespace Private
+	{
+		//! Tuple of all possible relevant elements in the user-defined format
+		typedef std::tuple<Year, Month, Day, Hour, Minute, Second, Photographer> TupleType;
+	}
 
 	/*!
 	** \brief Class in charge of holding informations that can be used
@@ -19,6 +26,7 @@ namespace PictStock
 	class YUNI_DECL PathInformations
 	{
 	public:
+
 
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<PathInformations> Ptr;
@@ -42,16 +50,36 @@ namespace PictStock
 		//! Set the date
 		void setDate(const Date& date);
 
+		/*!
+		** \brief Get the value of one element
+		**
+		*/
+		template<class ElementT>
+		AnyString getElement() const;
 
-		//! Return the proper information associated with index given
-		Yuni::CString<10, false> value(unsigned int natureIndex) const;
 
 		/*!
-		** \brief Set the value of a given index
+		** \brief Set the value of one element from an existing object
 		**
-		** This is intended to be used when a regex has been operated over a path
-		 */
-		void setValue(unsigned int natureIndex, const AnyString& value);
+		** For instance, take the month from input object and put it in current one
+		**
+		** This is useful when PathInformations object are used a key in a map
+		**
+		** \tparam[in] An element that can be found in the typelist Private::TupleType
+		*/
+		template<class ElementT>
+		void setElement(const PathInformations& input);
+
+		/*!
+		** \brief Set the value of one element
+		**
+		** This is useful when PathInformations object are used a key in a map
+		**
+		** \tparam[in] An element that can be found in the typelist Private::TupleType
+		*/
+		template<class ElementT>
+		void setElement(const AnyString& input);
+
 
 		/*!
 		** \brief Change the date
@@ -60,20 +88,6 @@ namespace PictStock
 		** will be emptied
 		*/
 		void changeDate(const Yuni::CString<8, false>& newDate);
-
-
-		/*!
-		** \brief Create a new RelevantInformations object featuring only informations useful
-		** for the current study
-		**
-		** For instance, if the folder part of a path contains only year and month,
-		** returned object will have these values filled and all others set to
-		** empty string
-		**
-		** \param[in] arePresent Bitset telling for each element whether they are considered
-		** or not. Such a bitset is expected to be one of those defined in #PathFormatHelper class
-		 */
-		PathInformations onlyUsefulOnes(const std::bitset<Elements::size>& arePresent) const;
 
 
 		friend bool operator==(const PathInformations& lhs, const PathInformations& rhs);
@@ -114,8 +128,6 @@ namespace PictStock
 
 
 } // namespace PictStock
-
-
 
 
 #endif /* RELEVANT_INFORMATIONS_HPP_ */

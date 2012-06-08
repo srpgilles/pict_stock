@@ -144,6 +144,8 @@ namespace Private
 		//! Logs
 		mutable LoggingFacility& logs;
 
+		typedef std::map<unsigned int, unsigned int> MatchingType;
+
 
 
 	private:
@@ -187,27 +189,27 @@ namespace Private
 		std::regex pRegEx;
 		#endif // USE_BOOST_REGULAR_EXPR
 
-		/*!
-		** \brief Vector in charge of keeping the book to know which informations is stored where
-		**
-		** An example will value here thousands of explanations:
-		**   if pPositions = {3, 1, 4}
-		**
-		**   it means fourth, second and fifth element of #Private::TupleType are encountered in this
-		**   order in user-defined format (so Hour, Month and Minute) and others
-		**   aren't seen at all
-		*/
-		std::vector<size_t> pOrdering;
 
+		/*!
+		**  \brief Container which tells the index to match an element from a regex_match
+		**
+		**  For instance, if Month was found in the format checkout out and the user-defined
+		**  format is %P/%y/%m/%d
+		**  pMatching will store the pair (2, 3) where 2 is the index of month in #Private::TupleList
+		**  and 3 is the index you need to provide to the regex object to obtain the associated value
+		**  (indexing begins at 1 for these objects)
+		*/
+		MatchingType pMatching;
 
 		/*!
 		** \brief Bitset to know whether a given element is in the folder path
 		**
 		** Index is the one in Private::TupleType
+		**
+		** IMPORTANT: There is a redundancy of informations with pMatching keys,
+		** to be dealt with later
 		*/
 		std::bitset<std::tuple_size<TupleType>::value> pDoContains;
-
-
 	};
 
 

@@ -62,7 +62,10 @@ namespace Private
 				)
 		{
 			if (doContains.test(I))
-				usefulInformations.setValue(I, completeInformations.value(I));
+			{
+				typedef typename std::tuple_element<I, TupleType>::type type;
+				usefulInformations.setElement<type>(completeInformations);
+			}
 
 			onlyUsefulOnesHelper<I + 1>(usefulInformations, completeInformations, doContains);
 		}
@@ -119,13 +122,85 @@ namespace Private
 		}
 
 
+		/*!
+		** \brief Recursion to fill #PathInformations object from a path that happens to match
+		** regular expression obtained from user-defined format
+		**
+		** \param[out] out PathInformations object properly filled
+		** \param[in] match Object resulting from the regex match
+		** \param[in] matchingIndex PathFormathelper::pMatching
+		*/
+		template<std::size_t I = 0>
+		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
+			isOkHelper(
+				PathInformations& /*out*/,
+				const regexNS::cmatch& /*match*/,
+				const PathFormatHelper::MatchingType& /*matching*/)
+		{ }
+
+
+
+		template<std::size_t I = 0>
+		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
+			isOkHelper(
+				PathInformations& out,
+				const regexNS::cmatch& match,
+				const PathFormatHelper::MatchingType& matching)
+		{
+			auto it = matching.find(I);
+			if (it != matching.end())
+			{
+				typedef typename std::tuple_element<I, TupleType>::type type;
+				out.setElement<type>(match[it->second].str());
+			}
+
+			isOkHelper<I + 1>(out, match, matching);
+		}
+
+
+		/*!
+		** \brief Recursion to determine minimal path
+		**
+		** \param[out] out Path under treatment (in very last recursion all substitutions will be done)
+		** \param[in] infos Informations which will replace symbols in format
+		** \param[in] matching PathFormat::pMatching. Point is just to avoid useless calls to replace
+		*/
+		template<std::size_t I = 0>
+		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
+			determineMinimalPathHelper(
+				YString& /*out*/,
+				const PathInformations& /*infos*/,
+				const PathFormatHelper::MatchingType& /*matching*/)
+		{ }
+
+
+
+		template<std::size_t I = 0>
+		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
+			determineMinimalPathHelper(
+				YString& out,
+				const PathInformations& infos,
+				const PathFormatHelper::MatchingType& matching)
+		{
+			auto it = matching.find(I);
+			if (it != matching.cend())
+			{
+				typedef typename std::tuple_element<I, TupleType>::type type;
+				out.replace(type::Symbol(), infos.getElement<type>());
+			}
+
+			// Recursion
+			determineMinimalPathHelper<I + 1>(out, infos, matching);
+		}
+
+
 	} // namespace anonymous
 
 
 
 	void PathFormatHelper::interpretUserDefinedFormat()
 	{
-		assert(pOrdering.empty() && "This method should be called once during construction");
+		assert(pMatching.empty() && "This method should be called once during construction");
 
 		// First, find whether symbols are present and store the position in an array.
 		// If not found, store npos instead of position value
@@ -134,9 +209,9 @@ namespace Private
 		interpretUserDefinedFormatHelper<0>(positions, pFormat);
 
 		// Prepare the output vector: use a temporary map to determine the order
-		std::map<unsigned int, size_t> helper;
+		std::map<unsigned int, unsigned int> helper;
 
-		for (size_t i = 0u, size = positions.size(); i < size; ++i)
+		for (unsigned int i = 0u, size = static_cast<unsigned int>(positions.size()); i < size; ++i)
 		{
 			if (positions[i] == String::npos)
 			{
@@ -148,11 +223,10 @@ namespace Private
 			helper[positions[i]] = i;
 		}
 
+		unsigned int index = 0u;
 		for (auto it = helper.cbegin(), end = helper.cend(); it != end; ++it)
-			pOrdering.push_back(it->second);
+			pMatching[index++] = it->second;
 	}
-
-
 
 
 
@@ -208,16 +282,8 @@ namespace Private
 		if (!regex_search(path.c_str(), m, pRegEx))
 			return false;
 
-		size_t size = pSymbolOrdering.size();
-
-		for (unsigned int i = 0u; i < size; ++i)
-		{
-			auto ptr = pSymbolOrdering[i];
-			assert(!(!ptr));
-
-			out.setValue(ptr->nature, m[i + 1u].str());
-			// + 1u because regex elements begin at 1; 0 is the full expression
-		}
+		// Recursion to get relevant informations
+		isOkHelper<0>(out, m, pMatching);
 
 		return true;
 	}
@@ -230,15 +296,8 @@ namespace Private
 
 		out = pFormat;
 
-		for (auto it = pElements.cbegin(), end = pElements.cend(); it != end; ++it)
-		{
-			Traits::Element::Ptr elementPtr = *it;
-			assert(!(!elementPtr));
-			const Traits::Element& element = *elementPtr;
-
-			if (doContains.test(element.nature))
-				out.replace(element.symbol(), infos.value(element.nature));
-		}
+		// Recursive call over all tuple elements
+		determineMinimalPathHelper<0>(out, infos, pMatching);
 	}
 
 
@@ -251,25 +310,13 @@ namespace Private
 		determineMinimalPath(out, infos);
 	}
 
-	PathInformations PathInformations::onlyUsefulElements(
-		const std::bitset<Elements::size>& arePresent) const
-	{
-		PathInformations ret(logs);
-
-		for (unsigned int i = 0u; i < Elements::size; ++i)
-		{
-			if (arePresent.test(i))
-				ret.setValue(i, value(i));
-		}
-
-		return ret;
-	}
-
 
 	PathInformations PathFormatHelper::onlyUsefulElements(const PathInformations& input) const
 	{
 		PathInformations ret(logs);
-		onlyUsefulOnesHelper<0>(ret, input, pDoContains));
+		onlyUsefulOnesHelper<0>(ret, input, pDoContains);
+
+		return ret;
 	}
 
 

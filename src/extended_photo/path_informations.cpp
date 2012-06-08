@@ -1,8 +1,10 @@
 #include "path_informations.hpp"
 
+using namespace Yuni;
 
 namespace PictStock
 {
+
 
 	PathInformations::PathInformations(LoggingFacility& logs)
 		: logs(logs),
@@ -19,6 +21,49 @@ namespace PictStock
 	void PathInformations::setDate(const Date& date)
 	{
 		pDate = date;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Year>(const AnyString& input)
+	{
+		pDate.year = input;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Month>(const AnyString& input)
+	{
+		pDate.month = input;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Day>(const AnyString& input)
+	{
+		pDate.day = input;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Hour>(const AnyString& input)
+	{
+		pDate.hour = input;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Minute>(const AnyString& input)
+	{
+		pDate.minute = input;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Second>(const AnyString& input)
+	{
+		pDate.second = input;
+	}
+
+	template<>
+	void PathInformations::setElement<Private::Photographer>(const AnyString& input)
+	{
+		std::multimap<std::string, Yuni::String> empty;
+		pPhotographerPtr = new Photographer("", input, empty);
 	}
 
 	template<>
@@ -61,6 +106,50 @@ namespace PictStock
 	void PathInformations::setElement<Private::Photographer>(const PathInformations& input)
 	{
 		pPhotographerPtr = input.pPhotographerPtr; // valid even with nullptr
+	}
+
+
+	template<>
+	AnyString PathInformations::getElement<Private::Year>() const
+	{
+		return pDate.year;
+	}
+
+	template<>
+	AnyString PathInformations::getElement<Private::Month>() const
+	{
+		return pDate.month;
+	}
+
+	template<>
+	AnyString PathInformations::getElement<Private::Day>() const
+	{
+		return pDate.day;
+	}
+
+	template<>
+	AnyString PathInformations::getElement<Private::Hour>() const
+	{
+		return pDate.hour;
+	}
+
+	template<>
+	AnyString PathInformations::getElement<Private::Minute>() const
+	{
+		return pDate.minute;
+	}
+
+	template<>
+	AnyString PathInformations::getElement<Private::Second>() const
+	{
+		return pDate.second;
+	}
+
+	template<>
+	AnyString PathInformations::getElement<Private::Photographer>() const
+	{
+		assert(!(!pPhotographerPtr));
+		return pPhotographerPtr->abbr();
 	}
 
 

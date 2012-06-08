@@ -51,6 +51,14 @@ namespace PictStock
 		void setDate(const Date& date);
 
 		/*!
+		** \brief Get the value of one element
+		**
+		*/
+		template<class ElementT>
+		AnyString getElement() const;
+
+
+		/*!
 		** \brief Set the value of one element from an existing object
 		**
 		** For instance, take the month from input object and put it in current one
@@ -61,6 +69,17 @@ namespace PictStock
 		*/
 		template<class ElementT>
 		void setElement(const PathInformations& input);
+
+		/*!
+		** \brief Set the value of one element
+		**
+		** This is useful when PathInformations object are used a key in a map
+		**
+		** \tparam[in] An element that can be found in the typelist Private::TupleType
+		*/
+		template<class ElementT>
+		void setElement(const AnyString& input);
+
 
 		/*!
 		** \brief Change the date

@@ -186,6 +186,9 @@ namespace Private
 			if (it != matching.cend())
 			{
 				typedef typename std::tuple_element<I, TupleType>::type type;
+				auto symbol = type::Symbol();
+				std::cout << "CHECK determineMinimalPathHelper -> "
+					<< symbol << '\n';
 				out.replace(type::Symbol(), infos.getElement<type>());
 			}
 

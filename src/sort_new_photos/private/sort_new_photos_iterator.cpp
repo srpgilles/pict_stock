@@ -30,11 +30,11 @@ namespace Private
 
 		static const YString expression =
 			YString("\\A")
-			<< '(' << Traits::Year::Regex() << ')'
+			<< '(' << Year::Regex() << ')'
 			<< ':' // separator
-			<< '(' << Traits::Month::Regex() << ')'
+			<< '(' << Month::Regex() << ')'
 			<< ':' // separator
-			<< '(' << Traits::Day::Regex() << ')'
+			<< '(' << Day::Regex() << ')'
 			<< "\\z";
 
 		/*!
@@ -191,7 +191,7 @@ namespace Private
 			infos.changeDate(pCurrentFolderManualDate);
 		}
 
-		auto usefulInfos = infos.onlyUsefulOnes(pPathFormat.folderContent());
+		auto usefulInfos = pPathFormat.onlyUsefulFolderElements(infos);
 
 		pPicturesToProcess[usefulInfos].push_back(photoPtr);
 

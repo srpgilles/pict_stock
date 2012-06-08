@@ -24,75 +24,78 @@ namespace PictStock
 
 	void PathInformations::setValue(unsigned int natureIndex, const AnyString& value)
 	{
-		Date& date = pDate;
-
-		switch(natureIndex)
-		{
-		case Elements::year:
-			date.year = value;
-			break;
-		case Elements::month:
-			date.month = value;
-			break;
-		case Elements::day:
-			date.day = value;
-			break;
-		case Elements::hour:
-			date.hour = value;
-			break;
-		case Elements::minute:
-			date.minute = value;
-			break;
-		case Elements::second:
-			date.second = value;
-			break;
-		case Elements::photographer:
-			{
-				std::multimap<std::string, Yuni::String> buf;
-				pPhotographerPtr = new Photographer("", value, buf);
-				break;
-			}
-		case Elements::size:
-			assert(false && "Should never be invoked");
-			logs.fatal("RelevantInformations::value() should never be invoked with very last index");
-			exit(EXIT_FAILURE);
-			break;
-		}// switch
+		logs.fatal("[DEV] PathInformations::setValue deactivated");
+//		Date& date = pDate;
+//
+//		switch(natureIndex)
+//		{
+//		case Elements::year:
+//			date.year = value;
+//			break;
+//		case Elements::month:
+//			date.month = value;
+//			break;
+//		case Elements::day:
+//			date.day = value;
+//			break;
+//		case Elements::hour:
+//			date.hour = value;
+//			break;
+//		case Elements::minute:
+//			date.minute = value;
+//			break;
+//		case Elements::second:
+//			date.second = value;
+//			break;
+//		case Elements::photographer:
+//			{
+//				std::multimap<std::string, Yuni::String> buf;
+//				pPhotographerPtr = new Photographer("", value, buf);
+//				break;
+//			}
+//		case Elements::size:
+//			assert(false && "Should never be invoked");
+//			logs.fatal("RelevantInformations::value() should never be invoked with very last index");
+//			exit(EXIT_FAILURE);
+//			break;
+//		}// switch
 
 	}
 
 
 	Yuni::CString<10, false> PathInformations::value(unsigned int natureIndex) const
 	{
-		const Date& date = pDate;
+		logs.fatal("[DEV] PathInformations::value deactivated");
 
-		switch(natureIndex)
-		{
-		case Elements::year:
-			return date.year;
-		case Elements::month:
-			return date.month;
-		case Elements::day:
-			return date.day;
-		case Elements::hour:
-			return date.hour;
-		case Elements::minute:
-			return date.minute;
-		case Elements::second:
-			return date.second;
-		case Elements::photographer:
-			{
-				if (!pPhotographerPtr)
-					return "UNK";
-
-				return pPhotographerPtr->abbr();
-			}
-		case Elements::size:
-			assert(false && "Should never be invoked");
-			logs.fatal("RelevantInformations::value() should never be invoked with very last index");
-			exit(EXIT_FAILURE);
-			break;
-		}// switch
+//		const Date& date = pDate;
+//
+//		switch(natureIndex)
+//		{
+//		case Elements::year:
+//			return date.year;
+//		case Elements::month:
+//			return date.month;
+//		case Elements::day:
+//			return date.day;
+//		case Elements::hour:
+//			return date.hour;
+//		case Elements::minute:
+//			return date.minute;
+//		case Elements::second:
+//			return date.second;
+//		case Elements::photographer:
+//			{
+//				if (!pPhotographerPtr)
+//					return "UNK";
+//
+//				return pPhotographerPtr->abbr();
+//			}
+//		case Elements::size:
+//			assert(false && "Should never be invoked");
+//			logs.fatal("RelevantInformations::value() should never be invoked with very last index");
+//			exit(EXIT_FAILURE);
+//			break;
+//		}// switch
 
 		return ""; // to avoid compilation warning
 	}
@@ -109,21 +112,6 @@ namespace PictStock
 		date.hour = "  ";
 		date.minute = "  ";
 		date.second = "  ";
-	}
-
-
-	PathInformations PathInformations::onlyUsefulOnes(
-		const std::bitset<Elements::size>& arePresent) const
-	{
-		PathInformations ret(logs);
-
-		for (unsigned int i = 0u; i < Elements::size; ++i)
-		{
-			if (arePresent.test(i))
-				ret.setValue(i, value(i));
-		}
-
-		return ret;
 	}
 
 

@@ -11,8 +11,7 @@
 #  include <regex>
 # endif // USE_BOOST_REGULAR_EXPR
 # include "../../pict_stock.hpp"
-# include "traits/traits.hpp"
-# include <tuple>
+#include "../../extended_photo/path_informations.hpp"
 
 
 namespace PictStock
@@ -46,58 +45,6 @@ namespace Private
 
 		//! Text describing the exception
 		YString pMessage;
-	};
-
-
-	typedef Yuni::CString<4, false> SymbolString;
-	typedef Yuni::CString<30, true> RegexString;
-
-	struct Year
-	{
-		static const SymbolString Symbol() { return "%y"; }
-		static const RegexString Regex() { return "\\d{4}"; }
-	};
-
-
-	struct Month
-	{
-		static const SymbolString Symbol() { return "%m"; }
-		static const RegexString Regex() { return " \\d{1}|0\\d{1}|10|11|12"; }
-	};
-
-
-	struct Day
-	{
-		static const SymbolString Symbol() { return "%d"; }
-		static const RegexString Regex() { return  "[ |0|1|2]\\d{1}|3[0|1]"; } // no check for adequacy month day (for instance 30 Elements::b is allowed)
-	};
-
-
-	struct Hour
-	{
-		static const SymbolString Symbol() { return "%H"; }
-		static const RegexString Regex() { return  "[ |0|1]\\d{1}|2[0-4]|  "; } // empty allowed
-	};
-
-
-	struct Minute
-	{
-		static const SymbolString Symbol() { return "%M"; }
-		static const RegexString Regex() { return  "[ 0-5]\\d{1}|  "; } // empty is allowed
-	};
-
-
-	struct Second
-	{
-		static const SymbolString Symbol() { return "%S"; }
-		static const RegexString Regex() { return  "[ 0-5]\\d{1}|  "; } // empty is allowed
-	};
-
-
-	struct Photographer
-	{
-		static const SymbolString Symbol() { return "%P"; }
-		static const RegexString Regex() { return ".*"; }
 	};
 
 
@@ -179,14 +126,24 @@ namespace Private
 		void determineMinimalPath(Yuni::String& out,
 			const ExtendedPhoto& photo) const;
 
+		/*!
+		** \brief Create a new RelevantInformations object featuring only informations useful
+		** to determine the path
+		**
+		** For instance, if the folder part of a path contains only year and month,
+		** returned object will have these values filled and all others set to
+		** empty string
+		**
+		** \param[in] input The original #PathInformations object
+		 */
+		PathInformations onlyUsefulElements(const PathInformations& input) const;
+
 
 	public:
 
 		//! Logs
 		mutable LoggingFacility& logs;
 
-		//! Bitset to know whether a given element is in the folder path
-		std::bitset<Elements::size> doContains;
 
 
 	private:
@@ -235,13 +192,11 @@ namespace Private
 		** expression in the correct order
 		**
 		*/
-		Traits::Element::Vector pSymbolOrdering;
+		//Traits::Element::Vector pSymbolOrdering;
 
 		//! List of all elements that might be used in regex expression (day, month, photographer, etc...)
-		static const Traits::Element::Vector pElements;
+		//static const Traits::Element::Vector pElements;
 
-		//! Tuple of all possible relevant elements in the user-defined format
-		typedef std::tuple<Year, Month, Day, Hour, Minute, Second, Photographer> TupleType;
 
 		/*!
 		** \brief Vector in charge of keeping the book to know which informations is stored where
@@ -249,18 +204,29 @@ namespace Private
 		** An example will value here thousands of explanations:
 		**   if pPositions = {3, 1, 4}
 		**
-		**   it means fourth, second and fifth element of TupleType are encountered in this
+		**   it means fourth, second and fifth element of #Private::TupleType are encountered in this
 		**   order in user-defined format (so Hour, Month and Minute) and others
 		**   aren't seen at all
 		*/
-		std::vector<size_t> pPositions;
+		std::vector<size_t> pOrdering;
+
+
+		/*!
+		** \brief Bitset to know whether a given element is in the folder path
+		**
+		** Index is the one in Private::TupleType
+		*/
+		std::bitset<std::tuple_size<TupleType>::value> pDoContains;
+
 
 	};
+
+
+
 
 
 } // namespace Private
 } // namespace PictStock
 
-# include "path_format_helpers.hxx"
 
 #endif /* PATH_FORMAT_HELPERS_HPP_ */

@@ -13,6 +13,12 @@ namespace PictStock
     typedef std::multimap<PathInformations, YString>
     	ValidDirectoriesType;
 
+    namespace Private
+    {
+    	typedef Yuni::CString<4, false> SymbolString;
+    	typedef Yuni::CString<30, true> RegexString;
+    }
+
 } // namespace PictStock
 
 

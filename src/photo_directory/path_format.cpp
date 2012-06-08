@@ -95,15 +95,14 @@ namespace PictStock
 		const ExtendedPhoto& photo) const
 	{
 		assert(!(!pFilePart));
-
 		pFilePart->determineMinimalPath(out, photo);
 	}
 
 
-	const std::bitset<Elements::size>& PathFormat::folderContent() const
+	PathInformations PathFormat::onlyUsefulFolderElements(const PathInformations& input) const
 	{
 		assert(!(!pFolderPart));
-		return pFolderPart->doContains;
+		return pFolderPart->onlyUsefulElements(input);
 	}
 
 

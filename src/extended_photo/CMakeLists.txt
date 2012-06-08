@@ -11,6 +11,8 @@ add_library(extended_photo STATIC
 	photographer.cpp
 	photographer.hpp
 	photographer.hxx
+	private/date_helpers.hpp
+	private/photographer_helpers.hpp
 )
 
 target_link_libraries(extended_photo

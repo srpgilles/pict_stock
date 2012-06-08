@@ -1,7 +1,8 @@
 #include "path_format_helpers.hpp"
-#include "../../extended_photo/path_informations.hpp"
+
 #include "../../extended_photo/extended_photo.hpp"
 #include <array>
+
 
 
 # ifdef USE_BOOST_REGULAR_EXPR
@@ -18,53 +19,86 @@ namespace Private
 
 	namespace
 	{
-		template<std::size_t I = 0, class TupleT>
-		typename std::enable_if<I == std::tuple_size<TupleT>::value, void>::type
+		template<std::size_t I = 0>
+		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
 			interpretUserDefinedFormatHelper(
-			std::array<unsigned int, std::tuple_size<TupleT>::value>& /*out*/,
+			std::array<unsigned int, std::tuple_size<TupleType>::value>& /*array*/,
 			const YString& /*format*/)
 		  { }
 
-		template<std::size_t I = 0, class TupleT>
-		typename std::enable_if<I < std::tuple_size<TupleT>::value, void>::type
-		interpretUserDefinedFormatHelper(std::array<unsigned int,
-			std::tuple_size<TupleT>::value>& out, const YString& format)
+
+		template<std::size_t I = 0>
+		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
+		interpretUserDefinedFormatHelper(
+			std::array<unsigned int, std::tuple_size<TupleType>::value>& array,
+			const YString& format)
 		  {
-			typedef typename std::tuple_element<I, TupleT>::type type;
+			typedef typename std::tuple_element<I, TupleType>::type type;
 
 			unsigned int pos = format.find(type::Symbol());
 
-			out[I] = pos; // npos possibly stored
+			array[I] = pos; // npos possibly stored
 
-			interpretUserDefinedFormatHelper<I + 1, TupleT>(out, format);
+			if (pos != String::pos)
+
+			interpretUserDefinedFormatHelper<I + 1, TupleType>(out, format);
 		  }
+
+
+		template<std::size_t I = 0>
+		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
+			onlyUsefulOnesHelper(
+				PathInformations& /* usefulInformations */,
+				const PathInformations& /* completeInformations */,
+				const std::bitset<std::tuple_size<TupleType>::value>& /*doContains*/
+				)
+		  { }
+
+
+		template<std::size_t I = 0>
+		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
+			onlyUsefulOnesHelper(
+				PathInformations& usefulInformations,
+				const PathInformations& completeInformations,
+				const std::bitset<std::tuple_size<TupleType>::value>& doContains
+				)
+		{
+			if (doContains.test(I))
+				usefulInformations.setValue(I, completeInformations.value(I));
+		}
+
+
 	} // namespace anonymous
 
 
 
 	void PathFormatHelper::interpretUserDefinedFormat()
 	{
-		assert(pPositions.empty() && "This method should be called once during construction");
+		assert(pOrdering.empty() && "This method should be called once during construction");
 
 		// First, find whether symbols are present and store the position in an array.
 		// If not found, store npos instead of position value
 		// Use for that a recursive template call over all elements of TupleType
-		std::array<unsigned int, std::tuple_size<TupleType>::value> buf;
-		interpretUserDefinedFormatHelper<0, TupleType>(buf, pFormat);
+		std::array<unsigned int, std::tuple_size<TupleType>::value> positions;
+		interpretUserDefinedFormatHelper<0>(positions, pFormat);
 
-		// Prepare the output vector
+		// Prepare the output vector: use a temporary map to determine the order
 		std::map<unsigned int, size_t> helper;
 
-		for (size_t i = 0u, size = buf.size(); i < size; ++i)
+		for (size_t i = 0u, size = positions.size(); i < size; ++i)
 		{
-			if (buf[i] == String::npos)
+			if (positions[i] == String::npos)
+			{
+				pDoContains[i] = false;
 				continue;
+			}
 
-			helper[buf[i]] = i;
+			pDoContains[i] = true;
+			helper[positions[i]] = i;
 		}
 
 		for (auto it = helper.cbegin(), end = helper.cend(); it != end; ++it)
-			pPositions.push_back(it->second);
+			pOrdering.push_back(it->second);
 	}
 
 
@@ -226,6 +260,26 @@ namespace Private
 		determineMinimalPath(out, infos);
 	}
 
+	PathInformations PathInformations::onlyUsefulElements(
+		const std::bitset<Elements::size>& arePresent) const
+	{
+		PathInformations ret(logs);
+
+		for (unsigned int i = 0u; i < Elements::size; ++i)
+		{
+			if (arePresent.test(i))
+				ret.setValue(i, value(i));
+		}
+
+		return ret;
+	}
+
+
+	PathInformations PathFormatHelper::onlyUsefulElements(const PathInformations& input) const
+	{
+		PathInformations ret(logs);
+		onlyUsefulOnesHelper<0>(ret, input, pDoContains));
+	}
 
 
 

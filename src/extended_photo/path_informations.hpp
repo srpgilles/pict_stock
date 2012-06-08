@@ -6,11 +6,18 @@
 # include <ostream>
 # include "date.hpp"
 # include "photographer.hpp"
-# include "../photo_directory/private/traits/traits.hpp"
+# include "private/date_helpers.hpp"
+# include "private/photographer_helpers.hpp"
+# include <tuple>
 
 
 namespace PictStock
 {
+	namespace Private
+	{
+		//! Tuple of all possible relevant elements in the user-defined format
+		typedef std::tuple<Year, Month, Day, Hour, Minute, Second, Photographer> TupleType;
+	}
 
 	/*!
 	** \brief Class in charge of holding informations that can be used
@@ -19,6 +26,7 @@ namespace PictStock
 	class YUNI_DECL PathInformations
 	{
 	public:
+
 
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<PathInformations> Ptr;
@@ -60,20 +68,6 @@ namespace PictStock
 		** will be emptied
 		*/
 		void changeDate(const Yuni::CString<8, false>& newDate);
-
-
-		/*!
-		** \brief Create a new RelevantInformations object featuring only informations useful
-		** for the current study
-		**
-		** For instance, if the folder part of a path contains only year and month,
-		** returned object will have these values filled and all others set to
-		** empty string
-		**
-		** \param[in] arePresent Bitset telling for each element whether they are considered
-		** or not. Such a bitset is expected to be one of those defined in #PathFormatHelper class
-		 */
-		PathInformations onlyUsefulOnes(const std::bitset<Elements::size>& arePresent) const;
 
 
 		friend bool operator==(const PathInformations& lhs, const PathInformations& rhs);

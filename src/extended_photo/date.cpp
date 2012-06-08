@@ -1,6 +1,6 @@
 #include "../pict_stock.hpp"
 #include "date.hpp"
-#include "../photo_directory/private/traits/traits.hpp"
+#include "private/date_helpers.hpp"
 
 #ifdef USE_BOOST_REGULAR_EXPR
 # include <boost/regex.hpp>
@@ -18,17 +18,17 @@ namespace PictStock
 	{
 		static const YString expression =
 			YString("\\A")
-			<< '(' << Traits::Year::Regex() << ')'
+			<< '(' << Private::Year::Regex() << ')'
 			<< ':' // separator
-			<< '(' << Traits::Month::Regex() << ')'
+			<< '(' << Private::Month::Regex() << ')'
 			<< ':' // separator
-			<< '(' << Traits::Day::Regex() << ')'
+			<< '(' << Private::Day::Regex() << ')'
 			<< ' ' // separator
-			<< '(' << Traits::Hour::Regex() << ')'
+			<< '(' << Private::Hour::Regex() << ')'
 			<< ':' // separator
-			<< '(' <<  Traits::Minute::Regex() << ')'
+			<< '(' << Private::Minute::Regex() << ')'
 			<< ':' // separator
-			<< '(' << Traits::Second::Regex() << ')'
+			<< '(' << Private::Second::Regex() << ')'
 			<< "\\z";
 
 		/*!

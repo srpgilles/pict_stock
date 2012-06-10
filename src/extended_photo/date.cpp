@@ -18,17 +18,17 @@ namespace PictStock
 	{
 		static const YString expression =
 			YString("\\A")
-			<< '(' << Private::Year::Regex() << ')'
+			<< '(' << Private::Year::Regex() << "|    )"
 			<< ':' // separator
-			<< '(' << Private::Month::Regex() << ')'
+			<< '(' << Private::Month::Regex() << "|  )"
 			<< ':' // separator
-			<< '(' << Private::Day::Regex() << ')'
+			<< '(' << Private::Day::Regex() << "|  )"
 			<< ' ' // separator
-			<< '(' << Private::Hour::Regex() << ')'
+			<< '(' << Private::Hour::Regex() << "|  )"
 			<< ':' // separator
-			<< '(' << Private::Minute::Regex() << ')'
+			<< '(' << Private::Minute::Regex() << "|  )"
 			<< ':' // separator
-			<< '(' << Private::Second::Regex() << ')'
+			<< '(' << Private::Second::Regex() << "|)"
 			<< "\\z";
 
 		/*!

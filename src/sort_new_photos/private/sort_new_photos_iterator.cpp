@@ -31,22 +31,17 @@ namespace Private
 		static const YString expression =
 			YString("\\A")
 			<< '(' << Year::Regex() << ')'
-			<< ':' // separator
 			<< '(' << Month::Regex() << ')'
-			<< ':' // separator
 			<< '(' << Day::Regex() << ')'
 			<< "\\z";
 
 		/*!
 		** \brief Regular expression for date formatting
 		**
-		** Basically format is YYYY:MM:DD HH:mm:SS
+		** Basically format is YYYY:MM:DD
 		*/
 		static const regexNS::regex RegexDateFormatting(expression.c_str());
-
-
 	}
-
 
 	using namespace Yuni;
 
@@ -122,7 +117,6 @@ namespace Private
 				do
 				{
 					logs.info() << "Please answer the date (under format YYYYMMDD)";
-
 					std::cin >> answer;
 
 					isValid = regex_search(answer.c_str(), match, RegexDateFormatting);

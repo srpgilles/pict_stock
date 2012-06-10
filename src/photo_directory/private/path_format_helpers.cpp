@@ -183,12 +183,11 @@ namespace Private
 				const PathFormatHelper::MatchingType& matching)
 		{
 			auto it = matching.find(I);
+
 			if (it != matching.cend())
 			{
 				typedef typename std::tuple_element<I, TupleType>::type type;
 				auto symbol = type::Symbol();
-				std::cout << "CHECK determineMinimalPathHelper -> "
-					<< symbol << '\n';
 				out.replace(type::Symbol(), infos.getElement<type>());
 			}
 
@@ -228,7 +227,7 @@ namespace Private
 
 		unsigned int index = 0u;
 		for (auto it = helper.cbegin(), end = helper.cend(); it != end; ++it)
-			pMatching[index++] = it->second;
+			pMatching[it->second] = ++index;
 	}
 
 
@@ -296,7 +295,6 @@ namespace Private
 		const PathInformations& infos) const
 	{
 		assert(out.empty());
-
 		out = pFormat;
 
 		// Recursive call over all tuple elements

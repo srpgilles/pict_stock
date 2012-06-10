@@ -108,6 +108,18 @@ namespace PictStock
 		** returned object will have these values filled and all others set to
 		** empty string
 		**
+		** \param[in] input An #ExtendedPhoto object
+		 */
+		PathInformations onlyUsefulFolderElements(const ExtendedPhoto& input) const;
+
+		/*!
+		** \brief Create a new RelevantInformations object featuring only informations useful
+		** to determine the folder part of the user-defined format
+		**
+		** For instance, if the folder part of a path contains only year and month,
+		** returned object will have these values filled and all others set to
+		** empty string
+		**
 		** \param[in] input The original #PathInformations object
 		 */
 		PathInformations onlyUsefulFolderElements(const PathInformations& input) const;

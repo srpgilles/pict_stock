@@ -65,6 +65,14 @@ namespace PictStock
 	}
 
 
+	Yuni::CString<20, false> dateToExif(const Date& date)
+	{
+		Yuni::CString<20, false> ret(date.year);
+		ret << ':' << date.month << ':' << date.day << "   :  :  ";
+		return ret;
+	}
+
+
 	bool operator == (const Date& lhs, const Date& rhs)
 	{
 		return lhs.year == rhs.year &&

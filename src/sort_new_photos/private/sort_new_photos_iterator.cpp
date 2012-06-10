@@ -168,11 +168,9 @@ namespace Private
 		String fullName;
 		fullName << folder << IO::Separator << name;
 		ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, fullName);
-		auto infosPtr = photoPtr->informations();
-		assert(!(!infosPtr));
-		auto& infos = *infosPtr;
+		auto& photo = *photoPtr;
 
-		if (photoPtr->problem())
+		if (photo.problem())
 		{
 			// TODO Handle the case in which a photo can't be processed
 			logs.error() << "SKIP PHOTO " << fullName;
@@ -182,11 +180,10 @@ namespace Private
 		if (!pCurrentFolderManualDate.empty())
 		{
 			assert(pDoFolderManualDate);
-			infos.changeDate(pCurrentFolderManualDate);
+			photo.modifyDate(pCurrentFolderManualDate);
 		}
 
-		auto usefulInfos = pPathFormat.onlyUsefulFolderElements(infos);
-
+		auto usefulInfos = pPathFormat.onlyUsefulFolderElements(photo);
 		pPicturesToProcess[usefulInfos].push_back(photoPtr);
 
 		return IO::flowContinue;

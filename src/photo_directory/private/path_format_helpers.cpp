@@ -321,6 +321,15 @@ namespace Private
 	}
 
 
+	PathInformations PathFormatHelper::onlyUsefulElements(const ExtendedPhoto& input) const
+	{
+		PathInformations::Ptr infosPtr = input.informations();
+		assert(!(!infosPtr));
+		return onlyUsefulElements(*infosPtr);
+	}
+
+
+
 
 } // namespace Private
 } // namespace PictStock

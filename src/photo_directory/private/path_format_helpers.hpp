@@ -139,6 +139,19 @@ namespace Private
 		PathInformations onlyUsefulElements(const PathInformations& input) const;
 
 
+		/*!
+		** \brief Create a new RelevantInformations object featuring only informations useful
+		** to determine the path
+		**
+		** For instance, if the folder part of a path contains only year and month,
+		** returned object will have these values filled and all others set to
+		** empty string
+		**
+		** \param[in] input #ExtendedPhoto object
+		 */
+		PathInformations onlyUsefulElements(const ExtendedPhoto& input) const;
+
+
 	public:
 
 		//! Logs

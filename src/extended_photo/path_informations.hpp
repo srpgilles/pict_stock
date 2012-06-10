@@ -117,6 +117,9 @@ namespace PictStock
 		//! Print, for debug purposes
 		void print(std::ostream& out) const;
 
+		//! Reference to the underlying Date object
+		const Date& date() const;
+
 	public:
 
 		mutable LoggingFacility& logs;

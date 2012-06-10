@@ -99,7 +99,6 @@ namespace Private
 			ExtendedPhoto& photo = *photoPtr;
 			pPathFormat.determineMinimalFilename(newName, *photoPtr);
 
-
 			{
 				ExtendedPhoto::Vector& allPhotos = pPhotosPerName[newName];
 

@@ -293,18 +293,18 @@ namespace PictStock
 	bool ExtendedPhoto::modifyDate(const Yuni::CString<8, false>& newDate)
 	{
 		assert(newDate.size() == 8u);
-		Exiv2::ExifData& exifData = pImage->exifData();
+		assert(!(!pPathInformations));
+		auto& pathInformations = *pPathInformations;
 
-		YString newExifDate(newDate, 0, 4);
 
 		{
-			// Prepare new date to put into the exif file
-			newExifDate << ':';
-			newExifDate.append(newDate, 2, 4);
-			newExifDate << ':';
-			newExifDate.append(newDate, 2, 6);
-			newExifDate << "   :  :  "; // keep hour empty!
+			// First modify path_informations date
+			pathInformations.changeDate(newDate);
 		}
+
+		Exiv2::ExifData& exifData = pImage->exifData();
+
+		auto newExifDate = dateToExif(pathInformations.date());
 
 		CString<150, false> comment("The date has been modified manually; ");
 		{

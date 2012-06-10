@@ -152,6 +152,12 @@ namespace PictStock
 	}
 
 
+	inline const Date& PathInformations::date() const
+	{
+		return pDate;
+	}
+
+
 
 } // namespace PictStock
 

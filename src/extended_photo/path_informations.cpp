@@ -11,8 +11,6 @@ namespace PictStock
 	{ }
 
 
-
-
 	void PathInformations::changeDate(const Yuni::CString<8, false>& newDate)
 	{
 		auto& date = pDate;
@@ -50,8 +48,6 @@ namespace PictStock
 
 		return false;
 	}
-
-
 
 
 	bool operator<(const PathInformations& lhs, const PathInformations& rhs)

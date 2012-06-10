@@ -139,5 +139,7 @@ namespace PictStock
 
 } // namespace PictStock
 
+# include "path_informations.hxx"
+
 
 #endif /* RELEVANT_INFORMATIONS_HPP_ */

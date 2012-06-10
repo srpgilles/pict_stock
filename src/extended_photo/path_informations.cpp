@@ -161,9 +161,9 @@ namespace PictStock
 		date.month.assign(newDate, 2, 4);
 		date.day.assign(newDate, 2, 6);
 
-		date.hour = "  ";
-		date.minute = "  ";
-		date.second = "  ";
+		date.hour.clear();
+		date.minute.clear();
+		date.second.clear();
 	}
 
 

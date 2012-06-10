@@ -2,7 +2,6 @@
 # define PATH_FORMAT_HPP_
 
 # include <map>
-# include <bitset>
 # include <yuni/core/string.h>
 # ifdef USE_BOOST_REGULAR_EXPR
 #  include <boost/regex.hpp>

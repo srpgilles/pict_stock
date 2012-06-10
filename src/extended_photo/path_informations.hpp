@@ -2,7 +2,6 @@
 #ifndef RELEVANT_INFORMATIONS_HPP_
 # define RELEVANT_INFORMATIONS_HPP_
 
-# include <bitset>
 # include <ostream>
 # include "date.hpp"
 # include "photographer.hpp"

@@ -5,7 +5,6 @@ using namespace Yuni;
 namespace PictStock
 {
 
-
 	PathInformations::PathInformations(LoggingFacility& logs)
 		: logs(logs),
 		  pPhotographerPtr(nullptr)
@@ -108,48 +107,49 @@ namespace PictStock
 		pPhotographerPtr = input.pPhotographerPtr; // valid even with nullptr
 	}
 
-
 	template<>
-	AnyString PathInformations::getElement<Private::Year>() const
+	PathInformations::ElementString PathInformations::getElement<Private::Year>() const
 	{
 		return pDate.year;
 	}
 
 	template<>
-	AnyString PathInformations::getElement<Private::Month>() const
+	PathInformations::ElementString PathInformations::getElement<Private::Month>() const
 	{
 		return pDate.month;
 	}
 
 	template<>
-	AnyString PathInformations::getElement<Private::Day>() const
+	PathInformations::ElementString PathInformations::getElement<Private::Day>() const
 	{
 		return pDate.day;
 	}
 
 	template<>
-	AnyString PathInformations::getElement<Private::Hour>() const
+	PathInformations::ElementString PathInformations::getElement<Private::Hour>() const
 	{
 		return pDate.hour;
 	}
 
 	template<>
-	AnyString PathInformations::getElement<Private::Minute>() const
+	PathInformations::ElementString PathInformations::getElement<Private::Minute>() const
 	{
 		return pDate.minute;
 	}
 
 	template<>
-	AnyString PathInformations::getElement<Private::Second>() const
+	PathInformations::ElementString PathInformations::getElement<Private::Second>() const
 	{
 		return pDate.second;
 	}
 
 	template<>
-	AnyString PathInformations::getElement<Private::Photographer>() const
+	PathInformations::ElementString PathInformations::getElement<Private::Photographer>() const
 	{
-		assert(!(!pPhotographerPtr));
-		return pPhotographerPtr->abbr();
+		if (!(!pPhotographerPtr))
+			return pPhotographerPtr->abbr();
+
+		return "UNK";
 	}
 
 

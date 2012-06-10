@@ -31,6 +31,16 @@ namespace PictStock
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<PathInformations> Ptr;
 
+		/*!
+		** \brief  Type of string used in path element
+		**
+		** Purpose is to limit the size to avoid uselessly big strings everywhere
+		*/
+		typedef Yuni::CString<6, false> ElementString;
+
+	public:
+
+
 		//! Constructor & destructor
 		//@{
 
@@ -55,7 +65,7 @@ namespace PictStock
 		**
 		*/
 		template<class ElementT>
-		AnyString getElement() const;
+		ElementString getElement() const;
 
 
 		/*!

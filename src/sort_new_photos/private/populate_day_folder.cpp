@@ -99,15 +99,19 @@ namespace Private
 			ExtendedPhoto& photo = *photoPtr;
 			pPathFormat.determineMinimalFilename(newName, *photoPtr);
 
+
 			{
 				ExtendedPhoto::Vector& allPhotos = pPhotosPerName[newName];
-				unsigned int size = static_cast<unsigned int>(allPhotos.size() + 1u); // +1u because
-				// we begin numeration at 1
+
+				unsigned int size = static_cast<unsigned int>(allPhotos.size());
 
 				bool doPhotoAlreadyExist = false;
-				for (unsigned int i = 0; !doPhotoAlreadyExist && i < size; ++i)
+				for (unsigned int i = 0u; !doPhotoAlreadyExist && i < size; ++i)
 				{
-					if (*allPhotos[i] == photo)
+					auto ptr = allPhotos[i];
+					assert(!(!ptr));
+
+					if (*ptr == photo)
 						doPhotoAlreadyExist = true;
 				}
 
@@ -143,7 +147,7 @@ namespace Private
 			}
 			else
 			{
-				auto nbDigits = numberOfDigits(size);
+				auto nbDigits = numberOfDigits(size + 1u);
 				enum
 				{
 					maximum = 5

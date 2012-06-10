@@ -215,7 +215,8 @@ namespace PictStock
 
 		try
 		{
-			Exiv2::ExifData::const_iterator citer = exifData.findKey(Exiv2::ExifKey(key));
+			Exiv2::ExifKey exifKey(key);
+			Exiv2::ExifData::const_iterator citer = exifData.findKey(exifKey);
 
 			if (citer != exifData.end())
 			{

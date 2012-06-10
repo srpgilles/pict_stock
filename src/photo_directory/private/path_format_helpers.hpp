@@ -3,7 +3,6 @@
 # define PATH_FORMAT_HELPERS_HPP_
 
 # include <map>
-# include <bitset>
 # include <yuni/core/string.h>
 # ifdef USE_BOOST_REGULAR_EXPR
 #  include <boost/regex.hpp>
@@ -139,6 +138,19 @@ namespace Private
 		PathInformations onlyUsefulElements(const PathInformations& input) const;
 
 
+		/*!
+		** \brief Create a new RelevantInformations object featuring only informations useful
+		** to determine the path
+		**
+		** For instance, if the folder part of a path contains only year and month,
+		** returned object will have these values filled and all others set to
+		** empty string
+		**
+		** \param[in] input #ExtendedPhoto object
+		 */
+		PathInformations onlyUsefulElements(const ExtendedPhoto& input) const;
+
+
 	public:
 
 		//! Logs
@@ -201,15 +213,6 @@ namespace Private
 		*/
 		MatchingType pMatching;
 
-		/*!
-		** \brief Bitset to know whether a given element is in the folder path
-		**
-		** Index is the one in Private::TupleType
-		**
-		** IMPORTANT: There is a redundancy of informations with pMatching keys,
-		** to be dealt with later
-		*/
-		std::bitset<std::tuple_size<TupleType>::value> pDoContains;
 	};
 
 

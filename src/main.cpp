@@ -148,8 +148,7 @@ int main(int argc, char* argv[])
 {
 	LoggingFacility logs;
 
-
-	bool doAskModifyDate;
+	bool doAskModifyDate(false);
 
 	GetOpt::Parser parser;
 	String parameterFile;

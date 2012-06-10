@@ -31,22 +31,17 @@ namespace Private
 		static const YString expression =
 			YString("\\A")
 			<< '(' << Year::Regex() << ')'
-			<< ':' // separator
 			<< '(' << Month::Regex() << ')'
-			<< ':' // separator
 			<< '(' << Day::Regex() << ')'
 			<< "\\z";
 
 		/*!
 		** \brief Regular expression for date formatting
 		**
-		** Basically format is YYYY:MM:DD HH:mm:SS
+		** Basically format is YYYY:MM:DD
 		*/
 		static const regexNS::regex RegexDateFormatting(expression.c_str());
-
-
 	}
-
 
 	using namespace Yuni;
 
@@ -122,7 +117,6 @@ namespace Private
 				do
 				{
 					logs.info() << "Please answer the date (under format YYYYMMDD)";
-
 					std::cin >> answer;
 
 					isValid = regex_search(answer.c_str(), match, RegexDateFormatting);
@@ -174,11 +168,9 @@ namespace Private
 		String fullName;
 		fullName << folder << IO::Separator << name;
 		ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, fullName);
-		auto infosPtr = photoPtr->informations();
-		assert(!(!infosPtr));
-		auto& infos = *infosPtr;
+		auto& photo = *photoPtr;
 
-		if (photoPtr->problem())
+		if (photo.problem())
 		{
 			// TODO Handle the case in which a photo can't be processed
 			logs.error() << "SKIP PHOTO " << fullName;
@@ -188,11 +180,10 @@ namespace Private
 		if (!pCurrentFolderManualDate.empty())
 		{
 			assert(pDoFolderManualDate);
-			infos.changeDate(pCurrentFolderManualDate);
+			photo.modifyDate(pCurrentFolderManualDate);
 		}
 
-		auto usefulInfos = pPathFormat.onlyUsefulFolderElements(infos);
-
+		auto usefulInfos = pPathFormat.onlyUsefulFolderElements(photo);
 		pPicturesToProcess[usefulInfos].push_back(photoPtr);
 
 		return IO::flowContinue;

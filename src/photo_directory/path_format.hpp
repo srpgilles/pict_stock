@@ -2,7 +2,6 @@
 # define PATH_FORMAT_HPP_
 
 # include <map>
-# include <bitset>
 # include <yuni/core/string.h>
 # ifdef USE_BOOST_REGULAR_EXPR
 #  include <boost/regex.hpp>
@@ -99,6 +98,18 @@ namespace PictStock
 		*/
 		void determineMinimalFilename(Yuni::String& out, const ExtendedPhoto& photo) const;
 
+
+		/*!
+		** \brief Create a new RelevantInformations object featuring only informations useful
+		** to determine the folder part of the user-defined format
+		**
+		** For instance, if the folder part of a path contains only year and month,
+		** returned object will have these values filled and all others set to
+		** empty string
+		**
+		** \param[in] input An #ExtendedPhoto object
+		 */
+		PathInformations onlyUsefulFolderElements(const ExtendedPhoto& input) const;
 
 		/*!
 		** \brief Create a new RelevantInformations object featuring only informations useful

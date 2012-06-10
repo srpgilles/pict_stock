@@ -73,10 +73,7 @@ namespace Private
 
 			String ext;
 			if (!IO::ExtractExtension(ext, file))
-			{
-				logs.error() << "Unable to extract extension of file " << file;
-				return false;
-			}
+				continue;
 
 			if (ext.toLower() != ".jpg")
 				continue;
@@ -104,12 +101,16 @@ namespace Private
 
 			{
 				ExtendedPhoto::Vector& allPhotos = pPhotosPerName[newName];
+
 				unsigned int size = static_cast<unsigned int>(allPhotos.size());
 
 				bool doPhotoAlreadyExist = false;
-				for (unsigned int i = 0; !doPhotoAlreadyExist && i < size; ++i)
+				for (unsigned int i = 0u; !doPhotoAlreadyExist && i < size; ++i)
 				{
-					if (*allPhotos[i] == photo)
+					auto ptr = allPhotos[i];
+					assert(!(!ptr));
+
+					if (*ptr == photo)
 						doPhotoAlreadyExist = true;
 				}
 
@@ -145,8 +146,7 @@ namespace Private
 			}
 			else
 			{
-				auto nbDigits = numberOfDigits(size + 1u); // + 1u because we begin at 1 and not 0 the index
-
+				auto nbDigits = numberOfDigits(size + 1u);
 				enum
 				{
 					maximum = 5
@@ -211,11 +211,21 @@ namespace Private
 			return false;
 		}
 
+		#if 0
+		static bool alreadyShown = false;
+
+		if (!alreadyShown)
+		{
+			logs.warning("[DEV] Do not remove input files");
+			alreadyShown = true;
+		}
+		#else
 		if (IO::File::Delete(origin) != IO::errNone)
 		{
 			logs.error() << "Unable to delete " << origin;
 			return false;
 		}
+		#endif
 
 		return true;
 	}

@@ -48,7 +48,7 @@ namespace Private
 			onlyUsefulOnesHelper(
 				PathInformations& /* usefulInformations */,
 				const PathInformations& /* completeInformations */,
-				const std::bitset<std::tuple_size<TupleType>::value>& /*doContains*/
+				const PathFormatHelper::MatchingType& /*matching*/
 				)
 		  { }
 
@@ -58,16 +58,16 @@ namespace Private
 			onlyUsefulOnesHelper(
 				PathInformations& usefulInformations,
 				const PathInformations& completeInformations,
-				const std::bitset<std::tuple_size<TupleType>::value>& doContains
+				const PathFormatHelper::MatchingType& matching
 				)
 		{
-			if (doContains.test(I))
+			if (matching.find(I) != matching.end())
 			{
 				typedef typename std::tuple_element<I, TupleType>::type type;
 				usefulInformations.setElement<type>(completeInformations);
 			}
 
-			onlyUsefulOnesHelper<I + 1>(usefulInformations, completeInformations, doContains);
+			onlyUsefulOnesHelper<I + 1>(usefulInformations, completeInformations, matching);
 		}
 
 
@@ -77,15 +77,14 @@ namespace Private
 		** \param[out] out Regex that is requested
 		** \param[in, out] helper In the very first call, the user-define format.
 		** Each recursion will replace the symbol considered by the proper regex
-		** \param[in] doContains Tells whether the symbol is present or not. If not,
-		** no need to bother with two calls to string::replace!
+		** \param[in] matching PathFormatHelper::MatchingType
 		*/
 		template<std::size_t I = 0>
 		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
 			determineRegexHelper(
 				regexNS::regex& out,
 				YString& helper,
-				const std::bitset<std::tuple_size<TupleType>::value>& /*doContains*/
+				const PathFormatHelper::MatchingType& /*matching*/
 				)
 		{
 			out = regexNS::regex(helper.c_str());
@@ -97,17 +96,17 @@ namespace Private
 			determineRegexHelper(
 				regexNS::regex& out,
 				YString& helper,
-				const std::bitset<std::tuple_size<TupleType>::value>& doContains
+				const PathFormatHelper::MatchingType& matching
 				)
 		{
-			if (doContains.test(I))
+			if (matching.find(I) != matching.end())
 			{
 				typedef typename std::tuple_element<I, TupleType>::type type;
 				auto symbol = type::Symbol();
 				auto regex = type::Regex();
 
 				unsigned int pos = helper.find(symbol);
-				assert(pos != String::npos && "If equal, doContains test is bullshit!");
+				assert(pos != String::npos && "If equal, matching test is bullshit!");
 
 				helper.replace(pos + 1u, symbol, regex);
 
@@ -118,7 +117,7 @@ namespace Private
 			}
 
 			// Recursion
-			determineRegexHelper<I + 1>(out, helper, doContains);
+			determineRegexHelper<I + 1>(out, helper, matching);
 		}
 
 
@@ -183,12 +182,11 @@ namespace Private
 				const PathFormatHelper::MatchingType& matching)
 		{
 			auto it = matching.find(I);
+
 			if (it != matching.cend())
 			{
 				typedef typename std::tuple_element<I, TupleType>::type type;
 				auto symbol = type::Symbol();
-				std::cout << "CHECK determineMinimalPathHelper -> "
-					<< symbol << '\n';
 				out.replace(type::Symbol(), infos.getElement<type>());
 			}
 
@@ -217,18 +215,14 @@ namespace Private
 		for (unsigned int i = 0u, size = static_cast<unsigned int>(positions.size()); i < size; ++i)
 		{
 			if (positions[i] == String::npos)
-			{
-				pDoContains[i] = false;
 				continue;
-			}
 
-			pDoContains[i] = true;
 			helper[positions[i]] = i;
 		}
 
 		unsigned int index = 0u;
 		for (auto it = helper.cbegin(), end = helper.cend(); it != end; ++it)
-			pMatching[index++] = it->second;
+			pMatching[it->second] = ++index;
 	}
 
 
@@ -271,7 +265,7 @@ namespace Private
 			// If one is present more than once, only the first one is enclosed within parenthesis
 			// (due to the way regex_results works)
 			String helper(path);
-			determineRegexHelper<0>(pRegEx, helper, pDoContains);
+			determineRegexHelper<0>(pRegEx, helper, pMatching);
 		}
 	}
 
@@ -296,7 +290,6 @@ namespace Private
 		const PathInformations& infos) const
 	{
 		assert(out.empty());
-
 		out = pFormat;
 
 		// Recursive call over all tuple elements
@@ -317,10 +310,19 @@ namespace Private
 	PathInformations PathFormatHelper::onlyUsefulElements(const PathInformations& input) const
 	{
 		PathInformations ret(logs);
-		onlyUsefulOnesHelper<0>(ret, input, pDoContains);
+		onlyUsefulOnesHelper<0>(ret, input, pMatching);
 
 		return ret;
 	}
+
+
+	PathInformations PathFormatHelper::onlyUsefulElements(const ExtendedPhoto& input) const
+	{
+		PathInformations::Ptr infosPtr = input.informations();
+		assert(!(!infosPtr));
+		return onlyUsefulElements(*infosPtr);
+	}
+
 
 
 

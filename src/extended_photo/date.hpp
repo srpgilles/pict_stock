@@ -43,6 +43,9 @@ namespace PictStock
 	//! Interpret the string dateRead and extract from it the date.
 	bool dateFromExif(LoggingFacility& logs, Date& out, const YString& dateRead);
 
+	//! Read the date and create the date as it would be written in exif file
+	Yuni::CString<20, false> dateToExif(const Date& date);
+
 } // namespace PictStock
 
 

@@ -211,11 +211,21 @@ namespace Private
 			return false;
 		}
 
+		#if 0
+		static bool alreadyShown = false;
+
+		if (!alreadyShown)
+		{
+			logs.warning("[DEV] Do not remove input files");
+			alreadyShown = true;
+		}
+		#else
 		if (IO::File::Delete(origin) != IO::errNone)
 		{
 			logs.error() << "Unable to delete " << origin;
 			return false;
 		}
+		#endif
 
 		return true;
 	}

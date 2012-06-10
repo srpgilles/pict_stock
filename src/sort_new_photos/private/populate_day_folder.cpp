@@ -73,10 +73,7 @@ namespace Private
 
 			String ext;
 			if (!IO::ExtractExtension(ext, file))
-			{
-				logs.error() << "Unable to extract extension of file " << file;
-				return false;
-			}
+				continue;
 
 			if (ext.toLower() != ".jpg")
 				continue;
@@ -104,7 +101,8 @@ namespace Private
 
 			{
 				ExtendedPhoto::Vector& allPhotos = pPhotosPerName[newName];
-				unsigned int size = static_cast<unsigned int>(allPhotos.size());
+				unsigned int size = static_cast<unsigned int>(allPhotos.size() + 1u); // +1u because
+				// we begin numeration at 1
 
 				bool doPhotoAlreadyExist = false;
 				for (unsigned int i = 0; !doPhotoAlreadyExist && i < size; ++i)
@@ -145,8 +143,7 @@ namespace Private
 			}
 			else
 			{
-				auto nbDigits = numberOfDigits(size + 1u); // + 1u because we begin at 1 and not 0 the index
-
+				auto nbDigits = numberOfDigits(size);
 				enum
 				{
 					maximum = 5

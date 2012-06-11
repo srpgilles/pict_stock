@@ -126,7 +126,7 @@ namespace PictStock
 
 	public:
 
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 	private:
 

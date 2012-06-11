@@ -39,7 +39,7 @@ namespace
 	public:
 
 		//! Logs
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 
 	private:
@@ -88,10 +88,18 @@ namespace
 
 
 		// Assign values from the parameter file
-		String key, value;
+		String key, value, line;
 		auto end = pParameters.end();
 
-		if (!IO::File::ReadLineByLine(pFile, [&] (const String& line)
+		IO::File::Stream inputStream;
+
+		if (!inputStream.open(pFile))
+		{
+			logs.fatal() << "Unable to read file " << pFile;
+			throw std::exception();
+		}
+
+		while (inputStream.readline(line))
 		{
 			line.extractKeyValue(key, value, false);
 
@@ -109,11 +117,8 @@ namespace
 				value.trim();
 				it->second = value;
 			}
-		}))
-		{
-			logs.fatal() << "Unable to read file " << pFile;
-			throw std::exception();
 		}
+
 
 		if (!checkParameters())
 			throw std::exception();

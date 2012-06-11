@@ -64,7 +64,7 @@ namespace Private
 	public:
 
 		//! Logs
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 	private:
 

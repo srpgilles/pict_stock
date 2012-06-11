@@ -84,7 +84,7 @@ namespace PictStock
 	public:
 
 		//! Logging facility
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 	private:
 

@@ -19,7 +19,7 @@ namespace Private
 
 	namespace
 	{
-		template<std::size_t I = 0>
+		template<std::size_t I>
 		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
 			interpretUserDefinedFormatHelper(
 			std::array<unsigned int, std::tuple_size<TupleType>::value>& /*array*/,
@@ -27,7 +27,7 @@ namespace Private
 		  { }
 
 
-		template<std::size_t I = 0>
+		template<std::size_t I>
 		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
 		interpretUserDefinedFormatHelper(
 			std::array<unsigned int, std::tuple_size<TupleType>::value>& array,
@@ -43,7 +43,7 @@ namespace Private
 		  }
 
 
-		template<std::size_t I = 0>
+		template<std::size_t I>
 		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
 			onlyUsefulOnesHelper(
 				PathInformations& /* usefulInformations */,
@@ -53,7 +53,7 @@ namespace Private
 		  { }
 
 
-		template<std::size_t I = 0>
+		template<std::size_t I>
 		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
 			onlyUsefulOnesHelper(
 				PathInformations& usefulInformations,
@@ -79,7 +79,7 @@ namespace Private
 		** Each recursion will replace the symbol considered by the proper regex
 		** \param[in] matching PathFormatHelper::MatchingType
 		*/
-		template<std::size_t I = 0>
+		template<std::size_t I>
 		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
 			determineRegexHelper(
 				regexNS::regex& out,
@@ -91,7 +91,7 @@ namespace Private
 		}
 
 
-		template<std::size_t I = 0>
+		template<std::size_t I>
 		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
 			determineRegexHelper(
 				regexNS::regex& out,
@@ -129,7 +129,7 @@ namespace Private
 		** \param[in] match Object resulting from the regex match
 		** \param[in] matchingIndex PathFormathelper::pMatching
 		*/
-		template<std::size_t I = 0>
+		template<std::size_t I>
 		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
 			isOkHelper(
 				PathInformations& /*out*/,
@@ -139,7 +139,7 @@ namespace Private
 
 
 
-		template<std::size_t I = 0>
+		template<std::size_t I>
 		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
 			isOkHelper(
 				PathInformations& out,
@@ -164,7 +164,7 @@ namespace Private
 		** \param[in] infos Informations which will replace symbols in format
 		** \param[in] matching PathFormat::pMatching. Point is just to avoid useless calls to replace
 		*/
-		template<std::size_t I = 0>
+		template<std::size_t I>
 		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
 			determineMinimalPathHelper(
 				YString& /*out*/,
@@ -174,7 +174,7 @@ namespace Private
 
 
 
-		template<std::size_t I = 0>
+		template<std::size_t I>
 		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
 			determineMinimalPathHelper(
 				YString& out,

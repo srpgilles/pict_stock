@@ -1,8 +1,9 @@
 #include "extended_photo/extended_photo.hpp"
-#include <boost/regex.hpp>
+
 
 
 #ifdef USE_BOOST_REGULAR_EXPR
+#include <boost/regex.hpp>
 namespace TestRegex
 {
 	void testRegex(LoggingFacility& logs)

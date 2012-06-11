@@ -45,12 +45,12 @@ struct Day
 //  }
 
 
-template<std::size_t I = 0, class TupleT>
+template<std::size_t I, class TupleT>
 typename std::enable_if<I == std::tuple_size<TupleT>::value, void>::type
   printHelper()
   { }
 
-template<std::size_t I = 0, class TupleT>
+template<std::size_t I, class TupleT>
 typename std::enable_if<I < std::tuple_size<TupleT>::value, void>::type
   printHelper()
   {
@@ -77,12 +77,12 @@ struct MyElement
 //{ }
 
 
-template<std::size_t I = 0, class TupleT>
+template<std::size_t I, class TupleT>
 typename std::enable_if<I == std::tuple_size<TupleT>::value, void>::type
   findInStringHelper(std::array<unsigned int, std::tuple_size<TupleT>::value>& /*out*/, const YString& /*format*/)
   { }
 
-template<std::size_t I = 0, class TupleT>
+template<std::size_t I, class TupleT>
 typename std::enable_if<I < std::tuple_size<TupleT>::value, void>::type
 findInStringHelper(std::array<unsigned int, std::tuple_size<TupleT>::value>& out, const YString& format)
   {

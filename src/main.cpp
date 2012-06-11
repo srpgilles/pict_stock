@@ -63,17 +63,29 @@ namespace
 
 	};
 
-
+	
+	#ifndef MSVC // C++11 feature not yet implemented in MSVC
 	ReadParameterFile::ReadParameterFile(LoggingFacility& logs, const YString& file)
 		: logs(logs),
-		  pFile(file),
-		  pParameters({
+		  pFile(file)
+	{
+		pParameters["inputFolder"] = "";
+		pParameters["outputFolder"] = "";
+		pParameters["logFile"] = "";
+		pParameters["pathFormat"] = "";
+	#else
+	ReadParameterFile::ReadParameterFile(LoggingFacility& logs, const YString& file)
+		: logs(logs),
+		  pFile(file)
+		  , pParameters({
 			{"inputFolder",""},
 			{"outputFolder",""},
 			{"logFile",""},
 			{"pathFormat", ""}
 			})
 	{
+	#endif // MSVC
+
 
 		// Assign values from the parameter file
 		String key, value;
@@ -182,7 +194,7 @@ int main(int argc, char* argv[])
 		if (!sortNewPhotos.proceed())
 			return EXIT_FAILURE;
 	}
-	catch(const std::exception& e)
+	catch(const std::exception& /*e*/)
 	{
 		exit(EXIT_FAILURE);
 	}

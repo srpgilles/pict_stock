@@ -29,11 +29,11 @@ namespace Private
 		}
 
 		static const YString expression =
-			YString("\\A")
+			YString('^')
 			<< '(' << Year::Regex() << ')'
 			<< '(' << Month::Regex() << ')'
 			<< '(' << Day::Regex() << ')'
-			<< "\\z";
+			<< '$';
 
 		/*!
 		** \brief Regular expression for date formatting

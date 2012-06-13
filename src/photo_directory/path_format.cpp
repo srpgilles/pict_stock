@@ -28,19 +28,25 @@ namespace PictStock
 			String folderName, fileName;
 
 			// Split the path and the filename
-			IO::ExtractFilePath(folderName, format);
+			IO::ExtractFilePath(folderName, format, false);
 
 			if (folderName.empty())
 				fileName = format;
 			else
 			{
-				IO::ExtractFileName(fileName, format);
+				IO::ExtractFileName(fileName, format, false);
 				if (IO::Separator != '/')
-					folderName.replace('/', IO::Separator);
-
+				{
+					if (IO::Separator == '\\')
+						folderName.replace("/", "\\\\");
+					else
+						folderName.replace('/', IO::Separator);
+				}
+				logs.notice("Folder = ") << folderName;
 				pFolderPart = new Private::PathFormatHelper(logs, folderName);
 			}
 
+			logs.notice("File = ") << fileName;
 			pFilePart = new Private::PathFormatHelper(logs, fileName);
 		}
 	}

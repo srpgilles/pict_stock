@@ -143,34 +143,34 @@ void findInString(std::vector<size_t>& out, const YString& format)
 }
 
 
+#include <regex>
+
+class Foo
+{
+public:
+
+	Foo()
+	{}
+
+	void bar();
+
+private:
+
+	std::regex pRegex;
+};
+
+void Foo::bar()
+{
+	pRegex = std::regex("truc.txt");
+	}
+
 int main(int argc, char* argv[])
 {
-	typedef std::tuple<Year, Month, Day> TupleType;
-	TupleType myTuple;
-
+	
 	LoggingFacility logs;
 
-
-	typedef std::tuple_element<0, TupleType>::type type;
-
-
-	YString buf("%d/%y/jfkldjfl"); // month left aside on purpose
-
-	auto size = std::tuple_size<TupleType>::value;
-
-	std::vector<size_t> foo;
-
-	findInString<TupleType>(foo, buf);
-
-	for (unsigned int i = 0u, size = foo.size(); i < size; ++i)
-		logs.notice() << "Position " << i << '\t' << foo.at(i);
-
-	//for (auto it = foo.begin(), end = foo.end(); it != end; ++it)
-	//	logs.notice() << it->first << '\t' << it->second.Symbol();
-
-
-
-	//logs.notice() << myTuple.get<O>;
+	Foo foo;
+	foo.bar();
 
 	return 0;
 }

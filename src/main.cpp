@@ -22,7 +22,7 @@ namespace
 	public:
 
 		// Type of keys in the parameters file
-		typedef CString<12, false> KeyString;
+		typedef CString<12, true> KeyString;
 
 		/*!
 		 ** Constructor
@@ -186,16 +186,17 @@ int main(int argc, char* argv[])
 	try
 	{
 		const ReadParameterFile parameters(logs, parameterFile);
-
+		//PictStock::ExtendedPhoto(logs, "C:\\Users\\Sebastien\\Projets_logiciels\\Input\\2010-11-04\\023.JPG");
 		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"], parameters["pathFormat"]);
 		PictStock::SortNewPhotos sortNewPhotos(logs, parameters["inputFolder"], photoDirectory,
 			parameters["logFile"], doAskModifyDate);
 
 		if (!sortNewPhotos.proceed())
-			return EXIT_FAILURE;
+			return EXIT_FAILURE; 
 	}
-	catch(const std::exception& /*e*/)
+	catch(const std::exception& e)
 	{
+		std::cout << "EXCEPTION: " << e.what() << '\n';
 		exit(EXIT_FAILURE);
 	}
 

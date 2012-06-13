@@ -16,8 +16,8 @@ namespace PictStock
 
 	namespace
 	{
-		static const YString expression =
-			YString("\\A")
+		static const YString expression = 
+			YString('^')
 			<< '(' << Private::Year::Regex() << "|    )"
 			<< ':' // separator
 			<< '(' << Private::Month::Regex() << "|  )"
@@ -29,7 +29,7 @@ namespace PictStock
 			<< '(' << Private::Minute::Regex() << "|  )"
 			<< ':' // separator
 			<< '(' << Private::Second::Regex() << "|)"
-			<< "\\z";
+			<< '$';
 
 		/*!
 		** \brief Regular expression for date formatting

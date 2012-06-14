@@ -50,7 +50,7 @@ namespace Private
 	/*!
 	** \brief Class in charge of handling the model of output format provided in input parameters
 	*/
-	class YUNI_DECL PathFormatHelper
+	class YUNI_DECL PathFormatHelper : private Yuni::NonCopyable<PathFormatHelper>
 	{
 	public:
 

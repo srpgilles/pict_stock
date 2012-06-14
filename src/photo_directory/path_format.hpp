@@ -21,7 +21,7 @@ namespace PictStock
 
 
 
-	class YUNI_DECL PathFormat
+	class YUNI_DECL PathFormat : private Yuni::NonCopyable<PathFormat>
 	{
 	public:
 

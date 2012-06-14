@@ -51,7 +51,11 @@ namespace PictStock
 		 */
 		explicit PathInformations(LoggingFacility& logs);
 
+		PathInformations(const PathInformations&) = default;
+
 		//@}
+
+		PathInformations& operator=(const PathInformations&) = default;
 
 		//! Set the photographer
 		void setPhotographer(const Photographer::Ptr& photographer);

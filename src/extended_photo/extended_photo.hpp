@@ -13,7 +13,7 @@
 namespace PictStock
 {
 
-	class YUNI_DECL ExtendedPhoto
+	class YUNI_DECL ExtendedPhoto : private Yuni::NonCopyable<ExtendedPhoto>
 	{
 	public:
 
@@ -35,7 +35,9 @@ namespace PictStock
 		//! Constructor
 		//@{
 		ExtendedPhoto(LoggingFacility& logs, const YString& filename);
+
 		//@}
+
 
 		//! Return true if any problem occurred (either from this class or exiv2)
 		inline bool problem() const;

@@ -154,7 +154,7 @@ namespace Private
 	public:
 
 		//! Logs
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 		typedef std::map<unsigned int, unsigned int> MatchingType;
 

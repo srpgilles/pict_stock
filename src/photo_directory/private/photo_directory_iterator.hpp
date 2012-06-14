@@ -54,7 +54,7 @@ namespace Private
 	public:
 
 		//! Logging facility
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 	private:
 		//! Overload IIterator methods

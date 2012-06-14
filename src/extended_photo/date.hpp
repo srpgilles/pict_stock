@@ -21,6 +21,10 @@ namespace PictStock
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<Date> Ptr;
 
+		Date() = default;
+		Date& operator=(const Date&) = default;
+		Date(const Date&) = default;
+
 		DateString year;
 		DateString month;
 		DateString day;

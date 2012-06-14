@@ -13,7 +13,8 @@ namespace PictStock
 namespace Private
 {
 
-	class YUNI_DECL SortNewPhotosIterator : public Yuni::IO::Directory::IIterator<false>
+	class YUNI_DECL SortNewPhotosIterator : public Yuni::IO::Directory::IIterator<false>,
+	 	 	 	 	 	 	 	 	 	    private Yuni::NonCopyable<SortNewPhotosIterator>
 	{
 	public:
 

@@ -11,7 +11,7 @@
 namespace PictStock
 {
 
-	class YUNI_DECL Photographer
+	class YUNI_DECL Photographer : private Yuni::NonCopyable<Photographer>
 	{
 
 	public:

@@ -9,7 +9,7 @@
 namespace PictStock
 {
 
-    class YUNI_DECL SortNewPhotos
+    class YUNI_DECL SortNewPhotos : private Yuni::NonCopyable<SortNewPhotos>
     {
 
 

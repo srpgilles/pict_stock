@@ -2,6 +2,7 @@
 # define _PICT_STOCK_HPP_
 
 # include <yuni/core/logs.h>
+# include <yuni/core/noncopyable.h>
 
 typedef Yuni::Logs::Logger<> LoggingFacility;
 

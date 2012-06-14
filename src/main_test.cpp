@@ -1,4 +1,5 @@
 #include <yuni/core/string.h>
+#include <map>
 
 using namespace Yuni;
 
@@ -9,8 +10,6 @@ typedef Yuni::CString<4, false> SymbolString;
 
 int main(int argc, char* argv[])
 {
-	LoggingFacility logs;
-	
 	std::map<SymbolString, int> foo;
 
 	foo["Bar"] = 3;

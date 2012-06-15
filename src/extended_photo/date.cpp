@@ -130,20 +130,22 @@ namespace PictStock
 
 	bool operator < (const Date& lhs, const Date& rhs)
 	{
-		if (lhs.year < rhs.year)
-			return true;
+		// Time stamp much more easier when implemented (but I have to see
+		// how to do it properly with MSVC)
+		if (lhs.year != rhs.year)
+			return (lhs.year < rhs.year);
 
-		if (lhs.month < rhs.month)
-			return true;
+		if (lhs.month != rhs.month)
+			return (lhs.month < rhs.month);
 
-		if (lhs.day < rhs.day)
-			return true;
+		if (lhs.day != rhs.day)
+			return (lhs.day < rhs.day);
 
-		if (lhs.hour < rhs.hour)
-			return true;
+		if (lhs.hour != rhs.hour)
+			return (lhs.hour < rhs.hour);
 
-		if (lhs.minute < rhs.minute)
-			return true;
+		if (lhs.minute != rhs.minute)
+			return (lhs.minute < rhs.minute);
 
 		return (lhs.second < rhs.second);
 	}

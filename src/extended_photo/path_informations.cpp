@@ -11,6 +11,22 @@ namespace PictStock
 	{ }
 
 
+	PathInformations::PathInformations(const PathInformations& rhs)
+		: logs(rhs.logs),
+		  pPhotographerPtr(rhs.pPhotographerPtr),
+		  pDate(rhs.pDate)
+	{ }
+
+
+	PathInformations& PathInformations::operator = (const PathInformations& rhs)
+	{
+		pPhotographerPtr = rhs.pPhotographerPtr;
+		pDate = rhs.pDate;
+
+		return *this;
+	}
+
+
 	void PathInformations::changeDate(const Yuni::CString<8, false>& newDate)
 	{
 		auto& date = pDate;

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "../pict_stock.hpp"
 #include "date.hpp"
 #include "private/date_helpers.hpp"
@@ -9,6 +10,8 @@ namespace regexNS = boost;
 # include <regex>
 namespace regexNS = std;
 #endif // USE_BOOST_REGULAR_EXPR
+
+
 
 
 namespace PictStock
@@ -38,6 +41,26 @@ namespace PictStock
 		*/
 		static const regexNS::regex RegexDateFormatting(expression.c_str());
 	} // anonymous namespace
+
+
+	Date::Date()
+	{ }
+
+
+	Date::Date(const Date&)
+	{
+
+
+	}
+
+	Date& Date::operator = (const Date& rhs)
+	{
+		// Nifty way to define operator= in term of recopy constructor
+		// (see Herb Sutter's Exceptional C++, Item 12)
+		Date buf(rhs);
+		std::swap(buf, *this);
+		return *this;
+	}
 
 
 
@@ -148,6 +171,8 @@ namespace PictStock
 		if (!second.empty())
 			out << "Second = " << second << '\n';
 	}
+
+
 
 
 } // namespace PictStock

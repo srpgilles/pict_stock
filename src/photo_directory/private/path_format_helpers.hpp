@@ -135,7 +135,7 @@ namespace Private
 		**
 		** \param[in] input The original #PathInformations object
 		 */
-		PathInformations onlyUsefulElements(const PathInformations& input) const;
+		void onlyUsefulElements(PathInformations& out, const PathInformations& input) const;
 
 
 		/*!
@@ -148,7 +148,7 @@ namespace Private
 		**
 		** \param[in] input #ExtendedPhoto object
 		 */
-		PathInformations onlyUsefulElements(const ExtendedPhoto& input) const;
+		void onlyUsefulElements(PathInformations& out, const ExtendedPhoto& input) const;
 
 
 	public:

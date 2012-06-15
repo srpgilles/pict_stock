@@ -1,19 +1,36 @@
 #include <yuni/core/string.h>
 #include <map>
+# include <yuni/core/logs.h>
 
+typedef Yuni::Logs::Logger<> LoggingFacility;
 using namespace Yuni;
 
-typedef Yuni::CString<4, false> SymbolString;
 
+class Foo
+{
+public:
+    Foo(LoggingFacility& logs) :
+        logs(logs)
+    {}
 
+    bool getValue() const
+    {
+        logs.debug() << __PRETTY_FUNCTION__ << " has been called\n";
+        return true;
+    }
+
+public:
+    LoggingFacility& logs;
+};
 
 
 int main(int argc, char* argv[])
 {
-	std::map<SymbolString, int> foo;
+	LoggingFacility logs;
+	Foo bar(logs);
 
-	foo["Bar"] = 3;
-	foo["Baz"] = 5;
+	bar.getValue();
+
 
 	return 0;
 }

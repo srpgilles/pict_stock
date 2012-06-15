@@ -14,16 +14,22 @@ namespace PictStock
 	**
 	** Is intended to be initialized only by dateFromExif function at the moment
 	*/
-	struct YUNI_DECL Date
+	struct YUNI_DECL Date : private Yuni::NonCopyable<Date>
 	{
+		//! Default constructor
+		explicit Date();
+
+		//! Recopy constructor
+		Date(const Date&);
+
+		//! Assignation
+		Date& operator = (const Date&);
+
+
 		typedef Yuni::CString<4, false> DateString;
 
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<Date> Ptr;
-
-		Date() = default;
-		Date& operator=(const Date&) = default;
-		Date(const Date&) = default;
 
 		DateString year;
 		DateString month;

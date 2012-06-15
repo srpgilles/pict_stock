@@ -105,17 +105,17 @@ namespace PictStock
 	}
 
 
-	PathInformations PathFormat::onlyUsefulFolderElements(const PathInformations& input) const
+	void PathFormat::onlyUsefulFolderElements(PathInformations& out, const PathInformations& input) const
 	{
 		assert(!(!pFolderPart));
-		return pFolderPart->onlyUsefulElements(input);
+		pFolderPart->onlyUsefulElements(out, input);
 	}
 
 
-	PathInformations PathFormat::onlyUsefulFolderElements(const ExtendedPhoto& input) const
+	void PathFormat::onlyUsefulFolderElements(PathInformations& out, const ExtendedPhoto& input) const
 	{
 		assert(!(!pFolderPart));
-		return pFolderPart->onlyUsefulElements(input);
+		pFolderPart->onlyUsefulElements(out, input);
 	}
 
 

@@ -307,20 +307,17 @@ namespace Private
 	}
 
 
-	PathInformations PathFormatHelper::onlyUsefulElements(const PathInformations& input) const
+	void PathFormatHelper::onlyUsefulElements(PathInformations& out, const PathInformations& input) const
 	{
-		PathInformations ret(logs);
-		onlyUsefulOnesHelper<0>(ret, input, pMatching);
-
-		return ret;
+		onlyUsefulOnesHelper<0>(out, input, pMatching);
 	}
 
 
-	PathInformations PathFormatHelper::onlyUsefulElements(const ExtendedPhoto& input) const
+	void PathFormatHelper::onlyUsefulElements(PathInformations& out, const ExtendedPhoto& input) const
 	{
 		PathInformations::Ptr infosPtr = input.informations();
 		assert(!(!infosPtr));
-		return onlyUsefulElements(*infosPtr);
+		onlyUsefulElements(out, *infosPtr);
 	}
 
 

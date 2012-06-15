@@ -47,7 +47,8 @@ namespace PictStock
 			return false;
 
 		// Add new folder in the tree
-		PathInformations onlyUsefulInfos = pathFormat.onlyUsefulFolderElements(infos);
+		PathInformations onlyUsefulInfos(logs);
+		pathFormat.onlyUsefulFolderElements(onlyUsefulInfos, infos);
 
 		pTree.insert(std::make_pair(onlyUsefulInfos, folder));
 

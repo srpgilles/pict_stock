@@ -57,12 +57,23 @@ namespace PictStock
 	{ }
 
 
-	Date& Date::operator = (const Date& rhs)
+	void swap(Date& lhs, Date& rhs)
+	{
+		using std::swap;
+		swap(lhs.year, rhs.year);
+		swap(lhs.month, rhs.month);
+		swap(lhs.day, rhs.day);
+		swap(lhs.hour, rhs.hour);
+		swap(lhs.minute, rhs.minute);
+		swap(lhs.second, rhs.second);
+	}
+
+
+	Date& Date::operator = (Date rhs)
 	{
 		// Nifty way to define operator= in term of recopy constructor
 		// (see Herb Sutter's Exceptional C++, Item 12)
-		Date buf(rhs);
-		std::swap(buf, *this);
+		swap(rhs, *this);
 		return *this;
 	}
 

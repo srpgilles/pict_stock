@@ -23,7 +23,7 @@ namespace PictStock
 		Date(const Date&);
 
 		//! Assignation
-		Date& operator = (const Date&);
+		Date& operator = (Date);
 
 
 		typedef Yuni::CString<4, false> DateString;
@@ -44,11 +44,14 @@ namespace PictStock
 		//! Print, for debug purposes
 		void print(std::ostream& out) const;
 
+
+
 	};
 
 	bool operator == (const Date& lhs, const Date& rhs);
 	bool operator != (const Date& lhs, const Date& rhs);
 	bool operator < (const Date& lhs, const Date& rhs);
+	void swap(Date& lhs, Date& rhs);
 
 	//! Interpret the string dateRead and extract from it the date.
 	bool dateFromExif(LoggingFacility& logs, Date& out, const YString& dateRead);

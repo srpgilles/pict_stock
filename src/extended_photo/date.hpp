@@ -14,7 +14,7 @@ namespace PictStock
 	**
 	** Is intended to be initialized only by dateFromExif function at the moment
 	*/
-	struct YUNI_DECL Date : private Yuni::NonCopyable<Date>
+	struct YUNI_DECL Date
 	{
 		//! Default constructor
 		explicit Date();

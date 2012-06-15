@@ -47,11 +47,15 @@ namespace PictStock
 	{ }
 
 
-	Date::Date(const Date&)
-	{
+	Date::Date(const Date& rhs)
+		: year(rhs.year),
+		  month(rhs.month),
+		  day(rhs.day),
+		  hour(rhs.hour),
+		  minute(rhs.minute),
+		  second(rhs.second)
+	{ }
 
-
-	}
 
 	Date& Date::operator = (const Date& rhs)
 	{

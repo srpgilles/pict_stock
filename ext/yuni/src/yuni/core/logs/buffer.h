@@ -40,12 +40,12 @@ namespace LogImpl
 	public:
 		//! \name Constructos & Destructor
 		//@{
-		inline Buffer(LoggerType& l) :
+		inline Buffer(const LoggerType& l) :
 			pLogger(l)
 		{}
 
 		template<typename U>
-		inline Buffer(LoggerType& l, U u) :
+		inline Buffer(const LoggerType& l, U u) :
 			pLogger(l)
 		{
 			pBuffer.append(u);
@@ -82,7 +82,7 @@ namespace LogImpl
 
 	private:
 		//! Reference to the original logger
-		LoggerType& pLogger;
+		const LoggerType& pLogger;
 
 		/*!
 		** \brief Buffer that contains the message
@@ -108,14 +108,14 @@ namespace LogImpl
 		typedef LogT LoggerType;
 
 	public:
-		Buffer(LoggerType&) {}
+		Buffer(const LoggerType&) {}
 
-		template<typename U> Buffer(LoggerType&, U) {}
+		template<typename U> Buffer(const LoggerType&, U) {}
 
 		~Buffer()
 		{}
 
-		template<typename U> Buffer& operator << (const U&)
+		template<typename U> const Buffer& operator << (const U&) const
 		{
 			// Do nothing - Disabled
 			return *this;

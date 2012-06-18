@@ -67,7 +67,7 @@ namespace CPU
 		}
 		cpuInfo.close();
 
-		return (0 == count ? 1 : count);
+		return static_cast<unsigned int>(0 == count ? 1 : count);
 	}
 #endif
 

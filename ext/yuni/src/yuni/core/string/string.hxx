@@ -3251,6 +3251,16 @@ namespace Yuni
 
 
 	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<class StringT>
+	inline void
+	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::adapt(const StringT& string, Size length, Size offset)
+	{
+		Yuni::Private::CStringImpl::AdapterAssign<CStringType, adapter>::Perform(*this,
+			Traits::CString<StringT>::Perform(string) + offset,
+			length);
+	}
+
+	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
 	inline void
 	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::adaptWithoutChecking(const char* const cstring, Size length)
 	{
@@ -3358,9 +3368,12 @@ namespace Yuni
 						break;
 					}
 				case '/':
-					// Empty value if we have a comment otherwise '/' is a valid entry
-					if (rv + 1 >= AncestorType::size || AncestorType::data[rv + 1] == '/')
-						break;
+					{
+						// Empty value if we have a comment otherwise '/' is a valid entry
+						if (rv + 1 >= AncestorType::size || AncestorType::data[rv + 1] == '/')
+							break;
+						// no break
+					}
 				default:
 					{
 						// Standard value

@@ -31,7 +31,7 @@ namespace GetOpt
 		~Parser();
 		//@}
 
-		
+
 		//! \name Option management
 		//@{
 		/*!
@@ -110,7 +110,7 @@ namespace GetOpt
 		//! \name Remaining arguments
 		//@{
 		/*!
-		** \brief Set the target variable where remaining arguments will be writtent
+		** \brief Set the target variable where remaining arguments will be written
 		*/
 		template<class U> void remainingArguments(U& var);
 		//@}

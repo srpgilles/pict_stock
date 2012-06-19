@@ -29,7 +29,7 @@ namespace CPU
 
 		if (sysctlbyname("hw.ncpu", &count, &size, NULL, 0))
 			return 1;
-		return (count <= 0) ? 1 : static_cast<unsigned int>(count);
+		return (count <= 0) ? 1 : (unsigned int) count;
 	}
 #endif
 
@@ -49,12 +49,10 @@ namespace CPU
 # define YUNI_CPU_COUNT_HAS_IMPLEMENTATION
 	unsigned int Count()
 	{
-		/*
-		* It seems there's no better way to get this info on Linux systems.
-		* If somebody can find it without depending on the location of /proc,
-		* please patch this function.
-		*/
-		int count = 0;
+		// It seems there's no better way to get this info on Linux systems.
+		// If somebody can find it without depending on the location of /proc,
+		// please patch this function.
+		unsigned int count = 0;
 		std::ifstream cpuInfo("/proc/cpuinfo", std::ifstream::in);
 		std::string lineBuffer;
 

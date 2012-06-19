@@ -48,24 +48,24 @@ namespace PictStock
 
 
 	Date::Date(const Date& rhs)
-		: year(rhs.year),
-		  month(rhs.month),
-		  day(rhs.day),
-		  hour(rhs.hour),
-		  minute(rhs.minute),
-		  second(rhs.second)
+		: pYear(rhs.pYear),
+		  pMonth(rhs.pMonth),
+		  pDay(rhs.pDay),
+		  pHour(rhs.pHour),
+		  pMinute(rhs.pMinute),
+		  pSecond(rhs.pSecond)
 	{ }
 
 
 	void swap(Date& lhs, Date& rhs)
 	{
 		using std::swap;
-		swap(lhs.year, rhs.year);
-		swap(lhs.month, rhs.month);
-		swap(lhs.day, rhs.day);
-		swap(lhs.hour, rhs.hour);
-		swap(lhs.minute, rhs.minute);
-		swap(lhs.second, rhs.second);
+		swap(lhs.pYear, rhs.pYear);
+		swap(lhs.pMonth, rhs.pMonth);
+		swap(lhs.pDay, rhs.pDay);
+		swap(lhs.pHour, rhs.pHour);
+		swap(lhs.pMinute, rhs.pMinute);
+		swap(lhs.pSecond, rhs.pSecond);
 	}
 
 
@@ -86,12 +86,12 @@ namespace PictStock
 		if (regex_search(dateRead.c_str(), match, RegexDateFormatting))
 		{
 			assert(match.size() == 7u && "First one is complete expression, others the sub-expressions");
-			out.year = match[1].str();
-			out.month = match[2].str();
-			out.day = match[3].str();
-			out.hour = match[4].str();
-			out.minute = match[5].str();
-			out.second = match[6].str();
+			out.year(match[1].str());
+			out.month(match[2].str());
+			out.day(match[3].str());
+			out.hour(match[4].str());
+			out.minute(match[5].str());
+			out.second(match[6].str());
 
 			return true;
 		}
@@ -105,20 +105,20 @@ namespace PictStock
 
 	Yuni::CString<20, false> dateToExif(const Date& date)
 	{
-		Yuni::CString<20, false> ret(date.year);
-		ret << ':' << date.month << ':' << date.day << "   :  :  ";
+		Yuni::CString<20, false> ret(date.year());
+		ret << ':' << date.month() << ':' << date.day() << "   :  :  ";
 		return ret;
 	}
 
 
 	bool operator == (const Date& lhs, const Date& rhs)
 	{
-		return lhs.year == rhs.year &&
-			lhs.month == rhs.month &&
-			lhs.day == rhs.day &&
-			lhs.hour == rhs.hour &&
-			lhs.minute == rhs.minute &&
-			lhs.second == rhs.second;
+		return lhs.pYear == rhs.pYear &&
+			lhs.pMonth == rhs.pMonth &&
+			lhs.pDay == rhs.pDay &&
+			lhs.pHour == rhs.pHour &&
+			lhs.pMinute == rhs.pMinute &&
+			lhs.pSecond == rhs.pSecond;
 	}
 
 
@@ -132,33 +132,33 @@ namespace PictStock
 	{
 		// Time stamp much more easier when implemented (but I have to see
 		// how to do it properly with MSVC)
-		if (lhs.year != rhs.year)
-			return (lhs.year < rhs.year);
+		if (lhs.pYear != rhs.pYear)
+			return (lhs.pYear < rhs.pYear);
 
-		if (lhs.month != rhs.month)
-			return (lhs.month < rhs.month);
+		if (lhs.pMonth != rhs.pMonth)
+			return (lhs.pMonth < rhs.pMonth);
 
-		if (lhs.day != rhs.day)
-			return (lhs.day < rhs.day);
+		if (lhs.pDay != rhs.pDay)
+			return (lhs.pDay < rhs.pDay);
 
-		if (lhs.hour != rhs.hour)
-			return (lhs.hour < rhs.hour);
+		if (lhs.pHour != rhs.pHour)
+			return (lhs.pHour < rhs.pHour);
 
-		if (lhs.minute != rhs.minute)
-			return (lhs.minute < rhs.minute);
+		if (lhs.pMinute != rhs.pMinute)
+			return (lhs.pMinute < rhs.pMinute);
 
-		return (lhs.second < rhs.second);
+		return (lhs.pSecond < rhs.pSecond);
 	}
 
 
 	bool Date::isEmpty() const
 	{
-		return year.empty()
-			&& month.empty()
-			&& day.empty()
-			&& hour.empty()
-			&& minute.empty()
-			&& second.empty();
+		return pYear.empty()
+			&& pMonth.empty()
+			&& pDay.empty()
+			&& pHour.empty()
+			&& pMinute.empty()
+			&& pSecond.empty();
 	}
 
 
@@ -170,23 +170,23 @@ namespace PictStock
 			return;
 		}
 
-		if (!year.empty())
-			out << "Year = " << year << '\n';
+		if (!pYear.empty())
+			out << "Year = " << pYear << '\n';
 
-		if (!month.empty())
-			out << "Month = " << month << '\n';
+		if (!pMonth.empty())
+			out << "Month = " << pMonth << '\n';
 
-		if (!day.empty())
-			out << "Day = " << day << '\n';
+		if (!pDay.empty())
+			out << "Day = " << pDay << '\n';
 
-		if (!hour.empty())
-			out << "Hour = " << hour << '\n';
+		if (!pHour.empty())
+			out << "Hour = " << pHour << '\n';
 
-		if (!minute.empty())
-			out << "Minute = " << minute << '\n';
+		if (!pMinute.empty())
+			out << "Minute = " << pMinute << '\n';
 
-		if (!second.empty())
-			out << "Second = " << second << '\n';
+		if (!pSecond.empty())
+			out << "Second = " << pSecond << '\n';
 	}
 
 

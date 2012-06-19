@@ -6,6 +6,7 @@ add_library(extended_photo STATIC
 	extended_photo.hxx
 	date.cpp
 	date.hpp
+	date.hxx
 	path_informations.cpp
 	path_informations.hpp
 	path_informations.hxx

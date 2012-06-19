@@ -31,13 +31,19 @@ namespace PictStock
 	{
 		auto& date = pDate;
 
-		date.year.assign(newDate, 4);
-		date.month.assign(newDate, 2, 4);
-		date.day.assign(newDate, 2, 6);
+		Date::DateString buf;
+		buf.assign(newDate, 4);
+		date.year(buf);
+		buf.clear();
+		buf.assign(newDate, 2, 4);
+		date.month(buf);
+		buf.clear();
+		buf.assign(newDate, 2, 6);
+		date.day(buf);
 
-		date.hour.clear();
-		date.minute.clear();
-		date.second.clear();
+		date.hour("");
+		date.minute("");
+		date.second("");
 	}
 
 

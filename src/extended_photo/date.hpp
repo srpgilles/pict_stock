@@ -14,8 +14,10 @@ namespace PictStock
 	**
 	** Is intended to be initialized only by dateFromExif function at the moment
 	*/
-	struct YUNI_DECL Date
+	class YUNI_DECL Date
 	{
+	public:
+
 		//! Default constructor
 		explicit Date();
 
@@ -25,18 +27,12 @@ namespace PictStock
 		//! Assignation
 		Date& operator = (Date);
 
-
-		typedef Yuni::CString<5, true> DateString; // 5 = 4 (maximal length for year) + terminal character length
+		// 5 = 4 (maximal length for year) + terminal character length
+		// Related to a Yuni bug; should be rectified soon!
+		typedef Yuni::CString<5, true> DateString;
 
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<Date> Ptr;
-
-		DateString year;
-		DateString month;
-		DateString day;
-		DateString hour;
-		DateString minute;
-		DateString second;
 
 		//! True if no value is set, false otherwise
 		bool isEmpty() const;
@@ -44,7 +40,43 @@ namespace PictStock
 		//! Print, for debug purposes
 		void print(std::ostream& out) const;
 
+		inline const DateString& year() const;
 
+		inline const DateString& month() const;
+
+		inline const DateString& day() const;
+
+		inline const DateString& hour() const;
+
+		inline const DateString& minute() const;
+
+		inline const DateString& second() const;
+
+		inline void year(const AnyString&);
+
+		inline void month(const AnyString&);
+
+		inline void day(const AnyString&);
+
+		inline void hour(const AnyString&);
+
+		inline void minute(const AnyString&);
+
+		inline void second(const AnyString&);
+
+	private:
+
+		DateString pYear;
+		DateString pMonth;
+		DateString pDay;
+		DateString pHour;
+		DateString pMinute;
+		DateString pSecond;
+
+		// friendship!
+		friend bool operator == (const Date& lhs, const Date& rhs);
+		friend bool operator < (const Date& lhs, const Date& rhs);
+		friend void swap(Date& lhs, Date& rhs);
 
 	};
 
@@ -61,6 +93,7 @@ namespace PictStock
 
 } // namespace PictStock
 
+# include "date.hxx"
 
 
 

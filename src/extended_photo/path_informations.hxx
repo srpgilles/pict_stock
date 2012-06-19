@@ -19,37 +19,37 @@ namespace PictStock
 	template<>
 	inline void PathInformations::setElement<Private::Year>(const AnyString& input)
 	{
-		pDate.year = input;
+		pDate.year(input);
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Month>(const AnyString& input)
 	{
-		pDate.month = input;
+		pDate.month(input);
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Day>(const AnyString& input)
 	{
-		pDate.day = input;
+		pDate.day(input);
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Hour>(const AnyString& input)
 	{
-		pDate.hour = input;
+		pDate.hour(input);
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Minute>(const AnyString& input)
 	{
-		pDate.minute = input;
+		pDate.minute(input);
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Second>(const AnyString& input)
 	{
-		pDate.second = input;
+		pDate.second(input);
 	}
 
 	template<>
@@ -62,37 +62,37 @@ namespace PictStock
 	template<>
 	inline void PathInformations::setElement<Private::Year>(const PathInformations& input)
 	{
-		pDate.year = input.pDate.year;
+		pDate.year(input.pDate.year());
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Month>(const PathInformations& input)
 	{
-		pDate.month = input.pDate.month;
+		pDate.month(input.pDate.month());
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Day>(const PathInformations& input)
 	{
-		pDate.day = input.pDate.day;
+		pDate.day(input.pDate.day());
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Hour>(const PathInformations& input)
 	{
-		pDate.hour = input.pDate.hour;
+		pDate.hour(input.pDate.hour());
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Minute>(const PathInformations& input)
 	{
-		pDate.minute = input.pDate.minute;
+		pDate.minute(input.pDate.minute());
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Second>(const PathInformations& input)
 	{
-		pDate.second = input.pDate.second;
+		pDate.second(input.pDate.second());
 	}
 
 	template<>
@@ -104,37 +104,37 @@ namespace PictStock
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Year>() const
 	{
-		return pDate.year;
+		return pDate.year();
 	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Month>() const
 	{
-		return pDate.month;
+		return pDate.month();
 	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Day>() const
 	{
-		return pDate.day;
+		return pDate.day();
 	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Hour>() const
 	{
-		return pDate.hour;
+		return pDate.hour();
 	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Minute>() const
 	{
-		return pDate.minute;
+		return pDate.minute();
 	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Second>() const
 	{
-		return pDate.second;
+		return pDate.second();
 	}
 
 	template<>

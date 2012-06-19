@@ -1909,6 +1909,10 @@ namespace Yuni
 		** \brief Adapt from any known string
 		*/
 		template<class StringT> void adapt(const StringT& string);
+		/*!
+		** \brief Adapt from any known string
+		*/
+		template<class StringT> void adapt(const StringT& string, Size length, Size offset);
 		//@}
 
 

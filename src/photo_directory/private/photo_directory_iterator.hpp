@@ -23,7 +23,8 @@ namespace Private
 	 * and for each day the associated path(s)
 	 *
 	 */
-	class YUNI_DECL PhotoDirectoryIterator : public Yuni::IO::Directory::IIterator<false>
+	class YUNI_DECL PhotoDirectoryIterator : public Yuni::IO::Directory::IIterator<false>,
+											 private Yuni::NonCopyable<PhotoDirectoryIterator>
 	{
 
 	public:
@@ -54,7 +55,7 @@ namespace Private
 	public:
 
 		//! Logging facility
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 	private:
 		//! Overload IIterator methods

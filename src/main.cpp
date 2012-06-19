@@ -22,7 +22,7 @@ namespace
 	public:
 
 		// Type of keys in the parameters file
-		typedef CString<12, false> KeyString;
+		typedef CString<30, false> KeyString; // 30 for a safety margin: current lenghtiest key is 13-characters long
 
 		/*!
 		 ** Constructor
@@ -39,7 +39,7 @@ namespace
 	public:
 
 		//! Logs
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 
 	private:
@@ -63,23 +63,43 @@ namespace
 
 	};
 
-
+	
+	#ifndef MSVC // C++11 feature not yet implemented in MSVC
 	ReadParameterFile::ReadParameterFile(LoggingFacility& logs, const YString& file)
 		: logs(logs),
-		  pFile(file),
-		  pParameters({
+		  pFile(file)
+	{
+		pParameters["inputFolder"] = "";
+		pParameters["outputFolder"] = "";
+		pParameters["logFile"] = "";
+		pParameters["pathFormat"] = "";
+	#else
+	ReadParameterFile::ReadParameterFile(LoggingFacility& logs, const YString& file)
+		: logs(logs),
+		  pFile(file)
+		  , pParameters({
 			{"inputFolder",""},
 			{"outputFolder",""},
 			{"logFile",""},
 			{"pathFormat", ""}
 			})
 	{
+	#endif // MSVC
+
 
 		// Assign values from the parameter file
-		String key, value;
+		String key, value, line;
 		auto end = pParameters.end();
 
-		if (!IO::File::ReadLineByLine(pFile, [&] (const String& line)
+		IO::File::Stream inputStream;
+
+		if (!inputStream.open(pFile))
+		{
+			logs.fatal() << "Unable to read file " << pFile;
+			throw std::exception();
+		}
+
+		while (inputStream.readline(line))
 		{
 			line.extractKeyValue(key, value, false);
 
@@ -97,11 +117,8 @@ namespace
 				value.trim();
 				it->second = value;
 			}
-		}))
-		{
-			logs.fatal() << "Unable to read file " << pFile;
-			throw std::exception();
 		}
+
 
 		if (!checkParameters())
 			throw std::exception();
@@ -174,16 +191,17 @@ int main(int argc, char* argv[])
 	try
 	{
 		const ReadParameterFile parameters(logs, parameterFile);
-
+		//PictStock::ExtendedPhoto(logs, "C:\\Users\\Sebastien\\Projets_logiciels\\Input\\2010-11-04\\023.JPG");
 		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"], parameters["pathFormat"]);
 		PictStock::SortNewPhotos sortNewPhotos(logs, parameters["inputFolder"], photoDirectory,
 			parameters["logFile"], doAskModifyDate);
 
 		if (!sortNewPhotos.proceed())
-			return EXIT_FAILURE;
+			return EXIT_FAILURE; 
 	}
 	catch(const std::exception& e)
 	{
+		std::cout << "EXCEPTION: " << e.what() << '\n';
 		exit(EXIT_FAILURE);
 	}
 

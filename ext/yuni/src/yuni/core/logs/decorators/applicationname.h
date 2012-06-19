@@ -34,7 +34,7 @@ namespace Logs
 
 
 		template<class Handler, class VerbosityType, class O, class StringT>
-		void internalDecoratorAddPrefix(O& out, const StringT& s) const
+		inline void internalDecoratorAddPrefix(O& out, const StringT& s) const
 		{
 			// Write the verbosity to the output
 			out.put('[');
@@ -43,6 +43,7 @@ namespace Logs
 			// Transmit the message to the next handler
 			LeftType::template internalDecoratorAddPrefix<Handler, VerbosityType,O,StringT>(out, s);
 		}
+
 
 	private:
 		//! The Application name

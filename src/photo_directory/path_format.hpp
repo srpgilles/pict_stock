@@ -21,7 +21,7 @@ namespace PictStock
 
 
 
-	class YUNI_DECL PathFormat
+	class YUNI_DECL PathFormat : private Yuni::NonCopyable<PathFormat>
 	{
 	public:
 
@@ -109,7 +109,7 @@ namespace PictStock
 		**
 		** \param[in] input An #ExtendedPhoto object
 		 */
-		PathInformations onlyUsefulFolderElements(const ExtendedPhoto& input) const;
+		void onlyUsefulFolderElements(PathInformations& out, const ExtendedPhoto& input) const;
 
 		/*!
 		** \brief Create a new RelevantInformations object featuring only informations useful
@@ -121,12 +121,12 @@ namespace PictStock
 		**
 		** \param[in] input The original #PathInformations object
 		 */
-		PathInformations onlyUsefulFolderElements(const PathInformations& input) const;
+		void onlyUsefulFolderElements(PathInformations& out, const PathInformations& input) const;
 
 
 	public:
 
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 	private:
 

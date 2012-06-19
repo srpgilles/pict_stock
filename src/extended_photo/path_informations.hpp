@@ -51,7 +51,15 @@ namespace PictStock
 		 */
 		explicit PathInformations(LoggingFacility& logs);
 
+		//! Recopy constructor
+		PathInformations(const PathInformations& );
+
 		//@}
+
+		//! Assignation
+		PathInformations& operator = (const PathInformations& );
+
+
 
 		//! Set the photographer
 		void setPhotographer(const Photographer::Ptr& photographer);
@@ -121,7 +129,7 @@ namespace PictStock
 
 	public:
 
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 	private:
 

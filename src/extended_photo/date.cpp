@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "../pict_stock.hpp"
 #include "date.hpp"
 #include "private/date_helpers.hpp"
@@ -11,13 +12,15 @@ namespace regexNS = std;
 #endif // USE_BOOST_REGULAR_EXPR
 
 
+
+
 namespace PictStock
 {
 
 	namespace
 	{
-		static const YString expression =
-			YString("\\A")
+		static const YString expression = 
+			YString('^')
 			<< '(' << Private::Year::Regex() << "|    )"
 			<< ':' // separator
 			<< '(' << Private::Month::Regex() << "|  )"
@@ -29,7 +32,7 @@ namespace PictStock
 			<< '(' << Private::Minute::Regex() << "|  )"
 			<< ':' // separator
 			<< '(' << Private::Second::Regex() << "|)"
-			<< "\\z";
+			<< '$';
 
 		/*!
 		** \brief Regular expression for date formatting
@@ -38,6 +41,41 @@ namespace PictStock
 		*/
 		static const regexNS::regex RegexDateFormatting(expression.c_str());
 	} // anonymous namespace
+
+
+	Date::Date()
+	{ }
+
+
+	Date::Date(const Date& rhs)
+		: year(rhs.year),
+		  month(rhs.month),
+		  day(rhs.day),
+		  hour(rhs.hour),
+		  minute(rhs.minute),
+		  second(rhs.second)
+	{ }
+
+
+	void swap(Date& lhs, Date& rhs)
+	{
+		using std::swap;
+		swap(lhs.year, rhs.year);
+		swap(lhs.month, rhs.month);
+		swap(lhs.day, rhs.day);
+		swap(lhs.hour, rhs.hour);
+		swap(lhs.minute, rhs.minute);
+		swap(lhs.second, rhs.second);
+	}
+
+
+	Date& Date::operator = (Date rhs)
+	{
+		// Nifty way to define operator= in term of recopy constructor
+		// (see Herb Sutter's Exceptional C++, Item 12)
+		swap(rhs, *this);
+		return *this;
+	}
 
 
 
@@ -92,20 +130,22 @@ namespace PictStock
 
 	bool operator < (const Date& lhs, const Date& rhs)
 	{
-		if (lhs.year < rhs.year)
-			return true;
+		// Time stamp much more easier when implemented (but I have to see
+		// how to do it properly with MSVC)
+		if (lhs.year != rhs.year)
+			return (lhs.year < rhs.year);
 
-		if (lhs.month < rhs.month)
-			return true;
+		if (lhs.month != rhs.month)
+			return (lhs.month < rhs.month);
 
-		if (lhs.day < rhs.day)
-			return true;
+		if (lhs.day != rhs.day)
+			return (lhs.day < rhs.day);
 
-		if (lhs.hour < rhs.hour)
-			return true;
+		if (lhs.hour != rhs.hour)
+			return (lhs.hour < rhs.hour);
 
-		if (lhs.minute < rhs.minute)
-			return true;
+		if (lhs.minute != rhs.minute)
+			return (lhs.minute < rhs.minute);
 
 		return (lhs.second < rhs.second);
 	}
@@ -148,6 +188,8 @@ namespace PictStock
 		if (!second.empty())
 			out << "Second = " << second << '\n';
 	}
+
+
 
 
 } // namespace PictStock

@@ -75,7 +75,7 @@ namespace GetOptImpl
 		/*!
 		** \brief An option has not been found
 		*/
-		void optionIsUnkown(const char* name);
+		void optionIsUnknown(const char* name);
 
 		/*!
 		** \brief A additional parameter is missing for an option
@@ -157,7 +157,7 @@ namespace GetOptImpl
 	}
 
 
-	void Context::optionIsUnkown(const char* name)
+	void Context::optionIsUnknown(const char* name)
 	{
 		++pParser.pErrors;
 		STD_CERR << "Error: The option `" << name << "` is unknown" << std::endl;
@@ -196,13 +196,13 @@ namespace GetOptImpl
 									pParser.helpUsage(argv[0]);
 									return false;
 								}
-								optionIsUnkown(arg);
+								optionIsUnknown(arg);
 							}
 						}
 						break;
 					}
 
-					// The current argument seems to be a long name of an option
+				// The current argument seems to be a long name of an option
 				case ttLongOption:
 					{
 						++arg;
@@ -228,12 +228,12 @@ namespace GetOptImpl
 									i->second->addValue(arg, static_cast<String::size_type>(::strlen(arg)));
 								else
 								{
-									if (!::strcmp(arg, "help"))
+									if (!::strcmp(buffer, "help"))
 									{
 										pParser.helpUsage(argv[0]);
 										return false;
 									}
-									optionIsUnkown(arg);
+									optionIsUnknown(buffer);
 								}
 							}
 							else
@@ -257,7 +257,7 @@ namespace GetOptImpl
 									pParser.helpUsage(argv[0]);
 									return false;
 								}
-								optionIsUnkown(arg);
+								optionIsUnknown(arg);
 							}
 						}
 						break;

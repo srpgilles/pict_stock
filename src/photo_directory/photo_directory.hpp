@@ -17,7 +17,7 @@ namespace PictStock
 	 * the output photo directory
 	 *
 	 */
-	class YUNI_DECL PhotoDirectory
+	class YUNI_DECL PhotoDirectory : private Yuni::NonCopyable<PhotoDirectory>
 	{
 	public:
 		//! Constructor & destructor
@@ -75,7 +75,7 @@ namespace PictStock
 	public:
 
 		//! Logging facility
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 
 	private:

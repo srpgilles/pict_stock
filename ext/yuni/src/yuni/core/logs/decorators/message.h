@@ -22,14 +22,14 @@ namespace Logs
 			out.put(' ');
 
 			// Color
-			if (VerbosityType::messageColor != System::Console::none && Handler::unixColorsAllowed)
+			if (VerbosityType::messageColor != System::Console::none && Handler::colorsAllowed)
 				System::Console::TextColor<VerbosityType::messageColor>::Set(out);
 
 			// The message
 			out.write(s.c_str(), (unsigned int)s.sizeInBytes());
 
 			// Resetting the color
-			if (VerbosityType::messageColor != System::Console::none && Handler::unixColorsAllowed)
+			if (VerbosityType::messageColor != System::Console::none && Handler::colorsAllowed)
 				System::Console::ResetTextColor(out);
 
 			// Transmit the message to the next handler

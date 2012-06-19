@@ -31,7 +31,6 @@ namespace Yuni
 namespace Logs
 {
 
-
 	/*!
 	** \brief A customizable log facility
 	**
@@ -137,64 +136,64 @@ namespace Logs
 
 		//! \name Checkpoint
 		//@{
-		CheckpointBuffer checkpoint();
-		template<typename U> CheckpointBuffer checkpoint(const U& u);
+		CheckpointBuffer checkpoint() const;
+		template<typename U> CheckpointBuffer checkpoint(const U& u) const;
 		//@}
 
 		//! \name Notice
 		//@{
-		NoticeBuffer notice();
-		template<typename U> NoticeBuffer notice(const U& u);
+		NoticeBuffer notice() const;
+		template<typename U> NoticeBuffer notice(const U& u) const;
 		//@}
 
 		//! \name Info
 		//@{
-		InfoBuffer info();
-		template<typename U> InfoBuffer info(const U& u);
+		InfoBuffer info() const;
+		template<typename U> InfoBuffer info(const U& u) const;
 		//@}
 
 		//! \name Warning
 		//@{
-		WarningBuffer warning();
-		template<typename U> WarningBuffer warning(const U& u);
+		WarningBuffer warning() const;
+		template<typename U> WarningBuffer warning(const U& u) const;
 		//@}
 
 		//! \name Error
 		//@{
-		ErrorBuffer error();
-		template<typename U> ErrorBuffer error(const U& u);
+		ErrorBuffer error() const;
+		template<typename U> ErrorBuffer error(const U& u) const;
 		//@}
 
 		//! \name Progress
 		//@{
-		ProgressBuffer progress();
-		template<typename U> ProgressBuffer progress(const U& u);
+		ProgressBuffer progress() const;
+		template<typename U> ProgressBuffer progress(const U& u) const;
 		//@}
 
 		//! \name Fatal
 		//@{
-		FatalBuffer fatal();
-		template<typename U> FatalBuffer fatal(const U& u);
+		FatalBuffer fatal() const;
+		template<typename U> FatalBuffer fatal(const U& u) const;
 		//@}
 
 		//! \name Compatibility notice
 		//@{
-		CompatibilityBuffer compatibility();
-		template<typename U> CompatibilityBuffer compatibility(const U& u);
+		CompatibilityBuffer compatibility() const;
+		template<typename U> CompatibilityBuffer compatibility(const U& u) const;
 		//@}
 
 		//! \name Debug (disabled if NDEBUG defined)
 		//@{
-		DebugBuffer debug();
-		template<typename U> DebugBuffer debug(const U& u);
+		DebugBuffer debug() const;
+		template<typename U> DebugBuffer debug(const U& u) const;
 		//@}
 
 
 		//! Start a custom verbosity level message
-		template<class C> Private::LogImpl::Buffer<LoggerType,C,C::enabled> custom();
+		template<class C> Private::LogImpl::Buffer<LoggerType,C,C::enabled> custom() const;
 
 		//! Start a message with no verbosity level (always displayed)
-		template<typename U> UnknownBuffer operator << (const U& u);
+		template<typename U> UnknownBuffer operator << (const U& u) const;
 		//@}
 
 
@@ -211,7 +210,7 @@ namespace Logs
 		** logs.notice() << "Hello world";
 		**
 		** // Changing the verbosity level
-		** logs.verbosityLevel = Logs::Verbosity::Error::level; 
+		** logs.verbosityLevel = Logs::Verbosity::Error::level;
 		** // Only the 'error' message will be displayed
 		** logs.error() << "An error";
 		** logs.notice() << "Hello world";
@@ -224,7 +223,7 @@ namespace Logs
 		** \brief Transmit a message to all handlers
 		*/
 		template<class VerbosityType, class StringT>
-		void dispatchMessageToHandlers(const StringT& s);
+		void dispatchMessageToHandlers(const StringT& s) const;
 
 		// A friend !
 		template<class, class, int> friend class Private::LogImpl::Buffer;

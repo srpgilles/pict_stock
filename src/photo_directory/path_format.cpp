@@ -28,19 +28,25 @@ namespace PictStock
 			String folderName, fileName;
 
 			// Split the path and the filename
-			IO::ExtractFilePath(folderName, format);
+			IO::ExtractFilePath(folderName, format, false);
 
 			if (folderName.empty())
 				fileName = format;
 			else
 			{
-				IO::ExtractFileName(fileName, format);
+				IO::ExtractFileName(fileName, format, false);
 				if (IO::Separator != '/')
-					folderName.replace('/', IO::Separator);
-
+				{
+					if (IO::Separator == '\\')
+						folderName.replace("/", "\\\\");
+					else
+						folderName.replace('/', IO::Separator);
+				}
+				logs.notice("Folder = ") << folderName;
 				pFolderPart = new Private::PathFormatHelper(logs, folderName);
 			}
 
+			logs.notice("File = ") << fileName;
 			pFilePart = new Private::PathFormatHelper(logs, fileName);
 		}
 	}
@@ -99,17 +105,17 @@ namespace PictStock
 	}
 
 
-	PathInformations PathFormat::onlyUsefulFolderElements(const PathInformations& input) const
+	void PathFormat::onlyUsefulFolderElements(PathInformations& out, const PathInformations& input) const
 	{
 		assert(!(!pFolderPart));
-		return pFolderPart->onlyUsefulElements(input);
+		pFolderPart->onlyUsefulElements(out, input);
 	}
 
 
-	PathInformations PathFormat::onlyUsefulFolderElements(const ExtendedPhoto& input) const
+	void PathFormat::onlyUsefulFolderElements(PathInformations& out, const ExtendedPhoto& input) const
 	{
 		assert(!(!pFolderPart));
-		return pFolderPart->onlyUsefulElements(input);
+		pFolderPart->onlyUsefulElements(out, input);
 	}
 
 

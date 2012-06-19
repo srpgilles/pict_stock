@@ -20,13 +20,13 @@ namespace Logs
 			// Write the verbosity to the output
 			if (VerbosityType::hasName)
 			{
-				// Unix Color
-				if (Handler::unixColorsAllowed && VerbosityType::color != System::Console::none)
+				// Set Color
+				if (Handler::colorsAllowed && VerbosityType::color != System::Console::none)
 					System::Console::TextColor<VerbosityType::color>::Set(out);
 				// The verbosity
 				VerbosityType::AppendName(out);
-				// Unix Color
-				if (Handler::unixColorsAllowed && VerbosityType::color != System::Console::none)
+				// Reset Color
+				if (Handler::colorsAllowed && VerbosityType::color != System::Console::none)
 					System::Console::ResetTextColor(out);
 			}
 			// Transmit the message to the next decorator

@@ -29,11 +29,11 @@ namespace Private
 		}
 
 		static const YString expression =
-			YString("\\A")
+			YString('^')
 			<< '(' << Year::Regex() << ')'
 			<< '(' << Month::Regex() << ')'
 			<< '(' << Day::Regex() << ')'
-			<< "\\z";
+			<< '$';
 
 		/*!
 		** \brief Regular expression for date formatting
@@ -183,7 +183,8 @@ namespace Private
 			photo.modifyDate(pCurrentFolderManualDate);
 		}
 
-		auto usefulInfos = pPathFormat.onlyUsefulFolderElements(photo);
+		PathInformations usefulInfos(logs);
+		pPathFormat.onlyUsefulFolderElements(usefulInfos, photo);
 		pPicturesToProcess[usefulInfos].push_back(photoPtr);
 
 		return IO::flowContinue;

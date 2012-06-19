@@ -1,37 +1,38 @@
 #include "extended_photo/extended_photo.hpp"
-#include <boost/regex.hpp>
-
-
-#ifdef USE_BOOST_REGULAR_EXPR
-namespace TestRegex
-{
-	void testRegex(LoggingFacility& logs)
-	{
-
-		std::list<YString> tests = {"2012:01:01 17:21:03",
-				"2012: 01: 01 17 :21: 03",
-				"2012:1:1 17:21:3",
-				"2012: 1: 1 17:21: 3",
-				"2010:13:01 01:01:01",
-				"2010:12:32 01:01:01",
-				"2010:12:42 01:01:01",
-				"2010:12:12 25:01:01",
-				"2010:12:12 23:01:01",
-				"2010:12:12 23:61:01",
-				"2010:12:12 23:51:71",
 
 
 
-		};
-
-		for (auto it = tests.cbegin(), end = tests.cend(); it != end; ++it)
-		{
-			::PictStock::Date mydate;
-			logs.notice() << *it << "|" << dateFromExif(logs, mydate, *it);
-		}
-	}
-};
-#endif // USE_BOOST_REGULAR_EXPR
+//#ifdef USE_BOOST_REGULAR_EXPR
+//#include <boost/regex.hpp>
+//namespace TestRegex
+//{
+//	void testRegex(LoggingFacility& logs)
+//	{
+//
+//		std::list<YString> tests = {"2012:01:01 17:21:03",
+//				"2012: 01: 01 17 :21: 03",
+//				"2012:1:1 17:21:3",
+//				"2012: 1: 1 17:21: 3",
+//				"2010:13:01 01:01:01",
+//				"2010:12:32 01:01:01",
+//				"2010:12:42 01:01:01",
+//				"2010:12:12 25:01:01",
+//				"2010:12:12 23:01:01",
+//				"2010:12:12 23:61:01",
+//				"2010:12:12 23:51:71",
+//
+//
+//
+//		};
+//
+//		for (auto it = tests.cbegin(), end = tests.cend(); it != end; ++it)
+//		{
+//			::PictStock::Date mydate;
+//			logs.notice() << *it << "|" << dateFromExif(logs, mydate, *it);
+//		}
+//	}
+//};
+//#endif // USE_BOOST_REGULAR_EXPR
 
 
 //namespace TestExtendedPhoto

@@ -5,9 +5,9 @@
 # include <iostream>
 
 # if defined(YUNI_OS_WINDOWS)
-#	define YUNI_LOGS_UNIX_COLORS_ALLOWED  0
+#	define YUNI_LOGS_COLORS_ALLOWED  1
 # else
-#	define YUNI_LOGS_UNIX_COLORS_ALLOWED  1
+#	define YUNI_LOGS_COLORS_ALLOWED  1
 # endif
 
 
@@ -25,12 +25,12 @@ namespace Logs
 	public:
 		enum Settings
 		{
-			unixColorsAllowed = YUNI_LOGS_UNIX_COLORS_ALLOWED,
+			colorsAllowed = YUNI_LOGS_COLORS_ALLOWED,
 		};
 
 	public:
 		template<class LoggerT, class VerbosityType, class StringT>
-		void internalDecoratorWriteWL(LoggerT& logger, const StringT& s)
+		void internalDecoratorWriteWL(LoggerT& logger, const StringT& s) const
 		{
 			typedef typename LoggerT::DecoratorsType DecoratorsType;
 

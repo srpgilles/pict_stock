@@ -47,7 +47,7 @@ namespace Console
 	template<int C>
 	struct TextColor
 	{
-		template<class U> static void Set(std::ostream& out);
+		template<class U> static void Set(U& out);
 	};
 
 	/*!
@@ -56,14 +56,14 @@ namespace Console
 	** \param[in,out] out An ostream (std::cout or std::cerr)
 	** \param color The new color
 	*/
-	template<class U> void SetTextColor(std::ostream& out, const Color color);
+	template<class U> void SetTextColor(U& out, const Color color);
 
 	/*!
 	** \brief Reset the text color to its default value
 	**
 	** \param[in,out] out An ostream (std::cout or std::cerr)
 	*/
-	template<class U> void ResetTextColor(std::ostream& out);
+	template<class U> void ResetTextColor(U& out);
 
 
 

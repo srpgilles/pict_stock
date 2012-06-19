@@ -50,7 +50,7 @@ namespace Private
 	/*!
 	** \brief Class in charge of handling the model of output format provided in input parameters
 	*/
-	class YUNI_DECL PathFormatHelper
+	class YUNI_DECL PathFormatHelper : private Yuni::NonCopyable<PathFormatHelper>
 	{
 	public:
 
@@ -135,7 +135,7 @@ namespace Private
 		**
 		** \param[in] input The original #PathInformations object
 		 */
-		PathInformations onlyUsefulElements(const PathInformations& input) const;
+		void onlyUsefulElements(PathInformations& out, const PathInformations& input) const;
 
 
 		/*!
@@ -148,13 +148,13 @@ namespace Private
 		**
 		** \param[in] input #ExtendedPhoto object
 		 */
-		PathInformations onlyUsefulElements(const ExtendedPhoto& input) const;
+		void onlyUsefulElements(PathInformations& out, const ExtendedPhoto& input) const;
 
 
 	public:
 
 		//! Logs
-		mutable LoggingFacility& logs;
+		LoggingFacility& logs;
 
 		typedef std::map<unsigned int, unsigned int> MatchingType;
 

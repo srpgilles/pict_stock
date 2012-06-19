@@ -57,7 +57,7 @@ namespace Logs
 
 	template<class NextHandler>
 	template<class LoggerT, class VerbosityType, class StringT>
-	void File<NextHandler>::internalDecoratorWriteWL(LoggerT& logger, const StringT& s)
+	void File<NextHandler>::internalDecoratorWriteWL(LoggerT& logger, const StringT& s) const
 	{
 		if (pFile.opened())
 		{

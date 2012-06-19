@@ -16,7 +16,17 @@ namespace PictStock
 	*/
 	struct YUNI_DECL Date
 	{
-		typedef Yuni::CString<4, false> DateString;
+		//! Default constructor
+		explicit Date();
+
+		//! Recopy constructor
+		Date(const Date&);
+
+		//! Assignation
+		Date& operator = (Date);
+
+
+		typedef Yuni::CString<5, true> DateString; // 5 = 4 (maximal length for year) + terminal character length
 
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<Date> Ptr;
@@ -34,11 +44,14 @@ namespace PictStock
 		//! Print, for debug purposes
 		void print(std::ostream& out) const;
 
+
+
 	};
 
 	bool operator == (const Date& lhs, const Date& rhs);
 	bool operator != (const Date& lhs, const Date& rhs);
 	bool operator < (const Date& lhs, const Date& rhs);
+	void swap(Date& lhs, Date& rhs);
 
 	//! Interpret the string dateRead and extract from it the date.
 	bool dateFromExif(LoggingFacility& logs, Date& out, const YString& dateRead);

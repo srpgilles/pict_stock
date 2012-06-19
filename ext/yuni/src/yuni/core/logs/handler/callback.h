@@ -25,7 +25,7 @@ namespace Logs
 
 	public:
 		template<class LoggerT, class VerbosityType, class StringT>
-		void internalDecoratorWriteWL(LoggerT& logger, const StringT& s)
+		void internalDecoratorWriteWL(LoggerT& logger, const StringT& s) const
 		{
 			if ((int)VerbosityType::level != (int)Verbosity::Debug::level)
 			{
@@ -43,8 +43,8 @@ namespace Logs
 
 
 	public:
-		Yuni::Event<void (int, const String&)> callback;
-		String pDispatchedMessage;
+		mutable Yuni::Event<void (int, const String&)> callback;
+		mutable String pDispatchedMessage;
 
 	}; // class Callback
 

@@ -44,6 +44,7 @@ namespace PictStock
 
 
 	Date::Date()
+		: pTimeStamp(0u)
 	{ }
 
 
@@ -53,7 +54,9 @@ namespace PictStock
 		  pDay(rhs.pDay),
 		  pHour(rhs.pHour),
 		  pMinute(rhs.pMinute),
-		  pSecond(rhs.pSecond)
+		  pSecond(rhs.pSecond),
+		  pTimeStamp(rhs.pTimeStamp),
+		  pIsElementPresent(rhs.pIsElementPresent)
 	{ }
 
 
@@ -66,6 +69,8 @@ namespace PictStock
 		swap(lhs.pHour, rhs.pHour);
 		swap(lhs.pMinute, rhs.pMinute);
 		swap(lhs.pSecond, rhs.pSecond);
+		swap(lhs.pTimeStamp, rhs.pTimeStamp);
+		swap(lhs.pIsElementPresent, rhs.pIsElementPresent);
 	}
 
 

@@ -3,10 +3,25 @@
 
 # include <yuni/core/string.h>
 # include <ostream>
+# include <bitset>
 # include "../pict_stock.hpp"
 
 namespace PictStock
 {
+
+	namespace Element // use enum class when MSVC will support it!
+	{
+		enum
+		{
+			year = 0,
+			month,
+			day,
+			hour,
+			minute,
+			second,
+			size
+		};
+	}
 
 
 	/*!
@@ -72,6 +87,29 @@ namespace PictStock
 		DateString pHour;
 		DateString pMinute;
 		DateString pSecond;
+
+
+		/*!
+		** \brief Tells which elements were truly given in input
+		**
+		** A time stamp is generated for all dates, even if they were actually
+		** incomplete to begin with (for instance year, month and day present
+		** but hour unknown)
+		**
+		** Following bitset tells for each #Element whether they were actually
+		** there or if a default value was used instead (default values are the
+		** first possible entry: 0 for hour, 1 for day, etc...)
+		*/
+		std::bitset<Element::size> pIsElementPresent;
+
+
+		/*!
+		** \brief Unix time stamp reflecting the date
+		**
+		** As mentioned in #pIsElementPresent, it might be an accurate time or
+		** a rounding if the original date was not precise enough
+		 */
+		time_t pTimeStamp;
 
 		// friendship!
 		friend bool operator == (const Date& lhs, const Date& rhs);

@@ -163,6 +163,18 @@ int main(int argc, char* argv[])
 
 	logs.notice("Check ") << foo << " == " << mktime(timeinfo);
 
+	struct tm myTimeInfo;
+
+	myTimeInfo.tm_year = 112;
+	myTimeInfo.tm_mon = 3;
+	myTimeInfo.tm_mday = 30;
+	myTimeInfo.tm_hour = 22;
+	myTimeInfo.tm_min = 32;
+	myTimeInfo.tm_sec = 31;
+
+	Yuni::DateTime::TimestampToString(date, format, mktime(&myTimeInfo), true);
+	logs.notice("Date ") << mktime(&myTimeInfo) << "\t" << date;
+
 
 
 

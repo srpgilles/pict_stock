@@ -150,7 +150,7 @@ namespace Private
 			if (it != matching.end())
 			{
 				typedef typename std::tuple_element<I, TupleType>::type type;
-				out.setElement<type>(match[it->second].str());
+				out.setElement<type>(match[static_cast<int>(it->second)].str());
 			}
 
 			isOkHelper<I + 1>(out, match, matching);

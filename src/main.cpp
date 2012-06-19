@@ -22,7 +22,7 @@ namespace
 	public:
 
 		// Type of keys in the parameters file
-		typedef CString<12, true> KeyString;
+		typedef CString<30, false> KeyString; // 30 for a safety margin: current lenghtiest key is 13-characters long
 
 		/*!
 		 ** Constructor

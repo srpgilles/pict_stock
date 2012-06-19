@@ -26,7 +26,7 @@ namespace PictStock
 		Date& operator = (Date);
 
 
-		typedef Yuni::CString<4, false> DateString;
+		typedef Yuni::CString<5, true> DateString; // 5 = 4 (maximal length for year) + terminal character length
 
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<Date> Ptr;

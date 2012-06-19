@@ -1,6 +1,6 @@
 #include "extended_photo/extended_photo.hpp"
-
-
+#include <yuni/datetime/timestamp.h>
+#include <ctime>
 
 //#ifdef USE_BOOST_REGULAR_EXPR
 //#include <boost/regex.hpp>
@@ -144,7 +144,26 @@ int main(int argc, char* argv[])
 
 	//TestPathFormat::test(logs);
 
-	PictStock::ExtendedPhoto photo(logs, "/tmp/devPhotos/2010/M10/J26/Photo_1016_T.jpg");
+	//PictStock::ExtendedPhoto photo(logs, "/tmp/devPhotos/2010/M10/J26/Photo_1016_T.jpg");
+	YString date;
+	AnyString format("%Y-%m-%d %H:%M:%S");
+
+	time_t foo(1299997609);
+
+	if (Yuni::DateTime::TimestampToString(date, format, foo, false))
+		logs.notice(date);
+
+	struct tm * timeinfo;
+	char buffer [80];
+	timeinfo = localtime (&foo);
+
+	strftime (buffer, 80, format.c_str(), timeinfo);
+
+	logs.notice(buffer);
+
+	logs.notice("Check ") << foo << " == " << mktime(timeinfo);
+
+
 
 
 	return 0;

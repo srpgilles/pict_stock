@@ -242,7 +242,7 @@ FOREACH( entry ${EXV_SYMBOLS} )
 ENDFOREACH( entry ${EXV_SYMBOLS} )
 
 CONFIGURE_FILE( config/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/src/exv_conf.h )
-CONFIGURE_FILE( config/exv_msvc.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/src/exv_msvc.h COPYONLY )
+#CONFIGURE_FILE( config/exv_msvc.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/src/exv_msvc.h COPYONLY )
 INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/exv_conf.h DESTINATION include/exiv2 )
 #INSTALL( FILES ${CMAKE_CURRENT_BINARY_DIR}/exv_msvc.h DESTINATION include/exiv2 )
 

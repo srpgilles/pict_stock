@@ -3,17 +3,6 @@
 #include "date.hpp"
 #include "private/date_helpers.hpp"
 
-#ifdef USE_BOOST_REGULAR_EXPR
-# include <boost/regex.hpp>
-namespace regexNS = boost;
-# else // USE_BOOST_REGULAR_EXPR
-# include <regex>
-namespace regexNS = std;
-#endif // USE_BOOST_REGULAR_EXPR
-
-
-
-
 namespace PictStock
 {
 
@@ -40,22 +29,114 @@ namespace PictStock
 		** Basically format is YYYY:MM:DD HH:mm:SS
 		*/
 		static const regexNS::regex RegexDateFormatting(expression.c_str());
+
+
+		/*!
+		** \brief Default value for tm object
+		**
+		** Original default value get all values at INT_MAX; I'd rather put them
+		** at 0 (so for instance time is unknown it is put at 00:00:00 instead
+		** of INT_MAX which would also change entirely the date - I'm not very
+		** fond of default choices in C tm object...
+		**
+		** So here we put the date that matches time stamp 0
+		 */
+		static tm DefaultTimeInformations()
+		{
+			tm ret;
+
+			ret.tm_year = 70;
+			ret.tm_mon = 0;
+			ret.tm_mday = 1;
+			ret.tm_hour = 0;
+			ret.tm_min = 0;
+			ret.tm_sec = - static_cast<int>(timezone);
+			ret.tm_isdst = 0;
+
+			assert(mktime(&ret) == 0);
+
+			return ret;
+		}
+
+		/*!
+		** \brief Helper to perform recursively all required conversions
+		**
+		** IMPORTANT: it is assumed pIsElementPresent has been filled along
+		** with input array
+		**
+		** \param[in] in Array that contains original values that must be converted
+		** to fit inside tm object. For instance, in[Element::year] = 2012 yields
+		** to 112 in pData structure
+		**
+		** \tparam An element of DateTuple
+		*/
+		template<std::size_t I>
+		typename std::enable_if<I == std::tuple_size<DateTuple>::value, void>::type
+			conversionHelper(
+				tm& /*out*/,
+				const std::array<int, std::tuple_size<DateTuple>::value>& /*in*/,
+				const std::bitset<std::tuple_size<DateTuple>::value>& /*isElementPresent*/
+				)
+		{ }
+
+		template<std::size_t I>
+		typename std::enable_if<I < std::tuple_size<DateTuple>::value, void>::type
+			conversionHelper(
+				tm& out,
+				const std::array<int, std::tuple_size<DateTuple>::value>& in,
+				const std::bitset<std::tuple_size<DateTuple>::value>& isElementPresent
+				)
+		{
+			if (isElementPresent[I])
+				toCTimeInformations<DateTuple[I]>(out, in[I]);
+
+			conversionHelper<I+1>(out, in, isElementPresent);
+		}
+
+
+
+
+
 	} // anonymous namespace
 
 
 	Date::Date()
-		: pTimeStamp(0u)
-	{ }
+		: pData(DefaultTimeInformations())
+	{
+		assert("By default bitset should be init at 0 everywhere"
+			&& pIsElementPresent.none());
+		//pIsElementPresent.reset();
+	}
+
+
+	Date::Date(const regexNS::cmatch& regexMatch)
+		: Date()
+	{
+		enum { size = std::tuple_size<DateTuple>::value };
+
+		assert("First one is complete expression, others the sub-expressions"
+			&& regexMatch.size() == size);
+
+		std::array<int, size> elements;
+
+		for (int i = 0; i < size; ++i)
+		{
+			DateString buf = regexMatch[i + 1].str();
+			buf.trim();
+			if (buf.notEmpty())
+			{
+				pIsElementPresent.set(static_cast<size_t>(i));
+				elements[static_cast<size_t>(i)] = buf.to<int>();
+			}
+		}
+
+		// Recursively put the data into pData structure
+		conversionHelper<0>(pData, elements, pIsElementPresent);
+	}
 
 
 	Date::Date(const Date& rhs)
-		: pYear(rhs.pYear),
-		  pMonth(rhs.pMonth),
-		  pDay(rhs.pDay),
-		  pHour(rhs.pHour),
-		  pMinute(rhs.pMinute),
-		  pSecond(rhs.pSecond),
-		  pTimeStamp(rhs.pTimeStamp),
+		: pData(rhs.pData),
 		  pIsElementPresent(rhs.pIsElementPresent)
 	{ }
 
@@ -63,13 +144,7 @@ namespace PictStock
 	void swap(Date& lhs, Date& rhs)
 	{
 		using std::swap;
-		swap(lhs.pYear, rhs.pYear);
-		swap(lhs.pMonth, rhs.pMonth);
-		swap(lhs.pDay, rhs.pDay);
-		swap(lhs.pHour, rhs.pHour);
-		swap(lhs.pMinute, rhs.pMinute);
-		swap(lhs.pSecond, rhs.pSecond);
-		swap(lhs.pTimeStamp, rhs.pTimeStamp);
+		swap(lhs.pData, rhs.pData);
 		swap(lhs.pIsElementPresent, rhs.pIsElementPresent);
 	}
 
@@ -91,12 +166,9 @@ namespace PictStock
 		if (regex_search(dateRead.c_str(), match, RegexDateFormatting))
 		{
 			assert(match.size() == 7u && "First one is complete expression, others the sub-expressions");
-			out.year(match[1].str());
-			out.month(match[2].str());
-			out.day(match[3].str());
-			out.hour(match[4].str());
-			out.minute(match[5].str());
-			out.second(match[6].str());
+
+			Date buf(match);
+			out = buf;
 
 			return true;
 		}
@@ -110,20 +182,18 @@ namespace PictStock
 
 	Yuni::CString<20, false> dateToExif(const Date& date)
 	{
-		Yuni::CString<20, false> ret(date.year());
-		ret << ':' << date.month() << ':' << date.day() << "   :  :  ";
+		Yuni::CString<20, false> ret;
+		Yuni::DateTime::TimestampToString(ret, "%Y:%m:%d   :  :  ", date.timeStamp(), false);
 		return ret;
 	}
 
 
 	bool operator == (const Date& lhs, const Date& rhs)
 	{
-		return lhs.pYear == rhs.pYear &&
-			lhs.pMonth == rhs.pMonth &&
-			lhs.pDay == rhs.pDay &&
-			lhs.pHour == rhs.pHour &&
-			lhs.pMinute == rhs.pMinute &&
-			lhs.pSecond == rhs.pSecond;
+		// We can't compare directly pData as it might differ whether fields
+		// yday and wday have yet been filled or not
+		return (lhs.timeStamp() == rhs.timeStamp() &&
+			lhs.pIsElementPresent == rhs.pIsElementPresent);
 	}
 
 
@@ -135,64 +205,26 @@ namespace PictStock
 
 	bool operator < (const Date& lhs, const Date& rhs)
 	{
-		// Time stamp much more easier when implemented (but I have to see
-		// how to do it properly with MSVC)
-		if (lhs.pYear != rhs.pYear)
-			return (lhs.pYear < rhs.pYear);
+		// Easy case: both time stamps are different
+		auto lTimeStamp = lhs.timeStamp();
+		auto rTimeStamp = rhs.timeStamp();
 
-		if (lhs.pMonth != rhs.pMonth)
-			return (lhs.pMonth < rhs.pMonth);
+		if (lTimeStamp != rTimeStamp)
+			return lTimeStamp < rTimeStamp;
 
-		if (lhs.pDay != rhs.pDay)
-			return (lhs.pDay < rhs.pDay);
+		// If they are equal, we must check the same elements are present
+		// For instance, take the two following dates:
+		// 2012/06/20 00:00:00 and 2012/06/20 with time unknown
+		// We do not want them equal!
+		if (lhs.pIsElementPresent == rhs.pIsElementPresent)
+			return false;
 
-		if (lhs.pHour != rhs.pHour)
-			return (lhs.pHour < rhs.pHour);
-
-		if (lhs.pMinute != rhs.pMinute)
-			return (lhs.pMinute < rhs.pMinute);
-
-		return (lhs.pSecond < rhs.pSecond);
+		// If not equal, we should choose an arbitrary criterion to make sure
+		// a < b and b < a can't be both obtained...
+		return lhs.pIsElementPresent.to_ulong() < rhs.pIsElementPresent.to_ulong();
 	}
 
 
-	bool Date::isEmpty() const
-	{
-		return pYear.empty()
-			&& pMonth.empty()
-			&& pDay.empty()
-			&& pHour.empty()
-			&& pMinute.empty()
-			&& pSecond.empty();
-	}
-
-
-	void Date::print(std::ostream& out) const
-	{
-		if (isEmpty())
-		{
-			out << "Empty!" << '\n';
-			return;
-		}
-
-		if (!pYear.empty())
-			out << "Year = " << pYear << '\n';
-
-		if (!pMonth.empty())
-			out << "Month = " << pMonth << '\n';
-
-		if (!pDay.empty())
-			out << "Day = " << pDay << '\n';
-
-		if (!pHour.empty())
-			out << "Hour = " << pHour << '\n';
-
-		if (!pMinute.empty())
-			out << "Minute = " << pMinute << '\n';
-
-		if (!pSecond.empty())
-			out << "Second = " << pSecond << '\n';
-	}
 
 
 

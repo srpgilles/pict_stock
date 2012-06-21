@@ -80,7 +80,9 @@ namespace PictStock
 		**
 		** For instance, take the month from input object and put it in current one
 		**
-		** This is useful when PathInformations object are used a key in a map
+		** This is useful when PathInformations object are used as key in a map
+		**
+		** TODO Modify this; use rather a function that takes the relevant values and copy them
 		**
 		** \tparam[in] An element that can be found in the typelist Private::TupleType
 		*/
@@ -94,9 +96,6 @@ namespace PictStock
 		**
 		** \tparam[in] An element that can be found in the typelist Private::TupleType
 		**
-		**
-		** TODO CONTINUE THIS TOMORROW. WE SHOULD FORBID THIS METHOD AND INTRODUCE A SOFTER ONE;
-		** goal is to recalculate the date only at the end of the recursions
 		*/
 		template<class ElementT>
 		void setElement(const AnyString& input);

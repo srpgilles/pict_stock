@@ -59,47 +59,47 @@ namespace PictStock
 		pPhotographerPtr = new Photographer("", input, empty);
 	}
 
-//	template<>
-//	inline void PathInformations::setElement<Private::Year>(const PathInformations& input)
-//	{
-//		pDate.set<Private::Year>(input);
-//	}
-//
-//	template<>
-//	inline void PathInformations::setElement<Private::Month>(const PathInformations& input)
-//	{
-//		pDate.set<Private::Month>(input);
-//	}
-//
-//	template<>
-//	inline void PathInformations::setElement<Private::Day>(const PathInformations& input)
-//	{
-//		pDate.set<Private::Day>(input);
-//	}
-//
-//	template<>
-//	inline void PathInformations::setElement<Private::Hour>(const PathInformations& input)
-//	{
-//		pDate.set<Private::Hour>(input);
-//	}
-//
-//	template<>
-//	inline void PathInformations::setElement<Private::Minute>(const PathInformations& input)
-//	{
-//		pDate.set<Private::Minute>(input);
-//	}
-//
-//	template<>
-//	inline void PathInformations::setElement<Private::Second>(const PathInformations& input)
-//	{
-//		pDate.set<Private::Second>(input);
-//	}
-//
-//	template<>
-//	inline void PathInformations::setElement<Private::Photographer>(const PathInformations& input)
-//	{
-//		pPhotographerPtr = input.pPhotographerPtr; // valid even with nullptr
-//	}
+	template<>
+	inline void PathInformations::setElement<Private::Year>(const PathInformations& input)
+	{
+		pDate.copy<Private::Year>(input.date());
+	}
+
+	template<>
+	inline void PathInformations::setElement<Private::Month>(const PathInformations& input)
+	{
+		pDate.copy<Private::Month>(input.date());
+	}
+
+	template<>
+	inline void PathInformations::setElement<Private::Day>(const PathInformations& input)
+	{
+		pDate.copy<Private::Day>(input.date());
+	}
+
+	template<>
+	inline void PathInformations::setElement<Private::Hour>(const PathInformations& input)
+	{
+		pDate.copy<Private::Hour>(input.date());
+	}
+
+	template<>
+	inline void PathInformations::setElement<Private::Minute>(const PathInformations& input)
+	{
+		pDate.copy<Private::Minute>(input.date());
+	}
+
+	template<>
+	inline void PathInformations::setElement<Private::Second>(const PathInformations& input)
+	{
+		pDate.copy<Private::Second>(input.date());
+	}
+
+	template<>
+	inline void PathInformations::setElement<Private::Photographer>(const PathInformations& input)
+	{
+		pPhotographerPtr = input.pPhotographerPtr; // valid even with nullptr
+	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Year>() const

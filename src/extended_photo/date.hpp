@@ -90,6 +90,14 @@ namespace PictStock
 		template<class T>
 		inline void get(DateString& out) const;
 
+		/*!
+		** \brief Copy the value from another #Date object
+		**
+		** \tparam T An element of DateTuple
+		*/
+		template<class T>
+		inline void copy(const Date&) const;
+
 		//! Get the value of one of the date element (as a string)
 		template<class T>
 		inline void set(const DateString& in);

@@ -173,12 +173,49 @@ namespace PictStock
 		Yuni::DateTime::TimestampToString(out, "%S", timeStamp(), false);
 	}
 
-
 	template<class  T>
 	inline void Date::set(const DateString& in)
 	{
 		int buf(in.to<int>());
 		toCTimeInformations<T>(buf);
+	}
+
+
+	template<>
+	inline void Date::copy<Private::Year>(const Date& rhs) const
+	{
+		pData.tm_year = rhs.pData.tm_year;
+	}
+
+	template<>
+	inline void Date::copy<Private::Month>(const Date& rhs) const
+	{
+		pData.tm_mon = rhs.pData.tm_mon;
+	}
+
+	template<>
+	inline void Date::copy<Private::Day>(const Date& rhs) const
+	{
+		pData.tm_mday = rhs.pData.tm_mday;
+	}
+
+
+	template<>
+	inline void Date::copy<Private::Hour>(const Date& rhs) const
+	{
+		pData.tm_hour = rhs.pData.tm_hour;
+	}
+
+	template<>
+	inline void Date::copy<Private::Minute>(const Date& rhs) const
+	{
+		pData.tm_min = rhs.pData.tm_min;
+	}
+
+	template<>
+	inline void Date::copy<Private::Second>(const Date& rhs) const
+	{
+		pData.tm_sec = rhs.pData.tm_sec;
 	}
 
 	inline bool Date::isEmpty() const

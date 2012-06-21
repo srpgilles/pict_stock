@@ -72,7 +72,10 @@ namespace PictStock
 		Date::conversionHelper(const std::array<int, std::tuple_size<DateTuple>::value>& in)
 	{
 		if (pIsElementPresent[I])
-			toCTimeInformations<DateTuple[I]>(in[I]);
+		{
+			typedef typename std::tuple_element<I, DateTuple>::type type;
+			toCTimeInformations<type>(in[I]);
+		}
 
 		conversionHelper<I+1>(in);
 	}

@@ -169,6 +169,11 @@ namespace PictStock
 		toCTimeInformations<T>(pData, buf);
 	}
 
+	inline bool Date::isEmpty() const
+	{
+		return pIsElementPresent.none();
+	}
+
 
 } // namespace PictStock
 

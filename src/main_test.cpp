@@ -4,6 +4,7 @@
 #include <yuni/datetime/timestamp.h>
 #include <ctime>
 #include <tuple>
+#include "tools.hpp"
 
 typedef Yuni::Logs::Logger<> LoggingFacility;
 using namespace Yuni;
@@ -94,7 +95,7 @@ struct Day2 : public Day
 };
 
 
-typedef std::tuple<Year, Day> DateTuple;
+typedef std::tuple<Year, Day, Month, Day, Year> DateTuple;
 
 
 
@@ -105,45 +106,6 @@ typedef std::tuple<Year, Day> DateTuple;
 // I is the position in DateTuple we are investigating
 
 
-
-template<class T, class U>
-struct IsSame
-{
-	enum { same = 0 };
-};
-
-template<class T>
-struct IsSame<T, T>
-{
-	enum { same = 1 };
-};
-
-
-
-template<class T, std::size_t I>
-struct IndexOfHelper
-{
-
-public:
-
-	typedef typename std::tuple_element<I, DateTuple>::type type;
-	enum { found = IsSame<T, type>::same };
-	enum { value = (found == 1 ? I : IndexOfHelper<T, I+1>::value) };
-};
-
-
-template<class T>
-struct IndexOfHelper<T, std::tuple_size<DateTuple>::value>
-{
-	enum { value = -1 };
-};
-
-
-template<class T>
-struct IndexOf
-{
-	enum { value = IndexOfHelper<T, 0>::value };
-};
 
 
 
@@ -217,15 +179,11 @@ int main(int argc, char* argv[])
 
 
 	{
-		typedef std::tuple_element<1, DateTuple>::type MyType;
+		logs.checkpoint("-1 ") << static_cast<int>(GenericTools::IndexOf<Day2, DateTuple>::value);
 
+		logs.checkpoint("1 ") << static_cast<int>(GenericTools::IndexOf<Day, DateTuple>::value);
 
-		MyType foo;
-		foo.b = 5;
-
-		logs.checkpoint() << static_cast<int>(IndexOf<Day2>::value);
-
-
+		logs.checkpoint("0 ") << static_cast<int>(GenericTools::IndexOf<Year, DateTuple>::value);
 	}
 
 

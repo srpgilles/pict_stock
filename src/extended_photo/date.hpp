@@ -103,6 +103,8 @@ namespace PictStock
 		template <class StringT>
 		bool print(StringT& out) const;
 
+		//! True if is empty
+		inline bool isEmpty() const;
 
 	private:
 

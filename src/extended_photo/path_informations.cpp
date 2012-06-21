@@ -33,17 +33,17 @@ namespace PictStock
 
 		Date::DateString buf;
 		buf.assign(newDate, 4);
-		date.year(buf);
+		date.set<Private::Year>(buf);
 		buf.clear();
 		buf.assign(newDate, 2, 4);
-		date.month(buf);
+		date.set<Private::Month>(buf);
 		buf.clear();
 		buf.assign(newDate, 2, 6);
-		date.day(buf);
+		date.set<Private::Day>(buf);
 
-		date.hour("");
-		date.minute("");
-		date.second("");
+		date.set<Private::Hour>("");
+		date.set<Private::Minute>("");
+		date.set<Private::Second>("");
 	}
 
 
@@ -94,7 +94,11 @@ namespace PictStock
 	void PathInformations::print(std::ostream& out) const
 	{
 		out << "Relevant informations are:\n\tDate:\n";
-		pDate.print(out);
+		{
+			String buf;
+			pDate.print(buf);
+			out << buf;
+		}
 		out << "\tPhotographer:\n";
 		if (!pPhotographerPtr)
 			out << "Empty!" << '\n';

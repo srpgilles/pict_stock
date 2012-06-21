@@ -19,37 +19,37 @@ namespace PictStock
 	template<>
 	inline void PathInformations::setElement<Private::Year>(const AnyString& input)
 	{
-		pDate.year(input);
+		pDate.set<Private::Year>(input);
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Month>(const AnyString& input)
 	{
-		pDate.month(input);
+		pDate.set<Private::Month>(input);
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Day>(const AnyString& input)
 	{
-		pDate.day(input);
+		pDate.set<Private::Day>(input);
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Hour>(const AnyString& input)
 	{
-		pDate.hour(input);
+		pDate.set<Private::Hour>(input);
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Minute>(const AnyString& input)
 	{
-		pDate.minute(input);
+		pDate.set<Private::Minute>(input);
 	}
 
 	template<>
 	inline void PathInformations::setElement<Private::Second>(const AnyString& input)
 	{
-		pDate.second(input);
+		pDate.set<Private::Second>(input);
 	}
 
 	template<>
@@ -59,82 +59,94 @@ namespace PictStock
 		pPhotographerPtr = new Photographer("", input, empty);
 	}
 
-	template<>
-	inline void PathInformations::setElement<Private::Year>(const PathInformations& input)
-	{
-		pDate.year(input.pDate.year());
-	}
-
-	template<>
-	inline void PathInformations::setElement<Private::Month>(const PathInformations& input)
-	{
-		pDate.month(input.pDate.month());
-	}
-
-	template<>
-	inline void PathInformations::setElement<Private::Day>(const PathInformations& input)
-	{
-		pDate.day(input.pDate.day());
-	}
-
-	template<>
-	inline void PathInformations::setElement<Private::Hour>(const PathInformations& input)
-	{
-		pDate.hour(input.pDate.hour());
-	}
-
-	template<>
-	inline void PathInformations::setElement<Private::Minute>(const PathInformations& input)
-	{
-		pDate.minute(input.pDate.minute());
-	}
-
-	template<>
-	inline void PathInformations::setElement<Private::Second>(const PathInformations& input)
-	{
-		pDate.second(input.pDate.second());
-	}
-
-	template<>
-	inline void PathInformations::setElement<Private::Photographer>(const PathInformations& input)
-	{
-		pPhotographerPtr = input.pPhotographerPtr; // valid even with nullptr
-	}
+//	template<>
+//	inline void PathInformations::setElement<Private::Year>(const PathInformations& input)
+//	{
+//		pDate.set<Private::Year>(input);
+//	}
+//
+//	template<>
+//	inline void PathInformations::setElement<Private::Month>(const PathInformations& input)
+//	{
+//		pDate.set<Private::Month>(input);
+//	}
+//
+//	template<>
+//	inline void PathInformations::setElement<Private::Day>(const PathInformations& input)
+//	{
+//		pDate.set<Private::Day>(input);
+//	}
+//
+//	template<>
+//	inline void PathInformations::setElement<Private::Hour>(const PathInformations& input)
+//	{
+//		pDate.set<Private::Hour>(input);
+//	}
+//
+//	template<>
+//	inline void PathInformations::setElement<Private::Minute>(const PathInformations& input)
+//	{
+//		pDate.set<Private::Minute>(input);
+//	}
+//
+//	template<>
+//	inline void PathInformations::setElement<Private::Second>(const PathInformations& input)
+//	{
+//		pDate.set<Private::Second>(input);
+//	}
+//
+//	template<>
+//	inline void PathInformations::setElement<Private::Photographer>(const PathInformations& input)
+//	{
+//		pPhotographerPtr = input.pPhotographerPtr; // valid even with nullptr
+//	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Year>() const
 	{
-		return pDate.year();
+		Date::DateString out;
+		pDate.get<Private::Year>(out);
+		return out;
 	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Month>() const
 	{
-		return pDate.month();
+		Date::DateString out;
+		pDate.get<Private::Month>(out);
+		return out;
 	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Day>() const
 	{
-		return pDate.day();
+		Date::DateString out;
+		pDate.get<Private::Day>(out);
+		return out;
 	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Hour>() const
 	{
-		return pDate.hour();
+		Date::DateString out;
+		pDate.get<Private::Hour>(out);
+		return out;
 	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Minute>() const
 	{
-		return pDate.minute();
+		Date::DateString out;
+		pDate.get<Private::Minute>(out);
+		return out;
 	}
 
 	template<>
 	inline PathInformations::ElementString PathInformations::getElement<Private::Second>() const
 	{
-		return pDate.second();
+		Date::DateString out;
+		pDate.get<Private::Second>(out);
+		return out;
 	}
 
 	template<>

@@ -58,44 +58,6 @@ namespace PictStock
 			return ret;
 		}
 
-		/*!
-		** \brief Helper to perform recursively all required conversions
-		**
-		** IMPORTANT: it is assumed pIsElementPresent has been filled along
-		** with input array
-		**
-		** \param[in] in Array that contains original values that must be converted
-		** to fit inside tm object. For instance, in[Element::year] = 2012 yields
-		** to 112 in pData structure
-		**
-		** \tparam An element of DateTuple
-		*/
-		template<std::size_t I>
-		typename std::enable_if<I == std::tuple_size<DateTuple>::value, void>::type
-			conversionHelper(
-				tm& /*out*/,
-				const std::array<int, std::tuple_size<DateTuple>::value>& /*in*/,
-				const std::bitset<std::tuple_size<DateTuple>::value>& /*isElementPresent*/
-				)
-		{ }
-
-		template<std::size_t I>
-		typename std::enable_if<I < std::tuple_size<DateTuple>::value, void>::type
-			conversionHelper(
-				tm& out,
-				const std::array<int, std::tuple_size<DateTuple>::value>& in,
-				const std::bitset<std::tuple_size<DateTuple>::value>& isElementPresent
-				)
-		{
-			if (isElementPresent[I])
-				toCTimeInformations<DateTuple[I]>(out, in[I]);
-
-			conversionHelper<I+1>(out, in, isElementPresent);
-		}
-
-
-
-
 
 	} // anonymous namespace
 
@@ -131,7 +93,7 @@ namespace PictStock
 		}
 
 		// Recursively put the data into pData structure
-		conversionHelper<0>(pData, elements, pIsElementPresent);
+		conversionHelper<0>(elements);
 	}
 
 

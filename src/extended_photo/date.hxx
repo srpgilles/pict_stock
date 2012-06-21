@@ -4,67 +4,79 @@
 
 namespace PictStock
 {
-	namespace // anonymous
+
+	template<>
+	inline void Date::toCTimeInformations<Private::Year>(int value)
 	{
-		/*!
-		** \brief Function in charge of converting date element into
-		** proper struct tm informations
-		**
-		** For instance, for year 2012 would become 112 (as struct tm
-		** elements begin at 1900 for the year)
-		**
-		** \tparam An element of DateTuple
-		**
-		** \param[out] out Struct tm in which the new value is placed
-		** \param[in] value Value befoire conversion (for instance 2012 for year)
-		*/
-		template<class T>
-		void toCTimeInformations(tm& out, int value);
+		pData.tm_year = value - 1900;
+	}
 
 
-		template<>
-		inline void toCTimeInformations<Private::Year>(tm& out, int value)
-		{
-			out.tm_year = value - 1900;
-		}
+	template<>
+	inline void Date::toCTimeInformations<Private::Month>(int value)
+	{
+		assert(value > 0 && value <= 12);
+		pData.tm_mon = --value;
+	}
+
+	template<>
+	inline void Date::toCTimeInformations<Private::Day>(int value)
+	{
+		assert(value >= 1 && value <= 31);
+		pData.tm_mday = value;
+	}
+
+	template<>
+	inline void Date::toCTimeInformations<Private::Hour>(int value)
+	{
+		assert(value >= 0 && value <= 23);
+		pData.tm_hour = value;
+	}
+
+	template<>
+	inline void Date::toCTimeInformations<Private::Minute>(int value)
+	{
+		assert(value >= 0 && value <= 59);
+		pData.tm_min = value;
+
+	}
+
+	template<>
+	inline void Date::toCTimeInformations<Private::Second>(int value)
+	{
+		assert(value >= 0 && value < 60);
+		pData.tm_sec = value + static_cast<int>(timezone);
+	}
 
 
-		template<>
-		inline void toCTimeInformations<Private::Month>(tm& out, int value)
-		{
-			assert(value > 0 && value <= 12);
-			out.tm_mon = --value;
-		}
+	/*!
+	** \brief Helper to perform recursively all required conversions
+	**
+	** IMPORTANT: it is assumed pIsElementPresent has been filled along
+	** with input array
+	**
+	** \param[in] in Array that contains original values that must be converted
+	** to fit inside tm object. For instance, in[Element::year] = 2012 yields
+	** to 112 in pData structure
+	**
+	** \tparam An element of DateTuple
+	*/
+	template<std::size_t I>
+	typename std::enable_if<I == std::tuple_size<DateTuple>::value, void>::type
+		Date::conversionHelper(const std::array<int, std::tuple_size<DateTuple>::value>& /*in*/)
+	{ }
 
-		template<>
-		inline void toCTimeInformations<Private::Day>(tm& out, int value)
-		{
-			assert(value >= 1 && value <= 31);
-			out.tm_mday = value;
-		}
 
-		template<>
-		inline void toCTimeInformations<Private::Hour>(tm& out, int value)
-		{
-			assert(value >= 0 && value <= 23);
-			out.tm_hour = value;
-		}
+	template<std::size_t I>
+	typename std::enable_if<I < std::tuple_size<DateTuple>::value, void>::type
+		Date::conversionHelper(const std::array<int, std::tuple_size<DateTuple>::value>& in)
+	{
+		if (pIsElementPresent[I])
+			toCTimeInformations<DateTuple[I]>(in[I]);
 
-		template<>
-		inline void toCTimeInformations<Private::Minute>(tm& out, int value)
-		{
-			assert(value >= 0 && value <= 59);
-			out.tm_min = value;
+		conversionHelper<I+1>(in);
+	}
 
-		}
-
-		template<>
-		inline void toCTimeInformations<Private::Second>(tm& out, int value)
-		{
-			assert(value >= 0 && value < 60);
-			out.tm_sec = value + static_cast<int>(timezone);
-		}
-	} // namespace anonymous
 
 
 	template<class StringT>
@@ -166,7 +178,7 @@ namespace PictStock
 	inline void Date::set(const DateString& in)
 	{
 		int buf(in.to<int>());
-		toCTimeInformations<T>(pData, buf);
+		toCTimeInformations<T>(buf);
 	}
 
 	inline bool Date::isEmpty() const

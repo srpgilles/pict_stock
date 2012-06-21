@@ -108,6 +108,43 @@ namespace PictStock
 
 	private:
 
+		/*!
+		** \brief Function in charge of converting date element into
+		** proper struct tm informations
+		**
+		** For instance, for year 2012 would become 112 (as struct tm
+		** elements begin at 1900 for the year)
+		**
+		** \tparam An element of DateTuple
+		**
+		** \param[in] value Value before conversion (for instance 2012 for year)
+		*/
+		template<class T>
+		void toCTimeInformations(int value);
+
+
+		/*!
+		** \brief Helper to perform recursively all required conversions
+		**
+		** IMPORTANT: it is assumed pIsElementPresent has been filled along
+		** with input array
+		**
+		** \param[in] in Array that contains original values that must be converted
+		** to fit inside tm object. For instance, in[Element::year] = 2012 yields
+		** to 112 in pData structure
+		**
+		** \tparam An element of DateTuple
+		*/
+		template<std::size_t I>
+		typename std::enable_if<I == std::tuple_size<DateTuple>::value, void>::type
+			conversionHelper(const std::array<int, std::tuple_size<DateTuple>::value>& in);
+
+		template<std::size_t I>
+		typename std::enable_if<I < std::tuple_size<DateTuple>::value, void>::type
+			conversionHelper(const std::array<int, std::tuple_size<DateTuple>::value>& in);
+
+	private:
+
 
 		/*!
 		** \brief Unix time stamp reflecting the date

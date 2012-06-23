@@ -77,7 +77,8 @@ namespace PictStock
 		enum { size = std::tuple_size<DateTuple>::value };
 
 		assert("First one is complete expression, others the sub-expressions"
-			&& regexMatch.size() == size);
+			&& regexMatch.size() == size + 1u);
+
 
 		std::array<int, size> elements;
 

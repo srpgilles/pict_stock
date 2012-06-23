@@ -16,7 +16,7 @@ add_subdirectory(ext/yuni/src)
 
 # C++11 Regular expression not yet supported by g++
 if (UNIX) 
-	FIND_PACKAGE(Boost 1.49 COMPONENTS regex REQUIRED)
+	FIND_PACKAGE(Boost COMPONENTS regex REQUIRED)
 	IF (Boost_FOUND)
     	INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
     	ADD_DEFINITIONS( "-DHAS_BOOST" )

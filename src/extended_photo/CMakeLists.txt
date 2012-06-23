@@ -23,5 +23,5 @@ target_link_libraries(extended_photo
 )
 
 if (UNIX)
-	target_link_libraries(extended_photo boost_regex)
+	target_link_libraries(extended_photo ${Boost_LIBRARIES})
 endif (UNIX)

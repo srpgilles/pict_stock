@@ -20,5 +20,5 @@ target_link_libraries(photo_directory
 )
 
 if (UNIX)
-	target_link_libraries(photo_directory boost_regex)
+	target_link_libraries(photo_directory ${Boost_LIBRARIES})
 endif (UNIX)

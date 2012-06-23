@@ -17,5 +17,5 @@ target_link_libraries(sort_new_photos
 )
 
 if (UNIX)
-	target_link_libraries(sort_new_photos boost_regex)
+	target_link_libraries(sort_new_photos ${Boost_LIBRARIES})
 endif (UNIX)

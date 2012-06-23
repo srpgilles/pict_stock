@@ -23,21 +23,6 @@ namespace regexNS = std;
 namespace PictStock
 {
 
-//	// TMP TODO Use a tuple instead (and date_helpers defined structures)
-//	namespace Element // use enum class when MSVC will support it!
-//	{
-//		enum Date
-//		{
-//			year = 0,
-//			month,
-//			day,
-//			hour,
-//			minute,
-//			second,
-//			size
-//		};
-//	}
-
 	typedef std::tuple<Private::Year, Private::Month, Private::Day,
 		Private::Hour, Private::Minute, Private::Second> DateTuple;
 
@@ -193,6 +178,7 @@ namespace PictStock
 	bool operator == (const Date& lhs, const Date& rhs);
 	bool operator != (const Date& lhs, const Date& rhs);
 	bool operator < (const Date& lhs, const Date& rhs);
+	bool operator <= (const Date& lhs, const Date& rhs);
 	void swap(Date& lhs, Date& rhs);
 
 	//! Interpret the string dateRead and extract from it the date.

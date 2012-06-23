@@ -188,7 +188,13 @@ namespace PictStock
 	}
 
 
+	bool operator <= (const Date& lhs, const Date& rhs)
+	{
+		if (lhs == rhs)
+			return true;
 
+		return lhs < rhs;
+	}
 
 
 

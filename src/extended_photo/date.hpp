@@ -10,6 +10,7 @@
 # include <ctime>
 # include <array>
 # include "private/date_helpers.hpp"
+# include <tuple>
 
 # ifdef USE_BOOST_REGULAR_EXPR
 #  include <boost/regex.hpp>

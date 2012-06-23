@@ -45,7 +45,13 @@ namespace PictStock
 	inline void Date::toCTimeInformations<Private::Second>(int value)
 	{
 		assert(value >= 0 && value < 60);
-		pData.tm_sec = value + static_cast<int>(timezone);
+
+		# ifdef YUNI_OS_WINDOWS
+		long timezone;
+		_get_timezone(&timezone);
+		# endif
+
+		pData.tm_sec = value + timezone;
 	}
 
 

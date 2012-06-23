@@ -50,7 +50,13 @@ namespace PictStock
 			ret.tm_mday = 1;
 			ret.tm_hour = 0;
 			ret.tm_min = 0;
-			ret.tm_sec = - static_cast<int>(timezone);
+
+			# ifdef YUNI_OS_WINDOWS
+			long timezone;
+			_get_timezone(&timezone);
+			# endif
+
+			ret.tm_sec = - timezone;
 			ret.tm_isdst = 0;
 
 			assert(mktime(&ret) == 0);
@@ -72,7 +78,11 @@ namespace PictStock
 
 
 	Date::Date(const regexNS::cmatch& regexMatch)
+	#ifndef YUNI_OS_WINDOWS
 		: Date()
+	#else
+		: pData(DefaultTimeInformations())
+	#endif
 	{
 		enum { size = std::tuple_size<DateTuple>::value };
 

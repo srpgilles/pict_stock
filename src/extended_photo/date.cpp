@@ -56,7 +56,7 @@ namespace PictStock
 			_get_timezone(&timezone);
 			# endif
 
-			ret.tm_sec = - timezone;
+			ret.tm_sec = - static_cast<int>(timezone);
 			ret.tm_isdst = 0;
 
 			assert(mktime(&ret) == 0);

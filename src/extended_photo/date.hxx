@@ -51,7 +51,7 @@ namespace PictStock
 		_get_timezone(&timezone);
 		# endif
 
-		pData.tm_sec = value + timezone;
+		pData.tm_sec = value + static_cast<int>(timezone);
 	}
 
 

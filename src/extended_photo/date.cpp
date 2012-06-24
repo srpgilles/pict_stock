@@ -78,11 +78,12 @@ namespace PictStock
 
 
 	Date::Date(const regexNS::cmatch& regexMatch)
-	#ifndef YUNI_OS_WINDOWS
-		: Date()
-	#else
+// g++-4.5 and MSCV 2010 don't implement this C++11 feature yet
+//	#ifndef YUNI_OS_WINDOWS
+//		: Date()
+//	#else
 		: pData(DefaultTimeInformations())
-	#endif
+//	#endif
 	{
 		enum { size = std::tuple_size<DateTuple>::value };
 

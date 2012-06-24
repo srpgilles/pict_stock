@@ -31,12 +31,15 @@ namespace GenericTools
 	template<class T, class TupleT, std::size_t I>
 	struct IndexOfHelper
 	{
-
-	public:
+	private:
 
 		typedef typename std::tuple_element<I, TupleT>::type type;
 		enum { found = IsSame<T, type>::value };
-		enum { value = (found == 1 ? I : IndexOfHelper<T, TupleT, I-1>::value) };
+
+	public:
+
+		enum { value = (found == 1 ? static_cast<int>(I)
+			: static_cast<int>(IndexOfHelper<T, TupleT, I-1>::value)) };
 	};
 
 

@@ -77,6 +77,21 @@ namespace PictStock
 	}
 
 
+	Date::Date(int year, int month, int day, int hour, int minute, int second)
+	{
+		std::array<int, dateTupleSize> elements;
+		constructorHelper<Private::Year>(elements, year);
+		constructorHelper<Private::Month>(elements, month);
+		constructorHelper<Private::Day>(elements, day);
+		constructorHelper<Private::Hour>(elements, hour);
+		constructorHelper<Private::Minute>(elements, minute);
+		constructorHelper<Private::Second>(elements, second);
+
+		// Recursively put the data into pData structure
+		conversionHelper<0>(elements);
+	}
+
+
 	Date::Date(const regexNS::cmatch& regexMatch)
 // g++-4.5 and MSCV 2010 don't implement this C++11 feature yet
 //	#ifndef YUNI_OS_WINDOWS
@@ -89,7 +104,6 @@ namespace PictStock
 
 		assert("First one is complete expression, others the sub-expressions"
 			&& regexMatch.size() == size + 1u);
-
 
 		std::array<int, size> elements;
 

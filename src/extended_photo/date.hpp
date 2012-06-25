@@ -54,10 +54,23 @@ namespace PictStock
 		explicit Date();
 
 		/*!
+		** \brief Constructor
+		**
+		** \param Year Put -1 if not known
+		** \param Month Put -1 if not known
+		** \param Hour Put -1 if not known
+		** \param Day Put -1 if not known
+		** \param Minute Put -1 if not known
+		** \param Second Put -1 if not known
+		*/
+		Date(int year, int month, int day, int hour = -1, int minute = -1, int second = -1);
+
+
+		/*!
 		** \brief Constructor from the result of a regex
 		**
 		** The regex is defined in anonymous namespace of file date.cpp
-		** under the name RegexDateFormatting
+		** under the name RegexDateFormatting, essentially it
 		*/
 		Date(const regexNS::cmatch& regexMatch);
 
@@ -136,6 +149,24 @@ namespace PictStock
 		template<std::size_t I>
 		typename std::enable_if<I < std::tuple_size<DateTuple>::value, void>::type
 			conversionHelper(const std::array<int, std::tuple_size<DateTuple>::value>& in);
+
+		enum { dateTupleSize =  std::tuple_size<DateTuple>::value };
+
+		/*!
+		** \brief Read the value, and assign it if different from -1
+		**
+		** \tparam An element of DateTuple
+		**
+		** \param[in, out] out An array with the values to consider for each element.
+		** Basically, out[index(T)] = value
+		** \param[in] value Value before conversion (for instance 2012 for T=Private::Year)
+		** If -1, set #pIsElementPresent to false for the considered date element
+		**
+		** Note: Not used recursively
+		*/
+		template<class T>
+		void constructorHelper(std::array<int, dateTupleSize>& out, int value);
+
 
 	private:
 

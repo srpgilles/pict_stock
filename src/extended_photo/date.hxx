@@ -58,12 +58,9 @@ namespace PictStock
 	/*!
 	** \brief Helper to perform recursively all required conversions
 	**
-	** IMPORTANT: it is assumed pIsElementPresent has been filled along
-	** with input array
-	**
 	** \param[in] in Array that contains original values that must be converted
 	** to fit inside tm object. For instance, in[Element::year] = 2012 yields
-	** to 112 in pData structure
+	** to 112 in pData structure. If -1, pIsElementPresent is put as false
 	**
 	** \tparam An element of DateTuple
 	*/
@@ -144,6 +141,22 @@ namespace PictStock
 	}
 
 
+	template<class T>
+	void Date::constructorHelper(std::array<int, dateTupleSize>& out, int value)
+	{
+		enum { temp = GenericTools::IndexOf<T, DateTuple>::value };
+		YUNI_STATIC_ASSERT(( temp != -1),
+			TheTemplateParameterDoesntExistInDateTuple);
+
+		size_t index = static_cast<size_t>(temp);
+
+		out[index] = value;
+
+		assert(pIsElementPresent[temp] == false && "Should be initialized at false");
+
+		if (value != -1)
+			pIsElementPresent.set(index);
+	}
 
 
 	template<>

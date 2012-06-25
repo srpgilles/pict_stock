@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 add_subdirectory(extended_photo)
 add_subdirectory(photo_directory)
 add_subdirectory(sort_new_photos)
+add_subdirectory(tools)
 
 
 add_executable(PictStock
@@ -11,6 +12,7 @@ add_executable(PictStock
 
 target_link_libraries(PictStock
 	sort_new_photos
+	tools
 )
 
 

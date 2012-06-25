@@ -38,6 +38,7 @@ namespace GenericTools
 
 	public:
 
+		// Static_cast to avoid gcc warning about enumeral/non enumeral
 		enum { value = (found == 1 ? static_cast<int>(I)
 			: static_cast<int>(IndexOfHelper<T, TupleT, I-1>::value)) };
 	};

@@ -16,6 +16,15 @@ target_link_libraries(PictStock
 )
 
 
+add_executable(PictFrame
+	main_pict_frame.cpp
+)
+
+target_link_libraries(PictFrame
+	tools
+)
+
+
 add_executable(dev
 	main_dev.cpp
 )

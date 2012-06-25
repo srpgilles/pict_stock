@@ -35,7 +35,6 @@ int main(int argc, char* argv[])
 	try
 	{
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile);
-		//PictStock::ExtendedPhoto(logs, "C:\\Users\\Sebastien\\Projets_logiciels\\Input\\2010-11-04\\023.JPG");
 		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"], parameters["pathFormat"]);
 		PictStock::SortNewPhotos sortNewPhotos(logs, parameters["inputFolder"], photoDirectory,
 			parameters["logFile"], doAskModifyDate);

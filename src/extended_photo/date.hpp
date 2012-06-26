@@ -86,9 +86,9 @@ namespace PictStock
 		** \tparam T An element of DateTuple
 		*/
 		template<class T>
-		inline void copy(const Date&) const;
+		inline void copy(const Date&);
 
-		//! Get the value of one of the date element (as a string)
+		//! Set the value of one of the date element (given as a string in input)
 		template<class T>
 		inline void set(const DateString& in);
 
@@ -158,6 +158,11 @@ namespace PictStock
 		template<class T>
 		void constructorHelper(std::array<int, dateTupleSize>& out, int value);
 
+		/*!
+		** \brief Copy bitset informations in #copy methods
+		*/
+		template<class T>
+		void copyBitsetHelper(const Date&);
 
 	private:
 

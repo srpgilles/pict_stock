@@ -231,6 +231,56 @@ namespace PictStock
 	}
 
 
+	template<>
+	void Date::toCTimeInformations<Private::Year>(int value)
+	{
+		pData.tm_year = value - 1900;
+	}
+
+
+	template<>
+	void Date::toCTimeInformations<Private::Month>(int value)
+	{
+		assert(value > 0 && value <= 12);
+		pData.tm_mon = --value;
+	}
+
+	template<>
+	void Date::toCTimeInformations<Private::Day>(int value)
+	{
+		assert(value >= 1 && value <= 31);
+		pData.tm_mday = value;
+	}
+
+	template<>
+	void Date::toCTimeInformations<Private::Hour>(int value)
+	{
+		assert(value >= 0 && value <= 23);
+		pData.tm_hour = value;
+	}
+
+	template<>
+	void Date::toCTimeInformations<Private::Minute>(int value)
+	{
+		assert(value >= 0 && value <= 59);
+		pData.tm_min = value;
+
+	}
+
+	template<>
+	void Date::toCTimeInformations<Private::Second>(int value)
+	{
+		assert(value >= 0 && value < 60);
+
+		# ifdef YUNI_OS_WINDOWS
+		long timezone;
+		_get_timezone(&timezone);
+		# endif
+
+		pData.tm_sec = value + static_cast<int>(timezone);
+	}
+
+
 
 } // namespace PictStock
 

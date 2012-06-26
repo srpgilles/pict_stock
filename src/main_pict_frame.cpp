@@ -68,7 +68,8 @@ int main(int argc, char* argv[])
 
 		PictStock::Private::PathFormatHelper helper(logs, "%y-%m-%d");
 		PictStock::PathInformations infos(logs);
-		logs.notice() << helper.isOk(parameters["begin_date"], infos);
+		logs.notice() << helper.isOk(parameters["beginDate"], infos);
+		infos.print(std::cout);
 	}
 	catch(const std::exception& e)
 	{

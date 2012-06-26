@@ -5,54 +5,7 @@
 namespace PictStock
 {
 
-	template<>
-	inline void Date::toCTimeInformations<Private::Year>(int value)
-	{
-		pData.tm_year = value - 1900;
-	}
 
-
-	template<>
-	inline void Date::toCTimeInformations<Private::Month>(int value)
-	{
-		assert(value > 0 && value <= 12);
-		pData.tm_mon = --value;
-	}
-
-	template<>
-	inline void Date::toCTimeInformations<Private::Day>(int value)
-	{
-		assert(value >= 1 && value <= 31);
-		pData.tm_mday = value;
-	}
-
-	template<>
-	inline void Date::toCTimeInformations<Private::Hour>(int value)
-	{
-		assert(value >= 0 && value <= 23);
-		pData.tm_hour = value;
-	}
-
-	template<>
-	inline void Date::toCTimeInformations<Private::Minute>(int value)
-	{
-		assert(value >= 0 && value <= 59);
-		pData.tm_min = value;
-
-	}
-
-	template<>
-	inline void Date::toCTimeInformations<Private::Second>(int value)
-	{
-		assert(value >= 0 && value < 60);
-
-		# ifdef YUNI_OS_WINDOWS
-		long timezone;
-		_get_timezone(&timezone);
-		# endif
-
-		pData.tm_sec = value + static_cast<int>(timezone);
-	}
 
 
 	/*!
@@ -199,51 +152,72 @@ namespace PictStock
 	template<class  T>
 	inline void Date::set(const DateString& in)
 	{
-		int buf(in.to<int>());
-		toCTimeInformations<T>(buf);
+		enum { value = GenericTools::IndexOf<T, DateTuple>::value };
+		if (in.empty())
+			pIsElementPresent.reset(value);
+		else
+		{
+			int buf(in.to<int>());
+			pIsElementPresent.set(value);
+			toCTimeInformations<T>(buf);
+		}
 	}
 
 
 	template<>
-	inline void Date::copy<Private::Year>(const Date& rhs) const
+	inline void Date::copy<Private::Year>(const Date& rhs)
 	{
 		pData.tm_year = rhs.pData.tm_year;
+		copyBitsetHelper<Private::Year>(rhs);
 	}
 
 	template<>
-	inline void Date::copy<Private::Month>(const Date& rhs) const
+	inline void Date::copy<Private::Month>(const Date& rhs)
 	{
 		pData.tm_mon = rhs.pData.tm_mon;
+		copyBitsetHelper<Private::Month>(rhs);
 	}
 
 	template<>
-	inline void Date::copy<Private::Day>(const Date& rhs) const
+	inline void Date::copy<Private::Day>(const Date& rhs)
 	{
 		pData.tm_mday = rhs.pData.tm_mday;
+		copyBitsetHelper<Private::Day>(rhs);
 	}
 
 
 	template<>
-	inline void Date::copy<Private::Hour>(const Date& rhs) const
+	inline void Date::copy<Private::Hour>(const Date& rhs)
 	{
 		pData.tm_hour = rhs.pData.tm_hour;
+		copyBitsetHelper<Private::Hour>(rhs);
 	}
 
 	template<>
-	inline void Date::copy<Private::Minute>(const Date& rhs) const
+	inline void Date::copy<Private::Minute>(const Date& rhs)
 	{
 		pData.tm_min = rhs.pData.tm_min;
+		copyBitsetHelper<Private::Minute>(rhs);
 	}
 
 	template<>
-	inline void Date::copy<Private::Second>(const Date& rhs) const
+	inline void Date::copy<Private::Second>(const Date& rhs)
 	{
 		pData.tm_sec = rhs.pData.tm_sec;
+		copyBitsetHelper<Private::Second>(rhs);
 	}
 
 	inline bool Date::isEmpty() const
 	{
 		return pIsElementPresent.none();
+	}
+
+
+	template<class T>
+	void Date::copyBitsetHelper(const Date& rhs)
+	{
+		enum { value = GenericTools::IndexOf<T, DateTuple>::value};
+		pIsElementPresent[value] = rhs.pIsElementPresent[value];
 	}
 
 

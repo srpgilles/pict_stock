@@ -32,9 +32,17 @@ int main(int argc, char* argv[])
 	if (parameterFile.empty())
 		parameterFile = "parameters.ini";
 
+
 	try
 	{
-		const GenericTools::ReadParameterFile parameters(logs, parameterFile);
+		typedef GenericTools::ReadParameterFile::KeyString KeyString;
+		std::list<KeyString> keys;
+		keys.push_back("inputFolder");
+		keys.push_back("outputFolder");
+		keys.push_back("pathFormat");
+		keys.push_back("logFile");
+
+		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
 		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"], parameters["pathFormat"]);
 		PictStock::SortNewPhotos sortNewPhotos(logs, parameters["inputFolder"], photoDirectory,
 			parameters["logFile"], doAskModifyDate);

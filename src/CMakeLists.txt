@@ -22,6 +22,7 @@ add_executable(PictFrame
 
 target_link_libraries(PictFrame
 	tools
+	photo_directory
 )
 
 

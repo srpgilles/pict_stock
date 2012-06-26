@@ -3,6 +3,7 @@
 #include <yuni/core/getopt.h>
 #include "tools/read_parameter_file.hpp"
 #include "extended_photo/date.hpp"
+#include "photo_directory/private/path_format_helpers.hpp"
 
 
 using namespace Yuni;
@@ -55,11 +56,19 @@ int main(int argc, char* argv[])
 
 	try
 	{
-		const GenericTools::ReadParameterFile parameters(logs, parameterFile);
+		typedef GenericTools::ReadParameterFile::KeyString KeyString;
+		std::list<KeyString> keys;
+		keys.push_back("inputFolder");
+		keys.push_back("outputFolder");
+		keys.push_back("pathFormat");
+		keys.push_back("beginDate");
+		keys.push_back("endDate");
 
-		//Yuni::DateTime::
+		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
 
-
+		PictStock::Private::PathFormatHelper helper(logs, "%y-%m-%d");
+		PictStock::PathInformations infos(logs);
+		logs.notice() << helper.isOk(parameters["begin_date"], infos);
 	}
 	catch(const std::exception& e)
 	{

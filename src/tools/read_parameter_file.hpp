@@ -3,6 +3,7 @@
 
 # include "../pict_stock.hpp"
 # include <yuni/core/string.h>
+# include <list>
 
 namespace GenericTools
 {
@@ -32,7 +33,8 @@ namespace GenericTools
 		 ** It read the parameter files, load into the class the values that were expected
 		 ** and finally check all expected values were actually filled
 		 */
-		ReadParameterFile(LoggingFacility& logs, const YString& file);
+		ReadParameterFile(LoggingFacility& logs, const YString& file,
+			const std::list<KeyString>& expectedKeys);
 
 		//! Access to parameters; return false if one is not known
 		const YString& operator[](const KeyString& key) const;
@@ -49,7 +51,8 @@ namespace GenericTools
 		//! Check #pParameters is correctly filled
 		bool checkParameters() const;
 
-
+		//! Fill #pParameters with empty values from the list of leys given in input
+		void setKeys(const std::list<KeyString>& keys);
 
 	private:
 

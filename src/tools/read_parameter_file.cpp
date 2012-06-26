@@ -5,29 +5,12 @@ using namespace Yuni;
 namespace GenericTools
 {
 
-
-	#ifndef MSVC // C++11 feature not yet implemented in MSVC
-	ReadParameterFile::ReadParameterFile(LoggingFacility& logs, const YString& file)
+	ReadParameterFile::ReadParameterFile(LoggingFacility& logs, const YString& file,
+		const std::list<KeyString>& expectedKeys)
 		: logs(logs),
 		  pFile(file)
 	{
-		pParameters["inputFolder"] = "";
-		pParameters["outputFolder"] = "";
-		pParameters["logFile"] = "";
-		pParameters["pathFormat"] = "";
-	#else
-	ReadParameterFile::ReadParameterFile(LoggingFacility& logs, const YString& file)
-		: logs(logs),
-		  pFile(file)
-		  , pParameters({
-			{"inputFolder",""},
-			{"outputFolder",""},
-			{"logFile",""},
-			{"pathFormat", ""}
-			})
-	{
-	#endif // MSVC
-
+		setKeys(expectedKeys);
 
 		// Assign values from the parameter file
 		String key, value, line;
@@ -94,6 +77,13 @@ namespace GenericTools
 		}
 
 		return it->second;
+	}
+
+
+	void ReadParameterFile::setKeys(const std::list<KeyString>& keys)
+	{
+		for (auto it = keys.cbegin(), end = keys.cend(); it != end; ++it)
+			pParameters[*it] = "";
 	}
 
 

@@ -12,14 +12,6 @@
 # include "private/date_helpers.hpp"
 # include <tuple>
 
-# ifdef USE_BOOST_REGULAR_EXPR
-#  include <boost/regex.hpp>
-namespace regexNS = boost;
-# else // USE_BOOST_REGULAR_EXPR
-#  include <regex>
-namespace regexNS = std;
-# endif // USE_BOOST_REGULAR_EXPR
-
 
 namespace PictStock
 {
@@ -65,14 +57,13 @@ namespace PictStock
 		*/
 		Date(int year, int month, int day, int hour = -1, int minute = -1, int second = -1);
 
-
 		/*!
-		** \brief Constructor from the result of a regex
+		** \brief Constructor
 		**
-		** The regex is defined in anonymous namespace of file date.cpp
-		** under the name RegexDateFormatting, essentially it
+		** Same as above except argument is there an array with six arguments
+		** (year, month, day, hour, minute, second respectively)
 		*/
-		Date(const regexNS::cmatch& regexMatch);
+		explicit Date(const std::array<int, 6>& date);
 
 		//! Recopy constructor
 		Date(const Date&);

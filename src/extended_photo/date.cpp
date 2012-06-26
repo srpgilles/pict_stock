@@ -3,6 +3,16 @@
 #include "date.hpp"
 #include "private/date_helpers.hpp"
 
+# ifdef USE_BOOST_REGULAR_EXPR
+#  include <boost/regex.hpp>
+namespace regexNS = boost;
+# else // USE_BOOST_REGULAR_EXPR
+#  include <regex>
+namespace regexNS = std;
+# endif // USE_BOOST_REGULAR_EXPR
+
+
+
 namespace PictStock
 {
 
@@ -27,6 +37,8 @@ namespace PictStock
 		** \brief Regular expression for date formatting
 		**
 		** Basically format is YYYY:MM:DD HH:mm:SS
+		**
+		** IMPORTANT: If this is modified check #Date::dateFromExif method remains correct!
 		*/
 		static const regexNS::regex RegexDateFormatting(expression.c_str());
 
@@ -91,35 +103,11 @@ namespace PictStock
 		conversionHelper<0>(elements);
 	}
 
-
-	Date::Date(const regexNS::cmatch& regexMatch)
-// g++-4.5 and MSCV 2010 don't implement this C++11 feature yet
-//	#ifndef YUNI_OS_WINDOWS
-//		: Date()
-//	#else
-		: pData(DefaultTimeInformations())
-//	#endif
+	Date::Date(const std::array<int, 6>& date)
 	{
-		enum { size = std::tuple_size<DateTuple>::value };
-
-		assert("First one is complete expression, others the sub-expressions"
-			&& regexMatch.size() == size + 1u);
-
-		std::array<int, size> elements;
-
-		for (int i = 0; i < size; ++i)
-		{
-			DateString buf = regexMatch[i + 1].str();
-			buf.trim();
-			if (buf.notEmpty())
-			{
-				pIsElementPresent.set(static_cast<size_t>(i));
-				elements[static_cast<size_t>(i)] = buf.to<int>();
-			}
-		}
-
-		// Recursively put the data into pData structure
-		conversionHelper<0>(elements);
+		// TODO: use C++11 call constructor when it is better supported (neither g++4-5
+		// nor VisualStudio 10 admit it currently) instead of this quite ugly trick
+		*this = Date(date[0], date[1], date[2], date[3], date[4], date[5]);
 	}
 
 
@@ -153,10 +141,27 @@ namespace PictStock
 
 		if (regex_search(dateRead.c_str(), match, RegexDateFormatting))
 		{
-			assert(match.size() == 7u && "First one is complete expression, others the sub-expressions");
+			enum { dateTupleSize =  std::tuple_size<DateTuple>::value };
 
-			Date buf(match);
-			out = buf;
+			assert(match.size() == dateTupleSize + 1u
+				&& "First one is complete expression, others the sub-expressions");
+
+			std::array<int, dateTupleSize> elements;
+
+			// We assume here the order of RegexDateFormatting is year, month, day, hour,
+			// minute, second (this is true at the time those lines are written and there is
+			// no reason at all to change that!)
+			for (int i = 0; i < dateTupleSize; ++i)
+			{
+				Date::DateString buf = match[i + 1].str();
+				buf.trim();
+				if (buf.notEmpty())
+					elements[static_cast<size_t>(i)] = buf.to<int>();
+				else
+					elements[static_cast<size_t>(i)] = -1; // default value
+			}
+
+			out = Date(elements);
 
 			return true;
 		}

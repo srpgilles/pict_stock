@@ -4,27 +4,45 @@
 #include "tools/read_parameter_file.hpp"
 #include "extended_photo/date.hpp"
 #include "photo_directory/private/path_format_helpers.hpp"
-
+#include <numeric>
 
 using namespace Yuni;
 
 namespace
 {
-	static const YString expression =
-		YString('^')
-			<< '(' << PictStock::Private::Year::Regex() << ")"
-			<< '-' // separator
-			<< '(' << PictStock::Private::Month::Regex() << ")"
-			<< '-' // separator
-			<< '(' << PictStock::Private::Day::Regex() << ")"
-			<< '$';
 
 	/*!
-	** \brief Regular expression for date formatting
+	** \brief Read the date string in parameter file and determine from it relevant time stamp
 	**
-	** Basically format is YYYY:MM:DD HH:mm:SS
-	*/
-	//static const regexNS::regex RegexDateFormatting(expression.c_str());
+	** \param[in, out] out Time stamp matching the date. If dateAsString is "none", input value
+	** is left unchanged
+	** @param helper PathFormatHelper object, to interpret the date read
+	** @param parameters Parameters as read in the parameter file
+	** @param dateAsString Key of the parameter looked at
+	**/
+
+	void determineTimeLimits(LoggingFacility& logs,
+		time_t& out,
+		const PictStock::Private::PathFormatHelper& helper,
+		const GenericTools::ReadParameterFile& parameters,
+		const YString& dateAsString)
+	{
+		const auto& parameterValue = parameters[dateAsString];
+
+		if (parameterValue != "none")
+		{
+			PictStock::PathInformations infos(logs);
+
+			if (!helper.isOk(parameterValue, infos))
+			{
+				logs.fatal("Invalid ") << dateAsString << " in parameters file";
+				exit(EXIT_FAILURE);
+			}
+			out = infos.date().timeStamp();
+		}
+	}
+
+
 }// namespace anonymous
 
 
@@ -67,19 +85,13 @@ int main(int argc, char* argv[])
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
 
 		PictStock::Private::PathFormatHelper helper(logs, "%y-%m-%d");
-		PictStock::PathInformations infos(logs);
 
-		auto strBeginDate = parameters["endDate"];
-		strBeginDate.trim();
-		if (strBeginDate == "none")
-		{
-			logs.notice("Take 0");
-		}
-		else
-		{
-			logs.notice() << helper.isOk(parameters["beginDate"], infos);
-			infos.print(std::cout);
-		}
+		time_t beginDate(0);
+		time_t endDate(std::numeric_limits<time_t>::max());
+		determineTimeLimits(logs, beginDate, helper, parameters, "beginDate");
+		determineTimeLimits(logs, endDate, helper, parameters, "endDate");
+
+
 	}
 	catch(const std::exception& e)
 	{

@@ -1,0 +1,14 @@
+add_library(pict_frame STATIC
+	private/scan_photo_directory.cpp
+	private/scan_photo_directory.hpp
+)
+
+target_link_libraries(pict_frame
+	extended_photo
+	exiv2
+	yuni-static-core
+)
+
+if (UNIX)
+	target_link_libraries(pict_frame ${Boost_LIBRARIES})
+endif (UNIX)

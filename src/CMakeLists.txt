@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 add_subdirectory(extended_photo)
 add_subdirectory(photo_directory)
 add_subdirectory(sort_new_photos)
+add_subdirectory(pict_frame)
 add_subdirectory(tools)
 
 

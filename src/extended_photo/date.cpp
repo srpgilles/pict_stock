@@ -57,18 +57,22 @@ namespace PictStock
 		{
 			tm ret;
 
-			ret.tm_year = 70;
-			ret.tm_mon = 0;
-			ret.tm_mday = 1;
-			ret.tm_hour = 0;
-			ret.tm_min = 0;
+			const time_t defaultTimeStamp = 1; // 1 because 0 is replaced by current time stamp!
 
-			# ifdef YUNI_OS_WINDOWS
-			long timezone;
-			_get_timezone(&timezone);
-			# endif
-
-			ret.tm_sec = - static_cast<int>(timezone);
+			YString out;
+			Yuni::DateTime::TimestampToString(out, "%y", defaultTimeStamp, true);
+			ret.tm_year = out.to<int>();
+			Yuni::DateTime::TimestampToString(out, "%m", defaultTimeStamp, true);
+			ret.tm_mon = out.to<int>() - 1;
+			Yuni::DateTime::TimestampToString(out, "%d", defaultTimeStamp, true);
+			ret.tm_mday = out.to<int>();
+			Yuni::DateTime::TimestampToString(out, "%H", defaultTimeStamp, true);
+			ret.tm_hour = out.to<int>();
+			Yuni::DateTime::TimestampToString(out, "%M", defaultTimeStamp, true);
+			ret.tm_min = out.to<int>();
+			Yuni::DateTime::TimestampToString(out, "%S", defaultTimeStamp, true);
+			ret.tm_sec = out.to<int>() - 1; // -1 because defaultTimeStamp is 1 and we
+											// want 0 as a final value
 			ret.tm_isdst = 0;
 
 			assert(mktime(&ret) == 0);

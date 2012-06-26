@@ -150,12 +150,13 @@ namespace PictStock
 
 		size_t index = static_cast<size_t>(temp);
 
-		out[index] = value;
-
 		assert(pIsElementPresent[temp] == false && "Should be initialized at false");
 
 		if (value != -1)
+		{
 			pIsElementPresent.set(index);
+			out[index] = value;
+		}
 	}
 
 

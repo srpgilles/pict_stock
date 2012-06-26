@@ -121,6 +121,30 @@ namespace PictStock
 	{ }
 
 
+	Date::Date(time_t timeStamp)
+	{
+		YString out;
+		Yuni::DateTime::TimestampToString(out, "%y", timeStamp, true);
+		pData.tm_year = out.to<int>();
+		Yuni::DateTime::TimestampToString(out, "%m", timeStamp, true);
+		pData.tm_mon = out.to<int>() - 1;
+		Yuni::DateTime::TimestampToString(out, "%d", timeStamp, true);
+		pData.tm_mday = out.to<int>();
+		Yuni::DateTime::TimestampToString(out, "%H", timeStamp, true);
+		pData.tm_hour = out.to<int>();
+		Yuni::DateTime::TimestampToString(out, "%M", timeStamp, true);
+		pData.tm_min = out.to<int>();
+		Yuni::DateTime::TimestampToString(out, "%S", timeStamp, true);
+		pData.tm_sec = out.to<int>();
+		pData.tm_isdst = 0;
+
+		pIsElementPresent.set();
+
+		assert(this->timeStamp() == timeStamp);
+	}
+
+
+
 	void swap(Date& lhs, Date& rhs)
 	{
 		using std::swap;
@@ -228,6 +252,12 @@ namespace PictStock
 			return true;
 
 		return lhs < rhs;
+	}
+
+
+	bool operator >= (const Date& lhs, const Date& rhs)
+	{
+		return !(operator < (lhs, rhs));
 	}
 
 

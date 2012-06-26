@@ -65,6 +65,14 @@ namespace PictStock
 		*/
 		explicit Date(const std::array<int, 6>& date);
 
+
+		/*!
+		** \brief Constructor from time stamp
+		**
+		** We consider in this cas that all elements are known (so all is 1 in bitset)
+		*/
+		explicit Date(time_t timeStamp);
+
 		//! Recopy constructor
 		Date(const Date&);
 		//@}
@@ -207,6 +215,7 @@ namespace PictStock
 	bool operator != (const Date& lhs, const Date& rhs);
 	bool operator < (const Date& lhs, const Date& rhs);
 	bool operator <= (const Date& lhs, const Date& rhs);
+	bool operator >= (const Date& lhs, const Date& rhs);
 	void swap(Date& lhs, Date& rhs);
 
 	//! Interpret the string dateRead and extract from it the date.

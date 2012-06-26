@@ -112,10 +112,10 @@ namespace PictStock
 	const Photographer::List ExtendedPhoto::pPhotographers = initPhotographers();
 
 	ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const String& filename)
-			: logs(logs),
-			  pOriginalPath(filename),
-			  pPathInformations(new PathInformations(logs)),
-			  pStatus(epFine)
+		: logs(logs),
+		  pOriginalPath(filename),
+		  pPathInformations(new PathInformations(logs)),
+		  pStatus(epFine)
 	{
 		// It is assumed files passed in parameters truly exists
 		// (check should occur before call to the class)

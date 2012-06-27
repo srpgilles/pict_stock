@@ -12,14 +12,14 @@ v0.3 (delivered)
 	instead of cumbersome string comparisons)
 	
 v0.4
+	. General clean-up: uniformize (and maybe use sqlite as well) parameters input files,
+	and better error handling (some functions or methods call directly exit(), which is not
+	clean even if those are the ones assumed to be called at the very beginning of the program)	
+
+v0.5
 	. Introduce a sqlite database to handle photographers & cameras data (currently hardcoded 
 	with my own data, which makes the photographer feature entirely unusable for someone
 	else than myself...)
-	
-v0.5
-	. General clean-up: uniformize (and maybe use sqlite as well) parameters input files,
-	and better error handling (some functions or methods call directly exit(), which is not
-	clean even if those are the ones assumed to be called at the very beginning of the program)
 	
 v0.6
 	. Clean exiv2 library: 

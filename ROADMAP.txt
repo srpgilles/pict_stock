@@ -1,0 +1,39 @@
+v0.1 (delivered)
+	. First implementation of PictStock, which was not very customizable (folder structure 
+	of photo directory was for instance immutable)
+	
+v0.2 (delivered)
+	. Folder structure and photos names are now fully customizable
+	. Refactoring to ease tremendously maintenance
+	
+v0.3 (delivered)
+	. PictFrame: a new program to choose randomly photos to display on a digital frame
+	. Improve the Date class to speed up all related operations (underlying C struct tm
+	instead of cumbersome string comparisons)
+	
+v0.4
+	. Introduce a sqlite database to handle photographers & cameras data (currently hardcoded 
+	with my own data, which makes the photographer feature entirely unusable for someone
+	else than myself...)
+	
+v0.5
+	. General clean-up: uniformize (and maybe use sqlite as well) parameters input files,
+	and better error handling (some functions or methods call directly exit(), which is not
+	clean even if those are the ones assumed to be called at the very beginning of the program)
+	
+v0.6
+	. Clean exiv2 library: 
+		- Currently the evix2 library is a copy done at a moment that has been
+		tweaked a bit for my need (only compilation-related). 
+		- The Windows compilation peculiarly is a scary process that need some work
+		- Many warnings in compilation that are bothersome when compiling PictStock;
+		maybe work a bit on them and propose a path to exiv2 guys if not solved 
+		(I posted a ticket on their forum but exiv2 seems in development hell...)
+	
+Future
+	. IHM (wxWidget? something else?)	
+	. Some modifications when all compilers I use (g++, clang, MSVC) implement all the
+	C++11 features I want to use
+	. Redmine (GitHub project manager is too scarce and cumbersome to use; I gave up)
+	
+

@@ -15,10 +15,12 @@ namespace Private
 	ScanPhotoDirectory::ScanPhotoDirectory(LoggingFacility& logs,
 		const PathFormat& pathFormat,
 		const time_t beginDate,
-		const time_t endDate)
+		const time_t endDate,
+		ReadDate::Mode mode)
 		: logs(logs),
 		  pBeginDate(Date(beginDate)),
 		  pEndDate(Date(endDate)),
+		  pMode(mode),
 		  pPathFormat(pathFormat)
 	{ }
 
@@ -55,18 +57,23 @@ namespace Private
 	IO::Flow ScanPhotoDirectory::onFile(const String&  completePath,
 		const String& /*folder*/, const String& /*name*/, uint64 /*size*/)
 	{
-		// We load the photo to check the date. We could imagine later to
-		// provide a fast option which prevent this step (which shouldn't
-		// modify anything in case folder actually support most of the date
-		// information and photo directory was generated with PictStock;
-		// however if not the case this step is really required)
-		ExtendedPhoto photo(logs, completePath);
-		auto ptr = photo.informations();
-		assert(!(!ptr));
-		Date photoDate = ptr->date();
+		if (pMode == ReadDate::safe)
+		{
+			// We load the photo to check the date. We could imagine later to
+			// provide a fast option which prevent this step (which shouldn't
+			// modify anything in case folder actually support most of the date
+			// information and photo directory was generated with PictStock;
+			// however if not the case this step is really required)
+			ExtendedPhoto photo(logs, completePath);
+			auto ptr = photo.informations();
+			assert(!(!ptr));
+			Date photoDate = ptr->date();
 
-		if (photoDate >= pBeginDate && photoDate <= pEndDate)
-			pValidPhotos.push_back(completePath);
+			if (photoDate < pBeginDate || photoDate > pEndDate)
+				return IO::flowContinue;
+		}
+
+		pValidPhotos.push_back(completePath);
 
 		return IO::flowContinue;
 	}
@@ -87,6 +94,12 @@ namespace Private
 		}
 
 		return false;
+	}
+
+
+	inline const std::deque<YString>& ScanPhotoDirectory::pool() const
+	{
+		return pValidPhotos;
 	}
 
 } // namespace Private

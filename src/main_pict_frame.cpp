@@ -1,5 +1,3 @@
-
-
 #include <yuni/core/getopt.h>
 #include "tools/read_parameter_file.hpp"
 #include "extended_photo/date.hpp"

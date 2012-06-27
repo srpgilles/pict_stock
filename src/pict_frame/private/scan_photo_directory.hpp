@@ -61,6 +61,7 @@ namespace Private
 		//@{
 		//! Constructor
 		ScanPhotoDirectory(LoggingFacility& logs, const PathFormat& pathFormat,
+			const YString& photoDirectory,
 			const time_t beginDate, const time_t endDate, ReadDate::Mode mode);
 
 		//! Destructor

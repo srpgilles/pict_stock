@@ -24,6 +24,9 @@ namespace PictStock
 		** \briefConstructor
 		**
 		** \param[in] logs Logging facility
+		** \param[in] photoDirectory Folder in which the entire pool of photos considered
+		** is stored
+		** \param[in] outputDirectory Output directory (probably on a photo card such as a SD)
 		** \param[in] pathFormat Path format object to use to identify date from path
 		** \param[in] nbPhotos Number of photos requested on the digital frame
 		** \param[in] beginDate Oldest date considered
@@ -31,6 +34,7 @@ namespace PictStock
  		**
 		*/
 		PictFrame(LoggingFacility& logs, const PathFormat& pathFormat,
+			const YString& photoDirectory, const YString& outputDirectory,
 			unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
 			ReadDate::Mode mode);
 

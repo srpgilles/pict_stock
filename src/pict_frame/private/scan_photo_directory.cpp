@@ -14,6 +14,7 @@ namespace Private
 
 	ScanPhotoDirectory::ScanPhotoDirectory(LoggingFacility& logs,
 		const PathFormat& pathFormat,
+		const YString& photoDirectory,
 		const time_t beginDate,
 		const time_t endDate,
 		ReadDate::Mode mode)
@@ -22,7 +23,21 @@ namespace Private
 		  pEndDate(Date(endDate)),
 		  pMode(mode),
 		  pPathFormat(pathFormat)
-	{ }
+	{
+		if (!IO::Directory::Exists(photoDirectory))
+		{
+			logs.fatal() << "Error: input directory " << photoDirectory
+				<< " doesn't exists\n";
+			exit(-1); // TODO proper error handling to foresee
+		}
+
+		{
+			// Now we want to iterate through the new files to add in the photo directory
+			add(photoDirectory);
+			start();
+			wait();
+		}
+	}
 
 
 	ScanPhotoDirectory::~ScanPhotoDirectory()

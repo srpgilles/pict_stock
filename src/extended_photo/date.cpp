@@ -255,6 +255,12 @@ namespace PictStock
 	}
 
 
+	bool operator > (const Date& lhs, const Date& rhs)
+	{
+		return !(operator <= (lhs, rhs));
+	}
+
+
 	bool operator >= (const Date& lhs, const Date& rhs)
 	{
 		return !(operator < (lhs, rhs));

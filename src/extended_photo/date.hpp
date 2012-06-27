@@ -214,6 +214,7 @@ namespace PictStock
 	bool operator == (const Date& lhs, const Date& rhs);
 	bool operator != (const Date& lhs, const Date& rhs);
 	bool operator < (const Date& lhs, const Date& rhs);
+	bool operator > (const Date& lhs, const Date& rhs);
 	bool operator <= (const Date& lhs, const Date& rhs);
 	bool operator >= (const Date& lhs, const Date& rhs);
 	void swap(Date& lhs, Date& rhs);

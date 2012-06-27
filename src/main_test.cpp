@@ -5,7 +5,9 @@
 #include <ctime>
 #include <tuple>
 #include "tools/tools.hpp"
-
+#include <deque>
+#include <yuni/core/math/random/range.h>
+#include <yuni/core/math/random/default.h>
 typedef Yuni::Logs::Logger<> LoggingFacility;
 using namespace Yuni;
 
@@ -186,6 +188,32 @@ int main(int argc, char* argv[])
 		logs.checkpoint("0 ") << static_cast<int>(GenericTools::IndexOf<Year, DateTuple>::value);
 	}
 
+	{
+		std::deque<int> foo;
+		foo.push_back(2);
+		foo.push_back(3);
+		foo.push_back(5);
+		foo.push_back(7);
+		foo.push_back(11);
+		foo.push_back(13);
+
+		std::vector<int> bar;
+		bar.resize(foo.size());
+		std::copy(foo.cbegin(), foo.cend(), bar.begin());
+
+		for (auto it = bar.cbegin(), end = bar.cend(); it != end; ++it)
+			logs.notice() << *it;
+
+
+	}
+
+	{
+		Math::Random::Range<Math::Random::Default> range;
+		range.reset();
+
+		for (int i = 0; i < 10; ++i)
+			logs.notice() <<range();
+	}
 
 
 

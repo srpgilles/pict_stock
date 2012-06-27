@@ -59,12 +59,10 @@ namespace PictStock
 		void prepareOutputDirectory(const YString& outputDirectory) const;
 
 		/*!
-		** \brief Select the requested number of photos and copy them to
-		** the output directory
-		**
+		** \brief Select the requested number of photos
 		*/
 		void selectPhotos(const YString& outputDirectory,
-			const std::deque<YString>& pool,bool doShuffle);
+			const std::deque<YString>& pool);
 
 	private:
 

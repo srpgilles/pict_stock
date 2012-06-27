@@ -1,6 +1,9 @@
 #include "pict_frame.hpp"
 #include "../tools/exceptions.hpp"
 #include <yuni/io/directory/info/info.h>
+#include <yuni/core/math/random/range.h>
+#include <yuni/core/math/random/default.h>
+
 
 using namespace Yuni;
 
@@ -14,19 +17,28 @@ namespace PictStock
 		: logs(logs),
 		  pNbPhotos(nbPhotos)
 	{
+		// Create or empty (only jpg) target directory
 		prepareOutputDirectory(outputDirectory);
 
+		// Scan the photo directory from which the selection will be performed
 		Private::ScanPhotoDirectory helper(logs, pathFormat, photoDirectory,
 			beginDate, endDate, mode);
 		const auto& pool = helper.pool();
 
-		selectPhotos(outputDirectory, pool, doShuffle);
+		// Select randomly some photos from photo directory
+		selectPhotos(outputDirectory, pool);
+
+		// If requested shuffle all selected photos
+		if (doShuffle)
+			std::random_shuffle(pPhotosChosen.begin(), pPhotosChosen.end());
+
+		// Copy the selected photos to the target folder and rename them
 
 
 	}
 
 	void PictFrame::selectPhotos(const YString& outputDirectory,
-		const std::deque<YString>& pool, bool doShuffle)
+		const std::deque<YString>& pool)
 	{
 		auto size = pool.size();
 		logs.notice() << "There are " << pool.size() << " photos in the pool; "
@@ -35,14 +47,26 @@ namespace PictStock
 		if (size <= pNbPhotos)
 		{
 			// Trivial case: keep all photos!
-			pPhotosChosen.reserve(size);
+			pPhotosChosen.resize(size);
+			std::copy(pool.cbegin(), pool.cend(), pPhotosChosen.begin());
+		}
+		else
+		{
+			pPhotosChosen.reserve(pNbPhotos);
+
+			// Calculate the "distance" between two photos to be kept
+			// For instance, if we want 3 photos out of 10, distance is 10/3 = 3.333
+			double dist = static_cast<double>(size) / static_cast<double>(pNbPhotos);
+
+			// Choose randomly the distance
+			Math::Random::Range<Math::Random::Default> range;
+			range.reset();
+
+			range();
+
 
 
 		}
-
-
-
-
 	}
 
 

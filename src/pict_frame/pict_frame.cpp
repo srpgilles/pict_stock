@@ -13,7 +13,7 @@ namespace PictStock
 	PictFrame::PictFrame(LoggingFacility& logs, const PathFormat& pathFormat,
 		const YString& photoDirectory, const YString& outputDirectory,
 		unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
-		ReadDate::Mode mode, bool doShuffle)
+		ReadDate::Mode mode, bool isChronological)
 		: logs(logs),
 		  pNbPhotos(nbPhotos)
 	{
@@ -29,8 +29,8 @@ namespace PictStock
 		selectPhotos(outputDirectory, pool);
 
 		// If requested shuffle all selected photos
-		if (doShuffle)
-			std::random_shuffle(pPhotosChosen.begin(), pPhotosChosen.end());
+//		if (isChronological)
+//			std::random_shuffle(pPhotosChosen.begin(), pPhotosChosen.end());
 
 		// Copy the selected photos to the target folder and rename them
 
@@ -47,12 +47,28 @@ namespace PictStock
 		if (size <= pNbPhotos)
 		{
 			// Trivial case: keep all photos!
-			pPhotosChosen.resize(size);
-			std::copy(pool.cbegin(), pool.cend(), pPhotosChosen.begin());
+			for (auto it = pool.cbegin(), end = pool.cend(); it != end; ++it)
+			{
+				ExtendedPhoto::Ptr ptr = new ExtendedPhoto(logs, *it);
+				pPhotosChosen.push_back(ptr);
+			}
 		}
 		else
 		{
-			pPhotosChosen.reserve(pNbPhotos);
+			/*
+			 *  Algorithm to implement:
+			 *
+			 *  . Calculate the distance
+			 *  . Generate a random number in [0, distance[ to determine the starting
+			 *  point of the sequence
+			 *  . If the sequence is longer than the requested number of elements,
+			 *  eliminate randomly as many elements as necessary. To do so, perform
+			 *  shuffle and then delete last entries for the sake of efficiency
+			 *  . And if user want chronological order, it is not a big deal to sort
+			 *  again the vector with a proper predicate
+			 *
+			 *
+			 */
 
 			// Calculate the "distance" between two photos to be kept
 			// For instance, if we want 3 photos out of 10, distance is 10/3 = 3.333

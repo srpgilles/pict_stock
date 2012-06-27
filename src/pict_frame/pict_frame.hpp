@@ -2,6 +2,7 @@
 # define PICT_FRAME_HPP_
 
 # include "private/scan_photo_directory.hpp"
+# include "../extended_photo/extended_photo.hpp"
 
 
 namespace PictStock
@@ -31,15 +32,13 @@ namespace PictStock
 		** \param[in] nbPhotos Number of photos requested on the digital frame
 		** \param[in] beginDate Oldest date considered
 		** \param[in] endDate Newest date considered
-		** \param[in] doShuffle If true, pictures will be randomly shuffled. If false,
-		** they will be kept under their input order (in all likelihood chronologically,
-		** if your tree order makes sense)
+		** \param[in] isChronological If true, pictures will be sort chronologically
  		**
 		*/
 		PictFrame(LoggingFacility& logs, const PathFormat& pathFormat,
 			const YString& photoDirectory, const YString& outputDirectory,
 			unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
-			ReadDate::Mode mode, bool doShuffle);
+			ReadDate::Mode mode, bool isChronological);
 
 		//@}
 
@@ -70,7 +69,7 @@ namespace PictStock
 		unsigned int pNbPhotos;
 
 		//! Photos that have been selected
-		std::vector<YString> pPhotosChosen;
+		std::list<ExtendedPhoto::Ptr> pPhotosChosen;
 
 	};
 

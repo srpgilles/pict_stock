@@ -9,213 +9,118 @@
 #include <yuni/core/math/random/range.h>
 #include <yuni/core/math/random/default.h>
 typedef Yuni::Logs::Logger<> LoggingFacility;
+
 using namespace Yuni;
 
-
-namespace Element // use enum class when MSVC will support it!
+class Foo
 {
-	enum Date
-	{
-		year = 0,
-		month,
-		day,
-		hour,
-		minute,
-		second,
-		size
-	};
-}
+public:
+	/*!
+	 *
+	 * @param min Minimal value
+	 * @param size Size of the container (value immediately above max)
+	 * @param nbRequested Number of values requested
+	 */
+	Foo(unsigned int min, unsigned int size, unsigned int nbRequested);
 
 
-template<Element::Date T>
-int toCTimeInformations(int value);
+	unsigned int nbElementsInSequence() const;
 
-template<>
-inline int toCTimeInformations<Element::year>(int value)
-{
-	return value - 1900;
-}
+	unsigned int distance() const;
 
+	std::vector<unsigned int> sequence() const;
 
-template<>
-inline int toCTimeInformations<Element::month>(int value)
-{
-	assert(value > 0 && value <= 12);
-	return --value;
-}
+private:
 
-template<>
-inline int toCTimeInformations<Element::day>(int value)
-{
-	assert(value >= 1 && value <= 31);
-	return value;
-}
-
-template<>
-inline int toCTimeInformations<Element::hour>(int value)
-{
-	assert(value >= 0 && value <= 23);
-	return value;
-}
-
-template<>
-inline int toCTimeInformations<Element::minute>(int value)
-{
-	assert(value >= 0 && value <= 59);
-	return value;
-
-}
-
-template<>
-inline int toCTimeInformations<Element::second>(int value)
-{
-	assert(value >= 0 && value < 60);
-	return value;// + static_cast<int>(timezone);
-}
-
-
-struct Year
-{
-	int a;
-};
-
-
-struct Day
-{
-	int b;
-};
-
-struct Month
-{
-	int c;
-};
-
-
-struct Day2 : public Day
-{
+	unsigned int pMin;
+	unsigned int pSize;
+	unsigned int pNbRequested;
 
 };
 
 
-typedef std::tuple<Year, Day, Month, Day, Year> DateTuple;
+Foo::Foo(unsigned int min, unsigned int size, unsigned int nbRequested)
+	: pMin(min),
+	  pSize(size),
+	  pNbRequested(nbRequested)
+{
+	assert(nbRequested > 0u);
+	LoggingFacility logs;
+	auto bar = sequence();
+	YString buf("Sequence = ");
+	for (auto it = bar.cbegin(), end = bar.cend(); it != end; ++it)
+		buf << ' ' << *it;
+
+	logs.notice(buf);
+}
+
+
+unsigned int Foo::nbElementsInSequence() const
+{
+	if (pMin >= pSize)
+		return 0;
+
+	return 1u + (pSize - 1u - pMin) / distance();
+}
+
+unsigned int Foo::distance() const
+{
+	return pSize / pNbRequested;
+}
+
+std::vector<unsigned int> Foo::sequence() const
+{
+	LoggingFacility logs;
+	auto distance = this->distance();
+	std::vector<unsigned int> ret;
+	ret.reserve(nbElementsInSequence());
+	for (unsigned int i = pMin; i < pSize; i += distance)
+		ret.push_back(i);
+
+	assert(ret.size() == nbElementsInSequence());
+
+	return ret;
+}
+
+
+/*
+ *  Algorithm to implement:
+ *
+ *  . Calculate the distance
+ *  . Generate a random number in [0, distance[ to determine the starting point of the sequence
+ *  . If the sequence is longer than the requested number of elements, eliminate randomly
+ *  as many elements as necessary
+ *  	- Really randomly? Efficiency cost will be quite high; better to remove last entries...
+ *  	Not such a problem with shuffle though; we get best of both worlds
+ *  . And if user want chronological order, it is not a big deal to sort again the vector with
+ *  a proper predicate
+ *
+ *
+ */
 
 
 
 
-
-
-// T is the class for which we seek the index
-// I is the position in DateTuple we are investigating
-
-
-
-
-
-
-
-int main(int argc, char* argv[])
+int main()
 {
 	LoggingFacility logs;
 
-	YString date;
-	AnyString format("%Y-%m-%d %H:%M:%S");
+	std::deque<unsigned int> input;
+	for (unsigned int i = 0u; i < 15u; ++i)
+		input.push_back(i);
 
-	time_t foo(1299997609);
+	std::vector<unsigned int> choice;
+	unsigned int nbElements = 4u;
 
-	//if (Yuni::DateTime::TimestampToString(date, format, foo, false))
-	//	logs.notice(date);
-
-	struct tm * timeinfo;
-	char buffer [80];
-	timeinfo = localtime (&foo);
-
-	strftime (buffer, 80, format.c_str(), timeinfo);
-
-	// logs.notice(buffer);
-
-//	logs.notice("Check ") << foo << " == " << mktime(timeinfo);
-//
-//	{
-//		tm myTimeInfo;
-//
-//		myTimeInfo.tm_year = 70;
-//		myTimeInfo.tm_mon = 0;
-//		myTimeInfo.tm_mday = 1;
-//		myTimeInfo.tm_hour = 0;
-//		myTimeInfo.tm_min = 0;
-//		myTimeInfo.tm_sec = -timezone;
-//		myTimeInfo.tm_isdst = 0;
-//
-//
-//		Yuni::DateTime::TimestampToString(date, format, mktime(&myTimeInfo), true);
-//		logs.notice("Date ") << mktime(&myTimeInfo) << "\t" << date;
-//	}
-
-
+	//select(input, choice, nbElements);
+	for (unsigned int i = 0u; i < 100u; ++i)
 	{
-		int year = 2012;
-		int month = 4;
-		int day = 26;
-		int hour = 13;
-		int minute = 49;
-		int second = 32;
-
-		tm myTimeInfo;
-
-		myTimeInfo.tm_year = toCTimeInformations<Element::year>(year);
-		myTimeInfo.tm_mon = toCTimeInformations<Element::month>(month);
-		myTimeInfo.tm_mday = toCTimeInformations<Element::day>(day);
-		myTimeInfo.tm_hour = toCTimeInformations<Element::hour>(hour);
-		myTimeInfo.tm_min = toCTimeInformations<Element::minute>(minute);
-		myTimeInfo.tm_sec = toCTimeInformations<Element::second>(second);
-		myTimeInfo.tm_isdst = 0;
-
-		logs.notice("Original date = ") << year << ' ' << month
-			<< ' ' << day << ' ' << hour << ':' << minute << ':' << second;
-
-		Yuni::DateTime::TimestampToString(date, format, mktime(&myTimeInfo), true);
-
-		logs.notice("Date ") << date;
+		for (unsigned int k = 0u; k < 100u; ++k)
+		{
+			for (unsigned int j = 1u; j < i; ++j)
+				Foo foo(k, i, j);
+		}
 	}
-
-
-
-	{
-		logs.checkpoint("-1 ") << static_cast<int>(GenericTools::IndexOf<Day2, DateTuple>::value);
-
-		logs.checkpoint("1 ") << static_cast<int>(GenericTools::IndexOf<Day, DateTuple>::value);
-
-		logs.checkpoint("0 ") << static_cast<int>(GenericTools::IndexOf<Year, DateTuple>::value);
-	}
-
-	{
-		std::deque<int> foo;
-		foo.push_back(2);
-		foo.push_back(3);
-		foo.push_back(5);
-		foo.push_back(7);
-		foo.push_back(11);
-		foo.push_back(13);
-
-		std::vector<int> bar;
-		bar.resize(foo.size());
-		std::copy(foo.cbegin(), foo.cend(), bar.begin());
-
-		for (auto it = bar.cbegin(), end = bar.cend(); it != end; ++it)
-			logs.notice() << *it;
-
-
-	}
-
-	{
-		Math::Random::Range<Math::Random::Default> range;
-		range.reset();
-
-		for (int i = 0; i < 10; ++i)
-			logs.notice() <<range();
-	}
-
-
 
 	return 0;
 }

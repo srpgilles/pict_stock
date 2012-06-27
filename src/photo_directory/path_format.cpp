@@ -2,7 +2,7 @@
 #include "path_format.hpp"
 #include <yuni/io/file.h>
 #include "../extended_photo/extended_photo.hpp"
-
+#include "../tools/exceptions.hpp"
 
 using namespace Yuni;
 
@@ -22,7 +22,7 @@ namespace PictStock
 		  pFilePart(nullptr)
 	{
 		if (format.contains('('))
-			throw Private::PathFormatException("Format shouldn't include any parenthesis");
+			throw GenericTools::Exception("Format shouldn't include any parenthesis");
 
 		{
 			String folderName, fileName;

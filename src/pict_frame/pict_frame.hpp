@@ -7,6 +7,14 @@
 namespace PictStock
 {
 
+	class PictFrameException
+	{
+
+
+
+	};
+
+
 	/*!
 	** \brief Scan the entire photo directory, and choose randomly some photos
 	** to be displayed on a digital frame
@@ -41,7 +49,14 @@ namespace PictStock
 		//@}
 
 
+	private:
 
+		/*!
+		** \brief Prepare output directory for new photos
+		**
+		** Delete any JPG files in it if it already exists, or create it if it does not
+		 */
+		void prepareOutputDirectory(const YString& outputDirectory) const;
 
 
 

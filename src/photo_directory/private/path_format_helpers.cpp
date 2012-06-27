@@ -226,22 +226,6 @@ namespace Private
 	}
 
 
-
-	PathFormatException::PathFormatException(const AnyString& msg)
-		: pMessage(msg)
-	{ }
-
-
-	PathFormatException::~PathFormatException() throw()
-	{ }
-
-
-	const char* PathFormatException::what() const throw()
-	{
-		return pMessage.c_str();
-	}
-
-
 	PathFormatHelper::PathFormatHelper(LoggingFacility& logs, const AnyString& format)
 		: logs(logs),
 		  pFormat(format)

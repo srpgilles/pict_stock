@@ -20,32 +20,6 @@ namespace PictStock
 
 namespace Private
 {
-	class YUNI_DECL PathFormatException : public std::exception
-	{
-	public:
-
-		//! Constructor & destructor
-		//@{
-		/*!
-		** \brief Constructor
-		**
-		** \param msg Message describing the problem encountered
-		*/
-		PathFormatException(const AnyString& msg);
-
-		virtual ~PathFormatException() throw();
-
-		//@}
-
-		//! Overwrite what method
-		virtual const char* what() const throw();
-
-	private:
-
-		//! Text describing the exception
-		YString pMessage;
-	};
-
 
 	/*!
 	** \brief Class in charge of handling the model of output format provided in input parameters

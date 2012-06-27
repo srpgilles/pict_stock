@@ -7,21 +7,13 @@
 namespace PictStock
 {
 
-	class PictFrameException
-	{
-
-
-
-	};
-
-
 	/*!
 	** \brief Scan the entire photo directory, and choose randomly some photos
 	** to be displayed on a digital frame
 	**
 	*/
 
-	class YUNI_DECL PictFrame
+	class YUNI_DECL PictFrame : private Yuni::NonCopyable<PictFrame>
 	{
 	public:
 
@@ -39,14 +31,22 @@ namespace PictStock
 		** \param[in] nbPhotos Number of photos requested on the digital frame
 		** \param[in] beginDate Oldest date considered
 		** \param[in] endDate Newest date considered
+		** \param[in] doShuffle If true, pictures will be randomly shuffled. If false,
+		** they will be kept under their input order (in all likelihood chronologically,
+		** if your tree order makes sense)
  		**
 		*/
 		PictFrame(LoggingFacility& logs, const PathFormat& pathFormat,
 			const YString& photoDirectory, const YString& outputDirectory,
 			unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
-			ReadDate::Mode mode);
+			ReadDate::Mode mode, bool doShuffle);
 
 		//@}
+
+	public:
+
+		//! Logging facility
+		LoggingFacility& logs;
 
 
 	private:
@@ -58,9 +58,21 @@ namespace PictStock
 		 */
 		void prepareOutputDirectory(const YString& outputDirectory) const;
 
+		/*!
+		** \brief Select the requested number of photos and copy them to
+		** the output directory
+		**
+		*/
+		void selectPhotos(const YString& outputDirectory,
+			const std::deque<YString>& pool,bool doShuffle);
 
+	private:
 
+		//! Number of photos for the digital frame
+		unsigned int pNbPhotos;
 
+		//! Photos that have been selected
+		std::vector<YString> pPhotosChosen;
 
 	};
 

@@ -60,8 +60,7 @@ namespace PictStock
 		/*!
 		** \brief Select the requested number of photos
 		*/
-		void selectPhotos(const YString& outputDirectory,
-			const std::deque<YString>& pool);
+		void selectPhotos(const std::deque<YString>& pool);
 
 	private:
 

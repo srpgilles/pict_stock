@@ -62,6 +62,11 @@ namespace PictStock
 		*/
 		void selectPhotos(const std::deque<YString>& pool);
 
+		/*!
+		** \brief Copy selected photos to output directory
+		*/
+		void copyToOutputDirectory(const YString& outputDirectory) const;
+
 	private:
 
 		//! Number of photos for the digital frame

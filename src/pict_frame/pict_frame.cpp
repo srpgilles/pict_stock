@@ -117,6 +117,9 @@ namespace PictStock
 		// If requested shuffle all selected photos
 		if (isChronological)
 			pPhotosChosen.sort(sortByDate);
+
+		// Copy and rename photos chosen to output directory
+		copyToOutputDirectory(outputDirectory);
 	}
 
 
@@ -192,6 +195,33 @@ namespace PictStock
 					throw GenericTools::Exception(msg);
 				}
 			}
+		}
+	}
+
+
+	void PictFrame::copyToOutputDirectory(const YString& outputDirectory) const
+	{
+		assert("If not, prepareOutputDirectory() not called or bugged"
+			&& IO::Directory::Exists(outputDirectory));
+
+		unsigned int index = 0u;
+
+		YString target;
+
+		// TODO:
+		// 1 - Securize copy (throw exception except if problem is lack of size on output device)
+		// 2 - Take the populate folder trick to choose number of digits (put the algorithm in
+		// GenericTools)"
+
+		for (auto it = pPhotosChosen.cbegin(), end = pPhotosChosen.cend(); it != end; ++it)
+		{
+			ExtendedPhoto::Ptr photoPtr = *it;
+			assert(!(!photoPtr));
+
+			target = outputDirectory;
+			target << IO::Separator << "Photo_" << ++index << ".jpg";
+
+			IO::File::Copy(photoPtr->originalPath(), target, false);
 		}
 	}
 

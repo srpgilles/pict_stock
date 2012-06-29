@@ -46,10 +46,10 @@ namespace File
 
 				// fallback to the standard copy
 				char* buffer = new char[size];
-				size_t numRead;
+				uint numRead;
 
-				while ((numRead = read(fdIN, buffer, size)) > 0)
-					(void)::write(fdOUT, buffer, (unsigned int) numRead);
+				while ((numRead = (uint) read(fdIN, buffer, size)) > 0)
+					(void)::write(fdOUT, buffer, (uint) numRead);
 
 				delete[] buffer;
 				return Yuni::IO::errNone;

@@ -66,17 +66,17 @@ struct Model
 
 
 	protected:
-		NullIterator(const StringType& s)
-			:pString(s)
+		NullIterator(const StringType& s) :
+			pString(s)
 		{}
 
-		NullIterator(const NullIterator& copy)
-			:pString(copy.pString)
+		NullIterator(const NullIterator& copy) :
+			pString(copy.pString)
 		{}
 
 		template<class ModelT>
-		NullIterator(const ModelT& copy)
-			:pString(copy.string())
+		NullIterator(const ModelT& copy) :
+			pString(copy.string())
 		{}
 
 		static void forward(difference_type)
@@ -205,22 +205,26 @@ struct Model
 
 
 	protected:
-		UTF8Iterator(const StringType& s, size_type offset)
-			:pOffset(offset), pString(const_cast<StringType&>(s))
+		UTF8Iterator(const StringType& s, size_type offset) :
+			pOffset(offset),
+			pString(const_cast<StringType&>(s))
 		{
 			// We must forward once to got the first char
 			forward();
 		}
-		UTF8Iterator(const NullIterator& s)
-			:pOffset(s.rawOffset()), pString(const_cast<StringType&>(s.string()))
+		UTF8Iterator(const NullIterator& s) :
+			pOffset(s.rawOffset()),
+			pString(const_cast<StringType&>(s.string()))
 		{}
 
-		explicit UTF8Iterator(const StringType& s)
-			:pOffset(0), pString(const_cast<StringType&>(s))
+		explicit UTF8Iterator(const StringType& s) :
+			pOffset(0),
+			pString(const_cast<StringType&>(s))
 		{}
 
-		UTF8Iterator(const UTF8Iterator& copy)
-			:pChar(copy.pChar), pOffset(copy.rawOffset()),
+		UTF8Iterator(const UTF8Iterator& copy) :
+			pChar(copy.pChar),
+			pOffset(copy.rawOffset()),
 			pString(const_cast<StringType&>(copy.pString))
 		{}
 

@@ -3078,7 +3078,7 @@ namespace Yuni
 
 
 	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline const char&
+	inline const typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::OperatorBracketReturnType // char&
 	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator [] (Size offset) const
 	{
 		assert(offset < AncestorType::size && "string, operator[] : index out of bounds");
@@ -3087,7 +3087,7 @@ namespace Yuni
 
 
 	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline char&
+	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::OperatorBracketReturnType // char&
 	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator [] (Size offset)
 	{
 		assert(offset < AncestorType::size && "string, operator[] : index out of bounds");
@@ -3368,12 +3368,9 @@ namespace Yuni
 						break;
 					}
 				case '/':
-					{
-						// Empty value if we have a comment otherwise '/' is a valid entry
-						if (rv + 1 >= AncestorType::size || AncestorType::data[rv + 1] == '/')
-							break;
-						// no break
-					}
+					// Empty value if we have a comment otherwise '/' is a valid entry
+					if (rv + 1 >= AncestorType::size || AncestorType::data[rv + 1] == '/')
+						break;
 				default:
 					{
 						// Standard value

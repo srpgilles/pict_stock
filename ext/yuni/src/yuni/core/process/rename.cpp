@@ -28,12 +28,12 @@ namespace Yuni
 
 	static void LinuxInitializeRenameProcess(int argc, char **argv, char **envp)
 	{
-		int i;
-		for (i = 0; envp[i] != NULL; i++)
+		uint i = 0;
+		for (; envp[i] != NULL; ++i)
 			continue;
 		__environ = (char **) malloc(sizeof (char *) * (i + 1));
 
-		for (i = 0; envp[i] != NULL; i++)
+		for (i = 0; envp[i] != NULL; ++i)
 			__environ[i] = strdup(envp[i]);
 		__environ[i] = NULL;
 
@@ -65,7 +65,7 @@ namespace Yuni
 		p += strlen(p);
 
 
-		uint buffersize = (uint) (sizeof(buffer) - (p - buffer) - 1);
+		uint buffersize = (uint) (sizeof(buffer) - (size_t)(p - buffer) - 1);
 		if (size > buffersize)
 			size = buffersize;
 		memcpy(p, text, size);

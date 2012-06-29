@@ -7,17 +7,17 @@ namespace Yuni
 
 	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
 	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8iterator
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8begin()
+	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8begin(uint offset)
 	{
-		return utf8iterator(*this, 0);
+		return utf8iterator(*this, offset);
 	}
 
 
 	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
 	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::const_utf8iterator
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8begin() const
+	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8begin(uint offset) const
 	{
-		return const_utf8iterator(*this, 0);
+		return const_utf8iterator(*this, offset);
 	}
 
 

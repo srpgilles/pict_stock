@@ -5,6 +5,7 @@
 #include <fstream>
 #include "populate_day_folder.hpp"
 #include "../../photo_directory/path_format.hpp"
+#include "../../tools/numeration.hpp"
 
 using namespace Yuni;
 
@@ -12,15 +13,6 @@ namespace PictStock
 {
 namespace Private
 {
-	namespace // anonymous
-	{
-		// A function to determine the number of digits of an unsigned int
-		unsigned int numberOfDigits(unsigned int number)
-		{
-			return static_cast<unsigned int>(Math::Ceil(log10(static_cast<double>(number + 1u))));
-		}
-
-	}// namespace anonymous
 
 
 	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs,
@@ -146,25 +138,7 @@ namespace Private
 			}
 			else
 			{
-				auto nbDigits = numberOfDigits(size + 1u);
-				enum
-				{
-					maximum = 5
-				};
-
-				typedef CString<maximum, false> TinyString;
-				TinyString index;
-				index.resize(nbDigits);
-
-				if (nbDigits > maximum)
-				{
-					logs.error() << "The program isn't expected to deal with "
-						<< static_cast<unsigned int>(Math::Power(10., maximum))
-						<< " photos in the same minute. "
-						<< "Just modify enum maximum in Private::PopulateDayFolder cpp file"
-						<< " and recompile";
-					return false;
-				}
+				::GenericTools::Numeration numeration(size + 1u);
 
 				for (unsigned int i = 0u; i < size; ++i)
 				{
@@ -172,9 +146,7 @@ namespace Private
 					assert(!(!photoPtr));
 
 					YString name(newIncompleteName);
-					index.fill('0');
-					index.overwriteRight(TinyString(i + 1u));
-					name << '_' << index << ".jpg";
+					name << '_' << numeration.next() << ".jpg";
 
 					YString originalPath = photoPtr->originalPath();
 

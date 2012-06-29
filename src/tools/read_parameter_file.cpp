@@ -28,13 +28,16 @@ namespace GenericTools
 		{
 			line.extractKeyValue(key, value, false);
 
+			if (key.empty())
+				continue;
+
 			auto it = pParameters.find(key);
 
 			if (it == end)
 			{
 				// Check the key read belongs to the mandatory list given in constructor
 				// If not, issue a warning
-				logs.warning() << "Parameter " << key << " read in file not foreseen; "
+				logs.warning() << "Parameter \"" << key << "\" read in file not foreseen; "
 					"it will be ignored";
 			}
 			else

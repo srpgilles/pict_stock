@@ -19,7 +19,6 @@ namespace PictStock
 	template<>
 	inline void PathInformations::setElement<Private::Year>(const AnyString& input)
 	{
-		std::cout << "HERE\n";
 		pDate.set<Private::Year>(input);
 	}
 

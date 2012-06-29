@@ -112,7 +112,7 @@ namespace Private
 	}
 
 
-	inline const std::deque<YString>& ScanPhotoDirectory::pool() const
+	const std::deque<YString>& ScanPhotoDirectory::pool() const
 	{
 		return pValidPhotos;
 	}

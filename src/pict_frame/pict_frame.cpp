@@ -2,6 +2,7 @@
 #include "../tools/exceptions.hpp"
 #include <yuni/io/directory/info/info.h>
 #include <yuni/core/math/random/default.h>
+#include "../photo_directory/path_format.hpp"
 
 
 using namespace Yuni;
@@ -96,7 +97,7 @@ namespace PictStock
 
 
 
-	PictFrame::PictFrame(LoggingFacility& logs, const PathFormat& pathFormat,
+	PictFrame::PictFrame(LoggingFacility& logs, const YString& strPathFormat,
 		const YString& photoDirectory, const YString& outputDirectory,
 		unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
 		ReadDate::Mode mode, bool isChronological)
@@ -105,6 +106,8 @@ namespace PictStock
 	{
 		// Create or empty (only jpg) target directory
 		prepareOutputDirectory(outputDirectory);
+
+		PathFormat pathFormat(logs, strPathFormat);
 
 		// Scan the photo directory from which the selection will be performed
 		Private::ScanPhotoDirectory helper(logs, pathFormat, photoDirectory,

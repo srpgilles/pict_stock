@@ -1,7 +1,9 @@
 #include <yuni/core/getopt.h>
 #include "tools/read_parameter_file.hpp"
+#include "tools/exceptions.hpp"
 #include "extended_photo/date.hpp"
 #include "photo_directory/private/path_format_helpers.hpp"
+#include "pict_frame/pict_frame.hpp"
 #include <numeric>
 
 using namespace Yuni;
@@ -79,6 +81,9 @@ int main(int argc, char* argv[])
 		keys.push_back("pathFormat");
 		keys.push_back("beginDate");
 		keys.push_back("endDate");
+		keys.push_back("nbPhotos");
+		keys.push_back("readDateMode");
+		keys.push_back("isChronological");
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
 
@@ -89,6 +94,38 @@ int main(int argc, char* argv[])
 		determineTimeLimits(logs, beginDate, helper, parameters, "beginDate");
 		determineTimeLimits(logs, endDate, helper, parameters, "endDate");
 
+		PictStock::ReadDate::Mode mode;
+		{
+			if (parameters["readDateMode"] == "safe")
+				mode = PictStock::ReadDate::safe;
+			else if (parameters["readDateMode"] == "fast")
+				mode = PictStock::ReadDate::fast;
+			else
+				throw GenericTools::Exception("Mode in parameters file must be "
+					"either safe or fast");
+		}
+
+		bool isChronological;
+
+		{
+			if (parameters["isChronological"] == "true")
+				isChronological = true;
+			else if (parameters["isChronological"] == "false")
+				isChronological = false;
+			else
+				throw GenericTools::Exception("isChronological in parameters "
+					"file must be either true or false");
+		}
+
+		unsigned int nbPhotos;
+		{
+			if (!parameters["nbPhotos"].to(nbPhotos))
+				throw GenericTools::Exception("nbPhotos must be a positive integer");
+		}
+
+		PictStock::PictFrame(logs, parameters["pathFormat"], parameters["inputFolder"],
+			parameters["outputFolder"], nbPhotos, beginDate, endDate,
+			mode, isChronological);
 
 	}
 	catch(const std::exception& e)

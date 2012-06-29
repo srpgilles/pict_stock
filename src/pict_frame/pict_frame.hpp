@@ -28,14 +28,14 @@ namespace PictStock
 		** \param[in] photoDirectory Folder in which the entire pool of photos considered
 		** is stored
 		** \param[in] outputDirectory Output directory (probably on a photo card such as a SD)
-		** \param[in] pathFormat Path format object to use to identify date from path
+		** \param[in] pathFormat Path format to identify date from path
 		** \param[in] nbPhotos Number of photos requested on the digital frame
 		** \param[in] beginDate Oldest date considered
 		** \param[in] endDate Newest date considered
 		** \param[in] isChronological If true, pictures will be sort chronologically
  		**
 		*/
-		PictFrame(LoggingFacility& logs, const PathFormat& pathFormat,
+		PictFrame(LoggingFacility& logs, const YString& pathFormat,
 			const YString& photoDirectory, const YString& outputDirectory,
 			unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
 			ReadDate::Mode mode, bool isChronological);

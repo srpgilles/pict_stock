@@ -1,6 +1,7 @@
 #include "extended_photo/extended_photo.hpp"
 #include <yuni/datetime/timestamp.h>
 #include <ctime>
+# include "tools/numeration.hpp"
 
 //#ifdef USE_BOOST_REGULAR_EXPR
 //#include <boost/regex.hpp>
@@ -174,6 +175,14 @@ int main(int argc, char* argv[])
 
 	Yuni::DateTime::TimestampToString(date, format, mktime(&myTimeInfo), true);
 	logs.notice("Date ") << mktime(&myTimeInfo) << "\t" << date;
+
+
+	GenericTools::Numeration numeration(100000);
+
+	for (unsigned int i = 1u; i < 104; ++i)
+	{
+		logs.notice() << numeration.next();
+	}
 
 
 

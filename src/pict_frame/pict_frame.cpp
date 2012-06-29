@@ -209,7 +209,6 @@ namespace PictStock
 		YString target;
 
 		// TODO:
-		// 1 - Securize copy (throw exception except if problem is lack of size on output device)
 		// 2 - Take the populate folder trick to choose number of digits (put the algorithm in
 		// GenericTools)"
 
@@ -221,7 +220,23 @@ namespace PictStock
 			target = outputDirectory;
 			target << IO::Separator << "Photo_" << ++index << ".jpg";
 
-			IO::File::Copy(photoPtr->originalPath(), target, false);
+			auto errorType = IO::File::Copy(photoPtr->originalPath(), target, false);
+
+			if (errorType == IO::errNone)
+				continue;
+
+			if (errorType == IO::errMemoryLimit)
+			{
+				logs.error("No space left on device; only ") << index -1u << " photos have been copied";
+				break;
+			}
+
+			assert(errorType != IO::errNone && errorType != IO::errMemoryLimit);
+
+			{
+				logs.debug() << "Error code " << static_cast<int>(errorType) << " in Yuni::IO::error enumeration";
+				throw GenericTools::Exception("Unable to perform copy to the output device");
+			}
 		}
 	}
 

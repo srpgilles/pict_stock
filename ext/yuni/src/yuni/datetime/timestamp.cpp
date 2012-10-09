@@ -12,11 +12,11 @@ namespace Private
 namespace DateTime
 {
 
-	static unsigned int FormatString(char* buffer, unsigned int size, const char* format, sint64 timestamp)
+	static uint FormatString(char* buffer, uint size, const char* format, sint64 timestamp)
 	{
 		assert(format && '\0' != *format && "invalid format");
 
-		unsigned int written;
+		uint written;
 
 		// Note that unlike on (all?) POSIX systems, in the Microsoft
 		// C library localtime() and gmtime() are multi-thread-safe, as the
@@ -28,19 +28,19 @@ namespace DateTime
 
 		# ifdef YUNI_OS_MINGW
 		// MinGW
-		time_t stdtimestamp = static_cast<time_t>(timestamp);
-		written = (unsigned int)::strftime(buffer, size, format, ::localtime(&stdtimestamp));
+		time_t stdtimestamp = (time_t) timestamp;
+		written = (uint)::strftime(buffer, size, format, ::localtime(&stdtimestamp));
 		# else
 		struct tm timeinfo;
 		#	ifdef YUNI_OS_MSVC
 		// Microsoft Visual Studio
 		_localtime64_s(&timeinfo, &timestamp);
-		written = (unsigned int)::strftime(buffer, size, format, &timeinfo);
+		written = (uint)::strftime(buffer, size, format, &timeinfo);
 		#	else
 		// Unixes
-		time_t stdtimestamp = static_cast<time_t>(timestamp);
+		time_t stdtimestamp = (time_t) timestamp;
 		::localtime_r(&stdtimestamp, &timeinfo);
-		written = (unsigned int)::strftime(buffer, size, format, &timeinfo);
+		written = (uint)::strftime(buffer, size, format, &timeinfo);
 		#	endif
 		# endif
 
@@ -50,18 +50,18 @@ namespace DateTime
 	}
 
 
-	char* FormatStringDynBuffer(unsigned int size, const char* format, sint64 timestamp)
+	char* FormatStringDynBuffer(uint size, const char* format, sint64 timestamp)
 	{
 		if (!timestamp)
 		{
 			# ifdef YUNI_OS_MSVC
-			timestamp = static_cast<sint64>(::_time64(nullptr));
+			timestamp = (sint64) ::_time64(NULL);
 			# else
-			timestamp = static_cast<sint64>(::time(nullptr));
+			timestamp = (sint64) ::time(NULL);
 			# endif
 		}
 
-		unsigned int tick = 5;
+		uint tick = 5;
 		do
 		{
 			char* buffer = new char[size];
@@ -82,6 +82,9 @@ namespace DateTime
 } // namespace Yuni
 
 
+
+
+
 namespace Yuni
 {
 namespace DateTime
@@ -90,9 +93,9 @@ namespace DateTime
 	Timestamp Now()
 	{
 		# ifdef YUNI_OS_MSVC
-		return static_cast<sint64>(::_time64(nullptr));
+		return (sint64) ::_time64(NULL);
 		# else
-		return static_cast<sint64>(::time(nullptr));
+		return (sint64) ::time(NULL);
 		# endif
 	}
 

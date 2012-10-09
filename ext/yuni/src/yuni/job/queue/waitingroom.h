@@ -21,7 +21,7 @@ namespace QueueService
 	{
 	public:
 		//! Type used for atomic flags
-		typedef Atomic::Int<32>  AtomicFlagType;
+		typedef Atomic::Int<>  AtomicFlagType;
 
 		enum
 		{
@@ -86,7 +86,7 @@ namespace QueueService
 		/*!
 		** \brief Get the number of jobs waiting to be executed
 		*/
-		unsigned int size() const;
+		uint size() const;
 		//@}
 
 
@@ -96,7 +96,7 @@ namespace QueueService
 
 	private:
 		//! Number of job waiting to be executed
-		Atomic::Int<32>  pJobCount;
+		Atomic::Int<>  pJobCount;
 		//! List of waiting jobs by priority
 		LinkedList<Yuni::Job::IJob::Ptr>  pJobs[priorityCount];
 		//! Mutexes, by priority to reduce congestion

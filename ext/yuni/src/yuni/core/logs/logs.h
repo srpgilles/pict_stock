@@ -25,6 +25,17 @@
 # endif
 
 
+/*!
+** \brief Convenient macro for debugging
+**
+** \code
+** logs.error() << YN_LOGENV << "my message";
+** \endcode
+*/
+# define YN_LOGENV  __FILE__ << ':' << __LINE__ << ": "
+
+
+
 
 namespace Yuni
 {
@@ -64,7 +75,7 @@ namespace Logs
 	template<
 		class Handlers = StdCout<>,                            // List of all static handles
 		class Decorators = Time< VerbosityLevel<Message<> > >, // List of all static decorators
-		template<class> class TP = Policy::ObjectLevelLockable // The Threading Policy
+		template<class> class TP = Policy::ObjectLevelLockableNotRecursive // The Threading Policy
 		>
 	class YUNI_DECL Logger :
 		public TP<Logger<Handlers,Decorators,TP> >, // inherits from the Threading Policy

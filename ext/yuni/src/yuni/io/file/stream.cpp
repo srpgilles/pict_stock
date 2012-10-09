@@ -49,33 +49,58 @@ namespace File
 
 
 	Stream::Stream(const Stream&) :
-		pFd(NULL)
+		pFd(nullptr)
 	{
 		// Do nothing
 	}
 
 
-	Stream::Stream(const AnyString& filename, const int mode)
+	Stream::Stream(const AnyString& filename, int mode) :
+		pFd(nullptr)
 	{
-		# ifdef YUNI_OS_WINDOWS
-		pFd = OpenFileOnWindows(filename, mode);
-		# else
-		pFd = ::fopen(filename.c_str(), OpenMode::ToCString(mode));
-		# endif
+		open(filename, mode);
 	}
 
 
 
-	bool Stream::open(const AnyString& filename, const int mode)
+	bool Stream::open(const AnyString& filename, int mode)
 	{
 		// Close the file if already opened
 		if (pFd)
 			(void)::fclose(pFd);
+
 		# ifdef YUNI_OS_WINDOWS
 		pFd = OpenFileOnWindows(filename, mode);
 		# else
+		// It is mandatory to open file with the flag O_CLOEXEC to avoid race
+		// conditions with fork
+		// fopen should used O_CLOEXEC as one of the option. However, at the current
+		// state, not all operating systems do that.
+		// So we have to do it by ourselves with open and fdopen.
+		/*int flag = O_CLOEXEC;
+		if (0 != (mode & OpenMode::read) && 0 != (mode & OpenMode::write))
+			flag |= O_RDWR;
+		else if (0 != (mode & OpenMode::read))
+			flag |= O_RDONLY;
+		else if (0 != (mode & OpenMode::write))
+			flag |= O_WRONLY;
+
+		if (0 != (mode & OpenMode::truncate))
+			flag |= O_TRUNC;
+		else if (0 != (mode & OpenMode::append))
+			flag |= O_APPEND;
+
+		if (0 != (mode & ~OpenMode::read))
+			flag |= O_CREAT;
+
+		int fd = ::open(filename.c_str(), flag);
+		if (fd < 0) // error
+			pFd = nullptr;
+		else
+			pFd = ::fdopen(fd, OpenMode::ToCString(mode));*/
 		pFd = ::fopen(filename.c_str(), OpenMode::ToCString(mode));
 		# endif
+
 		return (NULL != pFd);
 	}
 

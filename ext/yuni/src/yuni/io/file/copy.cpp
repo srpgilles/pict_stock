@@ -24,51 +24,59 @@ namespace File
 
 		// Open the source file
 		Yuni::IO::File::Stream fromFile;
-		if (fromFile.open(from))
+		if (not fromFile.open(from))
+			return errNotFound;
+
+		Yuni::IO::File::Stream toFile;
+		if (not toFile.openRW(to))
+			return errNotFound;
+
+		enum { size = 8192 };
+
+		# if defined(YUNI_OS_LINUX) && defined(YUNI_HAS_SYS_SENDFILE_H)
+		int fdIN  = fileno(fromFile. nativeHandle());
+		int fdOUT = fileno(toFile.   nativeHandle());
+
+		// Trying sendfile first
+		struct stat st;
+		if (!fstat(fdIN, &st))
 		{
-			Yuni::IO::File::Stream toFile;
-			if (toFile.openRW(to))
+			off_t offset = 0;
+			if (sendfile(fdOUT, fdIN, &offset, (size_t) st.st_size) >= 0)
+				return Yuni::IO::errNone;
+		}
+
+		// fallback to the standard copy
+		char* buffer = new char[size];
+		ssize_t numRead;
+
+		while ((numRead = ::read(fdIN, buffer, size)) > 0)
+		{
+			if (numRead != ::write(fdOUT, buffer, numRead))
 			{
-				enum { size = 8192 };
-
-				# if defined(YUNI_OS_LINUX) && defined(YUNI_HAS_SYS_SENDFILE_H)
-				const int fdIN  = fileno(fromFile. nativeHandle());
-				const int fdOUT = fileno(toFile.   nativeHandle());
-
-				// Trying sendfile first
-				struct stat st;
-				if (!fstat(fdIN, &st))
-				{
-					off_t offset = 0;
-					if (-1 != sendfile(fdOUT, fdIN, &offset, (size_t) st.st_size))
-						return Yuni::IO::errNone;
-				}
-
-				// fallback to the standard copy
-				char* buffer = new char[size];
-				uint numRead;
-
-				while ((numRead = (uint) read(fdIN, buffer, size)) > 0)
-					(void)::write(fdOUT, buffer, (uint) numRead);
-
 				delete[] buffer;
-				return Yuni::IO::errNone;
-
-				# else
-
-				// Generic implementation
-				char* buffer = new char[size];
-				size_t numRead;
-				while ((numRead = fromFile.read(buffer, size)) != 0)
-					toFile.write(buffer, (unsigned int) numRead);
-				delete[] buffer;
-				return Yuni::IO::errNone;
-
-				# endif
-
+				return Yuni::IO::errWriteFailed;
 			}
 		}
-		return errNotFound;
+
+		# else
+
+		// Generic implementation
+		char* buffer = new char[size];
+		uint numRead;
+		while ((numRead = fromFile.read(buffer, size)) != 0)
+		{
+			if (numRead != toFile.write(buffer, numRead))
+			{
+				delete[] buffer;
+				return Yuni::IO::errWriteFailed;
+			}
+		}
+				
+		# endif
+
+		delete[] buffer;
+		return Yuni::IO::errNone;
 	}
 
 

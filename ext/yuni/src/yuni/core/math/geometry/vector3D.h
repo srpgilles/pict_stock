@@ -13,7 +13,7 @@ namespace Yuni
 	/*!
 	** \brief Represents a 3D-vector, with generic homogeneous content
 	*/
-	template<typename T = float>
+	template<class T = float>
 	class Vector3D
 	{
 	public:
@@ -44,6 +44,7 @@ namespace Yuni
 		*/
 		static T Magnitude(const Vector3D& p1, const Vector3D& p2);
 
+
 		/*!
 		** \brief Compute the dot product of two arbitrary vectors
 		**
@@ -60,6 +61,15 @@ namespace Yuni
 		** \param p2 The second vector
 		*/
 		static Vector3D CrossProduct(const Vector3D& p1, const Vector3D& p2);
+
+		/*!
+		** \brief Calculate whether two vectors are colinear
+		**
+		** \param p1 The first vector
+		** \param p2 The second vector
+		** \param ignoreDirection True to accept colinearity with opposite directions
+		*/
+		static bool AreColinear(const Vector3D& p1, const Vector3D& p2, bool ignoreDirection = true);
 
 		/*!
 		** \brief Compute the angle between two arbitrary vectors
@@ -92,8 +102,8 @@ namespace Yuni
 		** \param y1 The default Y coordinate
 		** \param z1 The default Z coordinate
 		*/
-		template<typename U, typename V, typename W>
-		Vector3D(const U x1, const V y1, const W z1 = W());
+		template<class U, class V, class W>
+		Vector3D(const U& x1, const V& y1, const W& z1 = W());
 
 		/*!
 		** \brief Constructor using two points
@@ -101,21 +111,21 @@ namespace Yuni
 		** \param origin Origin point of the vector
 		** \param end End point of the vector
 		*/
-		template<typename U, typename V>
+		template<class U, class V>
 		Vector3D(const Point3D<U>& origin, const Point3D<V>& end);
 
 		//! Constructor by copy
 		Vector3D(const Vector3D& rhs);
 
 		//! Constructor by copy
-		template<typename U> Vector3D(const Vector3D<U>& v);
+		template<class U> Vector3D(const Vector3D<U>& v);
 		//@}
 
 
-		//! \name Reset the coordinates
+		//! \name Clear the coordinates
 		//@{
-		//! Reset the vector to the null vector
-		Vector3D<T>& reset();
+		//! Clear the vector to the null vector
+		Vector3D<T>& clear();
 		//@}
 
 
@@ -125,20 +135,20 @@ namespace Yuni
 		** \brief Add the same value for all coordinates to the vector
 		** \param k The value to add to all coordinates
 		*/
-		template<typename U> void translate(const U k);
+		template<class U> void translate(const U k);
 		/*!
 		** \brief Translate the point with relative coordinates
 		** \param x1 The value to add to the X coordinate
 		** \param y1 The value to add to the Y coordinate
 		** \param z1 The value to add to the Z coordinate
 		*/
-		template<typename U, typename V, typename W>
+		template<class U, class V, class W>
 		void translate(const U x1, const V y1, const W z1);
 		/*!
 		** \brief Translate the point with relative coordinates from another Point
 		** \param p The values to add to the coordinates
 		*/
-		template<typename U> void translate(const Vector3D<U>& p);
+		template<class U> void translate(const Vector3D<U>& p);
 		//@}
 
 
@@ -148,6 +158,11 @@ namespace Yuni
 		** \brief Get if the vector is null
 		*/
 		bool null() const;
+
+		/*!
+		** \brief Get if the vector is null
+		*/
+		bool unit() const;
 
 		/*!
 		** \brief Compute the magnitude of the vector
@@ -184,7 +199,7 @@ namespace Yuni
 		**
 		** \param p Point to compute the mean with
 		*/
-		template<typename U> Vector3D& mean(const Vector3D<U>& p);
+		template<class U> Vector3D& mean(const Vector3D<U>& p);
 
 		/*!
 		** \brief Calculate the mean between two points
@@ -195,12 +210,12 @@ namespace Yuni
 		** \param p2 Second point to compute the mean with
 		** \return Always *this
 		*/
-		template<typename U, typename V> Vector3D<T>& mean(const Vector3D<U>& p1, const Vector3D<V>& p2);
+		template<class U, class V> Vector3D<T>& mean(const Vector3D<U>& p1, const Vector3D<V>& p2);
 		//@}
 
 
 		//! \name Operators
-		//{
+		//@{
 		/*!
 		** \brief Reset all coordinates
 		**
@@ -209,21 +224,21 @@ namespace Yuni
 		** \param z1 The new value for the Z coordinate
 		** \see move()
 		*/
-		template<typename U, typename V, typename W>
+		template<class U, class V, class W>
 		void operator () (const U x1, const V y1, const W z1);
 		/*!
 		** \brief Copy all coordinates from another vector
 		**
 		** \param v The coordinates to copy
 		*/
-		template<typename U> void operator () (const Vector3D<U>& v);
+		template<class U> void operator () (const Vector3D<U>& v);
 		/*!
 		** \brief Reset a vector using two points
 		**
 		** \param origin Start point of the vector
 		** \param end End point of the vector
 		*/
-		template<typename U, typename V>
+		template<class U, class V>
 		void operator () (const Point3D<U>& origin, const Point3D<V>& end);
 
 		/*!
@@ -243,7 +258,7 @@ namespace Yuni
 		**
 		** \see translate()
 		*/
-		template<typename U> Vector3D<T>& operator += (const Vector3D<U>& p);
+		template<class U> Vector3D<T>& operator += (const Vector3D<U>& p);
 
 		/*!
 		** \brief Translate the point with the same value for all coordinates
@@ -262,7 +277,7 @@ namespace Yuni
 		**
 		** \see translate()
 		*/
-		template<typename U> Vector3D<T>& operator -= (const Vector3D<U>& p);
+		template<class U> Vector3D<T>& operator -= (const Vector3D<U>& p);
 
 		/*!
 		** \brief Uniform scaling
@@ -271,7 +286,7 @@ namespace Yuni
 		/*!
 		** \brief Dot product
 		*/
-		template<typename U> Vector3D<T>& operator *= (const Vector3D<U>& p);
+		template<class U> Vector3D<T>& operator *= (const Vector3D<U>& p);
 
 		/*!
 		** \brief Uniform scaling
@@ -280,9 +295,7 @@ namespace Yuni
 		/*!
 		** \brief Dot product
 		*/
-		template<typename U> Vector3D<T>& operator /= (const Vector3D<U>& p);
-
-
+		template<class U> Vector3D<T>& operator /= (const Vector3D<U>& p);
 
 		/*!
 		** \brief Comparison operator (equal with)
@@ -290,8 +303,7 @@ namespace Yuni
 		** \param rhs The other point to compare with
 		** \return True if the two points are equal
 		*/
-		template<typename U> bool operator == (const Vector3D<U>& rhs) const
-		{ return Math::Equals((T)rhs.x, x) && Math::Equals((T)rhs.y, y) && Math::Equals((T)rhs.z, z); }
+		template<class U> bool operator == (const Vector3D<U>& rhs) const;
 
 		/*!
 		** \brief Comparison operator (non equal with)
@@ -299,8 +311,7 @@ namespace Yuni
 		** \param rhs The other point to compare with
 		** \return True if the two points are not equal
 		*/
-		template<typename U> bool operator != (const Vector3D<U>& rhs) const
-		{ return !(*this == rhs); }
+		template<class U> bool operator != (const Vector3D<U>& rhs) const;
 
 		/*!
 		** \brief Assign new values for all coordinates from another vector
@@ -310,10 +321,9 @@ namespace Yuni
 		**
 		** \see move()
 		*/
-		template<typename U>
-		Vector3D<T>& operator = (const Vector3D<U>& p) { x = (T)p.x; y = (T)p.y; z = (T)p.z; return (*this); }
-
-		//} Operators
+		template<class U>
+		Vector3D<T>& operator = (const Vector3D<U>& p);
+		//@} Operators
 
 
 		/*!
@@ -336,6 +346,8 @@ namespace Yuni
 	}; // class Vector3D
 
 
+	//! Convenient typedef for Vector3D<float>
+	typedef Vector3D<float>  Vector3f;
 
 
 } // namespace Yuni
@@ -347,13 +359,17 @@ namespace Yuni
 //! \name Operator overload for stream printing
 //@{
 
-template<typename T>
+template<class T>
 inline std::ostream& operator << (std::ostream& out, const Yuni::Vector3D<T>& v)
 { return v.print(out); }
 
-template<typename T>
+template<class T>
 inline const Yuni::Vector3D<T> operator + (const Yuni::Vector3D<T>& lhs, const Yuni::Vector3D<T>& rhs)
 { return Yuni::Vector3D<T>(lhs) += rhs; }
+
+template<class T>
+inline const Yuni::Vector3D<T> operator * (const Yuni::Vector3D<T>& lhs, const T& rhs)
+{ return Yuni::Vector3D<T>(lhs) *= rhs; }
 
 //@}
 

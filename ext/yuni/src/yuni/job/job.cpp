@@ -12,7 +12,7 @@ namespace Job
 	IJob::IJob() :
 		pState(stateIdle),
 		pProgression(0),
-		pCanceling(),
+		pCanceling(0),
 		pThread(NULL)
 	{}
 

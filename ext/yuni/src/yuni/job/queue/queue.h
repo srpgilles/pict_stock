@@ -25,14 +25,14 @@ namespace Job
 		class SchedulerT = Scheduler::HighestPriorityFirst // The Scheduler Policy
 		>
 	class YUNI_DECL QueueService
-		:public Policy::ObjectLevelLockable<QueueService<SchedulerT> >
+		:public Policy::ObjectLevelLockableNotRecursive<QueueService<SchedulerT> >
 		,public SchedulerT
 	{
 	public:
 		//! QueueService
 		typedef QueueService<SchedulerT> QueueServiceType;
 		//! The threading policy
-		typedef Policy::ObjectLevelLockable<QueueServiceType> ThreadingPolicy;
+		typedef Policy::ObjectLevelLockableNotRecursive<QueueServiceType> ThreadingPolicy;
 		//! The most suitable smart pointer for the class
 		typedef SmartPtr<QueueServiceType> Ptr;
 
@@ -116,7 +116,7 @@ namespace Job
 		** \param pollInterval Interval in milliseconds between each poll when waiting
 		** \return True if no all jobs are finished, false if the timeout has been reached
 		*/
-		bool wait(unsigned int timeout, unsigned int pollInterval = 150);
+		bool wait(uint timeout, uint pollInterval = 150);
 
 		/*!
 		** \brief Stop the service
@@ -125,7 +125,7 @@ namespace Job
 		** It is of their responsibility to properly resume if they have to.
 		** All working threads will be destroyed at the very end of this method.
 		*/
-		bool stop(unsigned int timeout = defaultTimeout);
+		bool stop(uint timeout = defaultTimeout);
 
 		/*!
 		** \brief Stop then start the service
@@ -133,7 +133,7 @@ namespace Job
 		** All unfinished jobs will be kept and re-executed at the next start.
 		** It is of their responsibility to properly resume if they have to.
 		*/
-		bool restart(unsigned int timeout = defaultTimeout);
+		bool restart(uint timeout = defaultTimeout);
 
 		/*!
 		** \brief Get if the service is started
@@ -200,10 +200,10 @@ namespace Job
 		** This value does not take into account the number of jobs
 		** currently running.
 		*/
-		unsigned int size() const;
+		uint size() const;
 
 		//! \see size()
-		unsigned int count() const;
+		uint count() const;
 		//@}
 
 
@@ -212,7 +212,7 @@ namespace Job
 		/*!
 		** \brief Get the number of threads
 		*/
-		unsigned int threadCount() const;
+		uint threadCount() const;
 		//@}
 
 
@@ -231,7 +231,7 @@ namespace Job
 
 	private:
 		//! Flag to know if the service is started
-		Atomic::Int<32> pStarted;
+		Atomic::Int<> pStarted;
 		//! The list of all remaining jobs
 		Yuni::Private::QueueService::WaitingRoom pWaitingRoom;
 

@@ -50,6 +50,7 @@ set(src
 	../../yuni/io/directory/current.cpp
 	../../yuni/core/string/traits/traits.cpp
 	../../yuni/thread/thread.cpp
+	../../yuni/thread/mutex.cpp
 
 	# iterator
 	../../yuni/io/directory/iterator.h

@@ -24,7 +24,7 @@ namespace Thread
 	**   lot of time.
 	*/
 	template<class T>
-	class YUNI_DECL Array : public Policy::ObjectLevelLockable<Array<T> >
+	class YUNI_DECL Array : public Policy::ObjectLevelLockableNotRecursive<Array<T> >
 	{
 	public:
 		//! Itself
@@ -36,7 +36,7 @@ namespace Thread
 		//! Smart Pointer for the thread
 		typedef typename T::Ptr ThreadPtr;
 		//! Threading Policy
-		typedef Policy::ObjectLevelLockable<ArrayType>  ThreadingPolicy;
+		typedef Policy::ObjectLevelLockableNotRecursive<ArrayType>  ThreadingPolicy;
 
 		// Checking if T is a descendant of IThread
 		YUNI_STATIC_ASSERT((Static::InheritsFrom<T, IThread>::Yes), ThreadArray_T_MustInheritFrom_IThread);

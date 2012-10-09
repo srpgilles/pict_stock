@@ -115,7 +115,7 @@ namespace File
 		** \param mode The open mode to use
 		** \return True if the operation succeeded, false otherwise
 		*/
-		bool open(const AnyString& filename, const int mode = OpenMode::read);
+		bool open(const AnyString& filename, int mode = OpenMode::read);
 
 		/*!
 		** \brief Open a file for writing
@@ -242,8 +242,18 @@ namespace File
 		** \param buffer The buffer where to write the line
 		** \param trim   True to remove any trailing linefeed
 		*/
-		template<unsigned int CustomChunkT, class StringT> bool readline(StringT& buffer, bool trim = true);
+		template<uint CustomChunkT, class StringT> bool readline(StringT& buffer, bool trim = true);
 
+
+		/*!
+		** \brief Read data into a string buffer
+		**
+		** \param buffer An arbitrary buffer (Yuni::String)
+		** \param size The size in bytes to read
+		** \return The number of bytes that have been read
+		*/
+		template<uint CSizeT, bool ExpT, bool ZeroT>
+		uint read(CString<CSizeT,ExpT,ZeroT>&  buffer, uint size);
 
 		/*!
 		** \brief Read a buffer
@@ -252,7 +262,7 @@ namespace File
 		** \param size Size (in bytes) of the data to read (and size of the buffer)
 		** \return The number of bytes that have been read
 		*/
-		size_t read(char* buffer, const size_t size);
+		uint read(char* buffer, uint size);
 
 		/*!
 		** \brief Read data into a string buffer
@@ -264,8 +274,8 @@ namespace File
 		** \param buffer An arbitrary buffer
 		** \return The number of bytes that have been read
 		*/
-		template<unsigned int CSizeT, bool ExpT, bool ZeroT>
-		size_t read(CString<CSizeT,ExpT,ZeroT>&  buffer);
+		template<uint CSizeT, bool ExpT, bool ZeroT>
+		uint chunckRead(CString<CSizeT,ExpT,ZeroT>&  buffer);
 		//@}
 
 
@@ -283,7 +293,7 @@ namespace File
 		** \param size Size of the buffer to write
 		** \return The number of bytes that have been written
 		*/
-		size_t write(const char* buffer, unsigned int size);
+		uint write(const char* buffer, uint size);
 
 		/*!
 		** \brief Write any arbitrary buffer
@@ -291,7 +301,7 @@ namespace File
 		** \param buffer An arbitrary buffer (const char*, String, CString)
 		** \return The number of bytes that have been written
 		*/
-		template<class U> size_t write(const U& buffer);
+		template<class U> uint write(const U& buffer);
 
 		/*!
 		** \brief Write any arbitrary buffer
@@ -300,7 +310,7 @@ namespace File
 		** \param size Size of the buffer to write
 		** \return The number of bytes that have been written
 		*/
-		template<class U> size_t write(const U& buffer, unsigned int size);
+		template<class U> uint write(const U& buffer, uint size);
 		//@}
 
 

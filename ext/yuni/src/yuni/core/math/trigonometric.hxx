@@ -104,6 +104,21 @@ namespace Math
 		return ::atanl(x);
 	}
 
+	template<typename T> inline T ATan2(T y, T x)
+	{
+		return (T)::atan2(y, x);
+	}
+
+	template<> inline float ATan2<float>(float y, float x)
+	{
+		return ::atan2f(y, x);
+	}
+
+	template<> inline long double ATan2<long double>(long double y, long double x)
+	{
+		return ::atan2l(y, x);
+	}
+
 
 
 

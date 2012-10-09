@@ -41,13 +41,12 @@ namespace Yuni
 		//! \name Constructor & Destructor
 		//@{
 		/*!
-		** \brief Default constructor, non recursive by default
-		*/
-		Mutex();
-		/*!
 		** \brief Default constructor
+		**
+		** Recursive by default to keep homogeneous behavior between
+		** platforms.
 		*/
-		//explicit Mutex(const bool recursive);
+		explicit Mutex(bool recursive = true);
 		/*!
 		** \brief Copy constructor
 		**
@@ -76,12 +75,12 @@ namespace Yuni
 
 		# ifndef YUNI_NO_THREAD_SAFE
 		# ifndef YUNI_OS_WINDOWS
-		//! \name PThread wrapper
+		//! \name Native
 		//@{
-		/*!
-		** \brief Get the original PThread mutex
-		*/
+		//! Get the original PThread mutex
 		::pthread_mutex_t& pthreadMutex();
+		//! Get the original PThread mutex (const)
+		const ::pthread_mutex_t& pthreadMutex() const;
 		//@}
 		# endif
 		# endif
@@ -95,16 +94,20 @@ namespace Yuni
 
 
 	private:
+		//! Destroy the current mutex
+		inline void destroy();
+		//! Create the mutex with settings from another mutex
+		inline void copy(const Mutex& rhs);
+
+	private:
 		# ifndef YUNI_NO_THREAD_SAFE
 		# ifdef YUNI_OS_WINDOWS
 		//! The critical section
 		CRITICAL_SECTION pSection;
 		# else
 		//! The PThread mutex
-		::pthread_mutex_t pPthreadLock;
-		# ifndef NDEBUG
-		pthread_mutexattr_t pMutexAttr;
-		# endif
+		::pthread_mutex_t pLock;
+		::pthread_mutexattr_t pAttr;
 		# endif
 		# endif
 

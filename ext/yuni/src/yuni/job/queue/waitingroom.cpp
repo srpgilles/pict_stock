@@ -12,11 +12,13 @@ namespace QueueService
 
 	WaitingRoom::WaitingRoom() :
 		pJobCount(0)
-	{}
+	{
+	}
 
 
 	WaitingRoom::~WaitingRoom()
-	{}
+	{
+	}
 
 
 	void WaitingRoom::add(const Yuni::Job::IJob::Ptr& job)

@@ -65,7 +65,7 @@ namespace Private
 
 
 template<class T, class AllocatorT>
-std::ostream& operator << (std::ostream& out, const std::vector<T, AllocatorT>& rhs)
+inline std::ostream& operator << (std::ostream& out, const std::vector<T, AllocatorT>& rhs)
 {
 	typedef std::vector<T, AllocatorT>  SourceType;
 	Yuni::Private::OStreamYuniHelper<SourceType>::Print(out, rhs);
@@ -74,13 +74,28 @@ std::ostream& operator << (std::ostream& out, const std::vector<T, AllocatorT>& 
 
 
 template<class T, class AllocatorT>
-std::ostream& operator << (std::ostream& out, const std::list<T, AllocatorT>& rhs)
+inline std::ostream& operator << (std::ostream& out, const std::list<T, AllocatorT>& rhs)
 {
 	typedef std::list<T, AllocatorT>  SourceType;
 	Yuni::Private::OStreamYuniHelper<SourceType>::Print(out, rhs);
 	return out;
 }
 
+
+template<class CharT, class TraitsT, uint SizeT, bool ExpT,bool ZeroT>
+inline std::basic_istream<CharT, TraitsT>& operator >> (std::basic_istream<CharT, TraitsT>& stream, Yuni::CString<SizeT,ExpT,ZeroT>& string)
+{
+	string.clear();
+	while (stream.good())
+	{
+		char c;
+		stream.get(c);
+		if (c == ' ' || c == '\t' || c == '\r' || c == '\n')
+			break;
+		string.append(c);
+	}
+	return stream;
+}
 
 
 

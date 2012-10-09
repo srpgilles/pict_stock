@@ -21,9 +21,9 @@ namespace QueueService
 	}
 
 
-	inline unsigned int WaitingRoom::size() const
+	inline uint WaitingRoom::size() const
 	{
-		return (unsigned int) pJobCount;
+		return (uint) pJobCount;
 	}
 
 

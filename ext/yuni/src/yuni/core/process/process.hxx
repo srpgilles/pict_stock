@@ -5,11 +5,26 @@
 namespace Yuni
 {
 
-	inline bool Process::running() const
+
+	template<class MainLoopT>
+	bool Process::execute(MainLoopT& mainloop, uint timeout)
 	{
-		return !(!pRunning);
+		Bind<void (const Callback&)> dispatcher;
+		dispatcher.bind<MainLoopT>(&mainloop, & MainLoopT::dispatch);
+		return dispatchExecution(dispatcher, timeout);
 	}
 
+
+	inline Process::Stream::Ptr  Process::stream() const
+	{
+		return pStream;
+	}
+
+
+	inline void Process::stream(Stream::Ptr newstream)
+	{
+		pStream = newstream;
+	}
 
 
 

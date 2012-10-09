@@ -99,7 +99,9 @@ namespace Policy
 
 
 	/*!
-	** \brief Implementation of the Threading Model policy in a multi-threaded environnement (one mutex per object)
+	** \brief Implementation of the Threading Model policy in a multi-threaded environnement (one recursive mutex per object)
+	**
+	** The inner mutex is recursive.
 	** \ingroup Policies
 	*/
 	template<class Host>
@@ -121,7 +123,7 @@ namespace Policy
 			{
 				pHostToLock.lock();
 			}
-			
+
 			~MutexLocker()
 			{
 				pHostToLock.unlock();
@@ -143,9 +145,9 @@ namespace Policy
 		//! \name Constructor & Destructor
 		//@{
 		//! Default constructor
-		ObjectLevelLockable() {}
+		ObjectLevelLockable() : pMutex(true /*recursive*/) {}
 		//! Copy constructor
-		ObjectLevelLockable(const ObjectLevelLockable&) {}
+		ObjectLevelLockable(const ObjectLevelLockable&) :pMutex(true /*recursive*/) {}
 		//! Destructor
 		~ObjectLevelLockable() {}
 		//@}

@@ -41,6 +41,10 @@ namespace Math
 	** \brief The arc tangent function
 	*/
 	template<typename T> inline T ATan(T x);
+	/*!
+	** \brief 2-parameter arc tangent function
+	*/
+	template<typename T> inline T ATan2(T y, T x);
 	//@}
 
 

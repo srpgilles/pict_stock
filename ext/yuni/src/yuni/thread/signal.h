@@ -22,10 +22,15 @@ namespace Thread
 		** \brief Default constructor
 		*/
 		Signal();
+		//! Copy constructor
+		Signal(const Signal&);
 		//! Destructor
 		~Signal();
 		//@}
 
+
+		//! \name Signal
+		//@{
 		/*!
 		** \brief Reset the internal state
 		*/
@@ -42,7 +47,7 @@ namespace Thread
 		** \param timeout A timeout, in milliseconds
 		** \return True if the signal has been notified, false if the timeout has been reached
 		*/
-		bool wait(unsigned int timeout);
+		bool wait(uint timeout);
 
 		/*!
 		** \brief Notify the waiter
@@ -54,11 +59,15 @@ namespace Thread
 		** \brief Get if the signal is valid
 		*/
 		bool valid() const;
+		//@}
+
 
 		//! \name Operators
 		//@{
 		//! Operator !
 		bool operator ! () const;
+		//! Operator =
+		Signal& operator = (const Signal&);
 		//@}
 
 

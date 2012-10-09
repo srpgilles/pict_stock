@@ -1,6 +1,6 @@
 
 
-YMESSAGE_MODULE("Virtual Machine  (EXPERIMENTAL, FOR ADVANCED USERS ONLY)")
+YMESSAGE_MODULE("Virtual Machine  (EXPERIMENTAL)")
 
 # Paths for yuni-config, embedded version.
 LIBYUNI_CONFIG_INCLUDE_PATH("intree" "vm" "${CMAKE_CURRENT_SOURCE_DIR}/..")

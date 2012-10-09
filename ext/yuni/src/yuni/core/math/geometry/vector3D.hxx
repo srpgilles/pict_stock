@@ -15,20 +15,21 @@ namespace Yuni
 
 
 	template<typename T>
-	inline Vector3D<T>::Vector3D()
-		:x(), y(), z()
+	inline Vector3D<T>::Vector3D():
+		x(), y(), z()
 	{}
 
+
 	template<typename T>
-	inline Vector3D<T>::Vector3D(const Vector3D<T>& rhs)
-		:x(rhs.x), y(rhs.y), z(rhs.z)
+	inline Vector3D<T>::Vector3D(const Vector3D<T>& rhs):
+		x(rhs.x), y(rhs.y), z(rhs.z)
 	{}
 
 
 	template<typename T>
 	template<typename U>
-	inline Vector3D<T>::Vector3D(const Vector3D<U>& rhs)
-		:x(static_cast<T>(rhs.x)),
+	inline Vector3D<T>::Vector3D(const Vector3D<U>& rhs):
+		x(static_cast<T>(rhs.x)),
 		y(static_cast<T>(rhs.y)),
 		z(static_cast<T>(rhs.z))
 	{}
@@ -36,22 +37,24 @@ namespace Yuni
 
 	template<typename T>
 	template<typename U, typename V, typename W>
-	inline Vector3D<T>::Vector3D(const U x1, const V y1, const W z1)
-		:x(static_cast<T>(x1)),
+	inline Vector3D<T>::Vector3D(const U& x1, const V& y1, const W& z1):
+		x(static_cast<T>(x1)),
 		y(static_cast<T>(y1)),
 		z(static_cast<T>(z1))
 	{}
 
+
 	template<typename T>
 	template<typename U, typename V>
-	inline Vector3D<T>::Vector3D(const Point3D<U>& origin, const Point3D<V>& end)
-		:x(static_cast<T>((end.x - origin.x))),
+	inline Vector3D<T>::Vector3D(const Point3D<U>& origin, const Point3D<V>& end):
+		x(static_cast<T>((end.x - origin.x))),
 		y(static_cast<T>((end.y - origin.y))),
 		z(static_cast<T>((end.z - origin.z)))
 	{}
 
+
 	template<typename T>
-	inline Vector3D<T>& Vector3D<T>::reset()
+	inline Vector3D<T>& Vector3D<T>::clear()
 	{
 		x = T();
 		y = T();
@@ -78,6 +81,7 @@ namespace Yuni
 		y += static_cast<T>(y1);
 		z += static_cast<T>(z1);
 	}
+
 
 	template<typename T>
 	template<typename U>
@@ -158,6 +162,13 @@ namespace Yuni
 
 
 	template<typename T>
+	inline bool Vector3D<T>::unit() const
+	{
+		return Math::Zero(squareMagnitude() - T(1));
+	}
+
+
+	template<typename T>
 	Vector3D<T>& Vector3D<T>::normalize()
 	{
 		T m = magnitude();
@@ -193,11 +204,13 @@ namespace Yuni
 		return Math::SquareRoot(x*x + y*y + z*z);
 	}
 
+
 	template<typename T>
 	inline T Vector3D<T>::squareMagnitude() const
 	{
 		return x*x + y*y + z*z;
 	}
+
 
 	template<typename T>
 	inline T Vector3D<T>::Magnitude(const Vector3D& p1, const Vector3D& p2)
@@ -205,17 +218,20 @@ namespace Yuni
 		return Math::SquareRoot(p1.x*p2.x + p1.y*p2.y + p1.z*p2.z /* dot product */);
 	}
 
+
 	template<typename T>
 	inline T Vector3D<T>::dotProduct(const Vector3D& p1) const
 	{
 		return p1.x*x + p1.y*y + p1.z*z;
 	}
 
+
 	template<typename T>
 	inline T Vector3D<T>::DotProduct(const Vector3D& p1, const Vector3D& p2)
 	{
 		return p1.x*p2.x + p1.y*p2.y + p1.z*p2.z;
 	}
+
 
 	template<typename T>
 	inline Vector3D<T> Vector3D<T>::CrossProduct(const Vector3D<T>& p1, const Vector3D<T>& p2)
@@ -226,12 +242,25 @@ namespace Yuni
 			p1.x * p2.y - p1.y * p2.x);
 	}
 
+
+	template<typename T>
+	inline bool Vector3D<T>::AreColinear(const Vector3D& p1, const Vector3D& p2, bool ignoreDirection)
+	{
+		T value = DotProduct(p1, p2) / (p1.magnitude() * p2.magnitude());
+		bool colinear = (value > (1. - YUNI_EPSILON));
+		if (ignoreDirection)
+			colinear = colinear || (value < YUNI_EPSILON - 1.);
+		return colinear;
+	}
+
+
 	template<typename T>
 	inline T Vector3D<T>::Angle(const Vector3D<T>& p1, const Vector3D<T>& p2)
 	{
 		// By definition: cos(alpha) = (p1.p2)/(|p1|.|p2|)
 		return static_cast<T>(Math::ACos(DotProduct(p1, p2) / (p1.magnitude() * p2.magnitude())));
 	}
+
 
 	template<class T>
 	template<class R>
@@ -322,6 +351,35 @@ namespace Yuni
 		x -= static_cast<T>(p.x);
 		y -= static_cast<T>(p.y);
 		z -= static_cast<T>(p.z);
+		return (*this);
+	}
+
+
+	template<class T>
+	template<class U>
+	inline bool Vector3D<T>::operator == (const Vector3D<U>& rhs) const
+	{
+		return Math::Equals((T)rhs.x, x)
+			&& Math::Equals((T)rhs.y, y)
+			&& Math::Equals((T)rhs.z, z);
+	}
+
+
+	template<class T>
+	template<class U>
+	inline bool Vector3D<T>::operator != (const Vector3D<U>& rhs) const
+	{
+		return !(*this == rhs);
+	}
+
+
+	template<class T>
+	template<class U>
+	inline Vector3D<T>& Vector3D<T>::operator = (const Vector3D<U>& p)
+	{
+		x = (T)p.x;
+		y = (T)p.y;
+		z = (T)p.z;
 		return (*this);
 	}
 

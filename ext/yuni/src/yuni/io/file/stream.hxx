@@ -99,7 +99,7 @@ namespace File
 	}
 
 
-	template<unsigned int CustomChunkT, class StringT>
+	template<uint CustomChunkT, class StringT>
 	bool
 	Stream::readline(StringT& buffer, bool trim)
 	{
@@ -111,7 +111,7 @@ namespace File
 		{
 			// We may have read less than expected. So we have to resize the string
 			// to perform maintenance (about the internal size and the final zero)
-			buffer.resize(static_cast<unsigned int>(::strlen(buffer.c_str())));
+			buffer.resize(static_cast<uint>(::strlen(buffer.c_str())));
 			if (trim)
 				buffer.trimRight("\r\n");
 			return true;
@@ -121,9 +121,9 @@ namespace File
 	}
 
 
-	inline size_t Stream::read(char* buffer, const size_t size)
+	inline uint Stream::read(char* buffer, uint size)
 	{
-		return ::fread(buffer, 1, size, pFd);
+		return (uint) ::fread(buffer, 1, size, pFd);
 	}
 
 
@@ -133,9 +133,9 @@ namespace File
 	}
 
 
-	inline size_t Stream::write(const char* buffer, unsigned int size)
+	inline uint Stream::write(const char* buffer, uint size)
 	{
-		return ::fwrite(buffer, 1, (size_t) size, pFd);
+		return (uint) ::fwrite(buffer, 1, (size_t) size, pFd);
 	}
 
 
@@ -156,7 +156,7 @@ namespace File
 					Traits::Length<U>::Value(u),     // length
 					pFd);                            // file descriptor
 			}
-			static inline size_t Perform(FILE* pFd, const U& u, unsigned int size)
+			static inline size_t Perform(FILE* pFd, const U& u, uint size)
 			{
 				YUNI_STATIC_ASSERT(Traits::IsString<U>::yes, InvalidTypeForBuffer);
 
@@ -178,7 +178,7 @@ namespace File
 				return ::fwrite(translator.c_str(), 1, translator.size(), pFd);
 			}
 
-			static inline size_t Perform(FILE* pFd, const U& u, unsigned int size)
+			static inline size_t Perform(FILE* pFd, const U& u, uint size)
 			{
 				String translator;
 				translator << u;
@@ -196,7 +196,7 @@ namespace File
 					? ::fwrite("true", 1, 4, pFd)
 					: ::fwrite("false", 1, 5, pFd);
 			}
-			static inline size_t Perform(FILE* pFd, bool u, unsigned int size)
+			static inline size_t Perform(FILE* pFd, bool u, uint size)
 			{
 				return u
 					? ::fwrite("true", 1, 4 > size ? size : 4, pFd)
@@ -210,16 +210,16 @@ namespace File
 
 
 	template<class U>
-	inline size_t Stream::write(const U& buffer)
+	inline uint Stream::write(const U& buffer)
 	{
-		return StreamTraitsWrite<Traits::CString<U>::valid, U>::Perform(pFd, buffer);
+		return (uint) StreamTraitsWrite<Traits::CString<U>::valid, U>::Perform(pFd, buffer);
 	}
 
 
 	template<class U>
-	inline size_t Stream::write(const U& buffer, unsigned int size)
+	inline uint Stream::write(const U& buffer, uint size)
 	{
-		return StreamTraitsWrite<Traits::CString<U>::valid, U>::Perform(pFd, buffer, size);
+		return (uint) StreamTraitsWrite<Traits::CString<U>::valid, U>::Perform(pFd, buffer, size);
 	}
 
 
@@ -259,9 +259,41 @@ namespace File
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline size_t
-	Stream::read(CString<ChunkSizeT, ExpandableT,ZeroTerminatedT>& buffer)
+	template<uint CSizeT, bool ExpT, bool ZeroT>
+	inline uint
+	Stream::read(CString<CSizeT, ExpT,ZeroT>& buffer, uint size)
+	{
+		assert(pFd && "File not opened");
+		if (!size)
+			return 0;
+
+		// special case for static strings
+		if (!buffer.expandable && size > buffer.chunkSize)
+			size = buffer.chunkSize;
+
+		// Resizing the buffer
+		buffer.resize(size);
+
+		// Assert to prevent SegV
+		assert(buffer.capacity() != 0 && "When reading a file, the buffer must have reserved some space");
+
+		typedef CString<CSizeT, ExpT,ZeroT> StringType;
+		typedef typename StringType::Char C;
+		// Reading the file
+		const size_t result = ::fread(const_cast<char*>(buffer.data()), 1, sizeof(C) * size, pFd);
+		// Setting the good size, because we may have read less than asked
+		if (result < buffer.size())
+			buffer.truncate((uint) result);
+		// Making sure that the buffer is zero-terminated if required
+		if (buffer.zeroTerminated)
+			*((C*)(buffer.data() + buffer.size())) = C();
+		return (uint) result;
+	}
+
+
+	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	inline uint
+	Stream::chunckRead(CString<ChunkSizeT, ExpandableT,ZeroTerminatedT>& buffer)
 	{
 		// Resizing the buffer
 		buffer.reserve(buffer.chunkSize);
@@ -278,7 +310,7 @@ namespace File
 		// Making sure that the buffer is zero-terminated if required
 		if (buffer.zeroTerminated)
 			*((C*)(buffer.data() + buffer.size())) = C();
-		return result;
+		return (uint) result;
 	}
 
 
@@ -286,7 +318,7 @@ namespace File
 	template<class U>
 	inline Stream& Stream::operator >> (U&  rhs)
 	{
-		(void)read(rhs);
+		(void)read(rhs, rhs.size());
 		return *this;
 	}
 

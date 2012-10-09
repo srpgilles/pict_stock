@@ -235,11 +235,13 @@ namespace Yuni
 		** \internal This class is used to provide a dummy type which will
 		** produce an useless constructor with an improbable prototype.
 		*/
+	public:
 		struct NeverMatched;
 		//! Implicit - Conversions are allowed
 		typedef typename Static::If< ConversionPolicy::allow, const StoredType&, NeverMatched>::ResultType ImplicitStoredType;
 		//! Explicit - Conversions are not allowed
 		typedef typename Static::If<!ConversionPolicy::allow, const StoredType&, NeverMatched>::ResultType ExplicitStoredType;
+
 
 	public:
 		//! \name Constructors & Destructor

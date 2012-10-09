@@ -33,6 +33,22 @@ namespace CStringImpl
 
 
 
+	template<bool AdapterT>
+	struct FinalZero
+	{
+		static void Set(const char*, uint) {}
+	};
+
+	template<>
+	struct FinalZero<false>
+	{
+		static void Set(char* buffer, uint offset)
+		{
+			buffer[offset] = '\0';
+		}
+	};
+
+
 
 	template<class StringT, bool Adapter>
 	struct AdapterAssign

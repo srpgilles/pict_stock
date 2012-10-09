@@ -23,7 +23,7 @@ namespace Yuni
 
 	static char **Argv = NULL;      // pointer to argument vector
 	static char *LastArgv = NULL;   // end of argv
-	static char Argv0[128];         // program name
+	//static char Argv0[128];         // program name
 
 
 	static void LinuxInitializeRenameProcess(int argc, char **argv, char **envp)
@@ -48,8 +48,8 @@ namespace Yuni
 		else
 			++tmp;
 
-		strncpy(Argv0, tmp, sizeof(Argv0));
-		Argv0[sizeof(Argv0) - 1] = 0;
+		//strncpy(Argv0, tmp, sizeof(Argv0));
+		//Argv0[sizeof(Argv0) - 1] = 0;
 	}
 
 
@@ -57,19 +57,17 @@ namespace Yuni
 	{
 		static char buffer[2048];
 
+		memset(buffer, '\0', sizeof(buffer));
 		char* p = buffer;
-
-		// This can't overflow buf due to the relative size of Argv0
-		(void) strcpy(p, Argv0);
-		(void) strcat(p, ": ");
-		p += strlen(p);
-
 
 		uint buffersize = (uint) (sizeof(buffer) - (size_t)(p - buffer) - 1);
 		if (size > buffersize)
 			size = buffersize;
 		memcpy(p, text, size);
 		p[size] = '\0';
+
+		for (uint i = 0; Argv[i]; ++i)
+			memset(Argv[i], '\0', strlen(Argv[i]));
 
 		(void) strcpy(Argv[0], buffer);
 		Argv[1] = NULL;

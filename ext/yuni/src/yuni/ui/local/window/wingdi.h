@@ -131,7 +131,7 @@ namespace Window
 		** \param wParam Additional Message Information
 		** \param lParam Additional Message Information
 		*/
-		static LRESULT MessageCallback(HWND handle, UINT uMsg, WPARAM wParam, LPARAM lParam);
+		static LRESULT CALLBACK MessageCallback(HWND handle, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 		//! Find a window given its handle
 		static WinGDI* FindWindow(HWND handle);

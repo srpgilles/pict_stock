@@ -4,10 +4,13 @@
 #ifndef YUNI_OS_WINDOWS
 # include <unistd.h>
 # include <stdio.h>
-# include <sys/wait.h>
 # include <signal.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include <errno.h>
 #else
 #endif
+#include "../../datetime/timestamp.h"
 
 // http://msdn.microsoft.com/en-us/library/ms682499%28v=vs.85%29.aspx
 
@@ -19,176 +22,371 @@ namespace Private
 namespace Process
 {
 
+
 	class SubProcess : public Yuni::Thread::IThread
 	{
+	private:
+		struct Data
+		{
+			# ifndef YUNI_OS_WINDOWS
+			int outfd[2];
+			int infd[2];
+			int errd[2];
+			int oldstdin, oldstdout, oldstderr;
+			pid_t pid;
+			# endif
+		};
+		Data pData;
+
 	public:
 		SubProcess(Yuni::Process& process) :
 			pProcess(process),
-			pArguments(nullptr)
+			pArguments(nullptr),
+			pRedirectToConsole(true)
 		{
 		}
 
 		virtual ~SubProcess()
 		{
-			if (pArguments)
-				deleteAllArguments();
+			deleteAllArguments();
 		}
 
-		void arguments(const String::Vector& args)
+		void command(const String& program, const String::Vector& args)
 		{
-			if (pArguments)
-				deleteAllArguments();
-			const unsigned int count = (unsigned int) args.size();
-			if (!count)
+			# ifndef YUNI_OS_WINDOWS
+			pProgram = program;
+			deleteAllArguments();
+
+			uint count = (uint) args.size();
+			if (count != 0)
 			{
-				pArguments = nullptr;
-			}
-			else
-			{
-				pArguments = new CString[count + 1];
-				for (unsigned int i = 0; i != count; ++i)
+				pArguments = (CharPtr*) ::malloc(sizeof(CharPtr) * (count + 2));
 				{
-					const unsigned int csize = args[i].size();
-					const char* source = args[i].c_str();
-					char* target = new char[csize + 1];
+					uint csize = pProgram.size();
+					const char* source = pProgram.c_str();
+
+					char* target = (char*) ::malloc(sizeof(char) * (csize + 1));
 					YUNI_MEMCPY(target, csize + 1, source, csize);
 					target[csize] = '\0';
-					pArguments[i] = target;
+					pArguments[0] = target;
 				}
-				pArguments[count] = nullptr;
+				for (uint i = 0; i != count; ++i)
+				{
+					uint csize = args[i].size();
+					const char* source = args[i].c_str();
+
+					char* target = (char*) ::malloc(sizeof(char) * (csize + 1));
+					YUNI_MEMCPY(target, csize + 1, source, csize);
+					target[csize] = '\0';
+					pArguments[i + 1] = target;
+				}
+				pArguments[count + 1] = nullptr;
 			}
+			# endif
+		}
+
+
+		bool launch()
+		{
+			Yuni::Process::ProcessEnvironment::Ptr envptr = pProcess.pEnv;
+			if (!envptr)
+			{
+				assert(false && "Launching a new process with an invalid thread environment");
+				return false; // should never happen
+			}
+			Yuni::Process::ProcessEnvironment& env = *envptr;
+
+			if (pProgram.empty())
+			{
+				env.mutex.unlock();
+				theProcessHasStopped(false, 0, -1);
+				std::cerr << "empty program";
+				return true;
+			}
+
+			# ifndef YUNI_OS_WINDOWS
+
+			// Getting the start time of execution
+			env.startTime = Yuni::DateTime::Now();
+			// unlock mutex
+			env.mutex.unlock();
+
+			// The parent is going to write into
+			// pipe(pData.outfd)
+			// The parent is going to read from
+			// pipe(pData.infd)
+			// The parent is going to read from (cerr)
+			// pipe(pData.errd)
+			if (/*input*/pipe(pData.outfd) || /*output*/pipe(pData.infd) || pipe(pData.errd))
+			{
+				switch (errno)
+				{
+					case EFAULT:
+						std::cerr << "pipe failed: invalid file descriptor\n";
+						break;
+					case EINVAL:
+						std::cerr << "pipe failed: invalid flags\n";
+						break;
+					case EMFILE:
+						std::cerr << "pipe failed: Too many file descriptors are in use by the process\n";
+						break;
+					case ENFILE:
+						std::cerr << "pipe failed: The system limit on the total number of open files has been reached\n";
+						break;
+				}
+				return false;
+			}
+
+			if (-1 == (pData.pid = fork()))
+			{
+				std::cerr << "fork failed\n";
+				return false;
+			}
+			if (0 == pData.pid) // CHILD
+			{
+				close(pData.infd[0]);
+				close(pData.errd[0]);
+				close(pData.outfd[1]);
+				close(0);
+				close(1);
+				close(2);
+
+				dup2(pData.outfd[0], 0); // stdin  is pipeout
+				dup2(pData.infd[1], 1);  // stdout is pipeout
+				dup2(pData.errd[1], 2);  // stderr is pipeout
+
+				close(pData.outfd[0]);
+				close(pData.infd[1]);
+				close(pData.errd[1]);
+
+				// restoring signal handlers
+				signal(SIGTERM, SIG_DFL);
+				signal(SIGINT,  SIG_DFL);
+				signal(SIGPIPE, SIG_DFL);
+				signal(SIGCHLD, SIG_DFL);
+
+				if (not env.workingDirectory.empty())
+				{
+					// ignoring return value
+					if (0 != chdir(env.workingDirectory.c_str()))
+						std::cerr << "invalid working directory: " << env.workingDirectory << std::endl;
+				}
+
+				// Should never returns
+				execvp(pProgram.c_str(), pArguments);
+				_exit(0);
+			}
+			else // PARENT
+			{
+				close(pData.outfd[0]);
+				close(pData.infd[1]);
+				close(pData.errd[1]);
+
+				// make the standard output non-blocking
+				fcntl(pData.infd[0], F_SETFL, O_NONBLOCK);
+				fcntl(pData.errd[0], F_SETFL, O_NONBLOCK);
+
+				// cleanup
+				deleteAllArguments();
+
+				//write(outfd[1], "2^32\n",5); // Write to child’s stdin
+
+				// The mutex has already been locked and should be unlocked to let the main
+				// pProcess.env.mutex.lock();
+				env.mutex.lock();
+				env.processInput = pData.outfd[1];
+				env.processID = pData.pid;
+				env.running = true;
+				pRedirectToConsole = env.redirectToConsole;
+				env.mutex.unlock();
+
+				// really start the thread
+				start();
+			}
+
+			return true;
+
+			# else
+
+			assert(false && "not implemented on Windows");
+			env.mutex.unlock();
+			return false;
+			# endif
 		}
 
 
 	protected:
 		virtual bool onExecute()
 		{
-			if (!pArguments)
-			{
-				pProcess.pMutex.unlock();
-				return true;
-			}
+			int exitstatus = 0;
+			bool killed = false;
 
 			# ifndef YUNI_OS_WINDOWS
 
-			int outfd[2];
-			int infd[2];
-			int oldstdin, oldstdout;
+			Yuni::Process::Stream::Ptr stream = pProcess.pStream;
+			bool hasStream = !(!stream);
 
-			// The parent is going to write into
-			pipe(outfd);
-			// The parent is going to read from
-			pipe(infd);
+			enum {bufferSize = 4096 * 2};
+			char* buffer    = new char[bufferSize];
+			char* buffererr = new char[bufferSize];
 
-			// Save the current stdin
-			oldstdin = dup(0);
-			// Save the current stdout
-			oldstdout = dup(1);
-
-			close(0);
-			close(1);
-
-			// Make the read end of outfd pipe as stdin
-			dup2(outfd[0], 0);
-			// Make the write end of infd as stdout
-			dup2(infd[1],1);
-
-			const pid_t pid =fork();
-			if (!pid)
+			do
 			{
-				close(outfd[0]); // Not required for the child
-				close(outfd[1]);
-				close(infd[0]);
-				close(infd[1]);
+				// Read data from the standard output
+				// standard output
+				ssize_t stdcoutsize = ::read(pData.infd[0], buffer,    bufferSize - 1);
+				ssize_t stdcerrsize = ::read(pData.errd[0], buffererr, bufferSize - 1);
 
-				// Should never returns
-				execve("/Users/milipili/projects/yuni/sources/current/src/yuni", pArguments, nullptr);
-			}
-			else
-			{
-				close(0); // Restore the original std fds of parent
-				close(1);
-				dup2(oldstdin, 0);
-				dup2(oldstdout, 1);
-
-				close(outfd[0]); // These are being used by the child
-				close(infd[1]);
-
-				// cleanup
-				deleteAllArguments();
-				pArguments = nullptr;
-
-				//write(outfd[1], "2^32\n",5); // Write to child’s stdin
-
-				// The mutex has already been locked
-				// pProcess.pMutex.lock();
-				pProcess.pProcessInput = outfd[1];
-				pProcess.pProcessID = pid;
-				pProcess.pMutex.unlock();
-
-				char* buffer = new char[4096];
-				do
+				assert(stdcoutsize < bufferSize);
+				assert(stdcerrsize < bufferSize);
+				if (stdcoutsize > 0)
 				{
-					const ssize_t size = read(infd[0], buffer, 4095);
-					if (size <= 0)
+					buffer[stdcoutsize] = '\0';
+					if (hasStream)
+						stream->onRead(AnyString(buffer, (uint)stdcoutsize));
+					if (pRedirectToConsole)
+						std::cout.write(buffer, stdcoutsize);
+				}
+
+				if (stdcerrsize > 0)
+				{
+					buffererr[stdcerrsize] = '\0';
+					if (hasStream)
+						stream->onErrorRead(AnyString(buffererr, (uint)stdcerrsize));
+					if (pRedirectToConsole)
+						std::cerr.write(buffererr, stdcerrsize);
+					continue;
+				}
+
+				// direct call to `continue` if something has been read
+				if (stdcoutsize > 0)
+					continue;
+
+				// Check PID status
+				{
+					int status;
+					int wpid = waitpid(pData.pid, &status, WNOHANG | WUNTRACED | WCONTINUED);
+					if (wpid > 0)
 					{
-						// std::cout << "FAILED\n";
+						if (WIFEXITED(status))
+							exitstatus = WEXITSTATUS(status);
+						else if (WIFSIGNALED(status))
+						{
+							exitstatus = -127;
+							killed = true;
+						}
 						break;
 					}
-					buffer[size] = '\0';
-					// std::cout << "--" << size << "-- " << buffer;
+					else
+					{
+						if (wpid == -1) // the process is already dead
+							break;
+					}
 				}
-				while (true);
-				delete[] buffer;
+				suspend(50); // arbitrary
 			}
+			while (true);
+
+			sint64 endTime = Yuni::DateTime::Now();
+
+			// close all remaining fd
+			int ca = close(pData.infd[0]);
+			int cb = close(pData.errd[0]);
+			int cc = close(pData.outfd[1]);
+			if (ca || cb || cc)
+				std::cerr << "close file descriptor failed\n";
+
+			// release the buffer
+			delete[] buffer;
+			delete[] buffererr;
 
 			# else
+
+			sint64 endTime = Yuni::DateTime::Now();
+
 			# endif
 
-			theProcessHasStopped();
-			return true;
+			theProcessHasStopped(killed, exitstatus, endTime);
+			return false;
 		}
 
 		virtual void onPause()
 		{
-			// std::cout << "PAUSE\n";
 		}
 
 		virtual void onStop()
 		{
-			// std::cout << "STOP\n";
 		}
+
 
 		virtual void onKill()
 		{
-			theProcessHasStopped();
+			bool killed = false;
+			# ifndef YUNI_OS_WINDOWS
+			// try to kill the attached child process if any
+			{
+				Yuni::Process::ProcessEnvironment::Ptr envptr = pProcess.pEnv;
+				if (!envptr)
+					return;
+				Yuni::Process::ProcessEnvironment& env = *envptr;
+
+				MutexLocker locker(env.mutex);
+				if (env.processID > 0)
+				{
+					kill(env.processID, SIGKILL);
+					killed = true;
+				}
+			}
+			# endif
+			sint64 endTime = Yuni::DateTime::Now();
+			theProcessHasStopped(killed, -127, endTime);
 		}
 
 
-		void theProcessHasStopped()
+		void theProcessHasStopped(bool killed, int exitstatus, sint64 endTime)
 		{
+			Yuni::Process::ProcessEnvironment::Ptr envptr = pProcess.pEnv;
+			if (!envptr)
+				return;
+			Yuni::Process::ProcessEnvironment& env = *envptr;
+
 			// Making sure that the process ID is invalid
-			pProcess.pMutex.lock();
-			pProcess.pProcessID = 0;
-			pProcess.pProcessInput = -1;
-			pProcess.pRunning = false;
-			pProcess.pMutex.unlock();
+			sint64 duration;
+			{
+				MutexLocker locker(env.mutex);
+				if (!env.running) // already stopped - should never happen
+					return;
+				env.running      = 0;
+				env.processInput = -1;
+				env.exitstatus   = exitstatus;
+				duration         = (endTime >= env.startTime) ? (endTime - env.startTime) : 0;
+				env.duration     = duration;
+			}
+
+			if (!(!pProcess.pStream))
+				pProcess.pStream->onStop(killed, exitstatus, duration);
 		}
 
 
 		void deleteAllArguments()
 		{
-			for (unsigned int i = 0; pArguments[i]; ++i)
-				delete[] pArguments[i];
-			delete[] pArguments;
+			if (pArguments)
+			{
+				for (uint i = 0; pArguments[i]; ++i)
+					::free(pArguments[i]);
+				::free(pArguments);
+				pArguments = nullptr;
+			}
 		}
 
 	private:
-		typedef char* CString;
+		typedef char* CharPtr;
 
 	private:
-		Yuni::Process& pProcess;
-		CString* pArguments;
+		Yuni::Process pProcess;
+		String pProgram;
+		CharPtr* pArguments;
+		bool pRedirectToConsole;
 
 	}; // class SubProcess
 
@@ -206,78 +404,442 @@ namespace Yuni
 {
 
 	Process::Process()
-		:pThread(nullptr)
 	{}
 
 
 	Process::~Process()
 	{
-		if (pRunning)
-		{
-			// std::cout << "Destroying : running == true\n";
-			cancel();
-			wait();
-		}
 	}
 
 
 	void Process::cancel()
 	{
-		if (!pRunning)
+		ProcessEnvironment::Ptr envptr = pEnv;
+		if (!envptr)
 			return;
+		ProcessEnvironment& env = *envptr;
+
+		env.mutex.lock();
+		if (0 == env.running)
+		{
+			env.mutex.unlock();
+			return;
+		}
 		# ifndef YUNI_OS_WINDOWS
-		pMutex.lock();
-		const pid_t pid = static_cast<pid_t>(pProcessID);
-		pMutex.unlock();
+		const pid_t pid = static_cast<pid_t>(env.processID);
+		env.mutex.unlock();
 		if (pid)
 			kill(pid, SIGKILL);
 		# else
+		env.mutex.unlock();
 		# endif
 	}
 
 
-	bool Process::execute(unsigned int timeout)
+	bool Process::execute(uint timeout)
 	{
-		(void) timeout;
-		if (pRunning)
-			return false;
+		// new environment
+		ProcessEnvironment::Ptr envptr = pEnv;
+		if (!envptr)
+		{
+			envptr = new ProcessEnvironment();
+			pEnv = envptr;
+		}
+		ProcessEnvironment& env = *envptr;
 
 		// The mutex will be unlocked by the new thread
-		// std::cout << "locking\n";
-		pMutex.lock();
-		pRunning = true;
-		pProcessID = 0;
-		pProcessInput = -1;
+		env.mutex.lock();
+		if (env.running)
+		{
+			env.mutex.unlock();
+			return false;
+		}
 
-		if (!pThread)
-			pThread = new Yuni::Private::Process::SubProcess(*this);
-		else
-			pThread->stop();
+		env.running      = true;
+		env.processID    = 0;
+		env.processInput = -1;
+		env.exitstatus   = -128;
+		env.timeout      = timeout;
+		env.startTime    = 0;
+		env.duration     = 0;
 
-		pArguments.clear();
-		pArguments.push_back("/Users/milipili/projects/yuni/sources/current/src/yuni/long");
-		pArguments.push_back("-q");
-		pThread->arguments(pArguments);
+		if (env.executable.empty())
+		{
+			env.mutex.unlock();
+			return true;
+		}
 
-		// std::cout << "starting................\n";
-		pThread->start();
+		// starting a new thread
+		// prepare commands
+		Yuni::Private::Process::SubProcess* newthread = new Yuni::Private::Process::SubProcess(*this);
+		newthread->command(env.executable, env.arguments);
+		// keep somewhere
+		env.thread = newthread;
 
-		return false;
+		return newthread->launch();
 	}
 
 
-	void Process::wait()
+	int Process::wait(sint64* duration)
 	{
-		if (pRunning)
+		ProcessEnvironment::Ptr envptr = pEnv;
+		if (!envptr)
+			return 0;
+		ProcessEnvironment& env = *envptr;
+
+		// thread operation
 		{
-			pMutex.lock();
-			// std::cout << "Waiting...\n";
-			ThreadPtr thread = pThread;
-			pMutex.unlock();
-			if (!(!thread))
-				thread->stop();
+			ThreadPtr thread;
+			// checking environment
+			{
+				MutexLocker locker(env.mutex);
+				if (not env.running || not env.thread)
+				{
+					if (duration)
+						*duration = env.duration;
+					return env.exitstatus;
+				}
+				thread = env.thread;
+			}
+
+			// wait for the end of the thread
+			thread->wait();
+
+			// since the thread has finished, we can safely destroy it to not let
+			// a process alive for nothing
+			env.thread = nullptr;
+		}
+
+		// results
+		MutexLocker locker(env.mutex);
+		if (duration)
+			*duration = env.duration;
+		return env.exitstatus;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	class ExecutionHelper
+	{
+	public:
+		//! The most suitable smart pointer for the class
+		typedef SmartPtr<ExecutionHelper> Ptr;
+
+	public:
+		ExecutionHelper(Process process, Thread::Signal& signal, bool& result) :
+			signal(signal),
+			process(process),
+			result(result)
+		{
+			# ifndef NDEBUG
+			pAlreadyLaunched = false;
+			# endif
+		}
+
+		~ExecutionHelper()
+		{
+		}
+
+		bool perform(uint timeout)
+		{
+			# ifndef NDEBUG
+			assert(!pAlreadyLaunched && "internal execute error");
+			pAlreadyLaunched = true;
+			# endif
+
+			// Start the process (e.g. fork)
+			result = process.execute(timeout);
+
+			// notifying any waiter that the process has been launched
+			// it will reduce contention if the notify is called from here instead
+			// from the destructor
+			// After this call, no other operation must be performed
+			signal.notify();
+			return true; // let the main loop continue
+		}
+
+	public:
+		//! The command to execute
+		String command;
+		//!
+		Thread::Signal& signal;
+		//! Process to execute (by copy thank to ref.counting)
+		Process process;
+		//!
+		bool& result;
+
+	private:
+		# ifndef NDEBUG
+		//! Flag to prevent against multiple launches (which must never happen)
+		bool pAlreadyLaunched;
+		# endif
+
+	}; // class ExecutionHelper
+
+
+
+	bool Process::dispatchExecution(const Bind<void (const Callback&)>& dispatcher, uint timeout)
+	{
+		ProcessEnvironment::Ptr envptr = pEnv; // keeping a reference to the current env
+		if (!envptr)
+		{
+			envptr = new ProcessEnvironment();
+			pEnv = envptr;
+		}
+
+		Thread::Signal signal;
+		if (not signal.valid())
+		{
+			std::cerr << "impossible to initialize signal\n";
+			return false;
+		}
+
+		bool result = true;
+		// Dispatch the message
+		// The code is within a block to let the variable
+		// `runner` destroyed, thus to notify the end of the execution
+		// (via signal->notify())
+		ExecutionHelper* runner = new ExecutionHelper(*this, signal, result);
+		{
+			Bind<bool ()>  callback;
+			callback.bind(runner, &ExecutionHelper::perform, timeout);
+			dispatcher(callback);
+		}
+
+		// waiting for the process startup from the main loop
+		signal.wait();
+
+		// we can now safely delete our helper
+		delete runner;
+		// ok ready
+		return result;
+	}
+
+
+	bool Process::running() const
+	{
+		ProcessEnvironment::Ptr envptr = pEnv;
+		return (!envptr) ? false : (envptr->running);
+	}
+
+
+	void Process::commandLine(const AnyString& cmd)
+	{
+		ProcessEnvironment::Ptr envptr = pEnv; // keeping a reference to the current env
+		if (!envptr)
+		{
+			envptr = new ProcessEnvironment();
+			pEnv = envptr;
+		}
+		ProcessEnvironment& env = *envptr;
+
+		MutexLocker locker(env.mutex);
+		env.executable.clear();
+		env.arguments.clear();
+		bool foundExecutable = false;
+
+		if (not cmd.empty())
+		{
+			uint offset = 0;
+			do
+			{
+				// Looking for the next whitespace
+				offset = cmd.find_first_not_of(" \t\r\n", offset);
+				if (offset >= cmd.size())
+					break;
+
+				// ok, we have a new entry
+				uint next = offset;
+				bool escape = false;
+				char withinString = '\0';
+				do
+				{
+					char c = cmd[next];
+					if (c == '\\')
+					{
+						escape = not escape;
+					}
+					else
+					{
+						if (c == '\'' || c == '"')
+						{
+							if (not escape)
+							{
+								if (withinString == c)
+									withinString = '\0'; // end of literal
+								else if (withinString == '\0') // starts a new literal
+									withinString = c;
+							}
+						}
+						if (withinString == '\0')
+						{
+							if (c == ' ' || c == '\t' || c == '\r' || c == '\n')
+								break;
+						}
+					}
+					++next;
+				}
+				while (next < cmd.size());
+
+				if (next > offset)
+				{
+					AnyString arg;
+					if (next - offset > 1 && cmd[next - 1] == cmd[offset] && (cmd[offset] == '"' || cmd[offset] == '\''))
+						arg.adapt(cmd.c_str() + offset + 1, next - offset - 2);
+					else
+						arg.adapt(cmd.c_str() + offset, next - offset);
+
+					if (not foundExecutable)
+						env.executable = arg;
+					else
+						env.arguments.push_back(arg);
+					foundExecutable = true;
+				}
+				offset = next;
+			}
+			while (offset < cmd.size());
 		}
 	}
+
+
+	void Process::workingDirectory(const AnyString& directory)
+	{
+		ProcessEnvironment::Ptr envptr = pEnv; // keeping a reference to the current env
+		if (!envptr)
+		{
+			envptr = new ProcessEnvironment();
+			pEnv = envptr;
+		}
+		ProcessEnvironment& env = *envptr;
+
+		MutexLocker locker(env.mutex);
+		env.workingDirectory = directory;
+	}
+
+
+	String Process::workingDirectory() const
+	{
+		ProcessEnvironment::Ptr envptr = pEnv; // keeping a reference to the current env
+		if (!envptr)
+			return nullptr;
+		ProcessEnvironment& env = *envptr;
+		MutexLocker locker(env.mutex);
+		return env.workingDirectory;
+	}
+
+
+	bool Process::redirectToConsole() const
+	{
+		ProcessEnvironment::Ptr envptr = pEnv; // keeping a reference to the current env
+		if (!envptr)
+			return true;
+		ProcessEnvironment& env = *envptr;
+		MutexLocker locker(env.mutex);
+		return env.redirectToConsole;
+
+	}
+
+
+	void Process::redirectToConsole(bool flag)
+	{
+		ProcessEnvironment::Ptr envptr = pEnv; // keeping a reference to the current env
+		if (!envptr)
+		{
+			if (flag)
+				return; // default is true, useless to instanciate something
+
+			envptr = new ProcessEnvironment();
+			pEnv = envptr;
+		}
+		ProcessEnvironment& env = *envptr;
+
+		MutexLocker locker(env.mutex);
+		env.redirectToConsole = flag;
+	}
+
+
+	Process::ProcessEnvironment::ProcessEnvironment() :
+		running(false),
+		timeout(0),
+		redirectToConsole(true)
+	{}
+
+
+
+	String Process::program() const
+	{
+		ProcessEnvironment::Ptr envptr = pEnv; // keeping a reference to the current env
+		if (!envptr)
+			return nullptr;
+		ProcessEnvironment& env = *envptr;
+		MutexLocker locker(env.mutex);
+		return env.executable;
+	}
+
+	void Process::program(const AnyString& prgm)
+	{
+		ProcessEnvironment::Ptr envptr = pEnv; // keeping a reference to the current env
+		if (!envptr)
+		{
+			envptr = new ProcessEnvironment();
+			pEnv = envptr;
+		}
+		ProcessEnvironment& env = *envptr;
+		MutexLocker locker(env.mutex);
+		env.executable = prgm;
+	}
+
+
+	void Process::argumentClear()
+	{
+		ProcessEnvironment::Ptr envptr = pEnv; // keeping a reference to the current env
+		if (!envptr)
+			return;
+		ProcessEnvironment& env = *envptr;
+		MutexLocker locker(env.mutex);
+		return env.arguments.clear();
+	}
+
+
+	void Process::argumentAdd(const AnyString& arg)
+	{
+		ProcessEnvironment::Ptr envptr = pEnv; // keeping a reference to the current env
+		if (!envptr)
+		{
+			envptr = new ProcessEnvironment();
+			pEnv = envptr;
+		}
+		ProcessEnvironment& env = *envptr;
+		MutexLocker locker(env.mutex);
+		env.arguments.push_back(arg);
+	}
+
+
+	void Process::CaptureOutput::onRead(const AnyString& buffer)
+	{
+		cout += buffer;
+	}
+
+
+	void Process::CaptureOutput::onErrorRead(const AnyString& buffer)
+	{
+		cerr += buffer;
+	}
+
+
+
 
 
 

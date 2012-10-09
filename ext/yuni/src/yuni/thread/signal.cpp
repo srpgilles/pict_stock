@@ -28,10 +28,32 @@ namespace Thread
 		assert(sizeof(HANDLE) >= sizeof(void*) && "Invalid type for Signal::pHandle");
 
 		pHandle = (void*) CreateEvent(
-				NULL,     // default security attributes
-				TRUE,     // manual-reset event
-				FALSE,    // initial state is nonsignaled
-				NULL );   // unamed
+			NULL,     // default security attributes
+			TRUE,     // manual-reset event
+			FALSE,    // initial state is nonsignaled
+			NULL );   // unamed
+
+		# else
+		pSignalled = false;
+		::pthread_mutex_init(&pMutex, nullptr);
+		::pthread_cond_init(&pCondition, nullptr);
+		# endif
+		#endif
+	}
+
+
+	Signal::Signal(const Signal&)
+	{
+		#ifndef YUNI_NO_THREAD_SAFE
+		# ifdef YUNI_OS_WINDOWS
+		// Making sure that our pseudo HANDLE type is valid
+		assert(sizeof(HANDLE) >= sizeof(void*) && "Invalid type for Signal::pHandle");
+
+		pHandle = (void*) CreateEvent(
+			NULL,     // default security attributes
+			TRUE,     // manual-reset event
+			FALSE,    // initial state is nonsignaled
+			NULL );   // unamed
 
 		# else
 		pSignalled = false;
@@ -53,7 +75,6 @@ namespace Thread
 		# endif
 		#endif
 	}
-
 
 
 	bool Signal::reset()
@@ -89,7 +110,7 @@ namespace Thread
 		// signalling.
 		::pthread_mutex_lock(&pMutex);
 
-		while (!pSignalled)
+		while (not pSignalled)
 		{
 			// Wait for signal
 			// Note that the pthread_cond_wait routine will automatically and
@@ -110,13 +131,13 @@ namespace Thread
 	}
 
 
-	bool Signal::wait(unsigned int timeout)
+	bool Signal::wait(uint timeout)
 	{
 		#ifndef YUNI_NO_THREAD_SAFE
 		# ifdef YUNI_OS_WINDOWS
 		if (pHandle)
 		{
-			if (WAIT_OBJECT_0 == WaitForSingleObject(pHandle, static_cast<DWORD>(timeout)))
+			if (WAIT_OBJECT_0 == WaitForSingleObject(pHandle, (DWORD) timeout))
 				return true;
 		}
 		return false;
@@ -135,8 +156,8 @@ namespace Thread
 		// Set the timespec t at [timeout] milliseconds in the future.
 		assert(timeout < 2147483648u && "Invalid range for timeout (Signal::wait(timeout))");
 		YUNI_SYSTEM_GETTIMEOFDAY(&now, NULL);
-		t.tv_nsec  =  static_cast<long>  (now.tv_usec * 1000 + ((static_cast<int>(timeout) % 1000) * 1000000));
-		t.tv_sec   =  static_cast<time_t>(now.tv_sec + timeout / 1000 + (t.tv_nsec / 1000000000L));
+		t.tv_nsec  =  (long)   (now.tv_usec * 1000 + (((int) timeout % 1000) * 1000000));
+		t.tv_sec   =  (time_t) (now.tv_sec + timeout / 1000 + (t.tv_nsec / 1000000000L));
 		t.tv_nsec  %= 1000000000L;
 
 		int error = 0;

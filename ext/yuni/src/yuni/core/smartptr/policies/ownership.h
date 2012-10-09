@@ -147,9 +147,9 @@ namespace Ownership
 
 		bool unique() const
 		{
-			assert(false && "not implemented");
-			//return rhs && rhs->unique();
+			assert(false && "unique() for COMReferenceCounted<> not implemented");
 			return false;
+			//return !rhs || rhs->unique();
 		}
 
 		/*!

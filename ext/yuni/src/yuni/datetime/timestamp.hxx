@@ -9,7 +9,8 @@ namespace Private
 namespace DateTime
 {
 
-	char* FormatStringDynBuffer(unsigned int size, const char* format, sint64 timestamp);
+	// forward declaration
+	char* FormatStringDynBuffer(uint size, const char* format, sint64 timestamp);
 
 
 } // namespace DateTime
@@ -42,7 +43,7 @@ namespace DateTime
 			if (emptyBefore)
 				out.clear();
 
-			unsigned guesssize = Traits::Length<StringT2,unsigned int>::Value(format);
+			uint guesssize = Traits::Length<StringT2,uint>::Value(format);
 			if (!guesssize)
 				return true;
 

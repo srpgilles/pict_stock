@@ -54,6 +54,13 @@
 
 /* Mac OS */
 #	if defined(__APPLE__) || defined(__MACH__)
+#		ifdef YUNI_OS_FLAG_LINUX
+#			undef  YUNI_OS_FLAG_LINUX
+#			define  YUNI_OS_FLAG_LINUX 0
+#		endif
+#		ifdef YUNI_OS_LINUX
+#			undef  YUNI_OS_LINUX // we may have those macro already defined
+#		endif
 #		define YUNI_OS_MAC
 #		define YUNI_OS_MACOS
 #		define YUNI_OS_DARWIN

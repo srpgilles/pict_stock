@@ -22,8 +22,10 @@ namespace IO
 		errNotFound,
 		//! A hard memory limit has been reached
 		errMemoryLimit,
-		//! It is impossible to overwrite an eisting file
+		//! It is impossible to overwrite an existing file
 		errOverwriteNotAllowed,
+		//! Impossible to write
+		errWriteFailed,
 	};
 
 

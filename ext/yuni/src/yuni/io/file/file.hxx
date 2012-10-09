@@ -90,7 +90,7 @@ namespace File
 			char buffer[2096 + 1];
 			size_t numRead = 0;
 			uint64 totalRead = 0;
-			while ((numRead = f.read(buffer, sizeof(buffer) - 1)) != 0)
+			while ((numRead = f.read((char*)buffer, sizeof(buffer) - 1)) != 0)
 			{
 				// This assignment is mandatory to prevent some bad use with
 				// strlen (according to StringT1).

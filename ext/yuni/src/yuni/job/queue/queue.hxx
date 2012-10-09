@@ -53,7 +53,7 @@ namespace Job
 
 
 	template<class SchedulerT>
-	bool QueueService<SchedulerT>::stop(unsigned int timeout)
+	bool QueueService<SchedulerT>::stop(uint timeout)
 	{
 		if (pStarted)
 		{
@@ -65,7 +65,7 @@ namespace Job
 
 
 	template<class SchedulerT>
-	inline bool QueueService<SchedulerT>::restart(unsigned int timeout)
+	inline bool QueueService<SchedulerT>::restart(uint timeout)
 	{
 		return (SchedulerPolicy::schedulerStop(timeout) && SchedulerPolicy::schedulerStart());
 	}
@@ -80,7 +80,7 @@ namespace Job
 		{
 		public:
 			QueueServiceWaitHelper(SchedulerT& scheduler, Yuni::Private::QueueService::WaitingRoom& room,
-				unsigned int pollInterval) :
+				uint pollInterval) :
 				Thread::Timer(pollInterval),
 				pRoom(room),
 				pScheduler(scheduler),
@@ -94,7 +94,7 @@ namespace Job
 			bool status() const {return pStatus;}
 
 		protected:
-			virtual bool onInterval(unsigned int)
+			virtual bool onInterval(uint)
 			{
 				// Checking if the scheduler still has workers
 				if (pRoom.empty() && pScheduler.idle())
@@ -132,7 +132,7 @@ namespace Job
 
 
 	template<class SchedulerT>
-	bool QueueService<SchedulerT>::wait(unsigned int timeout, unsigned int pollInterval)
+	bool QueueService<SchedulerT>::wait(uint timeout, uint pollInterval)
 	{
 		// TODO QueueService::wait: Find a more efficient way for doing this
 		QueueServiceWaitHelper<SchedulerT> helper(static_cast<SchedulerT&>(*this), pWaitingRoom, pollInterval);
@@ -189,14 +189,14 @@ namespace Job
 
 
 	template<class SchedulerT>
-	inline unsigned int QueueService<SchedulerT>::size() const
+	inline uint QueueService<SchedulerT>::size() const
 	{
 		return pWaitingRoom.size();
 	}
 
 
 	template<class SchedulerT>
-	inline unsigned int QueueService<SchedulerT>::count() const
+	inline uint QueueService<SchedulerT>::count() const
 	{
 		return pWaitingRoom.size();
 	}
@@ -235,7 +235,7 @@ namespace Job
 
 
 	template<class SchedulerT>
-	inline unsigned int QueueService<SchedulerT>::threadCount() const
+	inline uint QueueService<SchedulerT>::threadCount() const
 	{
 		return SchedulerPolicy::schedulerThreadCount();
 	}
@@ -245,7 +245,7 @@ namespace Job
 	{
 
 		template<class SchedulerT>
-		class ActivityPredicate
+		class QueueActivityPredicate
 		{
 		public:
 			//!
@@ -253,8 +253,8 @@ namespace Job
 			typedef typename ThreadInfoType::Vector VectorType;
 
 		public:
-			ActivityPredicate(VectorType& out)
-				:pList(out)
+			QueueActivityPredicate(VectorType& out) :
+				pList(out)
 			{
 				pList.clear();
 			}
@@ -295,7 +295,7 @@ namespace Job
 	void QueueService<SchedulerT>::activitySnapshot(
 		typename QueueService<SchedulerT>::ThreadInfo::Vector& out)
 	{
-		ActivityPredicate<SchedulerT> predicate(out);
+		QueueActivityPredicate<SchedulerT> predicate(out);
 		SchedulerPolicy::schedulerForeachThread(predicate);
 	}
 

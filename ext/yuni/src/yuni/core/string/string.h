@@ -114,7 +114,7 @@ namespace Yuni
 	**   string with a fixed-length capacity (equals to ChunkSizeT)
 	** \tparam ZeroTerminatedT True to make the string zero-terminated
 	*/
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
 	class YUNI_DECL CString :
 		protected Private::CStringImpl::Data<ChunkSizeT,ExpandableT,ZeroTerminatedT, char>
 	{
@@ -185,7 +185,9 @@ namespace Yuni
 			CString<>, CStringType>::RetTrue  WritableType;
 
 		//! Operator [] return type
-		typedef typename Static::If<!adapter, char&, char>::RetTrue OperatorBracketReturnType;
+		typedef typename Static::If<!adapter, char&, char>::Type OperatorBracketReturnType;
+		//! Operator [] return type (const)
+		typedef typename Static::If<!adapter, const char&, char>::Type ConstOperatorBracketReturnType;
 
 		// Checking for a minimal chunk size
 		YUNI_STATIC_ASSERT(adapter || chunkSize > 3, CString_MinimalChunkSizeRequired);
@@ -200,7 +202,7 @@ namespace Yuni
 		** \return An integer greater than, equal to, or less than 0, according as the string is greater than,
 		**   equal to, or less than the given string
 		*/
-		static int Compare(const char* const s1, unsigned int l1, const char* const s2, unsigned int l2);
+		static int Compare(const char* const s1, uint l1, const char* const s2, uint l2);
 
 		/*!
 		** \brief Compare two strings like stricmp() (case-insensitive)
@@ -209,7 +211,7 @@ namespace Yuni
 		** \return An integer greater than, equal to, or less than 0, according as the string is greater than,
 		**   equal to, or less than the given string
 		*/
-		static int CompareInsensitive(const char* const s1, unsigned int l1, const char* const s2, unsigned int l2);
+		static int CompareInsensitive(const char* const s1, uint l1, const char* const s2, uint l2);
 		//@}
 
 
@@ -228,6 +230,7 @@ namespace Yuni
 		//! alphabetic character test
 		static bool IsAlpha(int c);
 		//@}
+
 
 
 	private:
@@ -273,7 +276,7 @@ namespace Yuni
 		** The substring is the portion of str that begins at the character position
 		** 'offset'.
 		*/
-		template<unsigned int SizeT, bool ExpT, bool ZeroT>
+		template<uint SizeT, bool ExpT, bool ZeroT>
 		CString(const CString<SizeT,ExpT,ZeroT>& s, Size offset);
 
 		/*!
@@ -283,7 +286,7 @@ namespace Yuni
 		** 'offset' and takes up to 'n' characters (it takes less than n if the end
 		** of 's' is reached before).
 		*/
-		template<unsigned int SizeT, bool ExpT, bool ZeroT>
+		template<uint SizeT, bool ExpT, bool ZeroT>
 		CString(const CString<SizeT,ExpT,ZeroT>& s, Size offset, Size n /*= npos*/);
 
 		/*!
@@ -987,12 +990,12 @@ namespace Yuni
 		/*!
 		** \brief Get the number of occurrences of a single char
 		*/
-		unsigned int countChar(char c) const;
+		uint countChar(char c) const;
 
 		/*!
 		** \brief Get the number of occurrences of a single unsigned char
 		*/
-		unsigned int countChar(unsigned char c) const;
+		uint countChar(unsigned char c) const;
 
 		/*!
 		** \brief Find the offset of a sub-string from the left
@@ -1003,7 +1006,7 @@ namespace Yuni
 		** \param cstr An arbitrary string character
 		** \return The position of the first occurence found, `npos` if not found
 		*/
-		unsigned int indexOf(Size offset, char cstr) const;
+		uint indexOf(Size offset, char cstr) const;
 
 		/*!
 		** \brief Find the offset of a raw sub-string with a given length (in bytes) from the left
@@ -1015,7 +1018,7 @@ namespace Yuni
 		** \param len Size of the given string
 		** \return The position of the first occurence found, `npos` if not found
 		*/
-		unsigned int indexOf(Size offset, const char* const cstr, Size len) const;
+		uint indexOf(Size offset, const char* const cstr, Size len) const;
 
 		/*!
 		** \brief Find the offset of any supported CString from the left
@@ -1026,7 +1029,7 @@ namespace Yuni
 		** \param cstr Any supported String
 		** \return The position of the first occurence found, `npos` if not found
 		*/
-		template<class StringT> unsigned int indexOf(Size offset, const StringT& s) const;
+		template<class StringT> uint indexOf(Size offset, const StringT& s) const;
 
 		/*!
 		** \brief Searches the string for an individual character
@@ -1248,7 +1251,7 @@ namespace Yuni
 		/*!
 		** \brief Remove up to `n` characters from the end of the string
 		*/
-		void chop(unsigned int n);
+		void chop(uint n);
 
 		/*!
 		** \brief Remove the last char
@@ -1345,9 +1348,10 @@ namespace Yuni
 		**
 		** \param from The string to find
 		** \param to   The string to replace with
+		** \return The number  the number of replacements performed
 		*/
 		template<class StringT1, class StringT2>
-		void replace(const StringT1& from, const StringT2& to);
+		uint replace(const StringT1& from, const StringT2& to);
 
 		/*!
 		** \brief Replace all occurrences of a string by another one
@@ -1355,17 +1359,19 @@ namespace Yuni
 		** \param offset The offset where to start from
 		** \param from The string to find
 		** \param to   The string to replace with
+		** \return The number  the number of replacements performed
 		*/
 		template<class StringT1, class StringT2>
-		void replace(Size offset, const StringT1& from, const StringT2& to);
+		uint replace(Size offset, const StringT1& from, const StringT2& to);
 
 		/*!
 		** \brief Replace all occurrences of a given char by another one
 		**
 		** \param from The character to search
 		** \param to   The replacement
+		** \return The number  the number of replacements performed
 		*/
-		void replace(char from, char to);
+		uint replace(char from, char to);
 
 		/*!
 		** \brief Replace all occurrences of a given char by another one
@@ -1373,16 +1379,18 @@ namespace Yuni
 		** \param offset The offset where to start from
 		** \param from The character to search
 		** \param to   The replacement
+		** \return The number  the number of replacements performed
 		*/
-		void replace(Size offset, char from, char to);
+		uint replace(Size offset, char from, char to);
 
 		/*!
 		** \brief Replace all occurrences of a given char by another one (case insensitive)
 		**
 		** \param from The character to search
 		** \param to   The replacement
+		** \return The number  the number of replacements performed
 		*/
-		void ireplace(char from, char to);
+		uint ireplace(char from, char to);
 
 		/*!
 		** \brief Replace all occurrences of a given char by another one (case insensitive)
@@ -1390,17 +1398,19 @@ namespace Yuni
 		** \param offset The offset where to start from
 		** \param from The character to search
 		** \param to   The replacement
+		** \return The number  the number of replacements performed
 		*/
-		void ireplace(Size offset, char from, char to);
+		uint ireplace(Size offset, char from, char to);
 
 		/*!
 		** \brief Replace all occurrences of a string by another one (case insensitive)
 		**
 		** \param from The string to find
 		** \param to   The string to replace with
+		** \return The number  the number of replacements performed
 		*/
 		template<class StringT1, class StringT2>
-		void ireplace(const StringT1& from, const StringT2& to);
+		uint ireplace(const StringT1& from, const StringT2& to);
 
 		/*!
 		** \brief Replace all occurrences of a string by another one (case insensitive)
@@ -1408,9 +1418,10 @@ namespace Yuni
 		** \param offset The offset where to start from
 		** \param from The string to find
 		** \param to   The string to replace with
+		** \return The number  the number of replacements performed
 		*/
 		template<class StringT1, class StringT2>
-		void ireplace(Size offset, const StringT1& from, const StringT2& to);
+		uint ireplace(Size offset, const StringT1& from, const StringT2& to);
 
 		/*!
 		** \brief Remove the 'n' first characters
@@ -1476,7 +1487,7 @@ namespace Yuni
 		** The supported types (by default) are :
 		** - std::string
 		** - const char* (equivalent to `c_str()`)
-		** - numeric (int, long, unsigned int, double...)
+		** - numeric (int, long, uint, double...)
 		** - bool
 		*/
 		template<class U> U to() const;
@@ -1731,17 +1742,23 @@ namespace Yuni
 		size_t capacityInBytes() const;
 
 		/*!
-		** \brief A pointer to the original cstr (might be NULL)
-		** \see null()
+		** \brief Returns a pointer to a null-terminated character array with data equivalent to those stored in the string
 		*/
 		const char* c_str() const;
 
 		/*!
 		** \brief A pointer to the original cstr (might be NULL)
 		** \see null()
+		** \warning Not STL compatible
+		*/
+		char* data();
+		/*!
+		** \brief A pointer to the original cstr (might be NULL)
+		** \see null()
+		** \warning Not STL compatible
 		*/
 		const char* data() const;
-		char* data();
+
 		//@}
 
 
@@ -1890,11 +1907,14 @@ namespace Yuni
 		** \param[out] key The key that has been found
 		** \param[out] value The associated value
 		** \param ignoreCase True to be case insensitive
+		** \param separator The separator used to make the distinction between the key
+		**   and the value
 		**
 		** \see ExtractKeyvalue()
 		*/
 		template<class StringT1, class StringT2>
-		void extractKeyValue(StringT1& key, StringT2& value, bool ignoreCase = false) const;
+		void extractKeyValue(StringT1& key, StringT2& value, bool ignoreCase = false,
+			char separator = '=') const;
 		//@}
 
 
@@ -1922,7 +1942,7 @@ namespace Yuni
 		//! \name Operators
 		//@{
 		//! The operator `[]`, for accessing to a single char (the offset must be valid)
-		const OperatorBracketReturnType /*char&*/ operator [] (Size offset) const;
+		ConstOperatorBracketReturnType /*char&*/ operator [] (Size offset) const;
 		//! The operator `[]`, for accessing to a single char (the offset must be valid)
 		OperatorBracketReturnType /*char&*/ operator [] (Size offset);
 
@@ -1977,7 +1997,6 @@ namespace Yuni
 		void decalOffset(Size count);
 
 	private:
-
 		/*!
 		** \brief Set the string from a sequence of escaped characters (O(N))
 		**
@@ -1996,7 +2015,7 @@ namespace Yuni
 		template<class, class> friend class Yuni::Extension::CString::Fill;
 		template<class, bool>  friend struct Private::CStringImpl::AdapterAssign;
 		template<class, bool>  friend struct Private::CStringImpl::Consume;
-		template<unsigned int, bool, bool> friend class CString;
+		template<uint, bool, bool> friend class CString;
 
 	}; // class CString
 

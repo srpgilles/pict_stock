@@ -1,5 +1,5 @@
 
-YMESSAGE_MODULE("UI  (EXPERIMENTAL, FOR ADVANCED USERS ONLY)")
+YMESSAGE_MODULE("UI  (EXPERIMENTAL)")
 
 LIBYUNI_CONFIG_LIB("both" "ui"      "yuni-static-ui-core")
 
@@ -84,7 +84,7 @@ else ()
 		if (UNIX)
 			list(APPEND SRC_UI ui/local/window/x11.h ui/local/window/x11.cpp)
 			if (YUNI_HAS_OPENGL)
-			   list (APPEND SRC_UI ui/local/controls/glxsurface.h ui/local/controls/glxsurface.cpp)
+				list (APPEND SRC_UI ui/local/controls/glxsurface.h ui/local/controls/glxsurface.cpp)
 			endif ()
 		endif ()
 	endif ()

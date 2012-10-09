@@ -1,3 +1,4 @@
+
 YMESSAGE_MODULE("UUID")
 
 LIBYUNI_CONFIG_LIB("both" "uuid" "yuni-static-uuid")

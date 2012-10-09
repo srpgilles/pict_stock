@@ -27,6 +27,13 @@ namespace Thread
 	}
 
 
+	inline Signal& Signal::operator = (const Signal&)
+	{
+		return *this;
+	}
+
+
+
 
 
 } // namespace Thread

@@ -180,6 +180,7 @@ namespace IO
 
 	bool SearchPath::find(String& out, const AnyString& filename) const
 	{
+		out.clear();
 		if (!filename)
 			return false;
 		if (pCacheLookup)
@@ -198,6 +199,7 @@ namespace IO
 
 	bool SearchPath::find(String::Vector& out, const AnyString& filename) const
 	{
+		out.clear();
 		if (!filename)
 			return false;
 		if (pCacheLookup)
@@ -216,6 +218,7 @@ namespace IO
 
 	bool SearchPath::find(String::List& out, const AnyString& filename) const
 	{
+		out.clear();
 		if (!filename)
 			return false;
 		if (pCacheLookup)

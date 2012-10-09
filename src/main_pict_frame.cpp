@@ -4,7 +4,7 @@
 #include "extended_photo/date.hpp"
 #include "photo_directory/private/path_format_helpers.hpp"
 #include "pict_frame/pict_frame.hpp"
-#include <numeric>
+
 
 using namespace Yuni;
 
@@ -55,13 +55,6 @@ int main(int argc, char* argv[])
 	parser.addParagraph("\nUsual option(s):\n");
 	parser.add(parameterFile, ' ', "parameter_file", "Parameters file. If not precised "
 		"parameters_pict_frame.ini in current folder is attempted.");
-	String strBeginDate, strEndDate;
-	parser.add(strBeginDate, ' ', "begin_date", "Photos older than this date aren't "
-		"taken into account. Leave it empty if no such restriction; otherwise format is"
-		"{year}-{month}-{day}");
-	parser.add(strEndDate, ' ', "end_date", "Photos newer than this date aren't "
-		"taken into account. Leave it empty if no such restriction; otherwise format is"
-		"{year}-{month}-{day}");
 
 	parser.addParagraph("\nHelp:\n");
 
@@ -87,10 +80,11 @@ int main(int argc, char* argv[])
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
 
-		PictStock::Private::PathFormatHelper helper(logs, "%y-%m-%d");
+		PictStock::Private::PathFormatHelper helper(logs, "%Y-%m-%d");
 
 		time_t beginDate(0);
-		time_t endDate(std::numeric_limits<time_t>::max());
+		time_t endDate(std::numeric_limits<int>::max()); // int because struct tm components are defined as such
+
 		determineTimeLimits(logs, beginDate, helper, parameters, "beginDate");
 		determineTimeLimits(logs, endDate, helper, parameters, "endDate");
 

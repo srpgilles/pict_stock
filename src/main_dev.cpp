@@ -146,7 +146,7 @@ int main(int argc, char* argv[])
 	//TestPathFormat::test(logs);
 
 	//PictStock::ExtendedPhoto photo(logs, "/tmp/devPhotos/2010/M10/J26/Photo_1016_T.jpg");
-	YString date;
+	/*YString date;
 	AnyString format("%Y-%m-%d %H:%M:%S");
 
 	time_t foo(1299997609);
@@ -182,9 +182,12 @@ int main(int argc, char* argv[])
 	for (unsigned int i = 1u; i < 104; ++i)
 	{
 		logs.notice() << numeration.next();
-	}
+	}*/
 
+	PictStock::ExtendedPhoto photo(logs, "/home/sebastien/Multimedia/PhotosSG/2012/M06/J23/Photo_1805_UNK.jpg");
+	//PictStock::ExtendedPhoto photo(logs, "/home/sebastien/Multimedia/PhotosSG/2012/M07/J22/Photo_1021_CSG.jpg");
 
+	photo.printExifData(std::cout);
 
 
 	return 0;

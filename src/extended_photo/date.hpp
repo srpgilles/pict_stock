@@ -35,6 +35,8 @@ namespace PictStock
 	**
 	** It is not intended to be as generic as struct tm: the point is mainly to
 	** provide what is needed for PictStock project
+	**
+	** TODO: use new C++11 chrono classes here...
 	*/
 	class YUNI_DECL Date
 	{
@@ -112,22 +114,8 @@ namespace PictStock
 		//! True if is empty
 		inline bool isEmpty() const;
 
+
 	private:
-
-		/*!
-		** \brief Function in charge of converting date element into
-		** proper struct tm informations
-		**
-		** For instance, for year 2012 would become 112 (as struct tm
-		** elements begin at 1900 for the year)
-		**
-		** \tparam An element of DateTuple
-		**
-		** \param[in] value Value before conversion (for instance 2012 for year)
-		*/
-		template<class T>
-		void toCTimeInformations(int value);
-
 
 		/*!
 		** \brief Helper to perform recursively all required conversions
@@ -148,6 +136,10 @@ namespace PictStock
 		template<std::size_t I>
 		typename std::enable_if<I < std::tuple_size<DateTuple>::value, void>::type
 			conversionHelper(const std::array<int, std::tuple_size<DateTuple>::value>& in);
+
+
+
+
 
 		enum { dateTupleSize =  std::tuple_size<DateTuple>::value };
 

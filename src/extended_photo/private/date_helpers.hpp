@@ -11,7 +11,7 @@ namespace Private
 
 	struct Year
 	{
-		static const SymbolString Symbol() { return "%y"; }
+		static const SymbolString Symbol() { return "%Y"; }
 		static const RegexString Regex() { return "\\d{4}"; }
 	};
 

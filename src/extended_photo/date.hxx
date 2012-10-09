@@ -4,7 +4,72 @@
 
 namespace PictStock
 {
+	namespace
+	{
+		/*!
+		** \brief Function in charge of converting date element into
+		** proper struct tm informations
+		**
+		** For instance, for year 2012 would become 112 (as struct tm
+		** elements begin at 1900 for the year)
+		**
+		** \tparam An element of DateTuple
+		**
+		** \param[in] value Value before conversion (for instance 2012 for year)
+		*/
+		template<class T>
+		void toCTimeInformations(struct tm& out, int value);
 
+		template<>
+		inline void toCTimeInformations<Private::Year>(struct tm& out, int value)
+		{
+			out.tm_year = value - 1900;
+		}
+
+
+		template<>
+		inline void toCTimeInformations<Private::Month>(struct tm& out, int value)
+		{
+			assert(value > 0 && value <= 12);
+			out.tm_mon = --value;
+		}
+
+		template<>
+		inline void toCTimeInformations<Private::Day>(struct tm& out, int value)
+		{
+			assert(value >= 1 && value <= 31);
+			out.tm_mday = value;
+		}
+
+		template<>
+		inline void toCTimeInformations<Private::Hour>(struct tm& out, int value)
+		{
+			assert(value >= 0 && value <= 23);
+			out.tm_hour = value;
+		}
+
+		template<>
+		inline void toCTimeInformations<Private::Minute>(struct tm& out, int value)
+		{
+			assert(value >= 0 && value <= 59);
+			out.tm_min = value;
+
+		}
+
+		template<>
+		void toCTimeInformations<Private::Second>(struct tm& out, int value)
+		{
+			assert(value >= 0 && value < 60);
+
+			/*# ifdef YUNI_OS_WINDOWS
+			long timezone;
+			_get_timezone(&timezone);
+			# endif*/
+
+			out.tm_sec = value;// + static_cast<int>(timezone);
+		}
+
+	}
 
 
 
@@ -13,7 +78,7 @@ namespace PictStock
 	**
 	** \param[in] in Array that contains original values that must be converted
 	** to fit inside tm object. For instance, in[Element::year] = 2012 yields
-	** to 112 in pData structure. If -1, pIsElementPresent is put as false
+	** 112 in pData structure. If -1, pIsElementPresent is put as false
 	**
 	** \tparam An element of DateTuple
 	*/
@@ -30,11 +95,13 @@ namespace PictStock
 		if (pIsElementPresent[I])
 		{
 			typedef typename std::tuple_element<I, DateTuple>::type type;
-			toCTimeInformations<type>(in[I]);
+			toCTimeInformations<type>(pData, in[I]);
 		}
 
 		conversionHelper<I+1>(in);
 	}
+
+
 
 
 
@@ -159,7 +226,7 @@ namespace PictStock
 		{
 			int buf(in.to<int>());
 			pIsElementPresent.set(value);
-			toCTimeInformations<T>(buf);
+			toCTimeInformations<T>(pData, buf);
 		}
 	}
 

@@ -51,8 +51,9 @@ namespace PictStock
 				// Annie et Christian
 				std::multimap<std::string, String> cameras;
 				cameras.insert(std::make_pair("Exif.Image.Model", "DSC-W70"));
+				cameras.insert(std::make_pair("Exif.Canon.ModelID", "50593792"));
 
-				Photographer::Ptr newEntry = new Photographer("Annie et Christian", "AGC", cameras);
+				Photographer::Ptr newEntry = new Photographer("Annie et Christian", "ACG", cameras);
 
 				ret.push_back(newEntry);
 			}

@@ -43,6 +43,26 @@ namespace PictStock
 		static const regexNS::regex RegexDateFormatting(expression.c_str());
 
 
+		template<std::size_t I>
+		typename std::enable_if<I == std::tuple_size<DateTuple>::value, void>::type
+			timeStampToTmHelper(struct tm& /*out*/, time_t /*timeStamp*/)
+		{ }
+
+		template<std::size_t I>
+		typename std::enable_if<I < std::tuple_size<DateTuple>::value, void>::type
+			timeStampToTmHelper(struct tm& out, time_t timeStamp)
+		{
+			YString buf;
+
+			typedef typename std::tuple_element<I, DateTuple>::type type;
+
+			Yuni::DateTime::TimestampToString(buf, type::Symbol(), timeStamp, true);
+			toCTimeInformations<type>(out, buf.to<int>());
+
+			timeStampToTmHelper<I+1>(out, timeStamp);
+		}
+
+
 		/*!
 		** \brief Default value for tm object
 		**
@@ -53,27 +73,17 @@ namespace PictStock
 		**
 		** So here we put the date that matches time stamp 0
 		 */
-		static tm DefaultTimeInformations()
+		static struct tm DefaultTimeInformations()
 		{
-			tm ret;
+			struct tm ret;
 
 			const time_t defaultTimeStamp = 1; // 1 because 0 is replaced by current time stamp!
 
-			YString out;
-			Yuni::DateTime::TimestampToString(out, "%y", defaultTimeStamp, true);
-			ret.tm_year = out.to<int>();
-			Yuni::DateTime::TimestampToString(out, "%m", defaultTimeStamp, true);
-			ret.tm_mon = out.to<int>() - 1;
-			Yuni::DateTime::TimestampToString(out, "%d", defaultTimeStamp, true);
-			ret.tm_mday = out.to<int>();
-			Yuni::DateTime::TimestampToString(out, "%H", defaultTimeStamp, true);
-			ret.tm_hour = out.to<int>();
-			Yuni::DateTime::TimestampToString(out, "%M", defaultTimeStamp, true);
-			ret.tm_min = out.to<int>();
-			Yuni::DateTime::TimestampToString(out, "%S", defaultTimeStamp, true);
-			ret.tm_sec = out.to<int>() - 1; // -1 because defaultTimeStamp is 1 and we
-											// want 0 as a final value
-			ret.tm_isdst = 0;
+			// Recursively fill underlying struct tm
+			timeStampToTmHelper<0>(ret, defaultTimeStamp);
+
+			--ret.tm_sec; // because defaultTimeStamp is 1 and we want 0 as a final value
+			ret.tm_isdst = -1;
 
 			assert(mktime(&ret) == 0);
 
@@ -123,22 +133,23 @@ namespace PictStock
 
 	Date::Date(time_t timeStamp)
 	{
-		YString out;
-		Yuni::DateTime::TimestampToString(out, "%y", timeStamp, true);
-		pData.tm_year = out.to<int>();
-		Yuni::DateTime::TimestampToString(out, "%m", timeStamp, true);
-		pData.tm_mon = out.to<int>() - 1;
-		Yuni::DateTime::TimestampToString(out, "%d", timeStamp, true);
-		pData.tm_mday = out.to<int>();
-		Yuni::DateTime::TimestampToString(out, "%H", timeStamp, true);
-		pData.tm_hour = out.to<int>();
-		Yuni::DateTime::TimestampToString(out, "%M", timeStamp, true);
-		pData.tm_min = out.to<int>();
-		Yuni::DateTime::TimestampToString(out, "%S", timeStamp, true);
-		pData.tm_sec = out.to<int>();
+		std::cout << "Initial time stamp = " <<  timeStamp << '\n';
+
+		// Recursively fill underlying struct tm
+		timeStampToTmHelper<0>(pData, timeStamp);
+
 		pData.tm_isdst = 0;
 
 		pIsElementPresent.set();
+
+		std::cout << pData.tm_year << '\n';
+		std::cout << pData.tm_mon << '\n';
+		std::cout << pData.tm_mday << '\n';
+		std::cout << pData.tm_hour << '\n';
+		std::cout << pData.tm_min << '\n';
+		std::cout << pData.tm_sec << '\n';
+
+		std::cout << this->timeStamp() << ' '<<  timeStamp << '\n';
 
 		assert(this->timeStamp() == timeStamp);
 	}
@@ -267,54 +278,7 @@ namespace PictStock
 	}
 
 
-	template<>
-	void Date::toCTimeInformations<Private::Year>(int value)
-	{
-		pData.tm_year = value - 1900;
-	}
 
-
-	template<>
-	void Date::toCTimeInformations<Private::Month>(int value)
-	{
-		assert(value > 0 && value <= 12);
-		pData.tm_mon = --value;
-	}
-
-	template<>
-	void Date::toCTimeInformations<Private::Day>(int value)
-	{
-		assert(value >= 1 && value <= 31);
-		pData.tm_mday = value;
-	}
-
-	template<>
-	void Date::toCTimeInformations<Private::Hour>(int value)
-	{
-		assert(value >= 0 && value <= 23);
-		pData.tm_hour = value;
-	}
-
-	template<>
-	void Date::toCTimeInformations<Private::Minute>(int value)
-	{
-		assert(value >= 0 && value <= 59);
-		pData.tm_min = value;
-
-	}
-
-	template<>
-	void Date::toCTimeInformations<Private::Second>(int value)
-	{
-		assert(value >= 0 && value < 60);
-
-		# ifdef YUNI_OS_WINDOWS
-		long timezone;
-		_get_timezone(&timezone);
-		# endif
-
-		pData.tm_sec = value + static_cast<int>(timezone);
-	}
 
 
 

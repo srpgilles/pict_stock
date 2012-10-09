@@ -3,6 +3,7 @@
 #include <yuni/io/directory/info/info.h>
 #include <yuni/core/math/random/default.h>
 #include "../photo_directory/path_format.hpp"
+#include "../tools/numeration.hpp"
 
 
 using namespace Yuni;
@@ -110,6 +111,10 @@ namespace PictStock
 		PathFormat pathFormat(logs, strPathFormat);
 
 		// Scan the photo directory from which the selection will be performed
+
+		logs.notice(beginDate);
+		logs.notice(endDate);
+
 		Private::ScanPhotoDirectory helper(logs, pathFormat, photoDirectory,
 			beginDate, endDate, mode);
 		const auto& pool = helper.pool();
@@ -207,13 +212,13 @@ namespace PictStock
 		assert("If not, prepareOutputDirectory() not called or bugged"
 			&& IO::Directory::Exists(outputDirectory));
 
-		unsigned int index = 0u;
-
 		YString target;
 
 		// TODO:
 		// 2 - Take the populate folder trick to choose number of digits (put the algorithm in
 		// GenericTools)"
+
+		GenericTools::Numeration indexPhoto(pNbPhotos);
 
 		for (auto it = pPhotosChosen.cbegin(), end = pPhotosChosen.cend(); it != end; ++it)
 		{
@@ -221,7 +226,7 @@ namespace PictStock
 			assert(!(!photoPtr));
 
 			target = outputDirectory;
-			target << IO::Separator << "Photo_" << ++index << ".jpg";
+			target << IO::Separator << "Photo_" << indexPhoto.next() << ".jpg";
 
 			auto errorType = IO::File::Copy(photoPtr->originalPath(), target, false);
 
@@ -230,7 +235,8 @@ namespace PictStock
 
 			if (errorType == IO::errMemoryLimit)
 			{
-				logs.error("No space left on device; only ") << index -1u << " photos have been copied";
+				logs.error("No space left on device; only ") << std::distance(pPhotosChosen.cbegin(), it)
+					<< " photos have been copied";
 				break;
 			}
 

@@ -57,6 +57,7 @@ namespace PictStock
 			typedef typename std::tuple_element<I, DateTuple>::type type;
 
 			Yuni::DateTime::TimestampToString(buf, type::Symbol(), timeStamp, true);
+
 			toCTimeInformations<type>(out, buf.to<int>());
 
 			timeStampToTmHelper<I+1>(out, timeStamp);
@@ -133,15 +134,22 @@ namespace PictStock
 
 	Date::Date(time_t timeStamp)
 	{
-		std::cout << "Initial time stamp = " <<  timeStamp << '\n';
-
-		// Recursively fill underlying struct tm
-		timeStampToTmHelper<0>(pData, timeStamp);
-
-		pData.tm_isdst = 0;
-
 		pIsElementPresent.set();
 
+		// I do not want Yuni default behaviour (namely timeStamp == 0 means current time)
+		if (!timeStamp)
+			pData = DefaultTimeInformations();
+		else
+		{
+			// Recursively fill underlying struct tm
+			timeStampToTmHelper<0>(pData, timeStamp);
+
+			pData.tm_isdst = -1;
+		}
+
+
+
+		// SG DEBUG
 		std::cout << pData.tm_year << '\n';
 		std::cout << pData.tm_mon << '\n';
 		std::cout << pData.tm_mday << '\n';

@@ -134,6 +134,8 @@ namespace PictStock
 	void PictFrame::selectPhotos(const std::deque<YString>& pool)
 	{
 		unsigned int poolSize = static_cast<unsigned int>(pool.size());
+
+		// TODO Adjust the message when not enough photos...
 		logs.notice() << "There are " << poolSize << " photos in the pool; "
 			<< "among which " << pNbPhotos << " will be selected";
 

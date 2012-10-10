@@ -150,6 +150,15 @@ namespace PictStock
 	//! Operator== : two #ExtendedPhoto are equals if they share the same object *pImage
 	bool operator==(const ExtendedPhoto& photo1, const ExtendedPhoto& photo2);
 
+	/*!
+	** \brief Examines the name of the file and check whether it seems a valid candidate for ExtendedPhoto
+	**
+	** \param[in] file Name of the file
+	** \return True if the file seems to be a valid photo file
+	*/
+	bool isExtensionManaged(const YString& file);
+
+
 
 	typedef std::map<PathInformations, ExtendedPhoto::Vector> OrderedPhotos;
 

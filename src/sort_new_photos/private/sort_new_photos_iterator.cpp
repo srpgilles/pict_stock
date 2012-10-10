@@ -154,16 +154,8 @@ namespace Private
 		const String& name, uint64 /*size*/)
 	{
 		// Only consider files which extension is JPG or jpg
-		{
-			String ext;
-			IO::ExtractExtension(ext, name);
-
-			if (ext.toLower() != ".jpg")
-			{
-				logs.debug() << "SKIP not jpeg file " << name;
-				return IO::flowContinue;
-			}
-		}
+		if (!isExtensionManaged(name))
+			return IO::flowContinue;
 
 		String fullName;
 		fullName << folder << IO::Separator << name;

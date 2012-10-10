@@ -63,11 +63,7 @@ namespace Private
 			YString file(pTargetFolder);
 			file << IO::Separator << *it;
 
-			String ext;
-			if (!IO::ExtractExtension(ext, file))
-				continue;
-
-			if (ext.toLower() != ".jpg")
+			if (!isExtensionManaged(file))
 				continue;
 
 			ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, file);

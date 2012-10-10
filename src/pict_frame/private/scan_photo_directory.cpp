@@ -62,6 +62,8 @@ namespace Private
 		if (checkValidity(completePath))
 			return IO::flowContinue;
 		
+		logs.notice("SG DEBUG flowSkip");
+
 		return IO::flowSkip;
 	}
 
@@ -72,8 +74,13 @@ namespace Private
 	IO::Flow ScanPhotoDirectory::onFile(const String&  completePath,
 		const String& /*folder*/, const String& /*name*/, uint64 /*size*/)
 	{
+		if (!isExtensionManaged(completePath))
+			return IO::flowContinue;
+
 		if (pMode == ReadDate::safe)
 		{
+
+
 			// We load the photo to check the date. We could imagine later to
 			// provide a fast option which prevent this step (which shouldn't
 			// modify anything in case folder actually support most of the date
@@ -105,6 +112,7 @@ namespace Private
 		if (pPathFormat.doFolderMatch(directory, usefulInformations))
 		{
 			Date folderDate = usefulInformations.date();
+			logs.notice("SG DEBUG checkVal");
 			return ((folderDate >= pBeginDate) && (folderDate <= pEndDate));
 		}
 

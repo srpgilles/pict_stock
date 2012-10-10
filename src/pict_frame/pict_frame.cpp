@@ -191,11 +191,7 @@ namespace PictStock
 				YString file(outputDirectory);
 				file << IO::Separator << *it;
 
-				String ext;
-				if (!IO::ExtractExtension(ext, file))
-					continue;
-
-				if (ext.toLower() != ".jpg")
+				if (!isExtensionManaged(file))
 					continue;
 
 				if (IO::File::Delete(file) != IO::errNone)

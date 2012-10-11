@@ -112,8 +112,6 @@ namespace Private
 	{
 		PathInformations usefulInformations(logs);
 
-		usefulInformations.print(std::cout);
-
 		if (pPathFormat.doFolderMatch(directory, usefulInformations))
 		{
 			Date folderDate = usefulInformations.date();

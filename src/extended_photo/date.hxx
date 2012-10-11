@@ -57,7 +57,7 @@ namespace PictStock
 		}
 
 		template<>
-		void toCTimeInformations<Private::Second>(struct tm& out, int value)
+		inline void toCTimeInformations<Private::Second>(struct tm& out, int value)
 		{
 			assert(value >= 0 && value < 60);
 

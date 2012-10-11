@@ -123,6 +123,9 @@ namespace Private
 		//! List of all photos that might be chosen.
 		std::deque<YString> pValidPhotos;
 
+		//! Whether the current folder is valid or not
+		bool pIsValidFolder;
+
 	};
 
 } // namespace Private

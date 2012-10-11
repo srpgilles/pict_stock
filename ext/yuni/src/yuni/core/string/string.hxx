@@ -2935,7 +2935,7 @@ namespace Yuni
 					if (trimElements)
 						segment.trim();
 					if (segment.notEmpty() || keepEmptyElements)
-						out.push_back(segment.to<UType>());
+						out.push_back(segment.template to<UType>());
 					return;
 				}
 
@@ -2945,7 +2945,7 @@ namespace Yuni
 					if (trimElements)
 						segment.trim();
 					if (segment.notEmpty() || keepEmptyElements)
-						out.push_back(segment.to<UType>());
+						out.push_back(segment.template to<UType>());
 				}
 				indx = newIndx + 1;
 			}

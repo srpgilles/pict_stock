@@ -12,19 +12,6 @@ namespace PictStock
 {
 	namespace
 	{
-		/*!
-		** \brief Compare dates of two extended photos object
-		*/
-		bool sortByDate(const ExtendedPhoto::Ptr& photo1, const ExtendedPhoto::Ptr& photo2)
-		{
-			auto infos1Ptr = photo1->informations();
-			auto infos2Ptr = photo2->informations();
-
-			assert(!(!infos1Ptr));
-			assert(!(!infos2Ptr));
-
-			return (infos1Ptr->date() < infos2Ptr->date());
-		}
 
 
 		/*!
@@ -124,7 +111,20 @@ namespace PictStock
 
 		// If requested shuffle all selected photos
 		if (isChronological)
-			pPhotosChosen.sort(sortByDate);
+		{
+			auto sortCriterion = [](ExtendedPhoto::Ptr photo1, ExtendedPhoto::Ptr photo2)
+				{
+					auto infos1Ptr = photo1->informations();
+					auto infos2Ptr = photo2->informations();
+
+					assert(!(!infos1Ptr));
+					assert(!(!infos2Ptr));
+
+					return (infos1Ptr->date() < infos2Ptr->date());
+				};
+
+			pPhotosChosen.sort(sortCriterion);
+		}
 
 		// Copy and rename photos chosen to output directory
 		copyToOutputDirectory(outputDirectory);

@@ -22,6 +22,8 @@ if (UNIX)
     	ADD_DEFINITIONS( "-DHAS_BOOST" )
     	ADD_DEFINITIONS( "-DUSE_BOOST_REGULAR_EXPR" )
 	ENDIF()
+	
+	
 endif(UNIX)
 
 add_subdirectory(src)

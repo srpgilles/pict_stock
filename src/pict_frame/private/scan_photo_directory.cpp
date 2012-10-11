@@ -22,7 +22,8 @@ namespace Private
 		  pBeginDate(Date(beginDate)),
 		  pEndDate(Date(endDate)),
 		  pMode(mode),
-		  pPathFormat(pathFormat)
+		  pPathFormat(pathFormat),
+		  pIsValidFolder(false)
 	{
 		if (!IO::Directory::Exists(photoDirectory))
 		{
@@ -59,12 +60,11 @@ namespace Private
 		const String& completePath,
 		const String&, const String& /*name*/)
 	{
-		if (checkValidity(completePath))
-			return IO::flowContinue;
-		
-		logs.notice("SG DEBUG flowSkip");
+		// I can't directly rule out the entire folder by a flowSkip, as this
+		// invalid folder may include perfectly valid subfolders...
+		pIsValidFolder = checkValidity(completePath);
 
-		return IO::flowSkip;
+		return IO::flowContinue;
 	}
 
 	void ScanPhotoDirectory::onEndFolder(const String&, const String&, const String&)
@@ -74,6 +74,9 @@ namespace Private
 	IO::Flow ScanPhotoDirectory::onFile(const String&  completePath,
 		const String& /*folder*/, const String& /*name*/, uint64 /*size*/)
 	{
+		if (!pIsValidFolder)
+			return IO::flowContinue;
+
 		if (!isExtensionManaged(completePath))
 			return IO::flowContinue;
 
@@ -109,10 +112,11 @@ namespace Private
 	{
 		PathInformations usefulInformations(logs);
 
+		usefulInformations.print(std::cout);
+
 		if (pPathFormat.doFolderMatch(directory, usefulInformations))
 		{
 			Date folderDate = usefulInformations.date();
-			logs.notice("SG DEBUG checkVal");
 			return ((folderDate >= pBeginDate) && (folderDate <= pEndDate));
 		}
 

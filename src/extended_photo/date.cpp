@@ -56,10 +56,9 @@ namespace PictStock
 
 			typedef typename std::tuple_element<I, DateTuple>::type type;
 
-			Yuni::DateTime::TimestampToString(buf, type::Symbol(), timeStamp, true);
+			Yuni::DateTime::TimestampToString(buf, type::Symbol(), timeStamp, false);
 
 			toCTimeInformations<type>(out, buf.to<int>());
-
 			timeStampToTmHelper<I+1>(out, timeStamp);
 		}
 
@@ -184,6 +183,11 @@ namespace PictStock
 
 	bool dateFromExif(LoggingFacility& logs, Date& out, const YString& dateRead)
 	{
+		// TODO: Handle in a better way such stupid dates...
+		if (dateRead == "0000:00:00 00:00:00")
+			return false;
+
+
 		regexNS::cmatch match;
 
 		if (regex_search(dateRead.c_str(), match, RegexDateFormatting))

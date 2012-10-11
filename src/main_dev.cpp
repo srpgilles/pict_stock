@@ -184,10 +184,20 @@ int main(int argc, char* argv[])
 		logs.notice() << numeration.next();
 	}*/
 
-	PictStock::ExtendedPhoto photo(logs, "/home/sebastien/Multimedia/PhotosSG/2012/M06/J23/Photo_1805_UNK.jpg");
+	//PictStock::ExtendedPhoto photo(logs, "/home/sebastien/Multimedia/PhotosSG/2012/M06/J23/Photo_1805_UNK.jpg");
 	//PictStock::ExtendedPhoto photo(logs, "/home/sebastien/Multimedia/PhotosSG/2012/M07/J22/Photo_1021_CSG.jpg");
 
-	photo.printExifData(std::cout);
+	//photo.printExifData(std::cout);
+
+	YString buf;
+
+	Yuni::DateTime::TimestampToString(buf, "%Y %m %d %H %M %S", 1, true);
+
+
+	logs.notice(buf);
+
+	Yuni::DateTime::TimestampToString(buf, "%m", 1, true);
+	logs.notice(buf);
 
 
 	return 0;

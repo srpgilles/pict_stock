@@ -9,9 +9,11 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib/${CMAKE_BUILD_TYPE})
 
 include_directories(ext)
 include_directories(ext/yuni/src)
+include_directories(ext/yuni/src/tools/yuni-docmake/sqlite)
 
 add_subdirectory(ext/exiv2)
 add_subdirectory(ext/yuni/src)
+add_subdirectory(ext/sqlite)
 
 
 # C++11 Regular expression not yet supported by g++

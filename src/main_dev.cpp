@@ -3,6 +3,8 @@
 #include <ctime>
 # include "tools/numeration.hpp"
 
+#include <sqlite3.h>
+
 //#ifdef USE_BOOST_REGULAR_EXPR
 //#include <boost/regex.hpp>
 //namespace TestRegex
@@ -140,64 +142,7 @@ int main(int argc, char* argv[])
 
 	LoggingFacility logs;
 
-	//TestRegex::testRegex(logs);
-	//TestExtendedPhoto::testExtendedPhoto(logs);
 
-	//TestPathFormat::test(logs);
-
-	//PictStock::ExtendedPhoto photo(logs, "/tmp/devPhotos/2010/M10/J26/Photo_1016_T.jpg");
-	/*YString date;
-	AnyString format("%Y-%m-%d %H:%M:%S");
-
-	time_t foo(1299997609);
-
-	if (Yuni::DateTime::TimestampToString(date, format, foo, false))
-		logs.notice(date);
-
-	struct tm * timeinfo;
-	char buffer [80];
-	timeinfo = localtime (&foo);
-
-	strftime (buffer, 80, format.c_str(), timeinfo);
-
-	logs.notice(buffer);
-
-	logs.notice("Check ") << foo << " == " << mktime(timeinfo);
-
-	struct tm myTimeInfo;
-
-	myTimeInfo.tm_year = 112;
-	myTimeInfo.tm_mon = 3;
-	myTimeInfo.tm_mday = 30;
-	myTimeInfo.tm_hour = 22;
-	myTimeInfo.tm_min = 32;
-	myTimeInfo.tm_sec = 31;
-
-	Yuni::DateTime::TimestampToString(date, format, mktime(&myTimeInfo), true);
-	logs.notice("Date ") << mktime(&myTimeInfo) << "\t" << date;
-
-
-	GenericTools::Numeration numeration(100000);
-
-	for (unsigned int i = 1u; i < 104; ++i)
-	{
-		logs.notice() << numeration.next();
-	}*/
-
-	//PictStock::ExtendedPhoto photo(logs, "/home/sebastien/Multimedia/PhotosSG/2012/M06/J23/Photo_1805_UNK.jpg");
-	//PictStock::ExtendedPhoto photo(logs, "/home/sebastien/Multimedia/PhotosSG/2012/M07/J22/Photo_1021_CSG.jpg");
-
-	//photo.printExifData(std::cout);
-
-	YString buf;
-
-	Yuni::DateTime::TimestampToString(buf, "%Y %m %d %H %M %S", 1, true);
-
-
-	logs.notice(buf);
-
-	Yuni::DateTime::TimestampToString(buf, "%m", 1, true);
-	logs.notice(buf);
 
 
 	return 0;

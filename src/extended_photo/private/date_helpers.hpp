@@ -19,38 +19,56 @@ namespace Private
 	struct Month
 	{
 		static const SymbolString Symbol() { return "%m"; }
-		static const RegexString Regex() { return " \\d{1}|0\\d{1}|10|11|12"; }
+		static const RegexString Regex()
+		{
+			return "[0 ][1-9]|" // two ways of writing from 1 to 9
+				   "10|11|12"; // three remaining cases
+		}
 	};
 
 
 	struct Day
 	{
 		static const SymbolString Symbol() { return "%d"; }
-		static const RegexString Regex() { return  "[ |0|1|2]\\d{1}|3[0|1]"; } // no check for adequacy month day (for instance 30 Elements::b is allowed)
+		static const RegexString Regex()
+		{
+			return  "[0 ][1-9]|" // two ways of writing from 1 to 9
+					"[12]\\d{1}|" // 10-29
+					"30|31"; // 30-31
+		}
 	};
 
 
 	struct Hour
 	{
 		static const SymbolString Symbol() { return "%H"; }
-		static const RegexString Regex() { return  "[ |0|1]\\d{1}|2[0-4]|  "; } // empty allowed
+
+		static const RegexString Regex()
+		{
+			return  "[ 01]\\d{1}|" // 0 - 19
+					"2[0-3]|" // 20-23
+					"  "; // empty allowed
+		}
 	};
 
 
 	struct Minute
 	{
 		static const SymbolString Symbol() { return "%M"; }
-		static const RegexString Regex() { return  "[ 0-5]\\d{1}|  "; } // empty is allowed
+		static const RegexString Regex()
+		{
+			//return "\\d{2}|  ";
+			return  "[0-5]\\d{1}|" // 0-59"
+					"  "; // allow empty sequence
+		}
 	};
 
 
 	struct Second
 	{
 		static const SymbolString Symbol() { return "%S"; }
-		static const RegexString Regex() { return  "[ 0-5]\\d{1}|  "; } // empty is allowed
+		static const RegexString Regex() { return Minute::Regex(); }
 	};
-
-
 
 } // namespace Private
 } // namespace PictStock

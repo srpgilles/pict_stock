@@ -146,18 +146,6 @@ namespace PictStock
 			pData.tm_isdst = -1;
 		}
 
-
-
-		// SG DEBUG
-		std::cout << pData.tm_year << '\n';
-		std::cout << pData.tm_mon << '\n';
-		std::cout << pData.tm_mday << '\n';
-		std::cout << pData.tm_hour << '\n';
-		std::cout << pData.tm_min << '\n';
-		std::cout << pData.tm_sec << '\n';
-
-		std::cout << this->timeStamp() << ' '<<  timeStamp << '\n';
-
 		assert(this->timeStamp() == timeStamp);
 	}
 
@@ -183,11 +171,6 @@ namespace PictStock
 
 	bool dateFromExif(LoggingFacility& logs, Date& out, const YString& dateRead)
 	{
-		// TODO: Handle in a better way such stupid dates...
-		if (dateRead == "0000:00:00 00:00:00")
-			return false;
-
-
 		regexNS::cmatch match;
 
 		if (regex_search(dateRead.c_str(), match, RegexDateFormatting))

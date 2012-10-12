@@ -125,6 +125,54 @@ namespace GenericTools
 	}
 
 
+	void SqliteWrapper::insertData(const AnyString& tableName, const AnyString& fields,
+		const AnyString& values)
+	{
+		YString command("INSERT INTO ");
+		command << tableName << '(' << fields << ") VALUES ("
+			<< values << ");";
+
+		SqliteStatement statement;
+
+		int errCode = prepareCommand(statement, command);
+		assert(errCode == SQLITE_OK);
+
+		errCode = sqlite3_step(statement);
+
+		switch(errCode)
+		{
+			case SQLITE_DONE:
+				break;
+			case SQLITE_CONSTRAINT:
+			{
+				YString message("Problem while inserting new row in table ");
+				message << tableName << ": a constraint has not been respected. Command was:";
+				message << "\n\t" << command;
+				throw Exception(message);
+			}
+			default:
+			{
+				YString message("Problem while inserting new row in table ");
+				message << tableName << ": the syntax is most likely incorrect. It was:";
+				message << "\n\t" << command;
+				throw Exception(message);
+			}
+		}// switch
+
+	}
+
+
+	bool SqliteWrapper::checkForeignKeys() const
+	{
+		YString command = "PRAGMA foreign_keys;";
+		SqliteStatement statement;
+
+		int errCode = prepareCommand(statement, command);
+		assert(errCode == SQLITE_OK);
+		errCode = sqlite3_step(statement);
+		assert(errCode == SQLITE_ROW);
+		return (1 == sqlite3_column_int(statement, 0));
+	}
 
 
 }

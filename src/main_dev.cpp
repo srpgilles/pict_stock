@@ -145,13 +145,23 @@ int main(int argc, char* argv[])
 	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
 
 	db.createTable("Photographers",
-		"FirstName varchar(80), LastName varchar2(80), Abbr varchar(8) PRIMARY KEY NOT NULL");
-
-	db.createTable("Photographers2",
-			"FirstName varchar(80), LastName varchar2(80), Abbr varchar(8) PRIMARY KEY NOT NULL");
+		//"id INTEGER PRIMARY KEY NOT NULL,"
+		"FirstName varchar(80),"
+		"LastName varchar(80),"
+		"Abbr varchar(8) PRIMARY KEY NOT NULL"
+		);
 
 	db.createTable("Cameras",
-		"Keyword varchar(80), Value varchar(80), FOREIGN KEY(Owner) REFERENCES Photographers(Abbr)");
+		"Keyword varchar(80),"
+		"Value varchar(80),"
+		"Owner varchar(8),"
+		"FOREIGN KEY(Owner) REFERENCES Photographers(Abbr)"
+			);
+
+	db.insertData("Photographers", "FirstName,LastName,Abbr", "\"First\", \"Last\", \"Abbr\"");
+	db.insertData("Cameras", "Keyword,Value,Owner", "\"Foo\",\"Bar\",\"Abbr\"");
+
+
 
 	  //trackartist INTEGER,
 	  //FOREIGN KEY(trackartist) REFERENCES artist(artistid)

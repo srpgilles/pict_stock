@@ -96,21 +96,27 @@ namespace GenericTools
 
 
 		/*!
+		 * \brief Check whether foreign keys are correctly ON
+		 *
+		 */
+		bool checkForeignKeys() const;
+
+		/*!
 		 * \brief Insert data in a table
 		 *
-		 * \param[in] name Name of the table
-		 * \param[in] fields List of fields as they would appear in standard SQL command,
-		 * separated by commas
-		 * For instance "FirstName varchar(80), LastName varchar(80), Abbr varchar(8)";
+		 * \param[in] tableName Name of the table
+		 * \param[in] fields Fields to insert in the row
+		 * \param[in] values Values to insert in the row
 		 */
-		//void insertData(const AnyString& name, const AnyString& fields, BehaviourWhenTableExists mode);
+		void insertData(const AnyString& tableName, const AnyString& fields,
+			const AnyString& values);
 
 	private:
 
 		/*!
 		** \brief A wrapper over sqlite3_prepare_v2
 		*/
-		int prepareCommand(SqliteStatement& statement, const YString& command);
+		int prepareCommand(SqliteStatement& statement, const YString& command) const;
 
 
 	private:

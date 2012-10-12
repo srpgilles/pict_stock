@@ -207,8 +207,9 @@ namespace Variant
 	/*!
 	** \brief Data Converter interface (Interface)
 	*/
-	struct IDataConverter
+	class IDataConverter
 	{
+	public:
 		//! Destructor
 		virtual ~IDataConverter()
 		{}
@@ -257,7 +258,7 @@ namespace Variant
 	template<class T>
 	struct Converter<IDataHolder::Ptr, T>
 	{
-		static bool Value(const IDataHolder::Ptr& from, T& to)
+		static bool Value(const IDataHolder::Ptr& /*from*/, T& /*to*/)
 		{
 			return false;
 		}
@@ -432,7 +433,7 @@ namespace Variant
 		virtual void mult(sint64 n) { pValue *= (T) n; }
 		virtual void mult(double n) { pValue *= (T) n; }
 		virtual void mult(bool) { /* do nothing*/ }
-		virtual void mult(char n) { pValue *= (int)n; }
+		virtual void mult(char n) { pValue *= (T) n; }
 		virtual void mult(const String& n) { pValue *= n.to<T>(); }
 
 		virtual void div(uint32 n) { pValue /= (T) n; }
@@ -441,7 +442,7 @@ namespace Variant
 		virtual void div(sint64 n) { pValue /= (T) n; }
 		virtual void div(double n) { pValue /= (T) n; }
 		virtual void div(bool) { /* do nothing*/ }
-		virtual void div(char n) { pValue /= (int)n; }
+		virtual void div(char n) { pValue /= (T) n; }
 		virtual void div(const String& n) { pValue /= n.to<T>(); }
 
 		virtual void loopbackAssign(IDataHolder& dataholder) const {dataholder.assign(pValue);}

@@ -11,6 +11,14 @@ endif()
 include(CheckIncludeFile)
 include(CheckCXXCompilerFlag)
 
+
+#
+# Clang Detection
+#
+if (CMAKE_CXX_COMPILER MATCHES ".*clang")
+	set(CLANG 1)
+endif ()
+
 #
 # Getting the folder where this file is located
 #
@@ -50,17 +58,20 @@ if(MINGW OR (NOT WIN32 AND NOT WIN64))
 		set(YUNI_COMMON_GCC_OPTIONS_UNIX  "${YUNI_COMMON_GCC_OPTIONS_UNIX} -std=gnu++0x -Wconversion")
 	endif()
 endif()
+if (NOT MSVC AND NOT CLANG)
+	check_cxx_compiler_flag("-ggdb3" YUNI_HAS_GCC_FLAG_GGDB3)
+endif()
 
 
 if(NOT WIN32)
 	set(CMAKE_CXX_FLAGS_RELEASE         "${YUNI_COMMON_GCC_OPTIONS_UNIX} -O3 -fomit-frame-pointer -fstrict-aliasing -momit-leaf-frame-pointer -fno-tree-pre -falign-loops -mfpmath=sse -msse -msse2 -Wuninitialized")
 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO  "${YUNI_COMMON_GCC_OPTIONS_UNIX} -O3 -fomit-frame-pointer -mfpmath=sse -msse -msse2")
-	set(CMAKE_CXX_FLAGS_DEBUG           "${YUNI_COMMON_GCC_OPTIONS_UNIX} -g -ggdb3")
+	set(CMAKE_CXX_FLAGS_DEBUG           "${YUNI_COMMON_GCC_OPTIONS_UNIX} -g")
 endif()
 if(MINGW)
 	set(CMAKE_CXX_FLAGS_RELEASE         "${YUNI_COMMON_GCC_OPTIONS} -O3 -fomit-frame-pointer -fstrict-aliasing -momit-leaf-frame-pointer -fno-tree-pre -falign-loops -mthreads -Wuninitialized")
-	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO  "${YUNI_COMMON_GCC_OPTIONS} -mthreads -ggdb3")
-	set(CMAKE_CXX_FLAGS_DEBUG           "${YUNI_COMMON_GCC_OPTIONS} -mthreads -ggdb3")
+	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO  "${YUNI_COMMON_GCC_OPTIONS} -mthreads")
+	set(CMAKE_CXX_FLAGS_DEBUG           "${YUNI_COMMON_GCC_OPTIONS} -mthreads")
 endif()
 if(MSVC)
 	set(CMAKE_CXX_FLAGS_RELEASE         "/EHsc /Ox /Ob2 /Ot /O2 /Oy /MD /GS- /Gy /arch:SSE2")
@@ -72,6 +83,10 @@ if(APPLE)
 	set(CMAKE_CXX_FLAGS_RELEASE         "${CMAKE_CXX_FLAGS_RELEASE} -msse2 -fvisibility=hidden")
 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO  "${CMAKE_CXX_FLAGS_RELEASE} -msse2 -fvisibility=hidden")
 	set(CMAKE_CXX_FLAGS_DEBUG           "${CMAKE_CXX_FLAGS_DEBUG}   -msse2 -gfull -fvisibility=hidden")
+endif()
+if (YUNI_HAS_GCC_FLAG_GGDB3 AND NOT CLANG)
+	# clang produces the warning "argument unused during compilation"
+	set(CMAKE_CXX_FLAGS_DEBUG           "${CMAKE_CXX_FLAGS_DEBUG}   -ggdb3")
 endif()
 
 set(CMAKE_CXX_FLAGS_RELEASE       "${CMAKE_CXX_FLAGS_RELEASE}      ${YUNI_PROFILE_CXX_FLAGS_INSTRUCTIONS_SETS}")

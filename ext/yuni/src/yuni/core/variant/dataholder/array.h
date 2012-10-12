@@ -132,9 +132,9 @@ namespace Variant
 
 		virtual void loopbackAssign(IDataHolder& dataholder) const {dataholder.assignList(pValue);}
 		virtual void loopbackAdd(IDataHolder& dataholder) const {dataholder.addList(pValue);}
-		virtual void loopbackMultiply(IDataHolder& dataholder) const {}
-		virtual void loopbackSub(IDataHolder& dataholder) const {}
-		virtual void loopbackDiv(IDataHolder& dataholder) const {}
+		virtual void loopbackMultiply(IDataHolder&) const {}
+		virtual void loopbackSub(IDataHolder&) const {}
+		virtual void loopbackDiv(IDataHolder&) const {}
 
 	private:
 		//! The real data element.

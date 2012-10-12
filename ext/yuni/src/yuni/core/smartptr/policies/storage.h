@@ -1,6 +1,8 @@
 #ifndef __YUNI_CORE_SMARTPTR_POLICIES_STORAGE_H__
 # define __YUNI_CORE_SMARTPTR_POLICIES_STORAGE_H__
 
+# include <cassert>
+
 /*!
 ** \file
 ** \brief Storage policies
@@ -63,9 +65,9 @@ namespace Storage
 		//! \name Operators
 		//@{
 		//! The operator ->
-		PointerType   operator -> () const {return pData;}
+		PointerType   operator -> () const {assert(pData);return pData;}
 		//! The operator *
-		ReferenceType operator * () const {return *pData;}
+		ReferenceType operator * () const {assert(pData);return *pData;}
 		//@}
 
 	protected:
@@ -124,9 +126,9 @@ namespace Storage
 		//! \name Operators
 		//@{
 		//! The operator ->
-		PointerType   operator -> () const {return pData;}
+		PointerType   operator -> () const {assert(pData);return pData;}
 		//! The operator *
-		ReferenceType operator * () const {return *pData;}
+		ReferenceType operator * () const {assert(pData);return *pData;}
 		//@}
 
 	protected:

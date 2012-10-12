@@ -32,10 +32,10 @@ namespace GenericTools
 		//@}
 
 		//! Get the underlying pointer
-		operator sqlite3_stmt*() { return pStatement; }
+		inline operator sqlite3_stmt*();
 
 		//! Get the address of the underlying statement pointer
-		sqlite3_stmt** ptr() { return &pStatement; }
+		inline sqlite3_stmt** ptr();
 
 	private:
 
@@ -92,8 +92,25 @@ namespace GenericTools
 		 * separated by commas
 		 * For instance "FirstName varchar(80), LastName varchar(80), Abbr varchar(8)";
 		 */
-		void createTable(const AnyString& name, const AnyString& fields, BehaviourWhenTableExists mode);
+		void createTable(const AnyString& name, const AnyString& fields, BehaviourWhenTableExists mode = sendError);
 
+
+		/*!
+		 * \brief Insert data in a table
+		 *
+		 * \param[in] name Name of the table
+		 * \param[in] fields List of fields as they would appear in standard SQL command,
+		 * separated by commas
+		 * For instance "FirstName varchar(80), LastName varchar(80), Abbr varchar(8)";
+		 */
+		//void insertData(const AnyString& name, const AnyString& fields, BehaviourWhenTableExists mode);
+
+	private:
+
+		/*!
+		** \brief A wrapper over sqlite3_prepare_v2
+		*/
+		int prepareCommand(SqliteStatement& statement, const YString& command);
 
 
 	private:
@@ -104,5 +121,7 @@ namespace GenericTools
 	};
 
 }
+
+# include "sqlite_wrapper.hxx"
 
 #endif /* SQLITE_WRAPPER_HPP_ */

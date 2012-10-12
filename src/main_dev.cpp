@@ -144,11 +144,17 @@ int main(int argc, char* argv[])
 
 	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
 
-	db.createTable("Foo",
-		"FirstName varchar(80), LastName varchar2(80), Abbr varchar(8)",
-		GenericTools::SqliteWrapper::skipCreation);
+	db.createTable("Photographers",
+		"FirstName varchar(80), LastName varchar2(80), Abbr varchar(8) PRIMARY KEY NOT NULL");
 
+	db.createTable("Photographers2",
+			"FirstName varchar(80), LastName varchar2(80), Abbr varchar(8) PRIMARY KEY NOT NULL");
 
+	db.createTable("Cameras",
+		"Keyword varchar(80), Value varchar(80), FOREIGN KEY(Owner) REFERENCES Photographers(Abbr)");
+
+	  //trackartist INTEGER,
+	  //FOREIGN KEY(trackartist) REFERENCES artist(artistid)
 //	command = "CREATE TABLE Photographers3("
 //		"FirstName varchar(80),"
 //		"LastName varchar(80),"

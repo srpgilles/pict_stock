@@ -26,6 +26,17 @@ namespace GenericTools
 			message << dbName  << ": " << sqlite3_errmsg(pDb);
 			throw Exception(message);
 		}
+
+		{
+			// Enables foreign keys
+			YString command("PRAGMA foreign_keys = ON;");
+			SqliteStatement statement;
+
+			int errCode = prepareCommand(statement, command);
+			assert(errCode == SQLITE_OK);
+			errCode = sqlite3_step(statement);
+			assert(errCode == SQLITE_DONE);
+		}
 	}
 
 
@@ -45,7 +56,7 @@ namespace GenericTools
 
 		SqliteStatement statement;
 
-		int errCode = sqlite3_prepare_v2(pDb, command.c_str(), command.size() + 1, statement.ptr(), NULL);
+		int errCode = prepareCommand(statement, command);
 
 		if (errCode == SQLITE_OK)
 		{
@@ -53,13 +64,31 @@ namespace GenericTools
 			if (errCode != SQLITE_DONE)
 			{
 				YString message("Problem while creating new table ");
-				message << ": " << sqlite3_errmsg(pDb);
+				message << name << ": " << sqlite3_errmsg(pDb);
 				throw Exception(message);
 			}
 		}
 		else
 		{
-			// If preparation goes wrong, it usually means the table already exists.
+			{
+				// If preparation goes wrong, the most likely causes are:
+				// - the table already exists
+				// - the syntax of the request is somehow incorrect
+				// Check the first point; if not throw directly an exception
+				SqliteStatement checkTableExists;
+				YString checkCommand("SELECT count(*) FROM ");
+				checkCommand << name << ';';
+				errCode = prepareCommand(checkTableExists, checkCommand);
+
+				if (errCode != SQLITE_OK)
+				{
+					YString message("Problem while creating new table ");
+					message << name << ": the syntax is most likely incorrect. It was:";
+					message << "\n\t" << command;
+					throw Exception(message);
+				}
+			}
+
 			switch(mode)
 			{
 				case skipCreation:
@@ -69,12 +98,11 @@ namespace GenericTools
 					YString dropCommand = "DROP TABLE ";
 					dropCommand << name << ';';
 
-					SqliteStatement foo;
+					SqliteStatement dropStatement;
 
-					errCode = sqlite3_prepare_v2(pDb, dropCommand.c_str(), dropCommand.size() + 1,
-						foo.ptr(), NULL);
+					errCode = prepareCommand(dropStatement, dropCommand);
 					assert(errCode == SQLITE_OK);
-					errCode = sqlite3_step(foo);
+					errCode = sqlite3_step(dropStatement);
 					assert(errCode == SQLITE_DONE);
 
 
@@ -86,8 +114,9 @@ namespace GenericTools
 				}
 				case sendError:
 				{
+					std::cout << "Err code = " << errCode << '\n';
 					YString msg("Impossible to create table ");
-					msg << name << ": it already exists";
+					msg << name << ": it probably already exists";
 					throw Exception(msg);
 					break;
 				}

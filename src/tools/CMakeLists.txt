@@ -8,6 +8,7 @@ add_library(tools STATIC
 	numeration.hpp
 	sqlite_wrapper.cpp
 	sqlite_wrapper.hpp
+	sqlite_wrapper.hxx
 )
 
 target_link_libraries(tools

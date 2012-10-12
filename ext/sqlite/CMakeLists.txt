@@ -8,5 +8,6 @@ add_library(sqlite3 STATIC
 
 if(UNIX AND NOT APPLE)
 	# The DL library is required on Unixes for using SQlite
-	target_link_libraries(sqlite3  dl)
+	target_link_libraries(sqlite3 dl)
 endif()
+

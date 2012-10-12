@@ -3,7 +3,7 @@
 #include <ctime>
 # include "tools/numeration.hpp"
 
-#include <sqlite3.h>
+#include "tools/sqlite_wrapper.hpp"
 
 //#ifdef USE_BOOST_REGULAR_EXPR
 //#include <boost/regex.hpp>
@@ -142,7 +142,36 @@ int main(int argc, char* argv[])
 
 	LoggingFacility logs;
 
+	sqlite3* db = nullptr;
 
+	// Open the database connection, creating the db3 file if necessary
+	int errCode = sqlite3_open("test.db3", &db);
+	logs.notice(errCode == 0);
+
+	// Prepare the statement to create the table
+	sqlite3_stmt* statement;
+	YString cmd("CREATE TABLE Photographers2("
+		"FirstName varchar(80),"
+		"LastName varchar(80),"
+		"Abbr varchar(8));");
+
+	errCode = sqlite3_prepare_v2(db, cmd.c_str(), cmd.size(), &statement, NULL);
+	logs.notice(errCode == 0);
+
+	if (errCode == 0)
+	{
+		// Create effectively the table if not existing
+		errCode = sqlite3_step(statement);
+		logs.notice(errCode == 101);
+	}
+
+	// Finalize the statement
+	errCode = sqlite3_finalize(statement);
+	logs.notice(errCode == 0);
+
+	// Close the database connection
+	errCode = sqlite3_close(db);
+	logs.notice(errCode == 0);
 
 
 	return 0;

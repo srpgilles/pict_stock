@@ -34,7 +34,8 @@ add_executable(dev
 
 target_link_libraries(dev
 	sort_new_photos
-
+	tools
+	sqlite3
 )
 
 

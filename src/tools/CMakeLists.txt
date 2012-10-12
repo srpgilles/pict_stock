@@ -6,9 +6,12 @@ add_library(tools STATIC
 	read_parameter_file.cpp
 	numeration.cpp
 	numeration.hpp
+	sqlite_wrapper.cpp
+	sqlite_wrapper.hpp
 )
 
 target_link_libraries(tools
 	yuni-static-core
+	sqlite3
 )
 

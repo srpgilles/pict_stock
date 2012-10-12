@@ -138,17 +138,25 @@ namespace GenericTools
 
 		YString command("INSERT INTO ");
 		command << tableName << '(';
-		for (unsigned int i = 0u; i < size - 1u; ++i)
-			command << '\"' << fields[i] << "\",";
-		command << '\"' << fields.back() << '\"';
+
+		auto printEltAndComma = [&command](const AnyString& elt)
+			{
+				command << '"' << elt << "\",";
+			};
+
+		{
+			std::for_each(fields.begin(), fields.end(), printEltAndComma);
+			command.removeLast();
+		}
 		command << ") VALUES (";
-		for (unsigned int i = 0u; i < size - 1u; ++i)
-			command << '\"' << values[i] << "\",";
-		command << '\"' << values.back() << "\");";
+
+		{
+			std::for_each(values.begin(), values.end(), printEltAndComma);
+			command.removeLast();
+		}
+		command << ");";
 
 		SqliteStatement statement;
-
-		std::cout << command << '\n';
 
 		int errCode = prepareCommand(statement, command);
 		assert(errCode == SQLITE_OK);

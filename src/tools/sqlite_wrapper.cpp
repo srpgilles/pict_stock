@@ -125,14 +125,30 @@ namespace GenericTools
 	}
 
 
-	void SqliteWrapper::insertData(const AnyString& tableName, const AnyString& fields,
-		const AnyString& values)
+	void SqliteWrapper::insertData(const AnyString& tableName, const std::vector<AnyString>& fields,
+		const std::vector<AnyString>& values)
 	{
+		size_t size = fields.size();
+		if (size != values.size())
+		{
+			YString message("Problem while inserting new row in table ");
+			message << tableName << ": number of fields differ from number of values.";
+			throw Exception(message);
+		}
+
 		YString command("INSERT INTO ");
-		command << tableName << '(' << fields << ") VALUES ("
-			<< values << ");";
+		command << tableName << '(';
+		for (unsigned int i = 0u; i < size - 1u; ++i)
+			command << '\"' << fields[i] << "\",";
+		command << '\"' << fields.back() << '\"';
+		command << ") VALUES (";
+		for (unsigned int i = 0u; i < size - 1u; ++i)
+			command << '\"' << values[i] << "\",";
+		command << '\"' << values.back() << "\");";
 
 		SqliteStatement statement;
+
+		std::cout << command << '\n';
 
 		int errCode = prepareCommand(statement, command);
 		assert(errCode == SQLITE_OK);

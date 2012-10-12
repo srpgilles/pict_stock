@@ -155,11 +155,21 @@ int main(int argc, char* argv[])
 		"Keyword varchar(80),"
 		"Value varchar(80),"
 		"Owner varchar(8),"
+		"Foo INTEGER,"
 		"FOREIGN KEY(Owner) REFERENCES Photographers(Abbr)"
 			);
 
-	db.insertData("Photographers", "FirstName,LastName,Abbr", "\"First\", \"Last\", \"Abbr\"");
-	db.insertData("Cameras", "Keyword,Value,Owner", "\"Foo\",\"Bar\",\"Abbr\"");
+	{
+		std::vector<AnyString> fields { "FirstName", "LastName", "Abbr" };
+		std::vector<AnyString> values { "Sebastien", "Gilles", "SG" };
+		db.insertData("Photographers", fields, values);
+	}
+
+	{
+		std::vector<AnyString> fields {"Keyword", "Value", "Owner", "Foo"};
+		std::vector<AnyString> values {"Foo", "Bar", "SG", "42"};
+		db.insertData("Cameras", fields, values);
+	}
 
 
 

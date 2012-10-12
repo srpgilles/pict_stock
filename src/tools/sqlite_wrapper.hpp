@@ -108,8 +108,8 @@ namespace GenericTools
 		 * \param[in] fields Fields to insert in the row
 		 * \param[in] values Values to insert in the row
 		 */
-		void insertData(const AnyString& tableName, const AnyString& fields,
-			const AnyString& values);
+		void insertData(const AnyString& tableName, const std::vector<AnyString>& fields,
+			const std::vector<AnyString>& values);
 
 	private:
 

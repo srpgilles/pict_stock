@@ -142,10 +142,25 @@ int main(int argc, char* argv[])
 
 	LoggingFacility logs;
 
-	sqlite3* db = nullptr;
+	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
+
+	db.createTable("Foo",
+		"FirstName varchar(80), LastName varchar2(80), Abbr varchar(8)",
+		GenericTools::SqliteWrapper::skipCreation);
+
+
+//	command = "CREATE TABLE Photographers3("
+//		"FirstName varchar(80),"
+//		"LastName varchar(80),"
+//		"Abbr varchar(8));";
+//
+//	db.execDataManipulationLanguage(command);
+
+
+	//sqlite3* db = nullptr;
 
 	// Open the database connection, creating the db3 file if necessary
-	int errCode = sqlite3_open("test.db3", &db);
+	/*int errCode = sqlite3_open("test.db3", &db);
 	logs.notice(errCode == 0);
 
 	// Prepare the statement to create the table
@@ -171,7 +186,7 @@ int main(int argc, char* argv[])
 
 	// Close the database connection
 	errCode = sqlite3_close(db);
-	logs.notice(errCode == 0);
+	logs.notice(errCode == 0);*/
 
 
 	return 0;

@@ -4,29 +4,98 @@
 namespace GenericTools
 {
 
+	SqliteStatement::SqliteStatement()
+		: pStatement(nullptr)
+	{ }
+
+	SqliteStatement::~SqliteStatement()
+	{
+		int errCode = sqlite3_finalize(pStatement);
+		(void) errCode;
+		assert(errCode == SQLITE_OK);
+	}
 
 	SqliteWrapper::SqliteWrapper(const AnyString& dbName, int flags)
-		: pDb(nullptr),
-		  pStatement(nullptr)
+		: pDb(nullptr)
 	{
 		int errCode = sqlite3_open_v2(dbName.c_str(), &pDb, flags, NULL);
 
 		if (errCode != SQLITE_OK)
-			throw Exception(sqlite3_errmsg(pDb));
+		{
+			YString message("Problem while opening database ");
+			message << dbName  << ": " << sqlite3_errmsg(pDb);
+			throw Exception(message);
+		}
 	}
 
 
 	SqliteWrapper::~SqliteWrapper()
 	{
-		// Finalize the statement
-		int errCode = sqlite3_finalize(pStatement);
-		(void) errCode; // avoid warning in release mode compilation
-		assert(errCode == SQLITE_OK);
-
 		// Close the database connection
-		errCode = sqlite3_close(pDb);
+		int errCode = sqlite3_close(pDb);
+		(void) errCode;
 		assert(errCode == SQLITE_OK);
 	}
+
+
+	void SqliteWrapper::createTable(const AnyString& name, const AnyString& fields, BehaviourWhenTableExists mode)
+	{
+		YString command("CREATE TABLE ");
+		command << name << '(' << fields << ");";
+
+		SqliteStatement statement;
+
+		int errCode = sqlite3_prepare_v2(pDb, command.c_str(), command.size() + 1, statement.ptr(), NULL);
+
+		if (errCode == SQLITE_OK)
+		{
+			errCode = sqlite3_step(statement);
+			if (errCode != SQLITE_DONE)
+			{
+				YString message("Problem while creating new table ");
+				message << ": " << sqlite3_errmsg(pDb);
+				throw Exception(message);
+			}
+		}
+		else
+		{
+			// If preparation goes wrong, it usually means the table already exists.
+			switch(mode)
+			{
+				case skipCreation:
+					break;
+				case reCreate:
+				{
+					YString dropCommand = "DROP TABLE ";
+					dropCommand << name << ';';
+
+					SqliteStatement foo;
+
+					errCode = sqlite3_prepare_v2(pDb, dropCommand.c_str(), dropCommand.size() + 1,
+						foo.ptr(), NULL);
+					assert(errCode == SQLITE_OK);
+					errCode = sqlite3_step(foo);
+					assert(errCode == SQLITE_DONE);
+
+
+					// Call again current method but this time error won't be tolerated
+					// (and shouldn't occur either as table has been alledgely dropped)
+					createTable(name, fields, sendError);
+					return;
+					break;
+				}
+				case sendError:
+				{
+					YString msg("Impossible to create table ");
+					msg << name << ": it already exists";
+					throw Exception(msg);
+					break;
+				}
+			} // switch(mode)
+		}//errCode != SQLITE_OK)
+	}
+
+
 
 
 }

@@ -107,6 +107,10 @@ namespace GenericTools
 		 * \param[in] tableName Name of the table
 		 * \param[in] fields Fields to insert in the row
 		 * \param[in] values Values to insert in the row
+		 *
+		 * NOTE: that's not very edgy on my current software, but it is possible to
+		 * be more efficient when inserting several rows (it is possible with
+		 * sqlite to avoid reset the statement instead of preparing again from scratch)
 		 */
 		void insertData(const AnyString& tableName, const std::vector<AnyString>& fields,
 			const std::vector<AnyString>& values);

@@ -28,6 +28,16 @@ target_link_libraries(PictFrame
 )
 
 
+add_executable(createPhotographerDatabase
+	main_create_photographer_database.cpp
+)
+
+target_link_libraries(createPhotographerDatabase
+	tools
+	sqlite3
+)
+
+
 add_executable(dev
 	main_dev.cpp
 )

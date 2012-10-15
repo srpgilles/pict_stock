@@ -110,7 +110,7 @@ namespace GenericTools
 	struct printTupleHelper
 	{
 		template<typename StringT>
-		static void print(StreamT& stream, const std::tuple<Args...>&t, const StringT& separator = ',')
+		static void print(StreamT& stream, const std::tuple<Args...>&t, const StringT& separator = ",")
 		{
 
 			typedef std::tuple<Args...> TupleType;
@@ -118,6 +118,8 @@ namespace GenericTools
 			typedef typename std::tuple_element<Index, TupleType>::type EltTupleType;
 
 			Yuni::CString<4, false> quote = IsString<EltTupleType>::value ? "\"" : "";
+
+			std::cout << "CHECK " << std::get<Index>(t) << '\n';
 
 			stream << quote << std::get<Index>(t) << quote << (Index + 1 == Max ? "" : separator);
 			printTupleHelper<StreamT, Index + 1, Max, Args...>::print(stream, t, separator);
@@ -135,19 +137,13 @@ namespace GenericTools
 
 
 	template<typename StreamT, typename StringT, typename... Args>
-	void printTuple (StreamT& stream, const std::tuple<Args...>&t, StringT separator = ',',
-		StringT opener = '[', StringT closer = ']')
+	void printTuple(StreamT& stream, const std::tuple<Args...>&t, StringT separator = ",",
+		StringT opener = "[", StringT closer = "]")
 	{
 		stream << opener;
 		printTupleHelper<StreamT, 0, sizeof...(Args), Args...>::print(stream, t, separator);
 		stream << closer;
 	}
-
-
-	//! Helper to determine whether a type is meant to dewcribe strings
-	typedef std::tuple<char, char*, std::string, YString> StringTuple;
-
-
 
 
 } // namespace GenericTools

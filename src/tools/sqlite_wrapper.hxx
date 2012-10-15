@@ -9,6 +9,7 @@
 # define SQLITE_WRAPPER_HXX_
 
 # include "../tools/tools.hpp"
+# include <tuple>
 
 namespace GenericTools
 {
@@ -86,6 +87,60 @@ namespace GenericTools
 				throw Exception(message);
 			}
 		}// switch
+	}
+
+
+	namespace Private
+	{
+		template<size_t Index, size_t Max, class TupleT>
+		struct TupleElement
+		{
+			static void fill(SqliteStatement& statement, TupleT& tuple)
+			{
+				YString buf(reinterpret_cast<const char*>(sqlite3_column_text(statement, Index)));
+
+				typedef typename std::tuple_element<Index, TupleT>::type Type;
+				std::get<Index>(tuple) = buf.to<Type>();
+				TupleElement<Index + 1, Max, TupleT>::fill(statement, tuple);
+			};
+		};
+
+
+		template<size_t Max, class TupleT>
+		struct TupleElement<Max, Max, TupleT>
+		{
+			static void fill(SqliteStatement&, TupleT& )
+			{ };
+		};
+	}
+
+	template<class TupleT>
+	void SqliteWrapper::select(std::vector<TupleT>& out, const AnyString& sqlQuery) const
+	{
+		YString command("SELECT ");
+		command << sqlQuery << ';';
+
+		SqliteStatement statement;
+
+		int errCode = prepareCommand(statement, command);
+		assert(errCode == SQLITE_OK);
+
+		assert(std::tuple_size<TupleT>::value == static_cast<size_t>(sqlite3_column_count(statement)));
+
+		while ((errCode = sqlite3_step(statement)) && errCode == SQLITE_ROW)
+		{
+			// Read all the columns and fill a tuple accordingly
+			TupleT tuple;
+			Private::TupleElement<0, std::tuple_size<TupleT>::value, TupleT>::fill(statement, tuple);
+			out.push_back(tuple);
+		}
+
+		if (errCode != SQLITE_DONE)
+		{
+			YString message("A problem occurred with the request:\n\t");
+			message << command;
+			throw Exception(message);
+		}
 	}
 
 

@@ -105,6 +105,8 @@ namespace GenericTools
 		/*!
 		 * \brief Insert data in a table
 		 *
+		 * \tparam TupleT Tuple describing all columns
+		 *
 		 * \param[in] tableName Name of the table
 		 * \param[in] fields Fields to insert in the row
 		 * \param[in] values Values to insert in the row
@@ -121,10 +123,13 @@ namespace GenericTools
 		/*!
 		** \brief Select data from a table
 		**
+		** \tparam TupleT Tuple describing all columns
+		**
 		** \param[out] out Output rows
 		** \param[in] sqlQuery Without the "SELECT" word
 		*/
-		void select(std::vector<std::vector<YString> >& out, const AnyString& sqlQuery) const;
+		template<typename TupleT>
+		void select(std::vector<TupleT>& out, const AnyString& sqlQuery) const;
 
 
 	private:

@@ -1,9 +1,11 @@
 //#include "extended_photo/extended_photo.hpp"
-#include <yuni/datetime/timestamp.h>
+//#include <yuni/datetime/timestamp.h>
 #include <ctime>
-# include "tools/numeration.hpp"
+//# include "tools/numeration.hpp"
 
 #include "tools/sqlite_wrapper.hpp"
+#include "tools/tools.hpp"
+#include <ostream>
 
 //#ifdef USE_BOOST_REGULAR_EXPR
 //#include <boost/regex.hpp>
@@ -135,6 +137,16 @@
 
 //}
 
+typedef std::tuple<int, const char*> TestTuple;
+
+void foo(TestTuple& tuple)
+{
+	tuple = std::make_tuple(5, "test");
+	std::cout << std::get<0>(tuple) << '\n';
+	std::cout << std::get<1>(tuple) << '\n';
+}
+
+
 int main(int argc, char* argv[])
 {
 	(void) argc;
@@ -142,38 +154,24 @@ int main(int argc, char* argv[])
 
 	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
 
+	typedef std::tuple<YString, YString, YString> CameraTuple;
+	std::vector<CameraTuple> values;
 
-	std::vector<std::vector<YString> > values;
 	db.select(values, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
 
 	for (auto it = values.cbegin(), end = values.cend(); it != end; ++it)
 	{
-		const auto& buf = *it;
+		const CameraTuple& buf = *it;
 
-		for (auto it2 = buf.cbegin(), end2 = buf.cend(); it2 != end2; ++it2)
-			std::cout << *it2 << '\t';
-
+		GenericTools::printTuple(std::cout, buf, ",", "[", "]");
 		std::cout << '\n';
-
 	}
 
+	TestTuple tuple;
+	foo(tuple);
+	std::cout << std::get<0>(tuple) << '\n';
+	std::cout << std::get<1>(tuple) << '\n';
 
-
-
-	std::cout << "Unsigned int " << GenericTools::IsString<unsigned int>::value << '\n';
-	std::cout << "Char* " << GenericTools::IsString<char*>::value << '\n';
-	std::cout << "Const char* " << GenericTools::IsString<const char*>::value << '\n';
-	std::cout << "Char " << GenericTools::IsString<char>::value << '\n';
-	std::cout << "Const char " << GenericTools::IsString<const char>::value << '\n';
-	std::cout << "YString "<< GenericTools::IsString<YString>::value << '\n';
-	std::cout << "std::string " << GenericTools::IsString<std::string>::value << '\n';
-	std::cout << "AnyString "<< GenericTools::IsString<AnyString>::value << '\n';
-	std::cout << "CString<17, false> "<< GenericTools::IsString<Yuni::CString<17, false> >::value << '\n';
-
-
-	const char* baz = "klfmkfsdm";
-
-	YString a(baz);
 
 	return 0;
 }

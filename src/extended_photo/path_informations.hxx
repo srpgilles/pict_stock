@@ -53,7 +53,7 @@ namespace PictStock
 	}
 
 	template<>
-	inline void PathInformations::setElement<Private::Photographer>(const AnyString& input)
+	inline void PathInformations::setElement<Private::PhotographerInformations>(const AnyString& input)
 	{
 		std::multimap<std::string, Yuni::String> empty;
 		pPhotographerPtr = new Photographer("", input, empty);
@@ -96,7 +96,7 @@ namespace PictStock
 	}
 
 	template<>
-	inline void PathInformations::setElement<Private::Photographer>(const PathInformations& input)
+	inline void PathInformations::setElement<Private::PhotographerInformations>(const PathInformations& input)
 	{
 		pPhotographerPtr = input.pPhotographerPtr; // valid even with nullptr
 	}
@@ -150,7 +150,7 @@ namespace PictStock
 	}
 
 	template<>
-	inline PathInformations::ElementString PathInformations::getElement<Private::Photographer>() const
+	inline PathInformations::ElementString PathInformations::getElement<Private::PhotographerInformations>() const
 	{
 		if (!(!pPhotographerPtr))
 			return pPhotographerPtr->abbr();

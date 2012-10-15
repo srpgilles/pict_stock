@@ -15,7 +15,7 @@ namespace PictStock
 	namespace Private
 	{
 		//! Tuple of all possible relevant elements in the user-defined format
-		typedef std::tuple<Year, Month, Day, Hour, Minute, Second, Photographer> TupleType;
+		typedef std::tuple<Year, Month, Day, Hour, Minute, Second, PhotographerInformations> TupleType;
 	}
 
 	/*!

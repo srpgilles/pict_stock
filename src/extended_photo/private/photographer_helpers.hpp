@@ -9,7 +9,7 @@ namespace PictStock
 namespace Private
 {
 
-	struct Photographer
+	struct PhotographerInformations
 	{
 		static const SymbolString Symbol() { return "%P"; }
 		static const RegexString Regex() { return ".*"; }

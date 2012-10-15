@@ -155,7 +155,7 @@ namespace PictStock
 		// for some older model there is no serial number either (so we just have
 		// the name of the model, which is good enough for our purposes due to the
 		// maze of existing models)
-		// So we have to proceed by trial and error
+		// So we have to proceed by trial and error for each camera
 
 		for (auto it = pPhotographers.cbegin(), end = pPhotographers.cend(); it != end; ++it)
 		{

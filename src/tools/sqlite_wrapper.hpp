@@ -4,6 +4,7 @@
 
 # include <yuni/core/string.h>
 # include <sqlite3.h>
+# include "exceptions.hpp"
 
 namespace GenericTools
 {
@@ -73,7 +74,7 @@ namespace GenericTools
 		 * \brief Constructor
 		 *
 		 * \param[in] dbName Name of the file holding the database
-		 * \param[in] flags Flags related to the mode. See http://www.sqlite.org/c3ref/open.html
+		 * \param[in] fla#include "exceptions.hpp"gs Flags related to the mode. See http://www.sqlite.org/c3ref/open.html
 		 *
 		 */
 
@@ -86,7 +87,7 @@ namespace GenericTools
 
 		/*!
 		 * \brief Create a table
-		 *
+		 *#include "exceptions.hpp"
 		 * \param[in] name Name of the table
 		 * \param[in] fields List of fields as they would appear in standard SQL command,
 		 * separated by commas
@@ -112,8 +113,9 @@ namespace GenericTools
 		 * be more efficient when inserting several rows (it is possible with
 		 * sqlite to avoid reset the statement instead of preparing again from scratch)
 		 */
+		template<typename TupleT>
 		void insertData(const AnyString& tableName, const std::vector<AnyString>& fields,
-			const std::vector<AnyString>& values);
+			const TupleT& values);
 
 
 		/*!

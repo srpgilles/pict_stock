@@ -1,5 +1,5 @@
 #include "sqlite_wrapper.hpp"
-#include "exceptions.hpp"
+
 
 namespace GenericTools
 {
@@ -124,64 +124,65 @@ namespace GenericTools
 	}
 
 
-	void SqliteWrapper::insertData(const AnyString& tableName, const std::vector<AnyString>& fields,
-		const std::vector<AnyString>& values)
-	{
-		size_t size = fields.size();
-		if (size != values.size())
-		{
-			YString message("Problem while inserting new row in table ");
-			message << tableName << ": number of fields differ from number of values.";
-			throw Exception(message);
-		}
-
-		YString command("INSERT INTO ");
-		command << tableName << '(';
-
-		auto printEltAndComma = [&command](const AnyString& elt)
-			{
-				command << '"' << elt << "\",";
-			};
-
-		{
-			std::for_each(fields.begin(), fields.end(), printEltAndComma);
-			command.removeLast();
-		}
-		command << ") VALUES (";
-
-		{
-			std::for_each(values.begin(), values.end(), printEltAndComma);
-			command.removeLast();
-		}
-		command << ");";
-
-		SqliteStatement statement;
-
-		int errCode = prepareCommand(statement, command);
-		assert(errCode == SQLITE_OK);
-
-		errCode = sqlite3_step(statement);
-
-		switch(errCode)
-		{
-			case SQLITE_DONE:
-				break;
-			case SQLITE_CONSTRAINT:
-			{
-				YString message("Problem while inserting new row in table ");
-							message << tableName << ": a constraint has not been respected. Command was:";
-							message << "\n\t" << command;
-							throw Exception(message);
-			}
-			default:
-			{
-				YString message("Problem while inserting new row in table ");
-				message << tableName << ": the syntax is most likely incorrect. It was:";
-				message << "\n\t" << command;
-				throw Exception(message);
-			}
-		}// switch
-	}
+//	void SqliteWrapper::insertData(const AnyString& tableName, const std::vector<AnyString>& fields,
+//		const std::vector<AnyString>& values)
+//	{
+//		size_t size = fields.size();
+//		if (size != values.size())
+//		{
+//			YString message("Problem while inserting new row in table ");
+//			message << tableName << ": number of fields differ from number of values.";
+//			throw Exception(message);
+//		}
+//
+//		YString command("INSERT INTO ");
+//		command << tableName << '(';
+//
+//		auto printEltAndComma = [&command](const AnyString& elt)
+//			{
+//				command << '"' << elt << "\",";
+//			};;
+//
+//		{
+//			std::for_each(fields.begin(), fields.end(), printEltAndComma);
+//			command.removeLast();
+//		}
+//		command << ") VALUES (";
+//
+//		{
+//			std::for_each(values.begin(), values.end(), printEltAndComma);
+//			command.removeLast();
+//		}
+//		command << ");";
+//
+//		SqliteStatement statement;
+//
+//		int errCode = prepareCommand(statement, command);
+//		std::cout << command << '\n';
+//		assert(errCode == SQLITE_OK);
+//
+//		errCode = sqlite3_step(statement);
+//
+//		switch(errCode)
+//		{
+//			case SQLITE_DONE:
+//				break;
+//			case SQLITE_CONSTRAINT:
+//			{
+//				YString message("Problem while inserting new row in table ");
+//							message << tableName << ": a constraint has not been respected. Command was:";
+//							message << "\n\t" << command;
+//							throw Exception(message);
+//			}
+//			default:
+//			{
+//				YString message("Problem while inserting new row in table ");
+//				message << tableName << ": the syntax is most likely incorrect. It was:";
+//				message << "\n\t" << command;
+//				throw Exception(message);
+//			}
+//		}// switch
+//	}
 
 
 	void SqliteWrapper::select(std::vector<std::vector<YString> >& out, const AnyString& sqlQuery) const

@@ -1,3 +1,10 @@
+#include <ostream>
+#include <tuple>
+#include <yuni/core/string.h>
+
+#ifndef TOOLS_HPP
+# define TOOLS_HPP
+
 namespace GenericTools
 {
 
@@ -76,4 +83,73 @@ namespace GenericTools
 	};
 
 
+//	template<class T>
+//	class IsString
+//	{
+//	private:
+//		static T MakeT();
+//
+//	public:
+//		enum { value = sizeof()
+//
+//	};
+//
+//	template<>
+//	class IsString<char*>
+//	{
+//		enum { value = true; }
+//	};
+
+
+
+
+
+	/*!
+	** \brief Facility to print elements of a tuple
+	**
+	** Inspired by Nicolai M. Josuttis "The C++ standard library" page 74
+	*/
+	template<class StreamT, unsigned int Index, unsigned int Max, typename... Args>
+	struct printTupleHelper
+	{
+		template<typename StringT>
+		static void print(StreamT& stream, const std::tuple<Args...>&t, const StringT& separator = ',')
+		{
+			Yuni::CString<4, false> quote;
+			typedef std::tuple<Args...> TupleType;
+
+			typedef typename std::tuple_element<Index, TupleType>::type EltTupleType;
+
+			// TODO Find a better way to do this (is element type is not stringT but still a
+			// chain of characters it should nevertheless work, which would not be the case here
+			if (IsSame<StringT, EltTupleType>::value)
+				quote = "\"";
+
+			stream << quote << std::get<Index>(t) << quote << (Index + 1 == Max ? "" : separator);
+			printTupleHelper<StreamT, Index + 1, Max, Args...>::print(stream, t, separator);
+		}
+	};
+
+
+	template<class StreamT, unsigned int Max, typename... Args>
+	struct printTupleHelper<StreamT, Max, Max, Args...>
+	{
+		template<typename StringT>
+		static void print(StreamT&, const std::tuple<Args...>&, const StringT&)
+		{ }
+	};
+
+
+	template<typename StreamT, typename StringT, typename... Args>
+	void printTuple (StreamT& stream, const std::tuple<Args...>&t, StringT separator = ',',
+		StringT opener = '[', StringT closer = ']')
+	{
+		stream << opener;
+		printTupleHelper<StreamT, 0, sizeof...(Args), Args...>::print(stream, t, separator);
+		stream << closer;
+	}
+
+
 } // namespace GenericTools
+
+#endif // TOOLS_HPP

@@ -8,35 +8,38 @@ int main(int argc, char* argv[])
 	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
 
 	db.createTable("Photographers",
-		//"id INTEGER PRIMARY KEY NOT NULL,"
 		"FirstName varchar(80),"
 		"LastName varchar(80),"
-		"Abbr varchar(8) PRIMARY KEY NOT NULL"
+		"Abbr varchar(8) PRIMARY KEY NOT NULL,"
+		"Foo INTEGER"
 		);
 
 	db.createTable("Cameras",
 		"Keyword varchar(80),"
 		"Value varchar(80),"
 		"Owner varchar(8),"
+
 		"FOREIGN KEY(Owner) REFERENCES Photographers(Abbr)"
 			);
 
 	{
-		std::vector<AnyString> fields { "FirstName", "LastName", "Abbr" };
+		std::vector<AnyString> fields { "FirstName", "LastName", "Abbr", "Foo" };
 
-		std::vector<std::vector<AnyString> > listValues
+		typedef std::tuple<AnyString, AnyString, AnyString> TupleType;
+
+		std::vector<TupleType> listValues
 		{
-			{ "Claire et Sébastien", "Gilles", "CSG" },
-			{ "Aurélien", "Gilles", "AG" },
-			{ "Annie et Christian", "Gilles", "ACG" },
-			{ "Papy Mamie", "Sénépart", "PMS" },
-			{ "René", "Wagon", "RW" },
-			{ "Laurent et Céline", "Saint Cyr", "LCSC" },
-			{ "Parents de Thuy", "", "THUY"}
+			{ TupleType("Claire et Sébastien", "Gilles", "CSG") },
+			{ TupleType("Aurélien", "Gilles", "AG") },
+			{ TupleType("Annie et Christian", "Gilles", "ACG") },
+			{ TupleType("Papy Mamie", "Sénépart", "PMS") },
+			{ TupleType("René", "Wagon", "RW") },
+			{ TupleType("Laurent et Céline", "Saint Cyr", "LCSC") },
+			{ TupleType("Parents de Thuy", "", "THUY")}
 		};
 
 		std::for_each(listValues.cbegin(), listValues.cend(),
-			[&](const std::vector<AnyString>& values)
+			[&](const TupleType& values)
 			{
 				db.insertData("Photographers", fields, values);
 			}
@@ -48,27 +51,29 @@ int main(int argc, char* argv[])
 	{
 		std::vector<AnyString> fields {"Keyword", "Value", "Owner"};
 
-		std::vector<std::vector<AnyString> > listValues
+		typedef std::tuple<AnyString, AnyString, AnyString> TupleType;
+
+		std::vector<TupleType> listValues
 		{
-			{ "Exif.Canon.SerialNumber", "2280522782", "CSG" },
-			{ "Exif.Image.Model", "FinePix A350", "CSG" },
-			{ "Exif.Image.Model", "FinePix E500", "CSG" },
-			{ "Exif.Canon.SerialNumber", "430125393", "AG" },
-			{ "Exif.Image.Model", "FinePix S5000", "AG" },
-			{ "Exif.Image.Model", "DSC-W70", "ACG" },
-			{ "Exif.Canon.ModelID", "50593792", "ACG" },
-			{ "Exif.Image.Model", "DMC-FS4", "PMS" },
-			{ "ExifPhoto.__NikonSerialNumbers", "4045196", "RW" },
-			{ "Exif.Canon.SerialNumber", "1531001946", "LCSC" },
-			{ "Exif.Image.Model", "FinePix S6500fd", "THUY" },
-			{ "Exif.Image.Model", "DMC-TZ1", "THUY" },
-			{ "Exif.Image.Model", "SAMSUNG ST550 / SAMSUNG ST560 / VLUU ST550 / SAMSUNG TL225", "THUY" },
-			{ "Exif.Nikon3.SerialNumber", "6100268", "THUY" },
-			{ "Exif.Image.ImageDescription", "SONY DSC", "THUY" }
+			{ TupleType("Exif.Canon.SerialNumber", "2280522782", "CSG") },
+			{ TupleType("Exif.Image.Model", "FinePix A350", "CSG") },
+			{ TupleType("Exif.Image.Model", "FinePix E500", "CSG") },
+			{ TupleType("Exif.Canon.SerialNumber", "430125393", "AG") },
+			{ TupleType("Exif.Image.Model", "FinePix S5000", "AG") },
+			{ TupleType("Exif.Image.Model", "DSC-W70", "ACG") },
+			{ TupleType("Exif.Canon.ModelID", "50593792", "ACG") },
+			{ TupleType("Exif.Image.Model", "DMC-FS4", "PMS") },
+			{ TupleType("ExifPhoto.__NikonSerialNumbers", "4045196", "RW") },
+			{ TupleType("Exif.Canon.SerialNumber", "1531001946", "LCSC") },
+			{ TupleType("Exif.Image.Model", "FinePix S6500fd", "THUY") },
+			{ TupleType("Exif.Image.Model", "DMC-TZ1", "THUY") },
+			{ TupleType("Exif.Image.Model", "SAMSUNG ST550 / SAMSUNG ST560 / VLUU ST550 / SAMSUNG TL225", "THUY") },
+			{ TupleType("Exif.Nikon3.SerialNumber", "6100268", "THUY") },
+			{ TupleType("Exif.Image.ImageDescription", "SONY DSC", "THUY") }
 		};
 
 		std::for_each(listValues.cbegin(), listValues.cend(),
-			[&](const std::vector<AnyString>& values)
+			[&](const TupleType& values)
 			{
 				db.insertData("Cameras", fields, values);
 			}

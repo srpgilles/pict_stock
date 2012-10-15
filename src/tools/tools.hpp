@@ -1,6 +1,7 @@
 #include <ostream>
 #include <tuple>
 #include <yuni/core/string.h>
+#include <type_traits>
 
 #ifndef TOOLS_HPP
 # define TOOLS_HPP
@@ -83,27 +84,6 @@ namespace GenericTools
 	};
 
 
-//	template<class T>
-//	class IsString
-//	{
-//	private:
-//		static T MakeT();
-//
-//	public:
-//		enum { value = sizeof()
-//
-//	};
-//
-//	template<>
-//	class IsString<char*>
-//	{
-//		enum { value = true; }
-//	};
-
-
-
-
-
 	/*!
 	** \brief Facility to print elements of a tuple
 	**
@@ -148,6 +128,27 @@ namespace GenericTools
 		printTupleHelper<StreamT, 0, sizeof...(Args), Args...>::print(stream, t, separator);
 		stream << closer;
 	}
+
+
+	//! Helper to determine whether a type is meant to dewcribe strings
+	typedef std::tuple<char, char*, std::string, YString> StringTuple;
+
+
+	template<class T>
+	struct IsString
+	{
+	private:
+
+		typedef typename std::remove_const<T>::type WithoutConst;
+		typedef typename std::remove_pointer<WithoutConst>::type WithoutConstAndPointers;
+		enum { isCharRelated = std::is_same<WithoutConstAndPointers, char>::value };
+
+
+	public:
+
+		enum { value = isCharRelated ? 1 : std::is_constructible<T, char*>::value };
+	};
+
 
 
 } // namespace GenericTools

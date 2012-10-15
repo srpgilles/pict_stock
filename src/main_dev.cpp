@@ -1,4 +1,4 @@
-#include "extended_photo/extended_photo.hpp"
+//#include "extended_photo/extended_photo.hpp"
 #include <yuni/datetime/timestamp.h>
 #include <ctime>
 # include "tools/numeration.hpp"
@@ -140,8 +140,6 @@ int main(int argc, char* argv[])
 	(void) argc;
 	(void) argv;
 
-	LoggingFacility logs;
-
 	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
 
 
@@ -158,6 +156,24 @@ int main(int argc, char* argv[])
 		std::cout << '\n';
 
 	}
+
+
+
+
+	std::cout << "Unsigned int " << GenericTools::IsString<unsigned int>::value << '\n';
+	std::cout << "Char* " << GenericTools::IsString<char*>::value << '\n';
+	std::cout << "Const char* " << GenericTools::IsString<const char*>::value << '\n';
+	std::cout << "Char " << GenericTools::IsString<char>::value << '\n';
+	std::cout << "Const char " << GenericTools::IsString<const char>::value << '\n';
+	std::cout << "YString "<< GenericTools::IsString<YString>::value << '\n';
+	std::cout << "std::string " << GenericTools::IsString<std::string>::value << '\n';
+	std::cout << "AnyString "<< GenericTools::IsString<AnyString>::value << '\n';
+	std::cout << "CString<17, false> "<< GenericTools::IsString<Yuni::CString<17, false> >::value << '\n';
+
+
+	const char* baz = "klfmkfsdm";
+
+	YString a(baz);
 
 	return 0;
 }

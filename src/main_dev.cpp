@@ -142,78 +142,22 @@ int main(int argc, char* argv[])
 
 	LoggingFacility logs;
 
-	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
+	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
 
-	db.createTable("Photographers",
-		//"id INTEGER PRIMARY KEY NOT NULL,"
-		"FirstName varchar(80),"
-		"LastName varchar(80),"
-		"Abbr varchar(8) PRIMARY KEY NOT NULL"
-		);
 
-	db.createTable("Cameras",
-		"Keyword varchar(80),"
-		"Value varchar(80),"
-		"Owner varchar(8),"
-		"Foo INTEGER,"
-		"FOREIGN KEY(Owner) REFERENCES Photographers(Abbr)"
-			);
+	std::vector<std::vector<YString> > values;
+	db.select(values, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
 
+	for (auto it = values.cbegin(), end = values.cend(); it != end; ++it)
 	{
-		std::vector<AnyString> fields { "FirstName", "LastName", "Abbr" };
-		std::vector<AnyString> values { "Sebastien", "Gilles", "SG" };
-		db.insertData("Photographers", fields, values);
+		const auto& buf = *it;
+
+		for (auto it2 = buf.cbegin(), end2 = buf.cend(); it2 != end2; ++it2)
+			std::cout << *it2 << '\t';
+
+		std::cout << '\n';
+
 	}
-
-	{
-		std::vector<AnyString> fields {"Keyword", "Value", "Owner", "Foo"};
-		std::vector<AnyString> values {"Foo", "Bar", "SG", "42"};
-		db.insertData("Cameras", fields, values);
-	}
-
-
-
-	  //trackartist INTEGER,
-	  //FOREIGN KEY(trackartist) REFERENCES artist(artistid)
-//	command = "CREATE TABLE Photographers3("
-//		"FirstName varchar(80),"
-//		"LastName varchar(80),"
-//		"Abbr varchar(8));";
-//
-//	db.execDataManipulationLanguage(command);
-
-
-	//sqlite3* db = nullptr;
-
-	// Open the database connection, creating the db3 file if necessary
-	/*int errCode = sqlite3_open("test.db3", &db);
-	logs.notice(errCode == 0);
-
-	// Prepare the statement to create the table
-	sqlite3_stmt* statement;
-	YString cmd("CREATE TABLE Photographers2("
-		"FirstName varchar(80),"
-		"LastName varchar(80),"
-		"Abbr varchar(8));");
-
-	errCode = sqlite3_prepare_v2(db, cmd.c_str(), cmd.size(), &statement, NULL);
-	logs.notice(errCode == 0);
-
-	if (errCode == 0)
-	{
-		// Create effectively the table if not existing
-		errCode = sqlite3_step(statement);
-		logs.notice(errCode == 101);
-	}
-
-	// Finalize the statement
-	errCode = sqlite3_finalize(statement);
-	logs.notice(errCode == 0);
-
-	// Close the database connection
-	errCode = sqlite3_close(db);
-	logs.notice(errCode == 0);*/
-
 
 	return 0;
 }

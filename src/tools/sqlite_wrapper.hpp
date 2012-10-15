@@ -115,6 +115,16 @@ namespace GenericTools
 		void insertData(const AnyString& tableName, const std::vector<AnyString>& fields,
 			const std::vector<AnyString>& values);
 
+
+		/*!
+		** \brief Select data from a table
+		**
+		** \param[out] out Output rows
+		** \param[in] sqlQuery Without the "SELECT" word
+		*/
+		void select(std::vector<std::vector<YString> >& out, const AnyString& sqlQuery) const;
+
+
 	private:
 
 		/*!

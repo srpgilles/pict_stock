@@ -105,7 +105,6 @@ namespace GenericTools
 					errCode = sqlite3_step(dropStatement);
 					assert(errCode == SQLITE_DONE);
 
-
 					// Call again current method but this time error won't be tolerated
 					// (and shouldn't occur either as table has been alledgely dropped)
 					createTable(name, fields, sendError);
@@ -170,9 +169,9 @@ namespace GenericTools
 			case SQLITE_CONSTRAINT:
 			{
 				YString message("Problem while inserting new row in table ");
-				message << tableName << ": a constraint has not been respected. Command was:";
-				message << "\n\t" << command;
-				throw Exception(message);
+							message << tableName << ": a constraint has not been respected. Command was:";
+							message << "\n\t" << command;
+							throw Exception(message);
 			}
 			default:
 			{
@@ -182,7 +181,39 @@ namespace GenericTools
 				throw Exception(message);
 			}
 		}// switch
+	}
 
+
+	void SqliteWrapper::select(std::vector<std::vector<YString> >& out, const AnyString& sqlQuery) const
+	{
+		YString command("SELECT ");
+		command << sqlQuery << ';';
+
+		SqliteStatement statement;
+
+		int errCode = prepareCommand(statement, command);
+		assert(errCode == SQLITE_OK);
+
+		int nbColumns = sqlite3_column_count(statement);
+
+		while ((errCode = sqlite3_step(statement)) && errCode == SQLITE_ROW)
+		{
+			std::vector<YString> buf;
+			buf.reserve(nbColumns);
+
+			for (int i = 0; i < nbColumns; ++i)
+				// Cast because sqlite return a const unsigned char*
+				buf.push_back(reinterpret_cast<const char*>(sqlite3_column_text(statement, i)));
+
+			out.push_back(buf);
+		}
+
+		if (errCode != SQLITE_DONE)
+		{
+			YString message("A problem occurred with the request:\n\t");
+			message << command;
+			throw Exception(message);
+		}
 	}
 
 

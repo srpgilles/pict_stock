@@ -38,7 +38,8 @@ namespace GenericTools
 		if (fields.size() != std::tuple_size<TupleT>::value)
 		{
 			YString message("Problem while inserting new row in table ");
-			message << tableName << ": number of fields differ from number of values.";
+			message << tableName << ": number of fields (" << fields.size()
+				<< ") differ from number of values (" << std::tuple_size<TupleT>::value << ").";
 			throw Exception(message);
 		}
 

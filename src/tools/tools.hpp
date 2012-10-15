@@ -83,6 +83,23 @@ namespace GenericTools
 		enum { value = IndexOfHelper<T, TupleT, lastIndex>::value };
 	};
 
+	template<class T>
+	struct IsString
+	{
+	private:
+
+		typedef typename std::remove_const<T>::type WithoutConst;
+		typedef typename std::remove_pointer<WithoutConst>::type WithoutConstAndPointers;
+		enum { isCharRelated = std::is_same<WithoutConstAndPointers, char>::value };
+
+
+	public:
+
+		enum { value = isCharRelated ? 1 : std::is_constructible<T, char*>::value };
+	};
+
+
+
 
 	/*!
 	** \brief Facility to print elements of a tuple
@@ -95,15 +112,12 @@ namespace GenericTools
 		template<typename StringT>
 		static void print(StreamT& stream, const std::tuple<Args...>&t, const StringT& separator = ',')
 		{
-			Yuni::CString<4, false> quote;
+
 			typedef std::tuple<Args...> TupleType;
 
 			typedef typename std::tuple_element<Index, TupleType>::type EltTupleType;
 
-			// TODO Find a better way to do this (is element type is not stringT but still a
-			// chain of characters it should nevertheless work, which would not be the case here
-			if (IsSame<StringT, EltTupleType>::value)
-				quote = "\"";
+			Yuni::CString<4, false> quote = IsString<EltTupleType>::value ? "\"" : "";
 
 			stream << quote << std::get<Index>(t) << quote << (Index + 1 == Max ? "" : separator);
 			printTupleHelper<StreamT, Index + 1, Max, Args...>::print(stream, t, separator);
@@ -133,21 +147,6 @@ namespace GenericTools
 	//! Helper to determine whether a type is meant to dewcribe strings
 	typedef std::tuple<char, char*, std::string, YString> StringTuple;
 
-
-	template<class T>
-	struct IsString
-	{
-	private:
-
-		typedef typename std::remove_const<T>::type WithoutConst;
-		typedef typename std::remove_pointer<WithoutConst>::type WithoutConstAndPointers;
-		enum { isCharRelated = std::is_same<WithoutConstAndPointers, char>::value };
-
-
-	public:
-
-		enum { value = isCharRelated ? 1 : std::is_constructible<T, char*>::value };
-	};
 
 
 

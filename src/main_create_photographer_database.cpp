@@ -10,20 +10,18 @@ int main(int argc, char* argv[])
 	db.createTable("Photographers",
 		"FirstName varchar(80),"
 		"LastName varchar(80),"
-		"Abbr varchar(8) PRIMARY KEY NOT NULL,"
-		"Foo INTEGER"
+		"Abbr varchar(8) PRIMARY KEY NOT NULL"
 		);
 
 	db.createTable("Cameras",
 		"Keyword varchar(80),"
 		"Value varchar(80),"
 		"Owner varchar(8),"
-
 		"FOREIGN KEY(Owner) REFERENCES Photographers(Abbr)"
 			);
 
 	{
-		std::vector<AnyString> fields { "FirstName", "LastName", "Abbr", "Foo" };
+		std::vector<AnyString> fields { "FirstName", "LastName", "Abbr" };
 
 		typedef std::tuple<AnyString, AnyString, AnyString> TupleType;
 

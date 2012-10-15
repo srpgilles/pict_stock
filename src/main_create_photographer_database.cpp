@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	{
 		std::vector<AnyString> fields { "FirstName", "LastName", "Abbr" };
 
-		std::list<std::vector<AnyString> > listValues
+		std::vector<std::vector<AnyString> > listValues
 		{
 			{ "Claire et Sébastien", "Gilles", "CSG" },
 			{ "Aurélien", "Gilles", "AG" },
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
 	{
 		std::vector<AnyString> fields {"Keyword", "Value", "Owner"};
 
-		std::list<std::vector<AnyString> > listValues
+		std::vector<std::vector<AnyString> > listValues
 		{
 			{ "Exif.Canon.SerialNumber", "2280522782", "CSG" },
 			{ "Exif.Image.Model", "FinePix A350", "CSG" },

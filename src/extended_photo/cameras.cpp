@@ -8,6 +8,7 @@ namespace PictStock
 	using namespace NSCameras::Private;
 
 	Cameras::Cameras(GenericTools::SqliteWrapper& database)
+		: pDatabase(database)
 	{
 		database.select(pRows, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
 	}
@@ -41,6 +42,42 @@ namespace PictStock
 		photographer = std::get<GenericTools::IndexOf<Owner, Tuple>::value>(*(it.first));
 
 		return true;
+	}
+
+
+	void Cameras::addNewCamera(const NSCameras::Private::Keyword::StringType& currentKeyword,
+		const NSCameras::Private::Value::StringType& value,
+		const NSCameras::Private::Owner::StringType& photographer)
+	{
+		// Determine names of the fields in the database
+		std::vector<YString> fieldNames;
+		TupleFields<Tuple>::FieldNames(fieldNames);
+
+		// Create a tuple with new elements to introduce
+		TupleString newTuple;
+		std::get<GenericTools::IndexOf<Owner, Tuple>::value>(newTuple) = photographer;
+		std::get<GenericTools::IndexOf<Value, Tuple>::value>(newTuple) = value;
+		std::get<GenericTools::IndexOf<Keyword, Tuple>::value>(newTuple) = currentKeyword;
+
+		// Add the camera in the database (which will check by the way if the insertion is legit or not)
+		pDatabase.insertData("Cameras", fieldNames, newTuple);
+
+		// If database accepted the query without trhowing exception, all is ok
+		// Add the camera in the memory
+		pRows.push_back(newTuple);
+
+		// Do not forget to reorder pRows!
+		// As insertion will be quite a rare event, it is sensical to reorder it whenever it happens
+		// instead of using a set or alike
+		enum { indexKeyword = GenericTools::IndexOf<Keyword, Tuple>::value };
+
+		std::sort(pRows.begin(), pRows.end(), [](const TupleString& tuple1, const TupleString& tuple2) -> bool
+			{
+				return (std::get<indexKeyword>(tuple1) < std::get<indexKeyword>(tuple2));
+			});
+
+
+
 	}
 
 

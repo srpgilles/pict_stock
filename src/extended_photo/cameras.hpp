@@ -49,6 +49,11 @@ namespace PictStock
 		explicit Cameras(GenericTools::SqliteWrapper& database);
 		//@}
 
+		//! Add a new camera
+		void addNewCamera(const NSCameras::Private::Keyword::StringType& currentKeyword,
+			const NSCameras::Private::Value::StringType& valueToCheck,
+			const NSCameras::Private::Owner::StringType& photographer);
+
 		//! Return the list of known keywords
 		const std::vector<NSCameras::Private::Keyword::StringType>& keywords() const;
 
@@ -66,6 +71,9 @@ namespace PictStock
 			NSCameras::Private::Owner::StringType& photographer) const;
 
 	private:
+
+		//! Reference to database object
+		GenericTools::SqliteWrapper& pDatabase;
 
 		/*!
 		**\brief Rows in sqlite database table related to cameras.

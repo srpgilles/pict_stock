@@ -33,7 +33,7 @@ namespace GenericTools
 
 
 	template<class TupleT>
-	void SqliteWrapper::insertData(const AnyString& tableName, const std::vector<AnyString>& fields,
+	void SqliteWrapper::insertData(const AnyString& tableName, const std::vector<YString>& fields,
 		const TupleT& values)
 	{
 		if (fields.size() != std::tuple_size<TupleT>::value)

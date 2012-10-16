@@ -172,8 +172,14 @@ int main(int argc, char* argv[])
 	std::cout << std::tuple_size<Strings>::value << '\n';
 
 	std::vector<Strings> pRows;
-
 	db.select(pRows, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
+
+	std::vector<YString> fieldNames;
+	PictStock::NSCameras::Private::TupleFields<Tuple>::FieldNames(fieldNames);
+
+	for (auto it = fieldNames.cbegin(), end = fieldNames.cend(); it != end; ++it)
+		std::cout << *it << '\n';
+
 
 	return 0;
 }

@@ -116,7 +116,7 @@ namespace GenericTools
 		 * sqlite to avoid reset the statement instead of preparing again from scratch)
 		 */
 		template<typename TupleT>
-		void insertData(const AnyString& tableName, const std::vector<AnyString>& fields,
+		void insertData(const AnyString& tableName, const std::vector<YString>& fields,
 			const TupleT& values);
 
 

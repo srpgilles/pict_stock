@@ -43,9 +43,10 @@ add_executable(dev
 )
 
 target_link_libraries(dev
-	sort_new_photos
+	extended_photo
 	tools
 	sqlite3
+	yuni-static-core
 )
 
 

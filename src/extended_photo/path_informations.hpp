@@ -4,7 +4,7 @@
 
 # include <ostream>
 # include "date.hpp"
-# include "photographer.hpp"
+# include "private/photographer.hpp"
 # include "private/date_helpers.hpp"
 # include "private/photographer_helpers.hpp"
 # include <tuple>
@@ -59,10 +59,8 @@ namespace PictStock
 		//! Assignation
 		PathInformations& operator = (const PathInformations& );
 
-
-
 		//! Set the photographer
-		void setPhotographer(const Photographer::Ptr& photographer);
+		void setPhotographer(const Private::Photographer::Ptr& photographer);
 
 		//! Set the date
 		void setDate(const Date& date);
@@ -137,7 +135,7 @@ namespace PictStock
 	private:
 
 		//! Photographer informations
-		Photographer::Ptr pPhotographerPtr;
+		Private::Photographer::Ptr pPhotographerPtr;
 
 		//! Date informations
 		Date pDate;

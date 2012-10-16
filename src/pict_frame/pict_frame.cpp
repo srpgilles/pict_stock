@@ -4,6 +4,7 @@
 #include <yuni/core/math/random/default.h>
 #include "../photo_directory/path_format.hpp"
 #include "../tools/numeration.hpp"
+#include "../extended_photo/cameras.hpp"
 
 
 using namespace Yuni;
@@ -85,12 +86,13 @@ namespace PictStock
 
 
 
-	PictFrame::PictFrame(LoggingFacility& logs, const YString& strPathFormat,
+	PictFrame::PictFrame(LoggingFacility& logs, const Cameras& cameras, const YString& strPathFormat,
 		const YString& photoDirectory, const YString& outputDirectory,
 		unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
 		ReadDate::Mode mode, bool isChronological)
 		: logs(logs),
-		  pNbPhotos(nbPhotos)
+		  pNbPhotos(nbPhotos),
+		  pCameras(cameras)
 	{
 		// Create or empty (only jpg) target directory
 		prepareOutputDirectory(outputDirectory);
@@ -102,7 +104,7 @@ namespace PictStock
 		logs.notice(beginDate);
 		logs.notice(endDate);
 
-		Private::ScanPhotoDirectory helper(logs, pathFormat, photoDirectory,
+		Private::ScanPhotoDirectory helper(logs, pCameras, pathFormat, photoDirectory,
 			beginDate, endDate, mode);
 		const auto& pool = helper.pool();
 
@@ -144,7 +146,7 @@ namespace PictStock
 			// Trivial case: keep all photos!
 			for (auto it = pool.cbegin(), end = pool.cend(); it != end; ++it)
 			{
-				ExtendedPhoto::Ptr ptr = new ExtendedPhoto(logs, *it);
+				ExtendedPhoto::Ptr ptr = new ExtendedPhoto(logs, pCameras, *it);
 				pPhotosChosen.push_back(ptr);
 			}
 		}
@@ -161,7 +163,7 @@ namespace PictStock
 					it != end; ++it)
 				{
 					assert(*it < poolSize);
-					ExtendedPhoto::Ptr ptr = new ExtendedPhoto(logs, pool[*it]);
+					ExtendedPhoto::Ptr ptr = new ExtendedPhoto(logs, pCameras, pool[*it]);
 					pPhotosChosen.push_back(ptr);
 				}
 			}

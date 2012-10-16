@@ -9,6 +9,7 @@ namespace PictStock
 
 	//! Forward declaration
 	class PathFormat;
+	class Cameras;
 
 namespace Private
 {
@@ -41,6 +42,7 @@ namespace Private
 		 * should be false most of the time...
 		 */
 		explicit SortNewPhotosIterator(LoggingFacility& logs,
+			const Cameras& cameras,
 			const Yuni::String& inputDirectory, const PathFormat& pathFormat,
 			bool doFolderManualDate = false);
 
@@ -135,6 +137,9 @@ namespace Private
 		 * other branch of the tree (ie pFolderLevel must go back to 0)
 		 */
 		unsigned int pCurrentFolderManualLevel;
+
+		//! Object that keeps all known cameras under check
+		const Cameras& pCameras;
 
 
 

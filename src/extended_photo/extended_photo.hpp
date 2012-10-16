@@ -12,6 +12,8 @@
 
 namespace PictStock
 {
+	class Cameras;
+
 
 	class YUNI_DECL ExtendedPhoto : private Yuni::NonCopyable<ExtendedPhoto>
 	{
@@ -34,7 +36,7 @@ namespace PictStock
 
 		//! Constructor
 		//@{
-		ExtendedPhoto(LoggingFacility& logs, const YString& filename);
+		explicit ExtendedPhoto(LoggingFacility& logs, const Cameras& cameras, const YString& filename);
 
 		//@}
 
@@ -133,6 +135,9 @@ namespace PictStock
 		/*! True if a problem occurred with exiv library */
 		Status pStatus;
 
+		//! Object that keeps all known cameras under check
+		const Cameras& pCameras;
+
 
 	private:
 
@@ -142,7 +147,7 @@ namespace PictStock
 		** abbreviation of the photographer
 		**
 		*/
-		static const Photographer::List pPhotographers;
+		static const Private::Photographer::List pPhotographers;
 
 
 	};

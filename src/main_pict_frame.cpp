@@ -1,7 +1,9 @@
 #include <yuni/core/getopt.h>
 #include "tools/read_parameter_file.hpp"
 #include "tools/exceptions.hpp"
+#include "tools/sqlite_wrapper.hpp"
 #include "extended_photo/date.hpp"
+#include "extended_photo/cameras.hpp"
 #include "photo_directory/private/path_format_helpers.hpp"
 #include "pict_frame/pict_frame.hpp"
 
@@ -117,7 +119,11 @@ int main(int argc, char* argv[])
 				throw GenericTools::Exception("nbPhotos must be a positive integer");
 		}
 
-		PictStock::PictFrame(logs, parameters["pathFormat"], parameters["inputFolder"],
+		GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
+
+		PictStock::Cameras cameras(db);
+
+		PictStock::PictFrame(logs, cameras, parameters["pathFormat"], parameters["inputFolder"],
 			parameters["outputFolder"], nbPhotos, beginDate, endDate,
 			mode, isChronological);
 

@@ -119,8 +119,6 @@ namespace GenericTools
 
 			Yuni::CString<4, false> quote = IsString<EltTupleType>::value ? "\"" : "";
 
-			std::cout << "CHECK " << std::get<Index>(t) << '\n';
-
 			stream << quote << std::get<Index>(t) << quote << (Index + 1 == Max ? "" : separator);
 			printTupleHelper<StreamT, Index + 1, Max, Args...>::print(stream, t, separator);
 		}

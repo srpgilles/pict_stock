@@ -2,7 +2,7 @@
 #include "../../photo_directory/path_format.hpp"
 #include "../../extended_photo/path_informations.hpp"
 #include "../../extended_photo/extended_photo.hpp"
-
+#include "../../extended_photo/cameras.hpp"
 
 using namespace Yuni;
 
@@ -13,6 +13,7 @@ namespace Private
 
 
 	ScanPhotoDirectory::ScanPhotoDirectory(LoggingFacility& logs,
+		const Cameras& cameras,
 		const PathFormat& pathFormat,
 		const YString& photoDirectory,
 		const time_t beginDate,
@@ -23,7 +24,8 @@ namespace Private
 		  pEndDate(Date(endDate)),
 		  pMode(mode),
 		  pPathFormat(pathFormat),
-		  pIsValidFolder(false)
+		  pIsValidFolder(false),
+		  pCameras(cameras)
 	{
 		if (!IO::Directory::Exists(photoDirectory))
 		{
@@ -82,14 +84,12 @@ namespace Private
 
 		if (pMode == ReadDate::safe)
 		{
-
-
 			// We load the photo to check the date. We could imagine later to
 			// provide a fast option which prevent this step (which shouldn't
 			// modify anything in case folder actually support most of the date
 			// information and photo directory was generated with PictStock;
 			// however if not the case this step is really required)
-			ExtendedPhoto photo(logs, completePath);
+			ExtendedPhoto photo(logs, pCameras, completePath);
 			auto ptr = photo.informations();
 			assert(!(!ptr));
 			Date photoDate = ptr->date();

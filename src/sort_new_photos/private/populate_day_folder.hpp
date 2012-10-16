@@ -7,6 +7,7 @@ namespace PictStock
 {
 	//! Forward declaration
 	class PathFormat;
+	class Cameras;
 
 namespace Private
 {
@@ -49,7 +50,9 @@ namespace Private
 		** \param[in] newPhotos List of new photos to be inserted in the target folder
 		** \param[in] summaryFile File in which all operations will be saved
 		*/
-		PopulateDayFolder(LoggingFacility& logs, const PathFormat& pathFormat,
+		PopulateDayFolder(LoggingFacility& logs,
+			const Cameras& cameras,
+			const PathFormat& pathFormat,
 			const YString& targetFolder,
 			const PathInformations& targetInfos, ExtendedPhoto::Vector& newPhotos,
 			const YString& summaryFile);
@@ -123,6 +126,9 @@ namespace Private
 
 		//! Path to the file in which all operations are recorded
 		const YString& pSummaryFile;
+
+		//! Object that keeps all known cameras under check
+		const Cameras& pCameras;
 	};
 
 

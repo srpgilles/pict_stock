@@ -3,6 +3,7 @@
 #include <ctime>
 //# include "tools/numeration.hpp"
 
+#include "extended_photo/cameras.hpp"
 #include "tools/sqlite_wrapper.hpp"
 #include "tools/tools.hpp"
 #include <ostream>
@@ -137,15 +138,6 @@
 
 //}
 
-typedef std::tuple<int, const char*> TestTuple;
-
-void foo(TestTuple& tuple)
-{
-	tuple = std::make_tuple(5, "test");
-	std::cout << std::get<0>(tuple) << '\n';
-	std::cout << std::get<1>(tuple) << '\n';
-}
-
 
 int main(int argc, char* argv[])
 {
@@ -154,7 +146,7 @@ int main(int argc, char* argv[])
 
 	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
 
-	typedef std::tuple<YString, YString, YString> CameraTuple;
+/*	typedef std::tuple<YString, YString, YString> CameraTuple;
 	std::vector<CameraTuple> values;
 
 	db.select(values, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
@@ -163,15 +155,25 @@ int main(int argc, char* argv[])
 	{
 		const CameraTuple& buf = *it;
 
-		GenericTools::printTuple(std::cout, buf, ",", "[", "]");
+		GenericTools::printTuple(std::cout, buf, ",", "", "");
 		std::cout << '\n';
-	}
+	}*/
 
-	TestTuple tuple;
-	foo(tuple);
-	std::cout << std::get<0>(tuple) << '\n';
-	std::cout << std::get<1>(tuple) << '\n';
+	//using namespace PictStock::NSCameras::Private;
 
+	//typedef std::tuple<PictStock::NSCameras::Private::Keyword, PictStock::NSCameras::Private::Value, PictStock::NSCameras::Private::Owner> Tuple;
+
+	typedef PictStock::Cameras::Tuple Tuple;
+
+	std::cout << std::tuple_size<Tuple>::value << '\n';
+	typedef PictStock::NSCameras::Private::TupleString<Tuple>::type Strings;
+
+
+	std::cout << std::tuple_size<Strings>::value << '\n';
+
+	std::vector<Strings> pRows;
+
+	db.select(pRows, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
 
 	return 0;
 }

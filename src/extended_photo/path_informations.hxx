@@ -5,7 +5,7 @@ namespace PictStock
 {
 
 
-	inline void PathInformations::setPhotographer(const Photographer::Ptr& photographer)
+	inline void PathInformations::setPhotographer(const Private::Photographer::Ptr& photographer)
 	{
 		pPhotographerPtr = photographer;
 	}
@@ -56,7 +56,7 @@ namespace PictStock
 	inline void PathInformations::setElement<Private::PhotographerInformations>(const AnyString& input)
 	{
 		std::multimap<std::string, Yuni::String> empty;
-		pPhotographerPtr = new Photographer("", input, empty);
+		pPhotographerPtr = new Private::Photographer("", input, empty);
 	}
 
 	template<>

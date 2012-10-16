@@ -6,11 +6,17 @@
 # include <list>
 # include <map>
 
-# include "../pict_stock.hpp"
+# include "../../pict_stock.hpp"
 
 namespace PictStock
 {
+namespace Private
+{
 
+	/*!
+	** \brief This class, that handles a single photographer and all its camera,
+	** should be accessed only through #Photographers class
+	 */
 	class YUNI_DECL Photographer : private Yuni::NonCopyable<Photographer>
 	{
 
@@ -21,6 +27,9 @@ namespace PictStock
 
 		//! List of smart pointers
 		typedef std::list<Ptr> List;
+
+		//! Vector of smart pointers
+		typedef std::vector<Ptr> Vector;
 
 		/*!
 		** Type used to store the cameras owned by current photographer
@@ -76,6 +85,7 @@ namespace PictStock
 	bool operator==(const Photographer& lhs, const Photographer& rhs);
 	bool operator!=(const Photographer& lhs, const Photographer& rhs);
 
+} // namespace Private
 } // namespace PictStock
 
 #include "photographer.hxx"

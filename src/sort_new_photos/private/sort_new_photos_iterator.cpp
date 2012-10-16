@@ -1,5 +1,6 @@
 #include "sort_new_photos_iterator.hpp"
 #include "../../photo_directory/path_format.hpp"
+#include "../../extended_photo/cameras.hpp"
 
 
 # ifdef USE_BOOST_REGULAR_EXPR
@@ -45,13 +46,14 @@ namespace Private
 
 	using namespace Yuni;
 
-	SortNewPhotosIterator::SortNewPhotosIterator(LoggingFacility& logs,
+	SortNewPhotosIterator::SortNewPhotosIterator(LoggingFacility& logs, const Cameras& cameras,
 		const String& inputDirectory, const PathFormat& pathFormat, bool doFolderManualDate)
 		: logs(logs),
 		  pPathFormat(pathFormat),
 		  pDoFolderManualDate(doFolderManualDate),
 		  pFolderLevel(0u),
-		  pCurrentFolderManualLevel(static_cast<unsigned int>(-1))
+		  pCurrentFolderManualLevel(static_cast<unsigned int>(-1)),
+		  pCameras(cameras)
 	{
 		if (!IO::Directory::Exists(inputDirectory))
 		{
@@ -159,7 +161,7 @@ namespace Private
 
 		String fullName;
 		fullName << folder << IO::Separator << name;
-		ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, fullName);
+		ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, pCameras, fullName);
 		auto& photo = *photoPtr;
 
 		if (photo.problem())

@@ -9,6 +9,8 @@
 namespace PictStock
 {
 
+	class Cameras;
+
     class YUNI_DECL SortNewPhotos : private Yuni::NonCopyable<SortNewPhotos>
     {
 
@@ -31,7 +33,7 @@ namespace PictStock
 		 * should be false most of the time...
 		 * \param[in] summaryFile File in which all operations will be saved
 		 */
-        explicit SortNewPhotos(LoggingFacility& logs, const Yuni::String& inputDirectory,
+        explicit SortNewPhotos(LoggingFacility& logs, const Cameras& cameras, const Yuni::String& inputDirectory,
         	PhotoDirectory& photoDirectory, const YString& summaryFile,
         	bool doFolderManuallyDate = false);
 
@@ -63,6 +65,9 @@ namespace PictStock
 
         //! Path to the file in which all operations are recorded
         const YString pSummaryFile;
+
+        //! Object that keeps all known cameras under check
+        const Cameras& pCameras;
 
     };//! Path to the file in which all operations are recorded
 

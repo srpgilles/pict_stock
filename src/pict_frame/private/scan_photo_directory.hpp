@@ -13,6 +13,7 @@ namespace PictStock
 {
 	// Forward declaration
 	class PathFormat;
+	class Cameras;
 
 	// TODO Enum class will be better when supported by MSVC...
 	namespace ReadDate
@@ -60,7 +61,9 @@ namespace Private
 		//! Constructor & destructor
 		//@{
 		//! Constructor
-		ScanPhotoDirectory(LoggingFacility& logs, const PathFormat& pathFormat,
+		ScanPhotoDirectory(LoggingFacility& logs,
+			const Cameras& cameras,
+			const PathFormat& pathFormat,
 			const YString& photoDirectory,
 			const time_t beginDate, const time_t endDate, ReadDate::Mode mode);
 
@@ -125,6 +128,9 @@ namespace Private
 
 		//! Whether the current folder is valid or not
 		bool pIsValidFolder;
+
+		//! Object that keeps all known cameras under check
+		const Cameras& pCameras;
 
 	};
 

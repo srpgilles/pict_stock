@@ -1,4 +1,5 @@
 #include "extended_photo.hpp"
+#include "cameras.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -20,9 +21,9 @@ namespace PictStock
 		 ** TODO Temporary; should be handled through a sqlite database
 		 */
 
-		static Photographer::List initPhotographers()
+		static Private::Photographer::List initPhotographers()
 		{
-			Photographer::List ret;
+			Private::Photographer::List ret;
 
 			{
 				// Claire et Sébastien
@@ -31,7 +32,7 @@ namespace PictStock
 				cameras.insert(std::make_pair("Exif.Image.Model", "FinePix A350"));
 				cameras.insert(std::make_pair("Exif.Image.Model", "FinePix E500"));
 
-				Photographer::Ptr newEntry = new Photographer("Claire et Sébastien", "CSG", cameras);
+				Private::Photographer::Ptr newEntry = new Private::Photographer("Claire et Sébastien", "CSG", cameras);
 
 				ret.push_back(newEntry);
 			}
@@ -42,7 +43,7 @@ namespace PictStock
 				cameras.insert(std::make_pair("Exif.Canon.SerialNumber", "430125393"));
 				cameras.insert(std::make_pair("Exif.Image.Model", "FinePix S5000"));
 
-				Photographer::Ptr newEntry = new Photographer("Aurélien", "AG", cameras);
+				Private::Photographer::Ptr newEntry = new Private::Photographer("Aurélien", "AG", cameras);
 
 				ret.push_back(newEntry);
 			}
@@ -53,7 +54,7 @@ namespace PictStock
 				cameras.insert(std::make_pair("Exif.Image.Model", "DSC-W70"));
 				cameras.insert(std::make_pair("Exif.Canon.ModelID", "50593792"));
 
-				Photographer::Ptr newEntry = new Photographer("Annie et Christian", "ACG", cameras);
+				Private::Photographer::Ptr newEntry = new Private::Photographer("Annie et Christian", "ACG", cameras);
 
 				ret.push_back(newEntry);
 			}
@@ -63,7 +64,7 @@ namespace PictStock
 				std::multimap<std::string, String> cameras;
 				cameras.insert(std::make_pair("Exif.Image.Model", "DMC-FS4"));
 
-				Photographer::Ptr newEntry = new Photographer("Papy et Mamie", "PMS", cameras);
+				Private::Photographer::Ptr newEntry = new Private::Photographer("Papy et Mamie", "PMS", cameras);
 
 				ret.push_back(newEntry);
 			}
@@ -73,7 +74,7 @@ namespace PictStock
 				std::multimap<std::string, String> cameras;
 				cameras.insert(std::make_pair("ExifPhoto.__NikonSerialNumbers", "4045196"));
 
-				Photographer::Ptr newEntry = new Photographer("René", "RW", cameras);
+				Private::Photographer::Ptr newEntry = new Private::Photographer("René", "RW", cameras);
 
 				ret.push_back(newEntry);
 			}
@@ -83,7 +84,7 @@ namespace PictStock
 				std::multimap<std::string, String> cameras;
 				cameras.insert(std::make_pair("Exif.Canon.SerialNumber", "1531001946"));
 
-				Photographer::Ptr newEntry = new Photographer("Laurent et Céline", "LCSC", cameras);
+				Private::Photographer::Ptr newEntry = new Private::Photographer("Laurent et Céline", "LCSC", cameras);
 
 				ret.push_back(newEntry);
 			}
@@ -99,7 +100,7 @@ namespace PictStock
 				cameras.insert(std::make_pair("Exif.Nikon3.SerialNumber", "6100268"));
 				cameras.insert(std::make_pair("Exif.Image.ImageDescription", "SONY DSC"));
 
-				Photographer::Ptr newEntry = new Photographer("Parents de Thuy", "T", cameras);
+				Private::Photographer::Ptr newEntry = new Private::Photographer("Parents de Thuy", "T", cameras);
 
 				ret.push_back(newEntry);
 			}
@@ -110,13 +111,14 @@ namespace PictStock
 
 	} // anonymous namespace
 
-	const Photographer::List ExtendedPhoto::pPhotographers = initPhotographers();
+	const Private::Photographer::List ExtendedPhoto::pPhotographers = initPhotographers();
 
-	ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const String& filename)
+	ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const Cameras& cameras, const String& filename)
 		: logs(logs),
 		  pOriginalPath(filename),
 		  pPathInformations(new PathInformations(logs)),
-		  pStatus(epFine)
+		  pStatus(epFine),
+		  pCameras(cameras)
 	{
 		// It is assumed files passed in parameters truly exists
 		// (check should occur before call to the class)
@@ -157,7 +159,10 @@ namespace PictStock
 		// maze of existing models)
 		// So we have to proceed by trial and error for each camera
 
-		for (auto it = pPhotographers.cbegin(), end = pPhotographers.cend(); it != end; ++it)
+
+
+
+		/*for (auto it = pPhotographers.cbegin(), end = pPhotographers.cend(); it != end; ++it)
 		{
 			assert(!(!(*it)));
 
@@ -179,7 +184,7 @@ namespace PictStock
 					}
 				}
 			}
-		}
+		}*/
 
 		return false;
 

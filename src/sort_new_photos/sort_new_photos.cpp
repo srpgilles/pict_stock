@@ -7,18 +7,19 @@ using namespace Yuni;
 namespace PictStock
 {
 
-	SortNewPhotos::SortNewPhotos(LoggingFacility& logs, const String& inputDirectory,
+	SortNewPhotos::SortNewPhotos(LoggingFacility& logs, const Cameras& cameras, const String& inputDirectory,
 		PhotoDirectory& photoDirectory, const String& summaryFile,
 		bool doFolderManuallyDate)
 		: logs(logs),
 		  pPhotoDirectory(photoDirectory),
 		  pInputDirectory(inputDirectory),
-		  pSummaryFile(summaryFile)
+		  pSummaryFile(summaryFile),
+		  pCameras(cameras)
 	{
 		auto pathFormatPtr = pPhotoDirectory.pathFormat();
 		assert(!(!pathFormatPtr));
 
-		Private::SortNewPhotosIterator iterator(logs, inputDirectory, *pathFormatPtr, doFolderManuallyDate);
+		Private::SortNewPhotosIterator iterator(logs, cameras, inputDirectory, *pathFormatPtr, doFolderManuallyDate);
 		iterator.picturesToProcess(pPicturesToProcess);
 	}
 
@@ -58,7 +59,7 @@ namespace PictStock
 				auto pathFormatPtr = pPhotoDirectory.pathFormat();
 				assert(!(!pathFormatPtr));
 
-				Private::PopulateDayFolder populateFolder(logs, *pathFormatPtr,
+				Private::PopulateDayFolder populateFolder(logs, pCameras, *pathFormatPtr,
 					targetFolder, folderInfos, it->second, pSummaryFile);
 				if (!populateFolder.proceed())
 					return false;

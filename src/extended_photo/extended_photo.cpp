@@ -157,7 +157,28 @@ namespace PictStock
 		// for some older model there is no serial number either (so we just have
 		// the name of the model, which is good enough for our purposes due to the
 		// maze of existing models)
-		// So we have to proceed by trial and error for each camera
+		// So we're checking one after another the keywords used by the known cameras
+		const auto& keywords = pCameras.keywords();
+
+		NSCameras::Private::Owner::StringType photographer;
+
+		for (auto it = keywords.cbegin(), end = keywords.cend(); it != end; ++it)
+		{
+			const auto& currentKeyword = *it;
+
+			// Check whether the current keyword may be found in the exif data. If not,
+			// skip it and try next one
+			YString value;
+			if (!findExifKey(currentKeyword, value))
+				continue;
+
+			// Now check whether one of the values in the database match the value read
+			if (!pCameras.identifyPhotographer(currentKeyword, value, photographer))
+				continue;
+
+
+
+		}
 
 
 

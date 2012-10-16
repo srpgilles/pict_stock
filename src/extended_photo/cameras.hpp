@@ -52,10 +52,26 @@ namespace PictStock
 		//! Return the list of known keywords
 		const std::vector<NSCameras::Private::Keyword::StringType>& keywords() const;
 
+		/*!
+		** \brief Identify the photographer is possible
+		**
+		** This method should be called when in exif data a likely couple keyword/value has been
+		** identified
+		**
+		** We want to check then whether this couple is known or not
+		*/
+		bool identifyPhotographer(
+			const NSCameras::Private::Keyword::StringType& currentKeyword,
+			const NSCameras::Private::Value::StringType& valueToCheck,
+			NSCameras::Private::Owner::StringType& photographer) const;
 
 	private:
 
-		//! Rows in sqlite database table related to cameras
+		/*!
+		**\brief Rows in sqlite database table related to cameras.
+		**
+		** IMPORTANT: This vector is assumed to be sort by keyword.
+		*/
 		std::vector<TupleString> pRows;
 
 		//! It's convenient to have a list of all known keywords

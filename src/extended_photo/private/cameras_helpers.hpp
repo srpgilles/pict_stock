@@ -9,7 +9,7 @@ namespace Private
 {
 	struct Keyword
 	{
-		typedef Yuni::CString<80, false> StringType;
+		typedef std::string StringType;
 	};
 
 	struct Value

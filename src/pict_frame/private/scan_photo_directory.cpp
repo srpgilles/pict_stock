@@ -8,20 +8,22 @@ using namespace Yuni;
 
 namespace PictStock
 {
+namespace PictFrame
+{
 namespace Private
 {
 
 
 	ScanPhotoDirectory::ScanPhotoDirectory(LoggingFacility& logs,
-		const Cameras& cameras,
-		const PathFormat& pathFormat,
+		const ExtendedPhoto::Cameras& cameras,
+		const PhotoDirectory::PathFormat& pathFormat,
 		const YString& photoDirectory,
 		const time_t beginDate,
 		const time_t endDate,
 		ReadDate::Mode mode)
 		: logs(logs),
-		  pBeginDate(Date(beginDate)),
-		  pEndDate(Date(endDate)),
+		  pBeginDate(ExtendedPhoto::Date(beginDate)),
+		  pEndDate(ExtendedPhoto::Date(endDate)),
 		  pMode(mode),
 		  pPathFormat(pathFormat),
 		  pIsValidFolder(false),
@@ -79,7 +81,7 @@ namespace Private
 		if (!pIsValidFolder)
 			return IO::flowContinue;
 
-		if (!isExtensionManaged(completePath))
+		if (!ExtendedPhoto::isExtensionManaged(completePath))
 			return IO::flowContinue;
 
 		if (pMode == ReadDate::safe)
@@ -89,10 +91,10 @@ namespace Private
 			// modify anything in case folder actually support most of the date
 			// information and photo directory was generated with PictStock;
 			// however if not the case this step is really required)
-			ExtendedPhoto photo(logs, pCameras, completePath);
+			ExtendedPhoto::ExtendedPhoto photo(logs, pCameras, completePath);
 			auto ptr = photo.informations();
 			assert(!(!ptr));
-			Date photoDate = ptr->date();
+			ExtendedPhoto::Date photoDate = ptr->date();
 
 			if (photoDate < pBeginDate || photoDate > pEndDate)
 				return IO::flowContinue;
@@ -110,11 +112,11 @@ namespace Private
 
 	bool ScanPhotoDirectory::checkValidity(const String& directory)
 	{
-		PathInformations usefulInformations(logs);
+		ExtendedPhoto::PathInformations usefulInformations(logs);
 
 		if (pPathFormat.doFolderMatch(directory, usefulInformations))
 		{
-			Date folderDate = usefulInformations.date();
+			ExtendedPhoto::Date folderDate = usefulInformations.date();
 			return ((folderDate >= pBeginDate) && (folderDate <= pEndDate));
 		}
 
@@ -128,4 +130,5 @@ namespace Private
 	}
 
 } // namespace Private
+} // namespace PictFrame
 } // namespace PictStock

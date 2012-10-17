@@ -3,6 +3,8 @@
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
 
 	inline bool ExtendedPhoto::problem() const
 	{
@@ -36,10 +38,7 @@ namespace PictStock
 		return pPathInformations;
 	}
 
-
-
-
-
+} // namespace ExtendedPhoto
 } // namespace PictStock
 
 #endif /* EXTENDED_PHOTO_HXX_ */

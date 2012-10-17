@@ -7,7 +7,13 @@
 
 namespace PictStock
 {
-	class Cameras;
+	namespace ExtendedPhoto
+	{
+		class Cameras;
+	}
+
+namespace PictFrame
+{
 
 	/*!
 	** \brief Scan the entire photo directory, and choose randomly some photos
@@ -36,7 +42,7 @@ namespace PictStock
 		** \param[in] isChronological If true, pictures will be sort chronologically
  		**
 		*/
-		PictFrame(LoggingFacility& logs, const Cameras& cameras, const YString& pathFormat,
+		PictFrame(LoggingFacility& logs, const ExtendedPhoto::Cameras& cameras, const YString& pathFormat,
 			const YString& photoDirectory, const YString& outputDirectory,
 			unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
 			ReadDate::Mode mode, bool isChronological);
@@ -74,16 +80,15 @@ namespace PictStock
 		unsigned int pNbPhotos;
 
 		//! Photos that have been selected
-		std::list<ExtendedPhoto::Ptr> pPhotosChosen;
+		std::list<ExtendedPhoto::ExtendedPhoto::Ptr> pPhotosChosen;
 
 		//! Object that keeps all known cameras under check
-		const Cameras& pCameras;
+		const ExtendedPhoto::Cameras& pCameras;
 
 	};
 
+} // namespace PictFrame
 } // namespace PictStock
-
-
 
 
 #endif /* PICT_FRAME_HPP_ */

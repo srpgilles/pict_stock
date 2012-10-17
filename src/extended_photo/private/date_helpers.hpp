@@ -6,6 +6,8 @@
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
 namespace Private
 {
 
@@ -71,6 +73,7 @@ namespace Private
 	};
 
 } // namespace Private
+} // namespace ExtendedPhoto
 } // namespace PictStock
 
 #endif /* DATE_HELPERS_HPP_ */

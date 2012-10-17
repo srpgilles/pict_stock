@@ -8,8 +8,14 @@
 
 namespace PictStock
 {
+	namespace ExtendedPhoto
+	{
+		class Cameras;
+	}
 
-	class Cameras;
+namespace SortNewPhotos
+{
+
 
     class YUNI_DECL SortNewPhotos : private Yuni::NonCopyable<SortNewPhotos>
     {
@@ -33,8 +39,11 @@ namespace PictStock
 		 * should be false most of the time...
 		 * \param[in] summaryFile File in which all operations will be saved
 		 */
-        explicit SortNewPhotos(LoggingFacility& logs, const Cameras& cameras, const Yuni::String& inputDirectory,
-        	PhotoDirectory& photoDirectory, const YString& summaryFile,
+        explicit SortNewPhotos(LoggingFacility& logs,
+        	const ExtendedPhoto::Cameras& cameras,
+        	const Yuni::String& inputDirectory,
+        	PhotoDirectory::PhotoDirectory& photoDirectory,
+        	const YString& summaryFile,
         	bool doFolderManuallyDate = false);
 
         //! Destructor
@@ -52,7 +61,7 @@ namespace PictStock
     private:
 
         //! Object in charge of maintaining the output folders
-        PhotoDirectory& pPhotoDirectory;
+        PhotoDirectory::PhotoDirectory& pPhotoDirectory;
 
         /*!
         ** Directory in which all JPG files are to be scanned and sort in the
@@ -61,17 +70,18 @@ namespace PictStock
         Yuni::String pInputDirectory;
 
         //! List of all jpeg files to process, sort by date
-        OrderedPhotos pPicturesToProcess;
+        ExtendedPhoto::OrderedPhotos pPicturesToProcess;
 
         //! Path to the file in which all operations are recorded
         const YString pSummaryFile;
 
         //! Object that keeps all known cameras under check
-        const Cameras& pCameras;
+        const ExtendedPhoto::Cameras& pCameras;
 
     };//! Path to the file in which all operations are recorded
 
-} // end namespace PictStock
+} // namespace SortNewPhotos
+} // namespace PictStock
 
 
 #endif	/* SORT_NEW_PHOTOS_HPP */

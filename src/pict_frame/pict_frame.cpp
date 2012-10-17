@@ -11,6 +11,8 @@ using namespace Yuni;
 
 namespace PictStock
 {
+namespace PictFrame
+{
 	namespace
 	{
 
@@ -86,7 +88,8 @@ namespace PictStock
 
 
 
-	PictFrame::PictFrame(LoggingFacility& logs, const Cameras& cameras, const YString& strPathFormat,
+	PictFrame::PictFrame(LoggingFacility& logs, const ExtendedPhoto::Cameras& cameras,
+		const YString& strPathFormat,
 		const YString& photoDirectory, const YString& outputDirectory,
 		unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
 		ReadDate::Mode mode, bool isChronological)
@@ -97,13 +100,9 @@ namespace PictStock
 		// Create or empty (only jpg) target directory
 		prepareOutputDirectory(outputDirectory);
 
-		PathFormat pathFormat(logs, strPathFormat);
+		PhotoDirectory::PathFormat pathFormat(logs, strPathFormat);
 
 		// Scan the photo directory from which the selection will be performed
-
-		logs.notice(beginDate);
-		logs.notice(endDate);
-
 		Private::ScanPhotoDirectory helper(logs, pCameras, pathFormat, photoDirectory,
 			beginDate, endDate, mode);
 		const auto& pool = helper.pool();
@@ -114,7 +113,8 @@ namespace PictStock
 		// If requested shuffle all selected photos
 		if (isChronological)
 		{
-			auto sortCriterion = [](ExtendedPhoto::Ptr photo1, ExtendedPhoto::Ptr photo2)
+			auto sortCriterion =
+				[](ExtendedPhoto::ExtendedPhoto::Ptr photo1, ExtendedPhoto::ExtendedPhoto::Ptr photo2)
 				{
 					auto infos1Ptr = photo1->informations();
 					auto infos2Ptr = photo2->informations();
@@ -146,7 +146,7 @@ namespace PictStock
 			// Trivial case: keep all photos!
 			for (auto it = pool.cbegin(), end = pool.cend(); it != end; ++it)
 			{
-				ExtendedPhoto::Ptr ptr = new ExtendedPhoto(logs, pCameras, *it);
+				ExtendedPhoto::ExtendedPhoto::Ptr ptr = new ExtendedPhoto::ExtendedPhoto(logs, pCameras, *it);
 				pPhotosChosen.push_back(ptr);
 			}
 		}
@@ -163,7 +163,8 @@ namespace PictStock
 					it != end; ++it)
 				{
 					assert(*it < poolSize);
-					ExtendedPhoto::Ptr ptr = new ExtendedPhoto(logs, pCameras, pool[*it]);
+					ExtendedPhoto::ExtendedPhoto::Ptr ptr =
+						new ExtendedPhoto::ExtendedPhoto(logs, pCameras, pool[*it]);
 					pPhotosChosen.push_back(ptr);
 				}
 			}
@@ -193,7 +194,7 @@ namespace PictStock
 				YString file(outputDirectory);
 				file << IO::Separator << *it;
 
-				if (!isExtensionManaged(file))
+				if (!ExtendedPhoto::isExtensionManaged(file))
 					continue;
 
 				if (IO::File::Delete(file) != IO::errNone)
@@ -214,15 +215,11 @@ namespace PictStock
 
 		YString target;
 
-		// TODO:
-		// 2 - Take the populate folder trick to choose number of digits (put the algorithm in
-		// GenericTools)"
-
 		GenericTools::Numeration indexPhoto(pNbPhotos);
 
 		for (auto it = pPhotosChosen.cbegin(), end = pPhotosChosen.cend(); it != end; ++it)
 		{
-			ExtendedPhoto::Ptr photoPtr = *it;
+			ExtendedPhoto::ExtendedPhoto::Ptr photoPtr = *it;
 			assert(!(!photoPtr));
 
 			target = outputDirectory;
@@ -250,5 +247,5 @@ namespace PictStock
 	}
 
 
-
+} // namespace PictFrame
 } // namespace PictStock

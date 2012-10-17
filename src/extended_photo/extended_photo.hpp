@@ -12,6 +12,9 @@
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
+
 	class Cameras;
 
 
@@ -167,6 +170,7 @@ namespace PictStock
 
 	typedef std::map<PathInformations, ExtendedPhoto::Vector> OrderedPhotos;
 
+} // namespace ExtendedPhoto
 }// namespace PictStock
 
 

@@ -4,6 +4,8 @@ using namespace Yuni;
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
 
 	PathInformations::PathInformations(LoggingFacility& logs)
 		: logs(logs),
@@ -106,4 +108,5 @@ namespace PictStock
 			out << pPhotographerPtr->abbr();
 	}
 
+} // namespace ExtendedPhoto
 } // namespace PictStock

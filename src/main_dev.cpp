@@ -163,10 +163,10 @@ int main(int argc, char* argv[])
 
 	//typedef std::tuple<PictStock::NSCameras::Private::Keyword, PictStock::NSCameras::Private::Value, PictStock::NSCameras::Private::Owner> Tuple;
 
-	typedef PictStock::Cameras::Tuple Tuple;
+	typedef PictStock::ExtendedPhoto::Cameras::Tuple Tuple;
 
 	std::cout << std::tuple_size<Tuple>::value << '\n';
-	typedef PictStock::NSCameras::Private::TupleString<Tuple>::type Strings;
+	typedef PictStock::ExtendedPhoto::Private::TupleString<Tuple>::type Strings;
 
 
 	std::cout << std::tuple_size<Strings>::value << '\n';
@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
 	db.select(pRows, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
 
 	std::vector<YString> fieldNames;
-	PictStock::NSCameras::Private::TupleFields<Tuple>::FieldNames(fieldNames);
+	PictStock::ExtendedPhoto::Private::TupleFields<Tuple>::FieldNames(fieldNames);
 
 	for (auto it = fieldNames.cbegin(), end = fieldNames.cend(); it != end; ++it)
 		std::cout << *it << '\n';

@@ -5,7 +5,7 @@
 #include "tools/sqlite_wrapper.hpp"
 
 using namespace Yuni;
-
+using namespace PictStock;
 
 int main(int argc, char* argv[])
 {
@@ -46,11 +46,11 @@ int main(int argc, char* argv[])
 
 		GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
 
-		PictStock::Cameras cameras(db);
+		ExtendedPhoto::Cameras cameras(db);
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
-		PictStock::PhotoDirectory photoDirectory(logs, parameters["outputFolder"], parameters["pathFormat"]);
-		PictStock::SortNewPhotos sortNewPhotos(logs, cameras, parameters["inputFolder"], photoDirectory,
+		PhotoDirectory::PhotoDirectory photoDirectory(logs, parameters["outputFolder"], parameters["pathFormat"]);
+		SortNewPhotos::SortNewPhotos sortNewPhotos(logs, cameras, parameters["inputFolder"], photoDirectory,
 			parameters["logFile"], doAskModifyDate);
 
 		if (!sortNewPhotos.proceed())

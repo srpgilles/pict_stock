@@ -5,28 +5,10 @@
 
 namespace PictStock
 {
-namespace NSCameras
+namespace ExtendedPhoto
 {
 namespace Private
 {
-	struct Keyword
-	{
-		typedef std::string StringType;
-		static YString FieldName() { return "Keyword"; }
-	};
-
-	struct Value
-	{
-		typedef Yuni::CString<80, false> StringType;
-		static YString FieldName() { return "Value"; }
-	};
-
-	struct Owner
-	{
-		typedef Yuni::CString<8, false> StringType;
-		static YString FieldName() { return "Owner"; }
-	};
-
 	template<unsigned int Index, unsigned int Max, typename TupleT>
 	struct Helper
 	{
@@ -76,7 +58,7 @@ namespace Private
 
 
 	/*!
-	** \brief This structure yields the names of the field  of the input tuple
+	** \brief This structure yields the names of the fields of the input tuple
 	**
 	** For instance, if TupleT = [Keyword, Value, Owner], keyword "value" will yield
 	** 	std::deque([Keyword::fieldName(), Value::fieldName(), Owner::fieldName()])
@@ -95,31 +77,13 @@ namespace Private
 
 			assert(buf.size() == size);
 
-			std::copy(buf.begin(), buf.end(), fields.begin());
+			std::move(buf.begin(), buf.end(), fields.begin());
 		}
 	};
 
 
-
-
-
-
-
-	/*!
-	 *
-	 */
-	/*template<unsigned int Index, typename TupleT>
-	struct FieldNamesHelper
-	{
-		static void FieldNames()
-		{
-
-		}
-	};*/
-
-
 } // namespace Private
-} // namespace NSCameras
+} // namespace ExtendedPhoto
 } // namespace PictStock
 
 

@@ -8,6 +8,8 @@ using namespace Yuni;
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
 
 	namespace
 	{
@@ -160,7 +162,7 @@ namespace PictStock
 		// So we're checking one after another the keywords used by the known cameras
 		const auto& keywords = pCameras.keywords();
 
-		NSCameras::Private::Owner::StringType photographer;
+		Private::Owner::StringType photographer;
 
 		for (auto it = keywords.cbegin(), end = keywords.cend(); it != end; ++it)
 		{
@@ -377,5 +379,6 @@ namespace PictStock
 		return (extension.toUpper() == "JPG");
 	}
 
+} // namespace ExtendedPhoto
 } // namespace PictStock
 

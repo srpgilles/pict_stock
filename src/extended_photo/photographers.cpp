@@ -7,8 +7,7 @@ namespace PictStock
 {
 namespace ExtendedPhoto
 {
-
-	using namespace Private;
+	using namespace NSExtendedPhoto::Private;
 
 	Cameras::Cameras(GenericTools::SqliteWrapper& database)
 		: pDatabase(database)
@@ -48,9 +47,9 @@ namespace ExtendedPhoto
 	}
 
 
-	void Cameras::addNewCamera(const Keyword::StringType& currentKeyword,
-		const Value::StringType& value,
-		const Owner::StringType& photographer)
+	void Cameras::addNewCamera(const NSExtendedPhoto::Private::Keyword::StringType& currentKeyword,
+		const NSExtendedPhoto::Private::Value::StringType& value,
+		const NSExtendedPhoto::Private::Owner::StringType& photographer)
 	{
 		// Determine names of the fields in the database
 		std::vector<YString> fieldNames;
@@ -78,6 +77,8 @@ namespace ExtendedPhoto
 			{
 				return (std::get<indexKeyword>(tuple1) < std::get<indexKeyword>(tuple2));
 			});
+
+
 
 	}
 

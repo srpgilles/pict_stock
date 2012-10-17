@@ -11,9 +11,19 @@
 
 namespace PictStock
 {
-	// Forward declaration
-	class PathFormat;
-	class Cameras;
+	// Forward declarations
+	namespace PhotoDirectory
+	{
+		class PathFormat;
+	}
+
+	namespace ExtendedPhoto
+	{
+		class Cameras;
+	}
+
+namespace PictFrame
+{
 
 	// TODO Enum class will be better when supported by MSVC...
 	namespace ReadDate
@@ -62,8 +72,8 @@ namespace Private
 		//@{
 		//! Constructor
 		ScanPhotoDirectory(LoggingFacility& logs,
-			const Cameras& cameras,
-			const PathFormat& pathFormat,
+			const ExtendedPhoto::Cameras& cameras,
+			const PhotoDirectory::PathFormat& pathFormat,
 			const YString& photoDirectory,
 			const time_t beginDate, const time_t endDate, ReadDate::Mode mode);
 
@@ -112,16 +122,16 @@ namespace Private
 
 
 		//! Oldest date considered
-		Date pBeginDate;
+		ExtendedPhoto::Date pBeginDate;
 
 		//! Newest date considered
-		Date pEndDate;
+		ExtendedPhoto::Date pEndDate;
 
 		//! Mode
 		ReadDate::Mode pMode;
 
 		//! Object in charge of checking whether a directory is legit or not
-		const PathFormat& pPathFormat;
+		const PhotoDirectory::PathFormat& pPathFormat;
 
 		//! List of all photos that might be chosen.
 		std::deque<YString> pValidPhotos;
@@ -130,11 +140,12 @@ namespace Private
 		bool pIsValidFolder;
 
 		//! Object that keeps all known cameras under check
-		const Cameras& pCameras;
+		const ExtendedPhoto::Cameras& pCameras;
 
 	};
 
 } // namespace Private
+} // namespace PictFrame
 } // namespace PictStock
 
 

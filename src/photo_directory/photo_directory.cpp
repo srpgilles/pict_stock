@@ -6,7 +6,8 @@ using namespace Yuni;
 
 namespace PictStock
 {
-
+namespace PhotoDirectory
+{
 
 	PhotoDirectory::PhotoDirectory(LoggingFacility& logs, const Yuni::String& folder, const YString& strPathFormat)
 		: logs(logs),
@@ -35,7 +36,7 @@ namespace PictStock
 
 
 
-	bool PhotoDirectory::createFolder(YString& folder, const PathInformations& infos)
+	bool PhotoDirectory::createFolder(YString& folder, const ExtendedPhoto::PathInformations& infos)
 	{
 		assert(!(!pPathFormat));
 
@@ -47,7 +48,7 @@ namespace PictStock
 			return false;
 
 		// Add new folder in the tree
-		PathInformations onlyUsefulInfos(logs);
+		ExtendedPhoto::PathInformations onlyUsefulInfos(logs);
 		pathFormat.onlyUsefulFolderElements(onlyUsefulInfos, infos);
 
 		pTree.insert(std::make_pair(onlyUsefulInfos, folder));
@@ -56,5 +57,5 @@ namespace PictStock
 	}
 		
 
-
-} // namespace SgPḧoto
+} // namespace PhotoDirectory
+} // namespace PictStock

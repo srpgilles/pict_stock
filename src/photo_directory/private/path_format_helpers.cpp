@@ -13,27 +13,30 @@ namespace regexNS = std;
 
 namespace PictStock
 {
+namespace PhotoDirectory
+{
 namespace Private
 {
 	using namespace Yuni;
+	typedef PictStock::ExtendedPhoto::Private::TupleType TupleInfosType;
 
 	namespace
 	{
 		template<std::size_t I>
-		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
+		typename std::enable_if<I == std::tuple_size<TupleInfosType>::value, void>::type
 			interpretUserDefinedFormatHelper(
-			std::array<unsigned int, std::tuple_size<TupleType>::value>& /*array*/,
+			std::array<unsigned int, std::tuple_size<TupleInfosType>::value>& /*array*/,
 			const YString& /*format*/)
 		  { }
 
 
 		template<std::size_t I>
-		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
+		typename std::enable_if<I < std::tuple_size<TupleInfosType>::value, void>::type
 		interpretUserDefinedFormatHelper(
-			std::array<unsigned int, std::tuple_size<TupleType>::value>& array,
+			std::array<unsigned int, std::tuple_size<TupleInfosType>::value>& array,
 			const YString& format)
 		  {
-			typedef typename std::tuple_element<I, TupleType>::type type;
+			typedef typename std::tuple_element<I, TupleInfosType>::type type;
 
 			unsigned int pos = format.find(type::Symbol());
 
@@ -44,26 +47,26 @@ namespace Private
 
 
 		template<std::size_t I>
-		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
+		typename std::enable_if<I == std::tuple_size<TupleInfosType>::value, void>::type
 			onlyUsefulOnesHelper(
-				PathInformations& /* usefulInformations */,
-				const PathInformations& /* completeInformations */,
+				ExtendedPhoto::PathInformations& /* usefulInformations */,
+				const ExtendedPhoto::PathInformations& /* completeInformations */,
 				const PathFormatHelper::MatchingType& /*matching*/
 				)
 		  { }
 
 
 		template<std::size_t I>
-		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
+		typename std::enable_if<I < std::tuple_size<TupleInfosType>::value, void>::type
 			onlyUsefulOnesHelper(
-				PathInformations& usefulInformations,
-				const PathInformations& completeInformations,
+				ExtendedPhoto::PathInformations& usefulInformations,
+				const ExtendedPhoto::PathInformations& completeInformations,
 				const PathFormatHelper::MatchingType& matching
 				)
 		{
 			if (matching.find(I) != matching.end())
 			{
-				typedef typename std::tuple_element<I, TupleType>::type type;
+				typedef typename std::tuple_element<I, TupleInfosType>::type type;
 				usefulInformations.setElement<type>(completeInformations);
 			}
 
@@ -80,7 +83,7 @@ namespace Private
 		** \param[in] matching PathFormatHelper::MatchingType
 		*/
 		template<std::size_t I>
-		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
+		typename std::enable_if<I == std::tuple_size<TupleInfosType>::value, void>::type
 			determineRegexHelper(
 				regexNS::regex& out,
 				YString& helper,
@@ -92,7 +95,7 @@ namespace Private
 
 
 		template<std::size_t I>
-		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
+		typename std::enable_if<I < std::tuple_size<TupleInfosType>::value, void>::type
 			determineRegexHelper(
 				regexNS::regex& out,
 				YString& helper,
@@ -101,7 +104,7 @@ namespace Private
 		{
 			if (matching.find(I) != matching.end())
 			{
-				typedef typename std::tuple_element<I, TupleType>::type type;
+				typedef typename std::tuple_element<I, TupleInfosType>::type type;
 				auto symbol = type::Symbol();
 				auto regex = type::Regex();
 
@@ -130,9 +133,9 @@ namespace Private
 		** \param[in] matchingIndex PathFormathelper::pMatching
 		*/
 		template<std::size_t I>
-		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
+		typename std::enable_if<I == std::tuple_size<TupleInfosType>::value, void>::type
 			isOkHelper(
-				PathInformations& /*out*/,
+				ExtendedPhoto::PathInformations& /*out*/,
 				const regexNS::cmatch& /*match*/,
 				const PathFormatHelper::MatchingType& /*matching*/)
 		{ }
@@ -140,16 +143,16 @@ namespace Private
 
 
 		template<std::size_t I>
-		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
+		typename std::enable_if<I < std::tuple_size<TupleInfosType>::value, void>::type
 			isOkHelper(
-				PathInformations& out,
+				ExtendedPhoto::PathInformations& out,
 				const regexNS::cmatch& match,
 				const PathFormatHelper::MatchingType& matching)
 		{
 			auto it = matching.find(I);
 			if (it != matching.end())
 			{
-				typedef typename std::tuple_element<I, TupleType>::type type;
+				typedef typename std::tuple_element<I, TupleInfosType>::type type;
 				out.setElement<type>(match[static_cast<int>(it->second)].str());
 			}
 
@@ -165,27 +168,27 @@ namespace Private
 		** \param[in] matching PathFormat::pMatching. Point is just to avoid useless calls to replace
 		*/
 		template<std::size_t I>
-		typename std::enable_if<I == std::tuple_size<TupleType>::value, void>::type
+		typename std::enable_if<I == std::tuple_size<TupleInfosType>::value, void>::type
 			determineMinimalPathHelper(
 				YString& /*out*/,
-				const PathInformations& /*infos*/,
+				const ExtendedPhoto::PathInformations& /*infos*/,
 				const PathFormatHelper::MatchingType& /*matching*/)
 		{ }
 
 
 
 		template<std::size_t I>
-		typename std::enable_if<I < std::tuple_size<TupleType>::value, void>::type
+		typename std::enable_if<I < std::tuple_size<TupleInfosType>::value, void>::type
 			determineMinimalPathHelper(
 				YString& out,
-				const PathInformations& infos,
+				const ExtendedPhoto::PathInformations& infos,
 				const PathFormatHelper::MatchingType& matching)
 		{
 			auto it = matching.find(I);
 
 			if (it != matching.cend())
 			{
-				typedef typename std::tuple_element<I, TupleType>::type type;
+				typedef typename std::tuple_element<I, TupleInfosType>::type type;
 				auto symbol = type::Symbol();
 				out.replace(type::Symbol(), infos.getElement<type>());
 			}
@@ -205,8 +208,8 @@ namespace Private
 
 		// First, find whether symbols are present and store the position in an array.
 		// If not found, store npos instead of position value
-		// Use for that a recursive template call over all elements of TupleType
-		std::array<unsigned int, std::tuple_size<TupleType>::value> positions;
+		// Use for that a recursive template call over all elements of TupleInfosType
+		std::array<unsigned int, std::tuple_size<TupleInfosType>::value> positions;
 		interpretUserDefinedFormatHelper<0>(positions, pFormat);
 
 		// Prepare the output vector: use a temporary map to determine the order
@@ -255,7 +258,7 @@ namespace Private
 
 
 	bool PathFormatHelper::isOk(const AnyString& path,
-		PathInformations& out) const
+		ExtendedPhoto::PathInformations& out) const
 	{
 		assert(out.isEmpty() && "If not, improper call to this method");
 		regexNS::cmatch m;
@@ -271,7 +274,7 @@ namespace Private
 
 
 	void PathFormatHelper::determineMinimalPath(String& out,
-		const PathInformations& infos) const
+		const ExtendedPhoto::PathInformations& infos) const
 	{
 		assert(out.empty());
 		out = pFormat;
@@ -282,30 +285,31 @@ namespace Private
 
 
 	void PathFormatHelper::determineMinimalPath(Yuni::String& out,
-		const ExtendedPhoto& photo) const
+		const ExtendedPhoto::ExtendedPhoto& photo) const
 	{
-		PathInformations::Ptr infosPtr = photo.informations();
+		auto infosPtr = photo.informations();
 		assert(!(!infosPtr));
 		auto& infos = *infosPtr;
 		determineMinimalPath(out, infos);
 	}
 
 
-	void PathFormatHelper::onlyUsefulElements(PathInformations& out, const PathInformations& input) const
+	void PathFormatHelper::onlyUsefulElements(ExtendedPhoto::PathInformations& out,
+		const ExtendedPhoto::PathInformations& input) const
 	{
 		onlyUsefulOnesHelper<0>(out, input, pMatching);
 	}
 
 
-	void PathFormatHelper::onlyUsefulElements(PathInformations& out, const ExtendedPhoto& input) const
+	void PathFormatHelper::onlyUsefulElements(ExtendedPhoto::PathInformations& out,
+		const ExtendedPhoto::ExtendedPhoto& input) const
 	{
-		PathInformations::Ptr infosPtr = input.informations();
+		auto infosPtr = input.informations();
 		assert(!(!infosPtr));
 		onlyUsefulElements(out, *infosPtr);
 	}
 
 
-
-
 } // namespace Private
+} // namespace PhotoDirectory
 } // namespace PictStock

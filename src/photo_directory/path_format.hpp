@@ -15,11 +15,15 @@
 
 namespace PictStock
 {
-	// Forward declarations
-	class ExtendedPhoto;
-	class PathInformations;
+	namespace ExtendedPhoto
+	{
+		// Forward declarations
+		class ExtendedPhoto;
+		class PathInformations;
+	} // namespace ExtendedPhoto
 
-
+namespace PhotoDirectory
+{
 
 	class YUNI_DECL PathFormat : private Yuni::NonCopyable<PathFormat>
 	{
@@ -71,7 +75,7 @@ namespace PictStock
 		** \param[in] path Path being checked
 		** \param[out] out #RelevantInformations object in which only relevant fields have been completed
 		*/
-		bool doFolderMatch(const AnyString& path, PathInformations& out) const;
+		bool doFolderMatch(const AnyString& path, ExtendedPhoto::PathInformations& out) const;
 
 		/*!
 		** \brief Given a date and a photographer, generate the default output path matching it
@@ -79,7 +83,8 @@ namespace PictStock
 		** It is the minimal choice: many other expressions would also match the date and photographer
 		** but we choose the minimal one
 		*/
-		void determineMinimalFolder(Yuni::String& out, const YString& mainFolder, const ExtendedPhoto& photo) const;
+		void determineMinimalFolder(Yuni::String& out, const YString& mainFolder,
+			const ExtendedPhoto::ExtendedPhoto& photo) const;
 
 		/*!
 		** \brief Given a date and a photographer, generate the default output path matching it
@@ -87,7 +92,8 @@ namespace PictStock
 		** It is the minimal choice: many other expressions would also match the date and photographer
 		** but we choose the minimal one
 		*/
-		void determineMinimalFolder(Yuni::String& out, const YString& mainFolder, const PathInformations& infos) const;
+		void determineMinimalFolder(Yuni::String& out, const YString& mainFolder,
+			const ExtendedPhoto::PathInformations& infos) const;
 
 
 		/*!
@@ -96,7 +102,8 @@ namespace PictStock
 		** There are no numbers or .jpg extension: these are added in higher level classes
 		**
 		*/
-		void determineMinimalFilename(Yuni::String& out, const ExtendedPhoto& photo) const;
+		void determineMinimalFilename(Yuni::String& out,
+			const ExtendedPhoto::ExtendedPhoto& photo) const;
 
 
 		/*!
@@ -109,7 +116,8 @@ namespace PictStock
 		**
 		** \param[in] input An #ExtendedPhoto object
 		 */
-		void onlyUsefulFolderElements(PathInformations& out, const ExtendedPhoto& input) const;
+		void onlyUsefulFolderElements(ExtendedPhoto::PathInformations& out,
+			const ExtendedPhoto::ExtendedPhoto& input) const;
 
 		/*!
 		** \brief Create a new RelevantInformations object featuring only informations useful
@@ -121,7 +129,7 @@ namespace PictStock
 		**
 		** \param[in] input The original #PathInformations object
 		 */
-		void onlyUsefulFolderElements(PathInformations& out, const PathInformations& input) const;
+		void onlyUsefulFolderElements(ExtendedPhoto::PathInformations& out, const ExtendedPhoto::PathInformations& input) const;
 
 
 	public:
@@ -137,7 +145,7 @@ namespace PictStock
 		Private::PathFormatHelper::Ptr pFilePart;
 	};
 
-
+} // namespace PhotoDirectory
 }// namespace PictStock
 
 #endif /* PATH_FORMAT_HPP_ */

@@ -15,6 +15,8 @@ namespace regexNS = std;
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
 
 	namespace
 	{
@@ -273,10 +275,7 @@ namespace PictStock
 	}
 
 
-
-
-
-
+} // namespace ExtendedPhoto
 } // namespace PictStock
 
 

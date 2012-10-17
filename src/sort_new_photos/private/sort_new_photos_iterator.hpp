@@ -8,9 +8,18 @@ namespace PictStock
 {
 
 	//! Forward declaration
-	class PathFormat;
-	class Cameras;
+	namespace PhotoDirectory
+	{
+		class PathFormat;
+	}
 
+	namespace ExtendedPhoto
+	{
+		class Cameras;
+	}
+
+namespace SortNewPhotos
+{
 namespace Private
 {
 
@@ -42,8 +51,8 @@ namespace Private
 		 * should be false most of the time...
 		 */
 		explicit SortNewPhotosIterator(LoggingFacility& logs,
-			const Cameras& cameras,
-			const Yuni::String& inputDirectory, const PathFormat& pathFormat,
+			const ExtendedPhoto::Cameras& cameras,
+			const Yuni::String& inputDirectory, const PhotoDirectory::PathFormat& pathFormat,
 			bool doFolderManualDate = false);
 
 		//! Destructor
@@ -56,7 +65,7 @@ namespace Private
 		 * \param[out] out PicturesToProcess Key is date under format YYYYMMDD,
 		 * value if a list of #ExtendedPhoto pointers
 		 */
-		void picturesToProcess(OrderedPhotos& out) const;
+		void picturesToProcess(ExtendedPhoto::OrderedPhotos& out) const;
 
 	public:
 
@@ -92,10 +101,10 @@ namespace Private
 	private:
 
 		//!
-		const PathFormat& pPathFormat;
+		const PhotoDirectory::PathFormat& pPathFormat;
 
 		//! List of all jpeg files to process, sort by date
-		OrderedPhotos pPicturesToProcess;
+		ExtendedPhoto::OrderedPhotos pPicturesToProcess;
 
 		//!
 
@@ -139,13 +148,12 @@ namespace Private
 		unsigned int pCurrentFolderManualLevel;
 
 		//! Object that keeps all known cameras under check
-		const Cameras& pCameras;
-
-
+		const ExtendedPhoto::Cameras& pCameras;
 
 	};
 
 } // namespace Private
+} // namespace SortNewPhotos
 } // namespace PictStock
 
 # include "sort_new_photos_iterator.hxx"

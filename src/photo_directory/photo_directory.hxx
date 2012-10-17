@@ -3,6 +3,8 @@
 
 namespace PictStock
 {
+namespace PhotoDirectory
+{
 
 
 	inline PathFormat::Ptr PhotoDirectory::pathFormat() const
@@ -10,7 +12,7 @@ namespace PictStock
 		return pPathFormat;
 	}
 
-
+} // namespace PhotoDirectory
 } // namespace PictStock
 
 

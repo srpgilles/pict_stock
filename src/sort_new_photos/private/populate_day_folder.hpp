@@ -6,9 +6,18 @@
 namespace PictStock
 {
 	//! Forward declaration
-	class PathFormat;
-	class Cameras;
+	namespace PhotoDirectory
+	{
+		class PathFormat;
+	}
 
+	namespace ExtendedPhoto
+	{
+		class Cameras;
+	}
+
+namespace SortNewPhotos
+{
 namespace Private
 {
 
@@ -51,10 +60,11 @@ namespace Private
 		** \param[in] summaryFile File in which all operations will be saved
 		*/
 		PopulateDayFolder(LoggingFacility& logs,
-			const Cameras& cameras,
-			const PathFormat& pathFormat,
+			const ExtendedPhoto::Cameras& cameras,
+			const PhotoDirectory::PathFormat& pathFormat,
 			const YString& targetFolder,
-			const PathInformations& targetInfos, ExtendedPhoto::Vector& newPhotos,
+			const ExtendedPhoto::PathInformations& targetInfos,
+			ExtendedPhoto::ExtendedPhoto::Vector& newPhotos,
 			const YString& summaryFile);
 
 		//! Destructor
@@ -108,13 +118,13 @@ namespace Private
 		const YString& pTargetFolder;
 
 		//! Date of the photos to put into target folder
-		const PathInformations& pTargetInformations;
+		const ExtendedPhoto::PathInformations& pTargetInformations;
 
 		//!
-		const PathFormat& pPathFormat;
+		const PhotoDirectory::PathFormat& pPathFormat;
 
 		//! New photos to be added in target folder
-		ExtendedPhoto::Vector pNewPhotos;
+		ExtendedPhoto::ExtendedPhoto::Vector pNewPhotos;
 
 		/*!
 		** \brief Work variable to properly name all photos in target folder
@@ -122,18 +132,19 @@ namespace Private
 		** Key is the name given by #ExtendedPhoto and values are all photos that would
 		** share this name if we do not introduce something else (an index)
 		 */
-		std::map<YString, ExtendedPhoto::Vector> pPhotosPerName;
+		std::map<YString, ExtendedPhoto::ExtendedPhoto::Vector> pPhotosPerName;
 
 		//! Path to the file in which all operations are recorded
 		const YString& pSummaryFile;
 
 		//! Object that keeps all known cameras under check
-		const Cameras& pCameras;
+		const ExtendedPhoto::Cameras& pCameras;
 	};
 
 
 
 } // namespace Private
+} // namespace SortNewPhotos
 } // namespace PictStock
 
 

@@ -6,9 +6,14 @@ using namespace Yuni;
 
 namespace PictStock
 {
+namespace SortNewPhotos
+{
 
-	SortNewPhotos::SortNewPhotos(LoggingFacility& logs, const Cameras& cameras, const String& inputDirectory,
-		PhotoDirectory& photoDirectory, const String& summaryFile,
+	SortNewPhotos::SortNewPhotos(LoggingFacility& logs,
+		const ExtendedPhoto::Cameras& cameras,
+		const String& inputDirectory,
+		PhotoDirectory::PhotoDirectory& photoDirectory,
+		const String& summaryFile,
 		bool doFolderManuallyDate)
 		: logs(logs),
 		  pPhotoDirectory(photoDirectory),
@@ -69,5 +74,5 @@ namespace PictStock
 
 	}
 
-
+} // namespace SortNewPhotos
 } // namespace PictStock

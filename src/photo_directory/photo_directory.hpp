@@ -11,6 +11,8 @@
 
 namespace PictStock
 {
+namespace PhotoDirectory
+{
 
 	/*!
 	 * \brief The class in charge of managing in memory the content of
@@ -66,7 +68,7 @@ namespace PictStock
 		 *
 		 *  \return True If creation went right
 		 */
-		bool createFolder(YString& folder, const PathInformations& infos);
+		bool createFolder(YString& folder, const ExtendedPhoto::PathInformations& infos);
 
 
 		//! Return the path format defined by the user
@@ -93,6 +95,7 @@ namespace PictStock
 	};
 
 
+} // namespace PhotoDirectory
 } // namespace PictStock
 
 # include "photo_directory.hxx"

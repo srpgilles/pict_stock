@@ -10,6 +10,8 @@
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
 namespace Private
 {
 
@@ -86,6 +88,7 @@ namespace Private
 	bool operator!=(const Photographer& lhs, const Photographer& rhs);
 
 } // namespace Private
+} // namespace ExtendedPhoto
 } // namespace PictStock
 
 #include "photographer.hxx"

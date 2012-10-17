@@ -6,6 +6,8 @@ using namespace Yuni;
 
 namespace PictStock
 {
+namespace PhotoDirectory
+{
 namespace Private
 {
 
@@ -68,7 +70,7 @@ namespace Private
 
 	bool PhotoDirectoryIterator::checkValidity(const String& directory)
 	{
-		PathInformations usefulInformations(logs);
+		ExtendedPhoto::PathInformations usefulInformations(logs);
 
 		if (pPathFormat.doFolderMatch(directory, usefulInformations))
 		{
@@ -80,4 +82,5 @@ namespace Private
 	}
 
 } // namespace Private
+} // namespace PhotoDirectory
 } // namespace PictStock

@@ -3,7 +3,8 @@
 
 namespace PictStock
 {
-
+namespace ExtendedPhoto
+{
 
 	inline void PathInformations::setPhotographer(const Private::Photographer::Ptr& photographer)
 	{
@@ -170,7 +171,7 @@ namespace PictStock
 	}
 
 
-
+} // namespace ExtendedPhoto
 } // namespace PictStock
 
 

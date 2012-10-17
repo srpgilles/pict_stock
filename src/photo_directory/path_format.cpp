@@ -14,7 +14,8 @@ namespace regexNS = std;
 
 namespace PictStock
 {
-
+namespace PhotoDirectory
+{
 
 	PathFormat::PathFormat(LoggingFacility& logs, const AnyString& format)
 		: logs(logs),
@@ -52,7 +53,7 @@ namespace PictStock
 	}
 
 
-	bool PathFormat::doFolderMatch(const AnyString& path, PathInformations& infos) const
+	bool PathFormat::doFolderMatch(const AnyString& path, ExtendedPhoto::PathInformations& infos) const
 	{
 		// Trivial case: if no folder defined any path match
 		if (!pFolderPart)
@@ -65,7 +66,7 @@ namespace PictStock
 
 
 	void PathFormat::determineMinimalFolder(Yuni::String& out,
-		const YString& mainFolder, const ExtendedPhoto& photo) const
+		const YString& mainFolder, const ExtendedPhoto::ExtendedPhoto& photo) const
 	{
 		assert(out.empty());
 
@@ -82,7 +83,7 @@ namespace PictStock
 
 
 	void PathFormat::determineMinimalFolder(Yuni::String& out,
-		const YString& mainFolder, const PathInformations& infos) const
+		const YString& mainFolder, const ExtendedPhoto::PathInformations& infos) const
 	{
 		assert(out.empty());
 
@@ -98,26 +99,28 @@ namespace PictStock
 
 
 	void PathFormat::determineMinimalFilename(Yuni::String& out,
-		const ExtendedPhoto& photo) const
+		const ExtendedPhoto::ExtendedPhoto& photo) const
 	{
 		assert(!(!pFilePart));
 		pFilePart->determineMinimalPath(out, photo);
 	}
 
 
-	void PathFormat::onlyUsefulFolderElements(PathInformations& out, const PathInformations& input) const
+	void PathFormat::onlyUsefulFolderElements(ExtendedPhoto::PathInformations& out,
+		const ExtendedPhoto::PathInformations& input) const
 	{
 		assert(!(!pFolderPart));
 		pFolderPart->onlyUsefulElements(out, input);
 	}
 
 
-	void PathFormat::onlyUsefulFolderElements(PathInformations& out, const ExtendedPhoto& input) const
+	void PathFormat::onlyUsefulFolderElements(ExtendedPhoto::PathInformations& out,
+		const ExtendedPhoto::ExtendedPhoto& input) const
 	{
 		assert(!(!pFolderPart));
 		pFolderPart->onlyUsefulElements(out, input);
 	}
 
 
-
+} // namespace PhotoDirectory
 }// namespace PictStock

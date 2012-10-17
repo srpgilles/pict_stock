@@ -1,5 +1,5 @@
-#ifndef CAMERAS_HPP_
-# define CAMERAS_HPP_
+#ifndef PHOTOGRAPHERS_HPP_
+# define PHOTOGRAPHERS_HPP_
 
 # include <tuple>
 # include <vector>
@@ -19,41 +19,20 @@ namespace PictStock
 {
 namespace ExtendedPhoto
 {
-	namespace Private
-	{
-		struct Keyword
-		{
-			typedef std::string StringType;
-			static YString FieldName() { return "Keyword"; }
-		};
-
-		struct Value
-		{
-			typedef Yuni::CString<80, false> StringType;
-			static YString FieldName() { return "Value"; }
-		};
-
-		struct Owner
-		{
-			typedef Yuni::CString<8, false> StringType;
-			static YString FieldName() { return "Owner"; }
-		};
-	} // namespace Private
-
-
-
 	/*!
-	** \brief This class handles all the known photographers and cameras, including
+	** \brief This class handles all the known photographers, including
 	** their storing inside sqlite database
+	**
+	** This class should be hidden in #Cameras
 	*/
-	class YUNI_DECL Cameras : private Yuni::NonCopyable<Cameras>
+	class YUNI_DECL Photographers : private Yuni::NonCopyable<Photographers>
 	{
 
 	public:
 
 		//! Tuple type for rows of the table cameras in sqlite database
-		typedef std::tuple<Private::Keyword, Private::Value,
-			Private::Owner> Tuple;
+		typedef std::tuple<nsExtendedPhoto::Private::Keyword, nsExtendedPhoto::Private::Value,
+			nsExtendedPhoto::Private::Owner> Tuple;
 
 		/*!
 		** \brief Yields the StringType hold by each element of the input tuple
@@ -61,7 +40,7 @@ namespace ExtendedPhoto
 		** For instance, if TupleT = [Keyword, Value, Owner] keyword type will yield
 		** 	[Keyword::StringType, Value::StringType, Owner::StringType]
 		*/
-		typedef Private::TupleString<Tuple>::type TupleString;
+		typedef nsExtendedPhoto::Private::TupleString<Tuple>::type  TupleString;
 
 	public:
 
@@ -74,12 +53,12 @@ namespace ExtendedPhoto
 		//@}
 
 		//! Add a new camera
-		void addNewCamera(const Private::Keyword::StringType& currentKeyword,
-			const Private::Value::StringType& valueToCheck,
-			const Private::Owner::StringType& photographer);
+		void addNewCamera(const nsExtendedPhoto::Private::Keyword::StringType& currentKeyword,
+			const nsExtendedPhoto::Private::Value::StringType& valueToCheck,
+			const nsExtendedPhoto::Private::Owner::StringType& photographer);
 
 		//! Return the list of known keywords
-		const std::vector<Private::Keyword::StringType>& keywords() const;
+		const std::vector<nsExtendedPhoto::Private::Keyword::StringType>& keywords() const;
 
 		/*!
 		** \brief Identify the photographer is possible
@@ -90,9 +69,9 @@ namespace ExtendedPhoto
 		** We want to check then whether this couple is known or not
 		*/
 		bool identifyPhotographer(
-			const Private::Keyword::StringType& currentKeyword,
-			const Private::Value::StringType& valueToCheck,
-			Private::Owner::StringType& photographer) const;
+			const nsExtendedPhoto::Private::Keyword::StringType& currentKeyword,
+			const nsExtendedPhoto::Private::Value::StringType& valueToCheck,
+			nsExtendedPhoto::Private::Owner::StringType& photographer) const;
 
 	private:
 
@@ -107,7 +86,7 @@ namespace ExtendedPhoto
 		std::vector<TupleString> pRows;
 
 		//! It's convenient to have a list of all known keywords
-		std::vector<Private::Keyword::StringType> pKeywords;
+		std::vector<nsExtendedPhoto::Private::Keyword::StringType> pKeywords;
 
 	};
 

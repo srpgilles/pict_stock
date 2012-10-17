@@ -15,6 +15,8 @@
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
 
 	typedef std::tuple<Private::Year, Private::Month, Private::Day,
 		Private::Hour, Private::Minute, Private::Second> DateTuple;
@@ -217,6 +219,7 @@ namespace PictStock
 	//! Read the date and create the date as it would be written in exif file
 	Yuni::CString<20, false> dateToExif(const Date& date);
 
+} // namespace ExtendedPhoto
 } // namespace PictStock
 
 # include "date.hxx"

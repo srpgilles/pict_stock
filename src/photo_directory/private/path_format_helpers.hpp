@@ -15,9 +15,14 @@
 
 namespace PictStock
 {
-	// Forward declaration
-	class ExtendedPhoto;
+	namespace ExtendedPhoto
+	{
+		// Forward declaration
+		class ExtendedPhoto;
+	} // namespace ExtendedPhoto
 
+namespace PhotoDirectory
+{
 namespace Private
 {
 
@@ -77,7 +82,7 @@ namespace Private
 		** \param[in] path Path being checked
 		** \param[out] out #pathInformations object in which only path fields have been completed
 		*/
-		bool isOk(const AnyString& path, PathInformations& out) const;
+		bool isOk(const AnyString& path, ExtendedPhoto::PathInformations& out) const;
 
 
 		/*!
@@ -87,7 +92,7 @@ namespace Private
 		** but we choose the minimal one
 		*/
 		void determineMinimalPath(Yuni::String& out,
-			const PathInformations& infos) const;
+			const ExtendedPhoto::PathInformations& infos) const;
 
 
 		/*!
@@ -97,7 +102,7 @@ namespace Private
 		** but we choose the minimal one
 		*/
 		void determineMinimalPath(Yuni::String& out,
-			const ExtendedPhoto& photo) const;
+			const ExtendedPhoto::ExtendedPhoto& photo) const;
 
 		/*!
 		** \brief Create a new RelevantInformations object featuring only informations useful
@@ -107,9 +112,10 @@ namespace Private
 		** returned object will have these values filled and all others set to
 		** empty string
 		**
-		** \param[in] input The original #PathInformations object
+		** \param[in] input The original #ExtendedPhoto::PathInformations object
 		 */
-		void onlyUsefulElements(PathInformations& out, const PathInformations& input) const;
+		void onlyUsefulElements(ExtendedPhoto::PathInformations& out,
+			const ExtendedPhoto::PathInformations& input) const;
 
 
 		/*!
@@ -122,7 +128,8 @@ namespace Private
 		**
 		** \param[in] input #ExtendedPhoto object
 		 */
-		void onlyUsefulElements(PathInformations& out, const ExtendedPhoto& input) const;
+		void onlyUsefulElements(ExtendedPhoto::PathInformations& out,
+			const ExtendedPhoto::ExtendedPhoto& input) const;
 
 
 	public:
@@ -190,10 +197,8 @@ namespace Private
 	};
 
 
-
-
-
 } // namespace Private
+} // namespace PhotoDirectory
 } // namespace PictStock
 
 

@@ -8,17 +8,18 @@ typedef Yuni::Logs::Logger<> LoggingFacility;
 
 namespace PictStock
 {
-	// Forward declaration
-	class PathInformations;
 
-    typedef std::multimap<PathInformations, YString>
+	namespace ExtendedPhoto
+	{
+		// Forward declaration
+		class PathInformations;
+	}
+
+    typedef std::multimap<ExtendedPhoto::PathInformations, YString>
     	ValidDirectoriesType;
 
-    namespace Private
-    {
-    	typedef Yuni::CString<4, false> SymbolString;
-    	typedef Yuni::CString<30, true> RegexString;
-    }
+    typedef Yuni::CString<4, false> SymbolString;
+    typedef Yuni::CString<30, true> RegexString;
 
 } // namespace PictStock
 

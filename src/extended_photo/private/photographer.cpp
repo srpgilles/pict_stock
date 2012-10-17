@@ -2,6 +2,8 @@
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
 namespace Private
 {
 
@@ -33,4 +35,5 @@ namespace Private
 
 
 } // namespace Private
+} // namespace ExtendedPhoto
 } // namespace PictStock

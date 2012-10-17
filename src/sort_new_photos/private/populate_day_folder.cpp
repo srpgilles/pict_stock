@@ -12,16 +12,18 @@ using namespace Yuni;
 
 namespace PictStock
 {
+namespace SortNewPhotos
+{
 namespace Private
 {
 
 
 	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs,
-		const Cameras& cameras,
-		const PathFormat& pathFormat,
+		const ExtendedPhoto::Cameras& cameras,
+		const PhotoDirectory::PathFormat& pathFormat,
 		const YString& targetFolder,
-		const PathInformations& targetInfos,
-		ExtendedPhoto::Vector& newPhotos,
+		const ExtendedPhoto::PathInformations& targetInfos,
+		ExtendedPhoto::ExtendedPhoto::Vector& newPhotos,
 		const YString& summaryFile)
 		: logs(logs),
 		  pTargetFolder(targetFolder),
@@ -66,10 +68,11 @@ namespace Private
 			YString file(pTargetFolder);
 			file << IO::Separator << *it;
 
-			if (!isExtensionManaged(file))
+			if (!ExtendedPhoto::isExtensionManaged(file))
 				continue;
 
-			ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, pCameras, file);
+			ExtendedPhoto::ExtendedPhoto::Ptr photoPtr =
+				new ExtendedPhoto::ExtendedPhoto(logs, pCameras, file);
 
 			YString newName;
 			pPathFormat.determineMinimalFilename(newName, *photoPtr);
@@ -84,14 +87,14 @@ namespace Private
 	{
 		for (auto it = pNewPhotos.cbegin(), end = pNewPhotos.cend(); it != end; ++it)
 		{
-			ExtendedPhoto::Ptr photoPtr = *it;
+			auto photoPtr = *it;
 			assert(!(!photoPtr));
 			YString newName;
-			ExtendedPhoto& photo = *photoPtr;
+			auto& photo = *photoPtr;
 			pPathFormat.determineMinimalFilename(newName, *photoPtr);
 
 			{
-				ExtendedPhoto::Vector& allPhotos = pPhotosPerName[newName];
+				auto& allPhotos = pPhotosPerName[newName];
 
 				unsigned int size = static_cast<unsigned int>(allPhotos.size());
 
@@ -118,7 +121,7 @@ namespace Private
 		{
 			YString newIncompleteName(pTargetFolder);
 			newIncompleteName << IO::Separator << it->first; // without index or extension
-			const ExtendedPhoto::Vector& photos = it->second;
+			const auto& photos = it->second;
 
 			unsigned int size = static_cast<unsigned int>(photos.size());
 
@@ -204,4 +207,5 @@ namespace Private
 
 
 } // namespace Private
+} // namespace SortNewPhotos
 } // namespace PictStock

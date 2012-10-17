@@ -12,6 +12,9 @@
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
+
 	namespace Private
 	{
 		//! Tuple of all possible relevant elements in the user-defined format
@@ -147,7 +150,7 @@ namespace PictStock
 	bool operator!=(const PathInformations& lhs, const PathInformations& rhs);
 	bool operator<(const PathInformations& lhs, const PathInformations& rhs);
 
-
+} // namespace ExtendedPhoto
 } // namespace PictStock
 
 # include "path_informations.hxx"

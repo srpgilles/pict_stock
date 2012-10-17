@@ -4,6 +4,9 @@
 
 namespace PictStock
 {
+namespace ExtendedPhoto
+{
+
 	namespace
 	{
 		/*!
@@ -287,10 +290,8 @@ namespace PictStock
 		pIsElementPresent[value] = rhs.pIsElementPresent[value];
 	}
 
-
+} // namespace ExtendedPhoto
 } // namespace PictStock
-
-
 
 
 #endif /* DATE_HXX_ */

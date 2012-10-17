@@ -12,6 +12,8 @@ namespace regexNS = std;
 
 namespace PictStock
 {
+namespace SortNewPhotos
+{
 namespace Private
 {
 
@@ -31,9 +33,9 @@ namespace Private
 
 		static const YString expression =
 			YString('^')
-			<< '(' << Year::Regex() << ')'
-			<< '(' << Month::Regex() << ')'
-			<< '(' << Day::Regex() << ')'
+			<< '(' << PictStock::ExtendedPhoto::Private::Year::Regex() << ')'
+			<< '(' << PictStock::ExtendedPhoto::Private::Month::Regex() << ')'
+			<< '(' << PictStock::ExtendedPhoto::Private::Day::Regex() << ')'
 			<< '$';
 
 		/*!
@@ -46,8 +48,11 @@ namespace Private
 
 	using namespace Yuni;
 
-	SortNewPhotosIterator::SortNewPhotosIterator(LoggingFacility& logs, const Cameras& cameras,
-		const String& inputDirectory, const PathFormat& pathFormat, bool doFolderManualDate)
+	SortNewPhotosIterator::SortNewPhotosIterator(LoggingFacility& logs,
+		const ExtendedPhoto::Cameras& cameras,
+		const String& inputDirectory,
+		const PhotoDirectory::PathFormat& pathFormat,
+		bool doFolderManualDate)
 		: logs(logs),
 		  pPathFormat(pathFormat),
 		  pDoFolderManualDate(doFolderManualDate),
@@ -156,12 +161,13 @@ namespace Private
 		const String& name, uint64 /*size*/)
 	{
 		// Only consider files which extension is JPG or jpg
-		if (!isExtensionManaged(name))
+		if (!ExtendedPhoto::isExtensionManaged(name))
 			return IO::flowContinue;
 
 		String fullName;
 		fullName << folder << IO::Separator << name;
-		ExtendedPhoto::Ptr photoPtr = new ExtendedPhoto(logs, pCameras, fullName);
+		ExtendedPhoto::ExtendedPhoto::Ptr photoPtr =
+			new ExtendedPhoto::ExtendedPhoto(logs, pCameras, fullName);
 		auto& photo = *photoPtr;
 
 		if (photo.problem())
@@ -177,7 +183,7 @@ namespace Private
 			photo.modifyDate(pCurrentFolderManualDate);
 		}
 
-		PathInformations usefulInfos(logs);
+		ExtendedPhoto::PathInformations usefulInfos(logs);
 		pPathFormat.onlyUsefulFolderElements(usefulInfos, photo);
 		pPicturesToProcess[usefulInfos].push_back(photoPtr);
 
@@ -189,5 +195,6 @@ namespace Private
 
 
 } // namespace Private
+} // namespace SortNewPhotos
 } // namespace PictStock
 

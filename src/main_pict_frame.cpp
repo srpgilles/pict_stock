@@ -9,6 +9,7 @@
 
 
 using namespace Yuni;
+using namespace PictStock;
 
 namespace
 {
@@ -25,7 +26,7 @@ namespace
 
 	void determineTimeLimits(LoggingFacility& logs,
 		time_t& out,
-		const PictStock::Private::PathFormatHelper& helper,
+		const PhotoDirectory::Private::PathFormatHelper& helper,
 		const GenericTools::ReadParameterFile& parameters,
 		const YString& dateAsString)
 	{
@@ -33,7 +34,7 @@ namespace
 
 		if (parameterValue != "none")
 		{
-			PictStock::PathInformations infos(logs);
+			ExtendedPhoto::PathInformations infos(logs);
 
 			if (!helper.isOk(parameterValue, infos))
 			{
@@ -82,7 +83,7 @@ int main(int argc, char* argv[])
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
 
-		PictStock::Private::PathFormatHelper helper(logs, "%Y-%m-%d");
+		PhotoDirectory::Private::PathFormatHelper helper(logs, "%Y-%m-%d");
 
 		time_t beginDate(0);
 		time_t endDate(std::numeric_limits<int>::max()); // int because struct tm components are defined as such
@@ -90,12 +91,12 @@ int main(int argc, char* argv[])
 		determineTimeLimits(logs, beginDate, helper, parameters, "beginDate");
 		determineTimeLimits(logs, endDate, helper, parameters, "endDate");
 
-		PictStock::ReadDate::Mode mode;
+		PictFrame::ReadDate::Mode mode;
 		{
 			if (parameters["readDateMode"] == "safe")
-				mode = PictStock::ReadDate::safe;
+				mode = PictFrame::ReadDate::safe;
 			else if (parameters["readDateMode"] == "fast")
-				mode = PictStock::ReadDate::fast;
+				mode = PictFrame::ReadDate::fast;
 			else
 				throw GenericTools::Exception("Mode in parameters file must be "
 					"either safe or fast");
@@ -121,9 +122,9 @@ int main(int argc, char* argv[])
 
 		GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
 
-		PictStock::Cameras cameras(db);
+		ExtendedPhoto::Cameras cameras(db);
 
-		PictStock::PictFrame(logs, cameras, parameters["pathFormat"], parameters["inputFolder"],
+		PictFrame::PictFrame(logs, cameras, parameters["pathFormat"], parameters["inputFolder"],
 			parameters["outputFolder"], nbPhotos, beginDate, endDate,
 			mode, isChronological);
 

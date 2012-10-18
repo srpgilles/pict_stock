@@ -1,6 +1,6 @@
 #include "cameras.hpp"
 #include "../tools/sqlite_wrapper.hpp"
-#include "../tools/tools.hpp"
+
 
 
 namespace PictStock
@@ -14,6 +14,16 @@ namespace ExtendedPhoto
 		: pDatabase(database)
 	{
 		database.select(pRows, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
+
+		{
+			// Also init #pKeywords
+			typedef std::tuple<Keyword::StringType> TupleKeyword;
+			std::vector<TupleKeyword> keywords;
+			database.select(keywords, "Keyword FROM Cameras");
+
+			for (auto it = keywords.begin(), end = keywords.end(); it != end; ++it)
+				pKeywords.insert(std::get<0>(*it));
+		}
 	}
 
 
@@ -65,9 +75,9 @@ namespace ExtendedPhoto
 		// Add the camera in the database (which will check by the way if the insertion is legit or not)
 		pDatabase.insertData("Cameras", fieldNames, newTuple);
 
-		// If database accepted the query without trhowing exception, all is ok
+		// If database accepted the query without throwing exception, all is ok
 		// Add the camera in the memory
-		pRows.push_back(newTuple);
+		addNewTuple(newTuple);
 
 		// Do not forget to reorder pRows!
 		// As insertion will be quite a rare event, it is sensical to reorder it whenever it happens

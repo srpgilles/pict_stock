@@ -3,8 +3,10 @@
 
 # include <tuple>
 # include <vector>
+# include <set>
 # include <yuni/core/string.h>
 # include "../pict_stock.hpp"
+# include "../tools/tools.hpp"
 # include "private/helpers.hpp"
 
 
@@ -79,7 +81,7 @@ namespace ExtendedPhoto
 			const TableCameras::Owner::StringType& photographer);
 
 		//! Return the list of known keywords
-		const std::vector<TableCameras::Keyword::StringType>& keywords() const;
+		const std::set<TableCameras::Keyword::StringType>& keywords() const;
 
 		/*!
 		** \brief Identify the photographer is possible
@@ -96,6 +98,15 @@ namespace ExtendedPhoto
 
 	private:
 
+		/*!
+		** \brief Helper function of #addNewCameras, which add the new tuple in memory
+		**
+		** Addition to database is performed in #addNewCameras
+		 */
+		void addNewTuple(const TupleString& tuple);
+
+	private:
+
 		//! Reference to database object
 		GenericTools::SqliteWrapper& pDatabase;
 
@@ -107,7 +118,7 @@ namespace ExtendedPhoto
 		std::vector<TupleString> pRows;
 
 		//! It's convenient to have a list of all known keywords
-		std::vector<TableCameras::Keyword::StringType> pKeywords;
+		std::set<TableCameras::Keyword::StringType> pKeywords;
 
 	};
 

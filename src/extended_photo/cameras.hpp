@@ -19,7 +19,7 @@ namespace PictStock
 {
 namespace ExtendedPhoto
 {
-	namespace Private
+	namespace TableCameras
 	{
 		struct Keyword
 		{
@@ -38,7 +38,7 @@ namespace ExtendedPhoto
 			typedef Yuni::CString<8, false> StringType;
 			static YString FieldName() { return "Owner"; }
 		};
-	} // namespace Private
+	} // namespace TableCameras
 
 
 
@@ -52,8 +52,8 @@ namespace ExtendedPhoto
 	public:
 
 		//! Tuple type for rows of the table cameras in sqlite database
-		typedef std::tuple<Private::Keyword, Private::Value,
-			Private::Owner> Tuple;
+		typedef std::tuple<TableCameras::Keyword, TableCameras::Value,
+			TableCameras::Owner> Tuple;
 
 		/*!
 		** \brief Yields the StringType hold by each element of the input tuple
@@ -74,12 +74,12 @@ namespace ExtendedPhoto
 		//@}
 
 		//! Add a new camera
-		void addNewCamera(const Private::Keyword::StringType& currentKeyword,
-			const Private::Value::StringType& valueToCheck,
-			const Private::Owner::StringType& photographer);
+		void addNewCamera(const TableCameras::Keyword::StringType& currentKeyword,
+			const TableCameras::Value::StringType& valueToCheck,
+			const TableCameras::Owner::StringType& photographer);
 
 		//! Return the list of known keywords
-		const std::vector<Private::Keyword::StringType>& keywords() const;
+		const std::vector<TableCameras::Keyword::StringType>& keywords() const;
 
 		/*!
 		** \brief Identify the photographer is possible
@@ -90,9 +90,9 @@ namespace ExtendedPhoto
 		** We want to check then whether this couple is known or not
 		*/
 		bool identifyPhotographer(
-			const Private::Keyword::StringType& currentKeyword,
-			const Private::Value::StringType& valueToCheck,
-			Private::Owner::StringType& photographer) const;
+			const TableCameras::Keyword::StringType& currentKeyword,
+			const TableCameras::Value::StringType& valueToCheck,
+			TableCameras::Owner::StringType& photographer) const;
 
 	private:
 
@@ -107,7 +107,7 @@ namespace ExtendedPhoto
 		std::vector<TupleString> pRows;
 
 		//! It's convenient to have a list of all known keywords
-		std::vector<Private::Keyword::StringType> pKeywords;
+		std::vector<TableCameras::Keyword::StringType> pKeywords;
 
 	};
 

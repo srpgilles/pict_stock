@@ -162,7 +162,7 @@ namespace ExtendedPhoto
 		// So we're checking one after another the keywords used by the known cameras
 		const auto& keywords = pCameras.keywords();
 
-		Private::Owner::StringType photographer;
+		TableCameras::Owner::StringType photographer;
 
 		for (auto it = keywords.cbegin(), end = keywords.cend(); it != end; ++it)
 		{

@@ -8,7 +8,7 @@ namespace PictStock
 namespace ExtendedPhoto
 {
 
-	using namespace Private;
+	using namespace TableCameras;
 
 	Cameras::Cameras(GenericTools::SqliteWrapper& database)
 		: pDatabase(database)
@@ -54,7 +54,7 @@ namespace ExtendedPhoto
 	{
 		// Determine names of the fields in the database
 		std::vector<YString> fieldNames;
-		TupleFields<Tuple>::FieldNames(fieldNames);
+		Private::TupleFields<Tuple>::FieldNames(fieldNames);
 
 		// Create a tuple with new elements to introduce
 		TupleString newTuple;

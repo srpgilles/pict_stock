@@ -6,7 +6,7 @@ namespace PictStock
 namespace ExtendedPhoto
 {
 
-	inline const std::vector<Private::Keyword::StringType>& Cameras::keywords() const
+	inline const std::vector<TableCameras::Keyword::StringType>& Cameras::keywords() const
 	{
 		return pKeywords;
 	}

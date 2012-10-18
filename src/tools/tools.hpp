@@ -134,7 +134,7 @@ namespace GenericTools
 	};
 
 
-	template<typename StreamT, typename StringT = std::string, typename... Args>
+	template<typename StreamT, typename StringT = YString, typename... Args>
 	void printTuple(StreamT& stream, const std::tuple<Args...>&t, StringT separator = ",",
 		StringT opener = "[", StringT closer = "]\n")
 	{

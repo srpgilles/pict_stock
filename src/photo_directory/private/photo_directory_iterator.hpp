@@ -9,6 +9,11 @@
 
 namespace PictStock
 {
+	namespace ExtendedPhoto
+	{
+		class Cameras;
+	}
+
 namespace PhotoDirectory
 {
 	// Forward declaration
@@ -34,7 +39,8 @@ namespace Private
 		//! Constructor & destructor
 		//@{
 		//! Constructor
-		PhotoDirectoryIterator(LoggingFacility& logs, const PathFormat& pathFormat);
+		PhotoDirectoryIterator(LoggingFacility& logs, const ExtendedPhoto::Cameras& cameras,
+			const PathFormat& pathFormat);
 
 		//! Destructor
 		virtual ~PhotoDirectoryIterator();
@@ -100,6 +106,10 @@ namespace Private
 		** to this date
 		*/
 		ValidDirectoriesType pValidDirectories;
+
+		//! Object that keeps all known cameras under check
+		const ExtendedPhoto::Cameras& pCameras;
+
 	};
 
 } // namespace Private

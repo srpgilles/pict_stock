@@ -1,6 +1,7 @@
 #include "cameras.hpp"
+#include "photographers.hpp"
 #include "../tools/sqlite_wrapper.hpp"
-
+#include "../tools/exceptions.hpp"
 
 
 namespace PictStock
@@ -11,7 +12,8 @@ namespace ExtendedPhoto
 	using namespace TableCameras;
 
 	Cameras::Cameras(GenericTools::SqliteWrapper& database)
-		: pDatabase(database)
+		: pDatabase(database),
+		  pPhotographersPtr(nullptr)
 	{
 
 		{
@@ -42,13 +44,18 @@ namespace ExtendedPhoto
 			for (auto it = keywords.begin(), end = keywords.end(); it != end; ++it)
 				pKeywords.insert(std::get<0>(*it));
 		}
-	}
 
+		{
+			// Init photographers
+			std::unique_ptr<Photographers> buf(new Photographers(database));
+			pPhotographersPtr = std::move(buf);
+		}
+	}
 
 	bool Cameras::identifyPhotographer(
 		const Keyword::StringType& currentKeyword,
 		const Value::StringType& valueToCheck,
-		Owner::StringType& photographer) const
+		Photographer::Ptr photographer) const
 	{
 		enum { indexKeyword = GenericTools::IndexOf<Keyword, Tuple>::value };
 		enum { indexValue = GenericTools::IndexOf<Value, Tuple>::value };
@@ -70,9 +77,29 @@ namespace ExtendedPhoto
 		if (it.first == it.second)
 			return false;
 
-		photographer = std::get<GenericTools::IndexOf<Owner, Tuple>::value>(*(it.first));
+		// We get the abbreviation; let's fetch the complete photographer object
+		assert(!(!pPhotographersPtr));
+
+		auto abbreviation =	std::get<GenericTools::IndexOf<Owner, Tuple>::value>(*(it.first));
+
+		identifyPhotographerAbbr(abbreviation, photographer);
 
 		return true;
+	}
+
+
+
+	void Cameras::identifyPhotographerAbbr(
+		const TableCameras::Owner::StringType& abbreviation,
+		Photographer::Ptr photographer) const
+	{
+		if (!pPhotographersPtr->findPhotographer(photographer, abbreviation))
+		{
+			YString message("Malformed database (or bug in the code): a camera was associated "
+				"to photographer whose abbreviation is \"");
+			message << abbreviation << "\" but none was found in photographer table.";
+			throw GenericTools::Exception(message);
+		}
 	}
 
 

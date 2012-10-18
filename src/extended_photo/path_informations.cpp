@@ -1,4 +1,5 @@
 #include "path_informations.hpp"
+#include "cameras.hpp"
 
 using namespace Yuni;
 
@@ -7,16 +8,18 @@ namespace PictStock
 namespace ExtendedPhoto
 {
 
-	PathInformations::PathInformations(LoggingFacility& logs)
+	PathInformations::PathInformations(LoggingFacility& logs, const Cameras& cameras)
 		: logs(logs),
-		  pPhotographerPtr(nullptr)
+		  pPhotographerPtr(nullptr),
+		  pCameras(cameras)
 	{ }
 
 
 	PathInformations::PathInformations(const PathInformations& rhs)
 		: logs(rhs.logs),
 		  pPhotographerPtr(rhs.pPhotographerPtr),
-		  pDate(rhs.pDate)
+		  pDate(rhs.pDate),
+		  pCameras(rhs.pCameras)
 	{ }
 
 

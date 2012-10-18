@@ -112,7 +112,7 @@ namespace Private
 
 	bool ScanPhotoDirectory::checkValidity(const String& directory)
 	{
-		ExtendedPhoto::PathInformations usefulInformations(logs);
+		ExtendedPhoto::PathInformations usefulInformations(logs, pCameras);
 
 		if (pPathFormat.doFolderMatch(directory, usefulInformations))
 		{

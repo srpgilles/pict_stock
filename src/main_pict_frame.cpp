@@ -25,6 +25,7 @@ namespace
 	**/
 
 	void determineTimeLimits(LoggingFacility& logs,
+		const ExtendedPhoto::Cameras& cameras,
 		time_t& out,
 		const PhotoDirectory::Private::PathFormatHelper& helper,
 		const GenericTools::ReadParameterFile& parameters,
@@ -34,7 +35,7 @@ namespace
 
 		if (parameterValue != "none")
 		{
-			ExtendedPhoto::PathInformations infos(logs);
+			ExtendedPhoto::PathInformations infos(logs, cameras);
 
 			if (!helper.isOk(parameterValue, infos))
 			{
@@ -82,14 +83,17 @@ int main(int argc, char* argv[])
 		keys.push_back("isChronological");
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
+		GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
+		ExtendedPhoto::Cameras cameras(db);
+
 
 		PhotoDirectory::Private::PathFormatHelper helper(logs, "%Y-%m-%d");
 
 		time_t beginDate(0);
 		time_t endDate(std::numeric_limits<int>::max()); // int because struct tm components are defined as such
 
-		determineTimeLimits(logs, beginDate, helper, parameters, "beginDate");
-		determineTimeLimits(logs, endDate, helper, parameters, "endDate");
+		determineTimeLimits(logs, cameras, beginDate, helper, parameters, "beginDate");
+		determineTimeLimits(logs, cameras, endDate, helper, parameters, "endDate");
 
 		PictFrame::ReadDate::Mode mode;
 		{
@@ -120,9 +124,6 @@ int main(int argc, char* argv[])
 				throw GenericTools::Exception("nbPhotos must be a positive integer");
 		}
 
-		GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
-
-		ExtendedPhoto::Cameras cameras(db);
 
 		PictFrame::PictFrame(logs, cameras, parameters["pathFormat"], parameters["inputFolder"],
 			parameters["outputFolder"], nbPhotos, beginDate, endDate,

@@ -18,6 +18,16 @@ namespace ExtendedPhoto
 		pKeywords.insert(std::get<GenericTools::IndexOf<TableCameras::Keyword, Tuple>::value >(tuple));
 	}
 
+
+	template<class StringT>
+	inline void Cameras::identifyPhotographerAbbr(
+		const StringT& abbreviation,
+		Photographer::Ptr photographer) const
+	{
+		TableCameras::Owner::StringType buf(abbreviation);
+		identifyPhotographerAbbr(buf, photographer);
+	}
+
 } // namespace ExtendedPhoto
 } // namespace pictStock
 

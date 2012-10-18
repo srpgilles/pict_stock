@@ -14,7 +14,7 @@ namespace ExtendedPhoto
 	ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const Cameras& cameras, const String& filename)
 		: logs(logs),
 		  pOriginalPath(filename),
-		  pPathInformations(new PathInformations(logs)),
+		  pPathInformations(new PathInformations(logs, cameras)),
 		  pStatus(epFine),
 		  pCameras(cameras)
 	{
@@ -58,7 +58,7 @@ namespace ExtendedPhoto
 		// So we're checking one after another the keywords used by the known cameras
 		const auto& keywords = pCameras.keywords();
 
-		TableCameras::Owner::StringType photographer;
+		Photographer::Ptr photographerPtr(nullptr);
 
 		for (auto it = keywords.cbegin(), end = keywords.cend(); it != end; ++it)
 		{
@@ -71,42 +71,17 @@ namespace ExtendedPhoto
 				continue;
 
 			// Now check whether one of the values in the database match the value read
-			if (!pCameras.identifyPhotographer(currentKeyword, value, photographer))
+			if (!pCameras.identifyPhotographer(currentKeyword, value, photographerPtr))
 				continue;
 
+			assert(!(!photographerPtr));
+			assert(!(!pPathInformations));
+			pPathInformations->setPhotographer(photographerPtr);
 
-
+			return true;
 		}
 
-
-
-
-		/*for (auto it = pPhotographers.cbegin(), end = pPhotographers.cend(); it != end; ++it)
-		{
-			assert(!(!(*it)));
-
-			const auto& cameras = (*it)->exifData();
-
-			String value;
-
-			assert((!(!pPathInformations)));
-			auto& relevantInformations = *pPathInformations;
-
-			for (auto itMap = cameras.cbegin(), endMap = cameras.cend(); itMap != endMap; ++itMap)
-			{
-				if (findExifKey(itMap->first, value))
-				{
-					if (value == itMap->second)
-					{
-						relevantInformations.setPhotographer(*it);
-						return true;
-					}
-				}
-			}
-		}*/
-
 		return false;
-
 	}
 
 	bool ExtendedPhoto::extractDate()

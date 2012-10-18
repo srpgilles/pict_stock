@@ -63,5 +63,27 @@ namespace ExtendedPhoto
 	}
 
 
+	bool Photographers::findPhotographer(Photographer::Ptr photographer,
+		const TablePhotographers::Abbreviation::StringType& abbreviation) const
+	{
+		auto end = pData.cend();
+		auto it = std::find_if(pData.cbegin(), end,
+			[&abbreviation](const Photographer::Ptr& photographer) -> bool
+			{
+				return photographer->abbreviation() == abbreviation;
+			}
+		);
+
+		if (it == end)
+		{
+			photographer = nullptr;
+			return false;
+		}
+
+		photographer = *it;
+		return true;
+	}
+
+
 } // namespace ExtendedPhoto
 } // namespace PictStock

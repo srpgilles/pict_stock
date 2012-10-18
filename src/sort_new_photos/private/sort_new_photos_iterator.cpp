@@ -183,7 +183,7 @@ namespace Private
 			photo.modifyDate(pCurrentFolderManualDate);
 		}
 
-		ExtendedPhoto::PathInformations usefulInfos(logs);
+		ExtendedPhoto::PathInformations usefulInfos(logs, pCameras);
 		pPathFormat.onlyUsefulFolderElements(usefulInfos, photo);
 		pPicturesToProcess[usefulInfos].push_back(photoPtr);
 

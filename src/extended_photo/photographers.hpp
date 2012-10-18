@@ -24,8 +24,6 @@ namespace ExtendedPhoto
 {
 
 
-
-
 	/*!
 	** \brief This class handles all the known photographers, including
 	** their storing inside sqlite database
@@ -64,6 +62,11 @@ namespace ExtendedPhoto
 			const TablePhotographers::LastName::StringType& lastName,
 			const TablePhotographers::Abbreviation::StringType& abbreviation);
 
+		/*!
+		** \brief Find the photographer whom abbreviation is the one given in input
+		*/
+		bool findPhotographer(Photographer::Ptr photographer,
+			const TablePhotographers::Abbreviation::StringType& abbreviation) const;
 
 	private:
 

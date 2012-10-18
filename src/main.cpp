@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 		ExtendedPhoto::Cameras cameras(db);
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
-		PhotoDirectory::PhotoDirectory photoDirectory(logs, parameters["outputFolder"], parameters["pathFormat"]);
+		PhotoDirectory::PhotoDirectory photoDirectory(logs, cameras, parameters["outputFolder"], parameters["pathFormat"]);
 		SortNewPhotos::SortNewPhotos sortNewPhotos(logs, cameras, parameters["inputFolder"], photoDirectory,
 			parameters["logFile"], doAskModifyDate);
 

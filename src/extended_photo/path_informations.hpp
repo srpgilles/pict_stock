@@ -3,17 +3,19 @@
 # define RELEVANT_INFORMATIONS_HPP_
 
 # include <ostream>
+# include <tuple>
 # include "date.hpp"
-# include "photographer.hpp"
 # include "private/date_helpers.hpp"
 # include "private/photographer_helpers.hpp"
-# include <tuple>
+# include "cameras.hpp"
+
 
 
 namespace PictStock
 {
 namespace ExtendedPhoto
 {
+	class Cameras;
 
 	namespace Private
 	{
@@ -52,7 +54,7 @@ namespace ExtendedPhoto
 		 * \param[in] logs Logging facility
 		 *
 		 */
-		explicit PathInformations(LoggingFacility& logs);
+		explicit PathInformations(LoggingFacility& logs, const Cameras& cameras);
 
 		//! Recopy constructor
 		PathInformations(const PathInformations& );
@@ -142,6 +144,9 @@ namespace ExtendedPhoto
 
 		//! Date informations
 		Date pDate;
+
+		//! Object that keeps all known cameras under check
+		const Cameras& pCameras;
 
 	};
 

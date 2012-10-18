@@ -4,11 +4,13 @@
 # include <tuple>
 # include <vector>
 # include <unordered_set>
+# include <memory>
 # include <yuni/core/string.h>
 # include "../pict_stock.hpp"
 # include "../tools/tools.hpp"
 # include "private/helpers.hpp"
-
+# include "photographer.hpp"
+# include "photographers.hpp"
 
 namespace GenericTools
 {
@@ -21,6 +23,7 @@ namespace PictStock
 {
 namespace ExtendedPhoto
 {
+
 	namespace TableCameras
 	{
 		struct Keyword
@@ -93,11 +96,38 @@ namespace ExtendedPhoto
 		** identified
 		**
 		** We want to check then whether this couple is known or not
+		**
+		** \param[out] photographer The photographer
+		** \param[in] currentKeyword Keyword used in exif to identify the camera
+		** \param[in] valueToCheck Value associated to this keyword for the current picture
+		**
+		** \return True if a photographer was found
 		*/
 		bool identifyPhotographer(
 			const TableCameras::Keyword::StringType& currentKeyword,
 			const TableCameras::Value::StringType& valueToCheck,
-			TableCameras::Owner::StringType& photographer) const;
+			Photographer::Ptr photographer) const;
+
+
+		/*!
+		** \brief Identify the photographer from its abbreviation
+		**
+		** \param[out] photographer The photographer
+		** \param[in] abbreviation Abbreviation related to the photographer (unique)
+		**
+		** \return True if a photographer was found
+		*/
+		void identifyPhotographerAbbr(
+			const TableCameras::Owner::StringType& abbreviation,
+			Photographer::Ptr photographer) const;
+
+
+		//! Same as above with conversion
+		template<class StringT>
+		void identifyPhotographerAbbr(
+			const StringT& abbreviation,
+			Photographer::Ptr photographer) const;
+
 
 	private:
 
@@ -122,6 +152,9 @@ namespace ExtendedPhoto
 
 		//! It's convenient to have a list of all known keywords
 		std::unordered_set<TableCameras::Keyword::StringType> pKeywords;
+
+		//! Photographers
+		std::unique_ptr<Photographers> pPhotographersPtr;
 
 	};
 

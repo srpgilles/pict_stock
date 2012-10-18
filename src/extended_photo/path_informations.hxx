@@ -56,8 +56,7 @@ namespace ExtendedPhoto
 	template<>
 	inline void PathInformations::setElement<Private::PhotographerInformations>(const AnyString& input)
 	{
-		// TODO DO NOT FORGET TO SET PROPERLY THE INFORMATION HERE!!!!!
-		//pPhotographerPtr =
+		pCameras.identifyPhotographerAbbr(input, pPhotographerPtr); // throws if failure
 	}
 
 	template<>

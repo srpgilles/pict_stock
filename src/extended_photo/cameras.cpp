@@ -13,7 +13,23 @@ namespace ExtendedPhoto
 	Cameras::Cameras(GenericTools::SqliteWrapper& database)
 		: pDatabase(database)
 	{
-		database.select(pRows, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
+
+		{
+			// Request from the database
+			YString command;
+			{
+				std::vector<YString> fields;
+				Private::TupleFields<Tuple>::FieldNames(fields);
+				std::for_each(fields.begin(), fields.end(), [&command](const YString& elt)
+				{
+					command << elt << ',';
+				});
+				command.removeLast();
+				command << " FROM Cameras ORDER BY Keyword";
+			}
+
+			database.select(pRows, command);
+		}
 
 		{
 			// Also init #pKeywords

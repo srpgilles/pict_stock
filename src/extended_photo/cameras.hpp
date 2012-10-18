@@ -112,7 +112,7 @@ namespace ExtendedPhoto
 		bool identifyPhotographer(
 			const TableCameras::Keyword::StringType& currentKeyword,
 			const TableCameras::Value::StringType& valueToCheck,
-			Photographer::Ptr photographer) const;
+			Photographer::Ptr& photographer) const;
 
 
 		/*!
@@ -125,14 +125,14 @@ namespace ExtendedPhoto
 		*/
 		void identifyPhotographerAbbr(
 			const TableCameras::Owner::StringType& abbreviation,
-			Photographer::Ptr photographer) const;
+			Photographer::Ptr& photographer) const;
 
 
 		//! Same as above with conversion
 		template<class StringT>
 		void identifyPhotographerAbbr(
 			const StringT& abbreviation,
-			Photographer::Ptr photographer) const;
+			Photographer::Ptr& photographer) const;
 
 
 	private:

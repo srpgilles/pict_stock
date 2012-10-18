@@ -63,7 +63,7 @@ namespace ExtendedPhoto
 	}
 
 
-	bool Photographers::findPhotographer(Photographer::Ptr photographer,
+	bool Photographers::findPhotographer(Photographer::Ptr& photographer,
 		const TablePhotographers::Abbreviation::StringType& abbreviation) const
 	{
 		auto end = pData.cend();
@@ -81,6 +81,8 @@ namespace ExtendedPhoto
 		}
 
 		photographer = *it;
+		assert(!(!photographer));
+
 		return true;
 	}
 

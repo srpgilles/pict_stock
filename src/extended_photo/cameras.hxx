@@ -22,7 +22,7 @@ namespace ExtendedPhoto
 	template<class StringT>
 	inline void Cameras::identifyPhotographerAbbr(
 		const StringT& abbreviation,
-		Photographer::Ptr photographer) const
+		Photographer::Ptr& photographer) const
 	{
 		TableCameras::Owner::StringType buf(abbreviation);
 		identifyPhotographerAbbr(buf, photographer);

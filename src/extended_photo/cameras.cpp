@@ -60,35 +60,28 @@ namespace ExtendedPhoto
 	bool Cameras::identifyPhotographer(
 		const Keyword::StringType& currentKeyword,
 		const Value::StringType& valueToCheck,
-		Photographer::Ptr photographer) const
+		Photographer::Ptr& photographer) const
 	{
-		printRows();
-
 		enum { indexKeyword = GenericTools::IndexOf<Keyword, Tuple>::value };
 		enum { indexValue = GenericTools::IndexOf<Value, Tuple>::value };
 
-		TupleString lookedAt;
-		std::get<indexKeyword>(lookedAt) = currentKeyword;
-		std::get<indexValue>(lookedAt) = valueToCheck;
-
-		// Equal-range is the best choice for finding the value in sorted vector
-		// ("Effective STL", Scott Meyers, item 45)
-		auto it = std::equal_range(pRows.cbegin(), pRows.cend(), lookedAt,
-			[&] (const TupleString& tuple1, const TupleString& tuple2) -> bool
+		auto end = pRows.cend();
+		auto it = std::find_if(pRows.cbegin(), end,
+			[&] (const TupleString& tuple) -> bool
 			{
-				return (std::get<indexKeyword>(tuple1) == std::get<indexKeyword>(tuple2)
-					&& std::get<indexValue>(tuple1) == std::get<indexValue>(tuple2));
+				return (std::get<indexKeyword>(tuple) == currentKeyword
+					&& std::get<indexValue>(tuple) == valueToCheck);
 			}
 		);
 
-		if (it.first == it.second)
+		if (it != end)
 			return false;
 
 		// We get the abbreviation; let's fetch the complete photographer object
 		assert(!(!pPhotographersPtr));
 
-		auto abbreviation =	std::get<GenericTools::IndexOf<Owner, Tuple>::value>(*(it.first));
-
+		auto abbreviation =	std::get<GenericTools::IndexOf<Owner, Tuple>::value>(*it);
+		std::cout << "ABBREV = " << abbreviation << '\n';
 		identifyPhotographerAbbr(abbreviation, photographer);
 
 		return true;
@@ -98,7 +91,7 @@ namespace ExtendedPhoto
 
 	void Cameras::identifyPhotographerAbbr(
 		const TableCameras::Owner::StringType& abbreviation,
-		Photographer::Ptr photographer) const
+		Photographer::Ptr& photographer) const
 	{
 		if (!pPhotographersPtr->findPhotographer(photographer, abbreviation))
 		{
@@ -107,6 +100,8 @@ namespace ExtendedPhoto
 			message << abbreviation << "\" but none was found in photographer table.";
 			throw GenericTools::Exception(message);
 		}
+
+		assert(!(!photographer));
 	}
 
 

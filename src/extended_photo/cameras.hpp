@@ -65,6 +65,7 @@ namespace ExtendedPhoto
 		*/
 		typedef Private::TupleString<Tuple>::type TupleString;
 
+		//! Name of the table in sqlite database
 		static YString TableName() { return "Cameras"; }
 
 	public:

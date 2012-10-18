@@ -25,7 +25,7 @@ namespace ExtendedPhoto
 					command << elt << ',';
 				});
 				command.removeLast();
-				command << " FROM " << TableName() << " ORDER BY Keyword";
+				command << " FROM " << TableName() << " ORDER BY " << Owner::FieldName() << ';';
 			}
 
 			database.select(pRows, command);

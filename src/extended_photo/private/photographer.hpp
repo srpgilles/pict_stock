@@ -5,7 +5,7 @@
 # include <yuni/core/smartptr.h>
 # include <list>
 # include <map>
-
+# include "table_photographers.hpp"
 # include "../../pict_stock.hpp"
 
 namespace PictStock
@@ -16,9 +16,13 @@ namespace Private
 {
 
 	/*!
-	** \brief This class, that handles a single photographer and all its camera,
-	** should be accessed only through #Photographers class
+	** \brief This class handles a single photographer
+	**
+	** There are no informations about its cameras: the relationship
+	** works in the opposite way (it is the cameras which knows to whom
+	** it belongs)
 	 */
+
 	class YUNI_DECL Photographer : private Yuni::NonCopyable<Photographer>
 	{
 
@@ -27,22 +31,19 @@ namespace Private
 		//! Smart pointer most adapted for the class
 		typedef Yuni::SmartPtr<Photographer> Ptr;
 
-		//! List of smart pointers
-		typedef std::list<Ptr> List;
-
 		//! Vector of smart pointers
 		typedef std::vector<Ptr> Vector;
 
+		//! Tuple type for rows of the table cameras in sqlite database
+		typedef TablePhotographers::Tuple Tuple;
+
 		/*!
-		** Type used to store the cameras owned by current photographer
+		** \brief Yields the StringType hold by each element of the input tuple
 		**
-		** There is one entry per camera in the multimap; key is the exif key used for the
-		** match in the exif file, and value the value to match the peculiar camera
-		**
-		** For instance, a camera might be identified by the pair
-		** ("Exif.Canon.SerialNumber", "2280522782")
+		** For instance, if TupleT = [Keyword, Value, Owner] keyword type will yield
+		** 	[Keyword::StringType, Value::StringType, Owner::StringType]
 		*/
-		typedef std::multimap<std::string, Yuni::String> ExifDataType;
+		typedef TablePhotographers::TupleString TupleString;
 
 
 	public:
@@ -50,42 +51,37 @@ namespace Private
 		/*!
 		** \brief Constructor
 		**
-		** \param[in] name Complete name of the photographer
-		** \param[in] abbrev Abbreviation to use in the name of the photo
-		** \param[in] cameras List of cameras associated to this photographer
+		** \param[in] row Tuple that stem directly from a row in sqlite database
 		**
 		*/
-		explicit Photographer(const YString& name, const YString& abbrev,
-			const std::multimap<std::string, Yuni::String>& cameras);
+		explicit Photographer(const TupleString& row);
 
-		//! Name of the photographer
-		YString name() const;
+		//! First name of the photographer
+		const TablePhotographers::FirstName::StringType& firstName() const;
 
-		//! Abbreviation related to the photographer
-		YString abbr() const;
+		//! Last name of the photographer
+		const TablePhotographers::LastName::StringType& lastName() const;
 
-		//! List of keys/values identifying the photographer in exif data (see #ExifDataType)
-		const ExifDataType& exifData() const;
-
+		//! Abbreviation sued to designate the photographer
+		const TablePhotographers::Abbreviation::StringType& abbreviation() const;
 
 	private:
 
-		//! Name of the photographer
-		YString pName;
+		//! First name of the photographer
+		TablePhotographers::FirstName::StringType pFirstName;
 
-		//! Abbreviation (to use in photo's name)
-		YString pAbbrev;
+		//! Last name of the photographer
+		TablePhotographers::LastName::StringType pLastName;
 
-		//! List of keys/values identifying the photographer in exif data (see #ExifDataType)
-		ExifDataType pCameras;
-
+		//! Abbreviation sued to designate the photographer
+		TablePhotographers::Abbreviation::StringType pAbbreviation;
 
 		friend bool operator==(const Photographer& lhs, const Photographer& rhs);
 		friend bool operator!=(const Photographer& lhs, const Photographer& rhs);
 	};
 
-	bool operator==(const Photographer& lhs, const Photographer& rhs);
-	bool operator!=(const Photographer& lhs, const Photographer& rhs);
+	inline bool operator==(const Photographer& lhs, const Photographer& rhs);
+	inline bool operator!=(const Photographer& lhs, const Photographer& rhs);
 
 } // namespace Private
 } // namespace ExtendedPhoto

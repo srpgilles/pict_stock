@@ -13,9 +13,12 @@ add_library(extended_photo STATIC
 	cameras.cpp
 	cameras.hpp
 	cameras.hxx		
+	photographers.cpp
+	photographers.hpp
+	photographers.hxx	
+	private/helpers.hpp
 	private/date_helpers.hpp
 	private/photographer_helpers.hpp
-	private/cameras_helpers.hpp
 	private/photographer.cpp
 	private/photographer.hpp
 	private/photographer.hxx

@@ -1,3 +1,4 @@
+#include "../../tools/tools.hpp"
 #include "photographer.hpp"
 
 namespace PictStock
@@ -7,32 +8,11 @@ namespace ExtendedPhoto
 namespace Private
 {
 
-	Photographer::Photographer(const YString& name,
-		const YString& abbrev,
-		const ExifDataType& cameras)
-		: pName(name),
-		  pAbbrev(abbrev),
-		  pCameras(cameras)
+	Photographer::Photographer(const TupleString& row)
+		: pFirstName(std::get<GenericTools::IndexOf<TablePhotographers::FirstName, Tuple>::value>(row)),
+		  pLastName(std::get<GenericTools::IndexOf<TablePhotographers::LastName, Tuple>::value>(row)),
+		  pAbbreviation(std::get<GenericTools::IndexOf<TablePhotographers::Abbreviation, Tuple>::value>(row))
 	{ }
-
-
-	bool operator==(const Photographer& lhs, const Photographer& rhs)
-	{
-		if (lhs.pName != rhs.pName)
-			return false;
-
-		if (lhs.pAbbrev != rhs.pAbbrev)
-			return false;
-
-		return (lhs.pCameras == rhs.pCameras);
-	}
-
-
-	bool operator!=(const Photographer& lhs, const Photographer& rhs)
-	{
-		return !(operator == (lhs, rhs));
-	}
-
 
 } // namespace Private
 } // namespace ExtendedPhoto

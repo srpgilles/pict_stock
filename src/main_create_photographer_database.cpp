@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 			);
 
 	{
-		std::vector<YString> fields { "FirstName", "LastName", "Abbr" };
+		std::vector<YString> fields { "FirstName", "LastName", "Abbreviation" };
 
 		typedef std::tuple<AnyString, AnyString, AnyString> TupleType;
 

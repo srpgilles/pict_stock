@@ -56,8 +56,8 @@ namespace ExtendedPhoto
 	template<>
 	inline void PathInformations::setElement<Private::PhotographerInformations>(const AnyString& input)
 	{
-		std::multimap<std::string, Yuni::String> empty;
-		pPhotographerPtr = new Private::Photographer("", input, empty);
+		// TODO DO NOT FORGET TO SET PROPERLY THE INFORMATION HERE!!!!!
+		//pPhotographerPtr =
 	}
 
 	template<>
@@ -154,7 +154,7 @@ namespace ExtendedPhoto
 	inline PathInformations::ElementString PathInformations::getElement<Private::PhotographerInformations>() const
 	{
 		if (!(!pPhotographerPtr))
-			return pPhotographerPtr->abbr();
+			return pPhotographerPtr->abbreviation();
 
 		return "UNK";
 	}

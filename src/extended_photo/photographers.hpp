@@ -3,10 +3,13 @@
 
 # include <tuple>
 # include <vector>
+# include <unordered_set>
 # include <yuni/core/string.h>
 # include "../pict_stock.hpp"
+# include "../tools/tools.hpp"
 # include "private/helpers.hpp"
-
+# include "private/photographer.hpp"
+# include "private/table_photographers.hpp"
 
 namespace GenericTools
 {
@@ -19,11 +22,13 @@ namespace PictStock
 {
 namespace ExtendedPhoto
 {
+
+
+
+
 	/*!
 	** \brief This class handles all the known photographers, including
 	** their storing inside sqlite database
-	**
-	** This class should be hidden in #Cameras
 	*/
 	class YUNI_DECL Photographers : private Yuni::NonCopyable<Photographers>
 	{
@@ -31,8 +36,7 @@ namespace ExtendedPhoto
 	public:
 
 		//! Tuple type for rows of the table cameras in sqlite database
-		typedef std::tuple<nsExtendedPhoto::Private::Keyword, nsExtendedPhoto::Private::Value,
-			nsExtendedPhoto::Private::Owner> Tuple;
+		typedef TablePhotographers::Tuple Tuple;
 
 		/*!
 		** \brief Yields the StringType hold by each element of the input tuple
@@ -40,7 +44,10 @@ namespace ExtendedPhoto
 		** For instance, if TupleT = [Keyword, Value, Owner] keyword type will yield
 		** 	[Keyword::StringType, Value::StringType, Owner::StringType]
 		*/
-		typedef nsExtendedPhoto::Private::TupleString<Tuple>::type  TupleString;
+		typedef TablePhotographers::TupleString TupleString;
+
+		//! Name of the table in sqlite database
+		static YString TableName() { return "Photographers"; }
 
 	public:
 
@@ -49,29 +56,14 @@ namespace ExtendedPhoto
 		/*!
 		 * \brief Constructor
 		 */
-		explicit Cameras(GenericTools::SqliteWrapper& database);
+		explicit Photographers(GenericTools::SqliteWrapper& database);
 		//@}
 
 		//! Add a new camera
-		void addNewCamera(const nsExtendedPhoto::Private::Keyword::StringType& currentKeyword,
-			const nsExtendedPhoto::Private::Value::StringType& valueToCheck,
-			const nsExtendedPhoto::Private::Owner::StringType& photographer);
+		void addNewPhotographer(const TablePhotographers::FirstName::StringType& firstName,
+			const TablePhotographers::LastName::StringType& lastName,
+			const TablePhotographers::Abbreviation::StringType& abbreviation);
 
-		//! Return the list of known keywords
-		const std::vector<nsExtendedPhoto::Private::Keyword::StringType>& keywords() const;
-
-		/*!
-		** \brief Identify the photographer is possible
-		**
-		** This method should be called when in exif data a likely couple keyword/value has been
-		** identified
-		**
-		** We want to check then whether this couple is known or not
-		*/
-		bool identifyPhotographer(
-			const nsExtendedPhoto::Private::Keyword::StringType& currentKeyword,
-			const nsExtendedPhoto::Private::Value::StringType& valueToCheck,
-			nsExtendedPhoto::Private::Owner::StringType& photographer) const;
 
 	private:
 
@@ -79,20 +71,18 @@ namespace ExtendedPhoto
 		GenericTools::SqliteWrapper& pDatabase;
 
 		/*!
-		**\brief Rows in sqlite database table related to cameras.
+		** \brief Data
 		**
-		** IMPORTANT: This vector is assumed to be sort by keyword.
+		** Each entry matches a row in the sqlite database
+		**
 		*/
-		std::vector<TupleString> pRows;
-
-		//! It's convenient to have a list of all known keywords
-		std::vector<nsExtendedPhoto::Private::Keyword::StringType> pKeywords;
+		Private::Photographer::Vector pData;
 
 	};
 
 } // namespace ExtendedPhoto
 } // namespace PictStock
 
-# include "cameras.hxx"
+# include "photographers.hxx"
 
 #endif /* PHOTOGRAPHERS_HPP_ */

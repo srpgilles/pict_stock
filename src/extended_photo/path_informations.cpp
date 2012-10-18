@@ -105,7 +105,7 @@ namespace ExtendedPhoto
 		if (!pPhotographerPtr)
 			out << "Empty!" << '\n';
 		else
-			out << pPhotographerPtr->abbr();
+			out << pPhotographerPtr->abbreviation();
 	}
 
 } // namespace ExtendedPhoto

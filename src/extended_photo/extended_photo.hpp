@@ -140,19 +140,6 @@ namespace ExtendedPhoto
 
 		//! Object that keeps all known cameras under check
 		const Cameras& pCameras;
-
-
-	private:
-
-		/*!
-		**
-		** Key is the serial number of Canon camera, value struct listing name and
-		** abbreviation of the photographer
-		**
-		*/
-		static const Private::Photographer::List pPhotographers;
-
-
 	};
 
 	//! Operator== : two #ExtendedPhoto are equals if they share the same object *pImage

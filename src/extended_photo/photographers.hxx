@@ -6,10 +6,6 @@ namespace PictStock
 namespace ExtendedPhoto
 {
 
-	inline const std::vector<NSExtendedPhoto::Private::Keyword::StringType>& Cameras::keywords() const
-	{
-		return pKeywords;
-	}
 
 } // namespace ExtendedPhoto
 } // namespace pictStock

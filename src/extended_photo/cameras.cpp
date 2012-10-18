@@ -150,7 +150,7 @@ namespace ExtendedPhoto
 		std::cout << "All the rows (" << pRows.size() << ") found in memory are:\n";
 		std::for_each(pRows.cbegin(), pRows.cend(), [](const TupleString& tuple)
 			{
-				GenericTools::printTuple(std::cout, tuple);
+				GenericTools::printTuple(std::cout, tuple, ",", "\t[", "]\n");
 			}
 		);
 		std::cout << "-------------------------------\n";

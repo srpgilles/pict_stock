@@ -19,7 +19,7 @@ namespace UTF8
 	}
 
 
-	inline unsigned int Char::Size(const void* p)
+	inline uint Char::Size(const void* p)
 	{
 		// Char. number range  |        UTF-8 octet sequence
 		//    (hexadecimal)    |              (binary)
@@ -42,7 +42,7 @@ namespace UTF8
 	}
 
 
-	inline unsigned int Char::size() const
+	inline uint Char::size() const
 	{
 		if (pValue < 0x80)
 			return 1;

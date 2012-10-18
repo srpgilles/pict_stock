@@ -169,7 +169,7 @@ namespace Checksum
 				#  else
 				#	define xbuf X   // (static only)
 				#  endif
-					for (unsigned int i = 0; i != 16; ++i, xp += 4)
+					for (uint i = 0; i != 16; ++i, xp += 4)
 						xbuf[i] = static_cast<MD5TypeUInt32>(xp[0] + (xp[1] << 8) + (xp[2] << 16) + (xp[3] << 24));
 				}
 				#endif
@@ -301,11 +301,11 @@ namespace Checksum
 		}
 
 
-		void md5ImplAppend(MD5TypeState *pms, const MD5TypeByte *data, unsigned int nbytes)
+		void md5ImplAppend(MD5TypeState *pms, const MD5TypeByte *data, uint nbytes)
 		{
 			const MD5TypeByte* p = data;
-			unsigned int left = nbytes;
-			unsigned int offset = (pms->count[0] >> 3) & 63;
+			uint left = nbytes;
+			uint offset = (pms->count[0] >> 3) & 63;
 			MD5TypeUInt32 nbits = (MD5TypeUInt32)(nbytes << 3);
 
 			if (nbytes <= 0)
@@ -320,7 +320,7 @@ namespace Checksum
 			// Process an initial partial block
 			if (offset)
 			{
-				const unsigned int copy = (offset + nbytes > 64 ? 64 - offset : nbytes);
+				const uint copy = (offset + nbytes > 64 ? 64 - offset : nbytes);
 
 				YUNI_MEMCPY(pms->buf + offset, sizeof(pms->buf) - offset, p, static_cast<size_t>(copy));
 				if (offset + copy < 64)
@@ -394,7 +394,7 @@ namespace Checksum
 		MD5TypeByte digest[16];
 
 		md5ImplInit(&state);
-		md5ImplAppend(&state, static_cast<const MD5TypeByte*>(rawdata), static_cast<unsigned int>(size));
+		md5ImplAppend(&state, static_cast<const MD5TypeByte*>(rawdata), static_cast<uint>(size));
 		md5ImplFinish(&state, digest);
 		md5DigestToString(pValue, digest);
 		return pValue;
@@ -416,7 +416,7 @@ namespace Checksum
 			size_t len = 0u;
 
 			while (0 != (len = stream.read((char*)buffer, 1024u)))
-				md5ImplAppend(&state, reinterpret_cast<const MD5TypeByte*>(buffer), static_cast<unsigned int>(len));
+				md5ImplAppend(&state, reinterpret_cast<const MD5TypeByte*>(buffer), static_cast<uint>(len));
 
 			md5ImplFinish(&state, digest);
 			md5DigestToString(pValue, digest);

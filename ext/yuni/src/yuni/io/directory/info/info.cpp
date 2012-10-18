@@ -10,16 +10,12 @@ namespace Directory
 {
 
 
-	namespace // anonymous
+	static void NormalizeTinyDirectoryPath(String& path)
 	{
+		CString<1024, false> tmp = path;
+		IO::Normalize(path, tmp);
+	}
 
-		void NormalizeTinyDirectoryPath(String& path)
-		{
-			CString<1024, false, false> tmp = path;
-			IO::Normalize(path, tmp);
-		}
-
-	} // anonymous namespace
 
 
 	void Info::normalize()

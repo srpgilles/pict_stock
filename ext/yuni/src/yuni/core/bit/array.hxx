@@ -12,14 +12,14 @@ namespace Bit
 	{}
 
 
-	inline Array::Array(unsigned int n)
+	inline Array::Array(uint n)
 	{
 		resize(n);
 		unset();
 	}
 
 
-	inline Array::Array(unsigned int n, bool value)
+	inline Array::Array(uint n, bool value)
 	{
 		resize(n);
 		reset(value);
@@ -30,7 +30,6 @@ namespace Bit
 	{
 		(void)::memset(pBuffer.data(), 0, (size_t)pBuffer.sizeInBytes());
 	}
-
 
 
 	inline void Array::reset()
@@ -45,13 +44,13 @@ namespace Bit
 	}
 
 
-	inline void Array::set(unsigned int i)
+	inline void Array::set(uint i)
 	{
 		YUNI_BIT_SET(pBuffer.data(), i);
 	}
 
 
-	inline bool Array::get(unsigned int i) const
+	inline bool Array::get(uint i) const
 	{
 		# ifdef YUNI_OS_MSVC
 		return (YUNI_BIT_GET(pBuffer.data(), i)) ? true : false;
@@ -61,7 +60,7 @@ namespace Bit
 	}
 
 
-	inline bool Array::test(unsigned int i) const
+	inline bool Array::test(uint i) const
 	{
 		# ifdef YUNI_OS_MSVC
 		return (YUNI_BIT_GET(pBuffer.data(), i)) ? true : false;
@@ -71,7 +70,7 @@ namespace Bit
 	}
 
 
-	inline void Array::set(unsigned int i, bool value)
+	inline void Array::set(uint i, bool value)
 	{
 		if (value)
 			YUNI_BIT_SET(pBuffer.data(), i);
@@ -80,41 +79,41 @@ namespace Bit
 	}
 
 
-	inline void Array::unset(unsigned int i)
+	inline void Array::unset(uint i)
 	{
 		YUNI_BIT_UNSET(pBuffer.data(), i);
 	}
 
 
-	inline void Array::reserve(unsigned int n)
+	inline void Array::reserve(uint n)
 	{
 		pBuffer.reserve((n >> 3) + 1);
 	}
 
 
-	inline void Array::truncate(unsigned int n)
+	inline void Array::truncate(uint n)
 	{
 		pBuffer.truncate(((pCount = n) >> 3) + 1);
 	}
 
 
-	inline void Array::resize(unsigned int n)
+	inline void Array::resize(uint n)
 	{
 		pBuffer.resize(((pCount = n) >> 3) + 1);
 	}
 
 
-	inline unsigned int Array::sizeInBytes() const
+	inline uint Array::sizeInBytes() const
 	{
-		return (unsigned int)pBuffer.sizeInBytes();
+		return (uint)pBuffer.sizeInBytes();
 	}
 
-	inline unsigned int Array::size() const
+	inline uint Array::size() const
 	{
 		return pCount;
 	}
 
-	inline unsigned int Array::count() const
+	inline uint Array::count() const
 	{
 		return pCount;
 	}
@@ -163,7 +162,7 @@ namespace Bit
 
 
 	template<class StringT>
-	inline void Array::loadFromBuffer(const StringT& u, unsigned int size)
+	inline void Array::loadFromBuffer(const StringT& u, uint size)
 	{
 		// Assert, if a C* container can not be found at compile time
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, BitArray_InvalidTypeForBuffer);
@@ -201,13 +200,13 @@ namespace Bit
 	template<class U>
 	inline void Array::print(U& out) const
 	{
-		for (unsigned int i = 0; i != pCount; ++i)
+		for (uint i = 0; i != pCount; ++i)
 			out.put((YUNI_BIT_GET(pBuffer.data(), i)) ? '1' : '0');
 	}
 
 
 	template<bool ValueT>
-	unsigned int Array::findN(unsigned int count, unsigned int offset) const
+	uint Array::findN(uint count, uint offset) const
 	{
 		while (npos != (offset = find<ValueT>(offset)))
 		{
@@ -218,7 +217,7 @@ namespace Bit
 
 			// Checking if the block is large enough for our needs
 			// The first block is already valid
-			for (unsigned int j = 1; j < count; ++j)
+			for (uint j = 1; j < count; ++j)
 			{
 				if (ValueT != get(offset + j))
 				{
@@ -235,7 +234,7 @@ namespace Bit
 
 
 	template<bool ValueT>
-	inline unsigned int Array::find(unsigned int offset) const
+	inline uint Array::find(uint offset) const
 	{
 		return ValueT ? findFirstSet(offset) : findFirstUnset(offset);
 	}

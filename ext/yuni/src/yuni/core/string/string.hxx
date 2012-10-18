@@ -17,8 +17,8 @@ namespace Yuni
 	char* NullTerminatedCString();
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline int CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ToLower(int c)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline int CString<ChunkSizeT,ExpandableT>::ToLower(int c)
 	{
 		return (static_cast<uint>(c) - 'A' < 26)
 			? c | 32
@@ -26,8 +26,8 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline int CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ToUpper(int c)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline int CString<ChunkSizeT,ExpandableT>::ToUpper(int c)
 	{
 		return (static_cast<uint>(c) - 'a' < 26)
 			? c & 0x5f
@@ -35,81 +35,83 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline bool CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::IsSpace(int c)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline bool CString<ChunkSizeT,ExpandableT>::IsSpace(int c)
 	{
 		return (c == ' ') || (static_cast<uint>(c) - '\t' < 5);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline bool CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::IsDigit(int c)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline bool CString<ChunkSizeT,ExpandableT>::IsDigit(int c)
 	{
 		return static_cast<uint>(c) - '0' < 10;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline bool CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::IsDigitNonZero(int c)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline bool CString<ChunkSizeT,ExpandableT>::IsDigitNonZero(int c)
 	{
 		return static_cast<uint>(c) - '1' < 9;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline bool CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::IsAlpha(int c)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline bool CString<ChunkSizeT,ExpandableT>::IsAlpha(int c)
 	{
 		return (static_cast<uint>(c) | 32) - 'a' < 26;
 	}
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString()
-	{}
-
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::~CString()
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline CString<ChunkSizeT,ExpandableT>::CString()
 	{}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline CString<ChunkSizeT,ExpandableT>::~CString()
+	{}
+
+
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class ModelT, bool ConstT, class ModelT2, bool ConstT2>
 	inline
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(
+	CString<ChunkSizeT,ExpandableT>::CString(
 		const IIterator<ModelT,ConstT>& begin, const IIterator<ModelT2,ConstT2>& end)
 	{
 		assign(begin, end);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class ModelT, bool ConstT, class ModelT2, bool ConstT2, class StringT>
 	inline
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(
+	CString<ChunkSizeT,ExpandableT>::CString(
 		const IIterator<ModelT,ConstT>& begin, const IIterator<ModelT2,ConstT2>& end, const StringT& separator)
 	{
 		assign(begin, end, separator);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(const CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>& rhs)
+	CString<ChunkSizeT,ExpandableT>::CString(const CString<ChunkSizeT,ExpandableT>& rhs)
 		:AncestorType(rhs)
 	{}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
-	inline CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(const U& rhs)
+	inline CString<ChunkSizeT,ExpandableT>::CString(const U& rhs)
 	{
 		assign(rhs);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(size_t n, char c)
+	CString<ChunkSizeT,ExpandableT>::CString(size_t n, char c)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		// Resizing the buffer to `n`
@@ -119,9 +121,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(size_t n, unsigned char c)
+	CString<ChunkSizeT,ExpandableT>::CString(size_t n, unsigned char c)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		// Resizing the buffer to `n`
@@ -131,9 +133,40 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	template<uint SizeT, bool ExpT, bool ZeroT>
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(const CString<SizeT,ExpT,ZeroT>& s,
+	template<uint ChunkSizeT, bool ExpandableT>
+	template<uint SizeT, bool ExpT>
+	CString<ChunkSizeT,ExpandableT>::CString(const CString<SizeT,ExpT>& s, Size offset, Size n)
+	{
+		if (offset < s.size())
+		{
+			Size length = s.size() - offset;
+			if (length > n)
+				length = n;
+			if (!adapter)
+				AncestorType::assign((const char* const) s.c_str() + offset, length);
+			else
+				adapt(s.c_str() + offset, length);
+		}
+	}
+
+
+	template<uint ChunkSizeT, bool ExpandableT>
+	template<uint SizeT, bool ExpT>
+	CString<ChunkSizeT,ExpandableT>::CString(const CString<SizeT,ExpT>& s, Size offset)
+	{
+		if (offset < s.size())
+		{
+			if (!adapter)
+				AncestorType::assign((const char* const) s.c_str() + offset, s.size() - offset);
+			else
+				adapt(s.c_str() + offset, s.size() - offset);
+		}
+	}
+
+
+	template<uint ChunkSizeT, bool ExpandableT>
+	template<class TraitsT, class AllocT>
+	CString<ChunkSizeT,ExpandableT>::CString(const std::basic_string<char,TraitsT,AllocT>& s,
 		Size offset, Size n)
 	{
 		if (offset < s.size())
@@ -149,39 +182,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	template<uint SizeT, bool ExpT, bool ZeroT>
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(const CString<SizeT,ExpT,ZeroT>& s, Size offset)
-	{
-		if (offset < s.size())
-		{
-			if (!adapter)
-				AncestorType::assign((const char* const) s.c_str() + offset, s.size() - offset);
-			else
-				adapt(s.c_str() + offset, s.size() - offset);
-		}
-	}
-
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class TraitsT, class AllocT>
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(const std::basic_string<char,TraitsT,AllocT>& s,
-		Size offset, Size n)
-	{
-		if (offset < s.size())
-		{
-			Size length = s.size() - offset;
-			if (length > n)
-				length = n;
-			if (!adapter)
-				AncestorType::assign((const char* const) s.c_str() + offset, length);
-			else
-				adapt(s.c_str() + offset, length);
-		}
-	}
-
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	template<class TraitsT, class AllocT>
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(const std::basic_string<char,TraitsT,AllocT>& s, Size offset)
+	CString<ChunkSizeT,ExpandableT>::CString(const std::basic_string<char,TraitsT,AllocT>& s, Size offset)
 	{
 		if (offset < s.size())
 		{
@@ -193,9 +196,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CString(const char* const cstring, Size blockSize)
+	CString<ChunkSizeT,ExpandableT>::CString(const char* const cstring, Size blockSize)
 	{
 		if (!adapter)
 			AncestorType::assign(cstring, blockSize);
@@ -263,27 +266,29 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
 	inline
-	void CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::assign(const U& u)
+	void CString<ChunkSizeT,ExpandableT>::assign(const U& u)
 	{
 		TraitsSelectorAssign<
 			(Traits::CString<U>::valid && Traits::Length<U>::valid),             // Standard CString ?
-			(0 != CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::adapter) // Adapter ?
+			(0 != CString<ChunkSizeT,ExpandableT>::adapter) // Adapter ?
 			>::
 			template Perform<U, CStringType>(u, *this);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
 	inline
-	void CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::append(const U& u)
+	void CString<ChunkSizeT,ExpandableT>::append(const U& u)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		TraitsSelectorAppend<Traits::CString<U>::valid && Traits::Length<U>::valid>::
 			template Perform<U, CStringType>(u, *this);
 	}
+
 
 
 	template<class T>
@@ -326,10 +331,12 @@ namespace Yuni
 	}; // class AppendIterator
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+
+
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class ModelT, bool ConstT, class ModelT2, bool ConstT2>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::assign(const IIterator<ModelT,ConstT>& begin,
+	CString<ChunkSizeT,ExpandableT>::assign(const IIterator<ModelT,ConstT>& begin,
 		const IIterator<ModelT2,ConstT2>& end)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
@@ -338,10 +345,11 @@ namespace Yuni
 		AppendIterator<HeldType>::Perform(*this, begin, end);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class ModelT, bool ConstT, class ModelT2, bool ConstT2, class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::assign(const IIterator<ModelT,ConstT>& begin,
+	CString<ChunkSizeT,ExpandableT>::assign(const IIterator<ModelT,ConstT>& begin,
 		const IIterator<ModelT2,ConstT2>& end, const StringT& separator)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
@@ -350,10 +358,11 @@ namespace Yuni
 		AppendIterator<HeldType>::Perform(*this, begin, end, separator);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class ModelT, bool ConstT, class ModelT2, bool ConstT2, class StringT, class EnclosureT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::assign(const IIterator<ModelT,ConstT>& begin,
+	CString<ChunkSizeT,ExpandableT>::assign(const IIterator<ModelT,ConstT>& begin,
 		const IIterator<ModelT2,ConstT2>& end, const StringT& separator, const EnclosureT& enclosure)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
@@ -362,10 +371,11 @@ namespace Yuni
 		AppendIterator<HeldType>::Perform(*this, begin, end, separator, enclosure);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class ModelT, bool ConstT, class ModelT2, bool ConstT2>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::append(const IIterator<ModelT,ConstT>& begin,
+	CString<ChunkSizeT,ExpandableT>::append(const IIterator<ModelT,ConstT>& begin,
 		const IIterator<ModelT2,ConstT2>& end)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
@@ -373,10 +383,11 @@ namespace Yuni
 		AppendIterator<HeldType>::Perform(*this, begin, end);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class ModelT, bool ConstT, class ModelT2, bool ConstT2, class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::append(const IIterator<ModelT,ConstT>& begin,
+	CString<ChunkSizeT,ExpandableT>::append(const IIterator<ModelT,ConstT>& begin,
 		const IIterator<ModelT2,ConstT2>& end, const StringT& separator)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
@@ -384,10 +395,11 @@ namespace Yuni
 		AppendIterator<HeldType>::Perform(*this, begin, end, separator);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class ModelT, bool ConstT, class ModelT2, bool ConstT2, class StringT, class EnclosureT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::append(const IIterator<ModelT,ConstT>& begin,
+	CString<ChunkSizeT,ExpandableT>::append(const IIterator<ModelT,ConstT>& begin,
 		const IIterator<ModelT2,ConstT2>& end, const StringT& separator, const EnclosureT& enclosure)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
@@ -397,10 +409,10 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::append(const StringT& s, Size size)
+	CString<ChunkSizeT,ExpandableT>::append(const StringT& s, Size size)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -409,10 +421,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::append(const StringT& str, Size size, Size offset)
+	CString<ChunkSizeT,ExpandableT>::append(const StringT& str, Size size, Size offset)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -426,47 +438,47 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::write(const U& u, Size size)
+	CString<ChunkSizeT,ExpandableT>::write(const U& u, Size size)
 	{
 		append(u, size);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::write(const U& u)
+	CString<ChunkSizeT,ExpandableT>::write(const U& u)
 	{
 		append(u);
 	}
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::push_back(const U& u)
+	CString<ChunkSizeT,ExpandableT>::push_back(const U& u)
 	{
 		append(u);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::push_front(const U& u)
+	CString<ChunkSizeT,ExpandableT>::push_front(const U& u)
 	{
 		insert(0, u);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::assign(const StringT& str, Size size)
+	CString<ChunkSizeT,ExpandableT>::assign(const StringT& str, Size size)
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 
@@ -477,10 +489,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::assign(const StringT& str, Size size, Size offset)
+	CString<ChunkSizeT,ExpandableT>::assign(const StringT& str, Size size, Size offset)
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -537,9 +549,9 @@ namespace Yuni
 
 	} // anonymous namespace
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::assignFromEscapedCharacters(const char* const str,
+	CString<ChunkSizeT,ExpandableT>::assignFromEscapedCharacters(const char* const str,
 		Size maxLen, Size offset)
 	{
 		clear();
@@ -581,9 +593,8 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::clear()
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline CString<ChunkSizeT,ExpandableT>&  CString<ChunkSizeT,ExpandableT>::clear()
 	{
 		if (!adapter)
 			AncestorType::clear();
@@ -594,9 +605,9 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::reserve(Size minCapacity)
+	CString<ChunkSizeT,ExpandableT>::reserve(Size minCapacity)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		AncestorType::reserve(minCapacity);
@@ -604,37 +615,37 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::put(char c)
+	CString<ChunkSizeT,ExpandableT>::put(char c)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		AncestorType::put(c);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::put(const unsigned char c)
+	CString<ChunkSizeT,ExpandableT>::put(const unsigned char c)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		AncestorType::put(static_cast<char>(c));
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::put(const U& rhs)
+	CString<ChunkSizeT,ExpandableT>::put(const U& rhs)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		append(rhs);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	void CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::fill(const StringT& pattern)
+	void CString<ChunkSizeT,ExpandableT>::fill(const StringT& pattern)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		typedef typename Static::Remove::Const<StringT>::Type UType;
@@ -647,9 +658,9 @@ namespace Yuni
 		}
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	void CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::fill(Size offset, const StringT& pattern)
+	void CString<ChunkSizeT,ExpandableT>::fill(Size offset, const StringT& pattern)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		typedef typename Static::Remove::Const<StringT>::Type UType;
@@ -663,9 +674,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::hasChar(char c) const
+	CString<ChunkSizeT,ExpandableT>::hasChar(char c) const
 	{
 		for (Size i = 0; i != AncestorType::size; ++i)
 		{
@@ -676,9 +687,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::countChar(char c) const
+	CString<ChunkSizeT,ExpandableT>::countChar(char c) const
 	{
 		uint r = 0;
 		for (Size i = 0; i != AncestorType::size; ++i)
@@ -690,25 +701,25 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::hasChar(unsigned char c) const
+	CString<ChunkSizeT,ExpandableT>::hasChar(unsigned char c) const
 	{
 		return hasChar(static_cast<char>(c));
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::countChar(unsigned char c) const
+	CString<ChunkSizeT,ExpandableT>::countChar(unsigned char c) const
 	{
 		return countChar(static_cast<char>(c));
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find(char c) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find(char c) const
 	{
 		for (Size i = 0; i != AncestorType::size; ++i)
 		{
@@ -719,9 +730,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find(char c, Size offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find(char c, Size offset) const
 	{
 		for (Size i = offset; i < AncestorType::size; ++i)
 		{
@@ -732,9 +743,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find(const char* const cstr, Size offset, Size len) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find(const char* const cstr, Size offset, Size len) const
 	{
 		if (cstr && len && len <= AncestorType::size)
 		{
@@ -752,10 +763,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find(const StringT& s, Size offset) const
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find(const StringT& s, Size offset) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -781,9 +792,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ifind(char c) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::ifind(char c) const
 	{
 		c = static_cast<char>(ToLower(c));
 		for (Size i = 0; i != AncestorType::size; ++i)
@@ -795,9 +806,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ifind(char c, Size offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::ifind(char c, Size offset) const
 	{
 		c = static_cast<char>(ToLower(c));
 		for (Size i = offset; i < AncestorType::size; ++i)
@@ -809,9 +820,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ifind(const char* const cstr,
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::ifind(const char* const cstr,
 		Size offset, Size len) const
 	{
 		if (cstr && len && len <= AncestorType::size)
@@ -830,10 +841,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ifind(const StringT& s, Size offset) const
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::ifind(const StringT& s, Size offset) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -860,9 +871,9 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::rfind(char c) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::rfind(char c) const
 	{
 		Size i = AncestorType::size;
 		while (i--)
@@ -874,9 +885,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::rfind(char c, Size offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::rfind(char c, Size offset) const
 	{
 		Size i = (offset >= AncestorType::size) ? AncestorType::size : 1+offset;
 		while (i--)
@@ -888,9 +899,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::rfind(const char* const cstr, Size offset, Size len) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::rfind(const char* const cstr, Size offset, Size len) const
 	{
 		if (len && len <= AncestorType::size && offset >= len)
 		{
@@ -909,10 +920,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::rfind(const StringT& s, Size offset) const
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::rfind(const StringT& s, Size offset) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -938,9 +949,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::irfind(char c) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::irfind(char c) const
 	{
 		c = static_cast<char>(ToLower(c));
 		Size i = AncestorType::size;
@@ -953,9 +964,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::irfind(char c, Size offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::irfind(char c, Size offset) const
 	{
 		c = static_cast<char>(ToLower(c));
 		Size i = (offset >= AncestorType::size) ? AncestorType::size : 1+offset;
@@ -968,9 +979,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::irfind(const char* const cstr,
+	template<uint ChunkSizeT, bool ExpandableT>
+	typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::irfind(const char* const cstr,
 		Size offset, Size len) const
 	{
 		if (len && len <= AncestorType::size && offset >= len)
@@ -990,10 +1001,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::irfind(const StringT& s, Size offset) const
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::irfind(const StringT& s, Size offset) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1020,9 +1031,9 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::contains(char c) const
+	CString<ChunkSizeT,ExpandableT>::contains(char c) const
 	{
 		for (Size i = 0; i != AncestorType::size; ++i)
 		{
@@ -1033,9 +1044,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::contains(const char* const cstr, Size len) const
+	CString<ChunkSizeT,ExpandableT>::contains(const char* const cstr, Size len) const
 	{
 		if (cstr && len && len <= AncestorType::size)
 		{
@@ -1053,10 +1064,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::contains(const StringT& s) const
+	CString<ChunkSizeT,ExpandableT>::contains(const StringT& s) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1082,9 +1093,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::icontains(char c) const
+	CString<ChunkSizeT,ExpandableT>::icontains(char c) const
 	{
 		c = static_cast<char>(ToLower(c));
 		for (Size i = 0; i != AncestorType::size; ++i)
@@ -1096,9 +1107,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::icontains(const char* const cstr, Size len) const
+	CString<ChunkSizeT,ExpandableT>::icontains(const char* const cstr, Size len) const
 	{
 		if (cstr && len && len <= AncestorType::size)
 		{
@@ -1116,10 +1127,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::icontains(const StringT& s) const
+	CString<ChunkSizeT,ExpandableT>::icontains(const StringT& s) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1148,9 +1159,9 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::indexOf(Size offset, char c) const
+	CString<ChunkSizeT,ExpandableT>::indexOf(Size offset, char c) const
 	{
 		for (; offset < AncestorType::size; ++offset)
 		{
@@ -1161,9 +1172,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::startsWith(const char* const cstr, Size len) const
+	CString<ChunkSizeT,ExpandableT>::startsWith(const char* const cstr, Size len) const
 	{
 		return (cstr && len && len <= AncestorType::size)
 			? (0 == ::memcmp(AncestorType::data, cstr, len))
@@ -1171,10 +1182,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::startsWith(const StringT& s) const
+	CString<ChunkSizeT,ExpandableT>::startsWith(const StringT& s) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1183,17 +1194,17 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::startsWith(char c) const
+	CString<ChunkSizeT,ExpandableT>::startsWith(char c) const
 	{
 		return (0 != AncestorType::size) && (AncestorType::data[0] == c);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::istartsWith(const char* const cstr, Size len) const
+	CString<ChunkSizeT,ExpandableT>::istartsWith(const char* const cstr, Size len) const
 	{
 		if (cstr && len && len <= AncestorType::size)
 		{
@@ -1208,10 +1219,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::istartsWith(const StringT& s) const
+	CString<ChunkSizeT,ExpandableT>::istartsWith(const StringT& s) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1220,18 +1231,18 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::istartsWith(char c) const
+	CString<ChunkSizeT,ExpandableT>::istartsWith(char c) const
 	{
 		return (0 != AncestorType::size) && (ToLower(AncestorType::data[0]) == ToLower(c));
 	}
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::endsWith(const char* const cstr, Size len) const
+	CString<ChunkSizeT,ExpandableT>::endsWith(const char* const cstr, Size len) const
 	{
 		return (cstr && len && len <= AncestorType::size)
 			? (0 == ::memcmp(AncestorType::data + (AncestorType::size - len), cstr, len))
@@ -1239,10 +1250,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::endsWith(const StringT& s) const
+	CString<ChunkSizeT,ExpandableT>::endsWith(const StringT& s) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1251,17 +1262,17 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::endsWith(char c) const
+	CString<ChunkSizeT,ExpandableT>::endsWith(char c) const
 	{
 		return (0 != AncestorType::size) && (AncestorType::data[AncestorType::size - 1] == c);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::iendsWith(const char* const cstr, Size len) const
+	CString<ChunkSizeT,ExpandableT>::iendsWith(const char* const cstr, Size len) const
 	{
 		if (cstr && len && len <= AncestorType::size)
 		{
@@ -1277,10 +1288,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::iendsWith(const StringT& s) const
+	CString<ChunkSizeT,ExpandableT>::iendsWith(const StringT& s) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1289,17 +1300,17 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::iendsWith(char c) const
+	CString<ChunkSizeT,ExpandableT>::iendsWith(char c) const
 	{
 		return (0 != AncestorType::size) && (ToLower(AncestorType::data[AncestorType::size - 1]) == ToLower(c));
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::removeLast()
+	CString<ChunkSizeT,ExpandableT>::removeLast()
 	{
 		if (AncestorType::size != 0)
 		{
@@ -1310,9 +1321,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::removeTrailingSlash()
+	CString<ChunkSizeT,ExpandableT>::removeTrailingSlash()
 	{
 		if (AncestorType::size != 0)
 		{
@@ -1322,9 +1333,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::chop(uint n)
+	CString<ChunkSizeT,ExpandableT>::chop(uint n)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		if (AncestorType::size >= n)
@@ -1344,10 +1355,10 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::glob(const StringT& pattern) const
+	CString<ChunkSizeT,ExpandableT>::glob(const StringT& pattern) const
 	{
 		// TODO This method should be completly removed
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -1359,9 +1370,9 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::indexOf(Size offset,
+	CString<ChunkSizeT,ExpandableT>::indexOf(Size offset,
 		const char* const cstr, Size len) const
 	{
 		if (cstr && len && len <= AncestorType::size)
@@ -1381,10 +1392,10 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::indexOf(Size offset, const StringT& s) const
+	CString<ChunkSizeT,ExpandableT>::indexOf(Size offset, const StringT& s) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1410,17 +1421,17 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find_first_of(char c, Size offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find_first_of(char c, Size offset) const
 	{
 		return indexOf(offset, c);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ifind_first_of(char c, Size offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::ifind_first_of(char c, Size offset) const
 	{
 		c = static_cast<char>(ToLower(c));
 		for (Size i = offset; i < AncestorType::size; ++i)
@@ -1434,10 +1445,10 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find_first_of(const StringT& seq, Size offset) const
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find_first_of(const StringT& seq, Size offset) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1461,9 +1472,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find_first_not_of(char c, Size offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find_first_not_of(char c, Size offset) const
 	{
 		for (Size i = offset; i < AncestorType::size; ++i)
 		{
@@ -1477,9 +1488,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ifind_first_not_of(char c, Size offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::ifind_first_not_of(char c, Size offset) const
 	{
 		c = static_cast<char>(ToLower(c));
 		for (Size i = offset; i < AncestorType::size; ++i)
@@ -1495,10 +1506,10 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find_first_not_of(const StringT& seq, Size offset) const
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find_first_not_of(const StringT& seq, Size offset) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1529,10 +1540,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ifind_first_of(const StringT& seq, Size offset) const
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::ifind_first_of(const StringT& seq, Size offset) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1556,10 +1567,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ifind_first_not_of(const StringT& seq, Size offset) const
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::ifind_first_not_of(const StringT& seq, Size offset) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1590,9 +1601,9 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find_last_of(char c) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find_last_of(char c) const
 	{
 		Size i = AncestorType::size;
 		while (i--)
@@ -1603,9 +1614,9 @@ namespace Yuni
 		return npos;
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ifind_last_of(char c) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::ifind_last_of(char c) const
 	{
 		c = static_cast<char>(ToLower(c));
 		Size i = AncestorType::size;
@@ -1617,9 +1628,9 @@ namespace Yuni
 		return npos;
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find_last_of(char c, Size offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find_last_of(char c, Size offset) const
 	{
 		c = static_cast<char>(ToLower(c));
 		Size i = ((offset >= AncestorType::size) ? AncestorType::size : 1+offset);
@@ -1632,10 +1643,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::find_last_of(const StringT& seq, Size offset) const
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::find_last_of(const StringT& seq, Size offset) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1660,10 +1671,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ifind_last_of(const StringT& seq, Size offset) const
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::ifind_last_of(const StringT& seq, Size offset) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -1688,9 +1699,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::replace(char from, char to)
+	CString<ChunkSizeT,ExpandableT>::replace(char from, char to)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		uint count = 0;
@@ -1706,9 +1717,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ireplace(char from, char to)
+	CString<ChunkSizeT,ExpandableT>::ireplace(char from, char to)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		uint count = 0;
@@ -1725,9 +1736,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::replace(Size offset, char from, char to)
+	CString<ChunkSizeT,ExpandableT>::replace(Size offset, char from, char to)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		uint count = 0;
@@ -1743,30 +1754,30 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT1, class StringT2>
 	inline uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::replace(const StringT1& from, const StringT2& to)
+	CString<ChunkSizeT,ExpandableT>::replace(const StringT1& from, const StringT2& to)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		return replace<StringT1, StringT2>(0, from, to);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT1, class StringT2>
 	inline uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ireplace(const StringT1& from, const StringT2& to)
+	CString<ChunkSizeT,ExpandableT>::ireplace(const StringT1& from, const StringT2& to)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		return ireplace<StringT1, StringT2>(0, from, to);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT1, class StringT2>
 	uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::replace(Size offset, const StringT1& from, const StringT2& to)
+	CString<ChunkSizeT,ExpandableT>::replace(Size offset, const StringT1& from, const StringT2& to)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT1>::valid, CString_InvalidTypeForBuffer1);
@@ -1796,10 +1807,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT1, class StringT2>
 	uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ireplace(Size offset, const StringT1& from, const StringT2& to)
+	CString<ChunkSizeT,ExpandableT>::ireplace(Size offset, const StringT1& from, const StringT2& to)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT1>::valid, CString_InvalidTypeForBuffer1);
@@ -1829,9 +1840,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline uint
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ireplace(Size offset, char from, char to)
+	CString<ChunkSizeT,ExpandableT>::ireplace(Size offset, char from, char to)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		uint count = 0;
@@ -1849,38 +1860,38 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::consume(Size n)
+	CString<ChunkSizeT,ExpandableT>::consume(Size n)
 	{
 		if (n)
 			Yuni::Private::CStringImpl::Consume<CStringType, adapter>::Perform(*this, n);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
 	inline U
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::to() const
+	CString<ChunkSizeT,ExpandableT>::to() const
 	{
 		typedef typename Static::Remove::Const<U>::Type UType;
 		return Yuni::Extension::CString::Into<UType>::Perform(*this);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::to(U& out) const
+	CString<ChunkSizeT,ExpandableT>::to(U& out) const
 	{
 		typedef typename Static::Remove::Const<U>::Type UType;
 		return Yuni::Extension::CString::Into<UType>::Perform(*this, out);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class ModelT, bool ConstT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::erase(const IIterator<ModelT,ConstT>& it, Size len)
+	CString<ChunkSizeT,ExpandableT>::erase(const IIterator<ModelT,ConstT>& it, Size len)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		erase(it.offset(), len);
@@ -1888,9 +1899,9 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::erase(Size offset, Size len)
+	CString<ChunkSizeT,ExpandableT>::erase(Size offset, Size len)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		// Only valid if the offset is strictly less than the current size
@@ -1914,28 +1925,28 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline int
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::at(Size offset) const
+	CString<ChunkSizeT,ExpandableT>::at(Size offset) const
 	{
 		return (offset < AncestorType::size) ? AncestorType::data[offset] : 0;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class ModelT, bool ConstT, class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::insert(const IIterator<ModelT,ConstT>& it, const StringT& string)
+	CString<ChunkSizeT,ExpandableT>::insert(const IIterator<ModelT,ConstT>& it, const StringT& string)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		insert(it.offset(), string);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::insert(Size offset, const StringT& s)
+	CString<ChunkSizeT,ExpandableT>::insert(Size offset, const StringT& s)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -1961,10 +1972,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::insert(Size offset, const StringT& s, Size size)
+	CString<ChunkSizeT,ExpandableT>::insert(Size offset, const StringT& s, Size size)
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 
@@ -1972,9 +1983,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::insert(Size offset, const char* const cstr, Size size)
+	CString<ChunkSizeT,ExpandableT>::insert(Size offset, const char* const cstr, Size size)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		if (size > 0)
@@ -1991,9 +2002,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::insert(Size offset, char c)
+	CString<ChunkSizeT,ExpandableT>::insert(Size offset, char c)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		if (offset >= AncestorType::size)
@@ -2006,10 +2017,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::prepend(const StringT& s)
+	CString<ChunkSizeT,ExpandableT>::prepend(const StringT& s)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -2019,10 +2030,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::prepend(const StringT& s, Size size)
+	CString<ChunkSizeT,ExpandableT>::prepend(const StringT& s, Size size)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -2031,25 +2042,25 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::prepend(const char* const cstr, Size size)
+	CString<ChunkSizeT,ExpandableT>::prepend(const char* const cstr, Size size)
 	{
 		return insert(0, cstr, size);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::prepend(char c)
+	CString<ChunkSizeT,ExpandableT>::prepend(char c)
 	{
 		return insert(0, c);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::overwrite(Size offset, const char* const cstr, Size size)
+	CString<ChunkSizeT,ExpandableT>::overwrite(Size offset, const char* const cstr, Size size)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		if (offset < AncestorType::size && size)
@@ -2062,10 +2073,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::overwrite(Size offset, const StringT& s)
+	CString<ChunkSizeT,ExpandableT>::overwrite(Size offset, const StringT& s)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -2092,10 +2103,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::overwrite(const StringT& s)
+	CString<ChunkSizeT,ExpandableT>::overwrite(const StringT& s)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -2123,10 +2134,10 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::overwriteRight(Size offset, const StringT& s)
+	CString<ChunkSizeT,ExpandableT>::overwriteRight(Size offset, const StringT& s)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -2155,10 +2166,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::overwriteRight(const StringT& s)
+	CString<ChunkSizeT,ExpandableT>::overwriteRight(const StringT& s)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -2187,10 +2198,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::overwriteCenter(const StringT& s)
+	CString<ChunkSizeT,ExpandableT>::overwriteCenter(const StringT& s)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
@@ -2220,18 +2231,18 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::truncate(Size newSize)
+	CString<ChunkSizeT,ExpandableT>::truncate(Size newSize)
 	{
 		if (newSize < AncestorType::size)
 			AncestorType::size = newSize;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8size() const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::utf8size() const
 	{
 		// this routine is not exactly as fast as strlen, but it should make no
 		// measurable difference
@@ -2246,18 +2257,18 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8valid() const
+	CString<ChunkSizeT,ExpandableT>::utf8valid() const
 	{
 		uint offset;
 		return (UTF8::errNone == utf8valid(offset));
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	UTF8::Error
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8valid(Size& offset) const
+	CString<ChunkSizeT,ExpandableT>::utf8valid(Size& offset) const
 	{
 		offset = 0;
 		UTF8::Char c;
@@ -2271,9 +2282,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8validFast() const
+	CString<ChunkSizeT,ExpandableT>::utf8validFast() const
 	{
 		uint i = 0;
 		uint l;
@@ -2288,10 +2299,10 @@ namespace Yuni
 		return true;
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<bool InvalidateOffsetIfErrorT>
 	UTF8::Error
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8next(Size& offset, UTF8::Char& out) const
+	CString<ChunkSizeT,ExpandableT>::utf8next(Size& offset, UTF8::Char& out) const
 	{
 		if (offset >= AncestorType::size)
 		{
@@ -2415,121 +2426,112 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::size() const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::size() const
 	{
 		return AncestorType::size;
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::length() const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::length() const
 	{
 		return AncestorType::size;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline size_t
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::sizeInBytes() const
+	CString<ChunkSizeT,ExpandableT>::sizeInBytes() const
 	{
 		return (size_t) AncestorType::size * sizeof(Char);
 	}
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::capacity() const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::capacity() const
 	{
 		return AncestorType::capacity;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline size_t
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::max_size() const
+	CString<ChunkSizeT,ExpandableT>::max_size() const
 	{
 		return static_cast<Size>(-1);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline size_t
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::capacityInBytes() const
+	CString<ChunkSizeT,ExpandableT>::capacityInBytes() const
 	{
 		return (size_t) AncestorType::capacity * sizeof(Char);
 	}
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline const char*
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::data() const
+	CString<ChunkSizeT,ExpandableT>::data() const
 	{
 		return AncestorType::data;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline char*
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::data()
+	CString<ChunkSizeT,ExpandableT>::data()
 	{
 		return AncestorType::data;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline const char*
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::c_str() const
+	CString<ChunkSizeT,ExpandableT>::c_str() const
 	{
 		return (NULL != AncestorType::data) ? AncestorType::data : "";
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::empty() const
+	CString<ChunkSizeT,ExpandableT>::empty() const
 	{
 		return (0 == AncestorType::size);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::null() const
+	CString<ChunkSizeT,ExpandableT>::null() const
 	{
 		return (NULL == AncestorType::data);
 	}
 
 
-
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::notEmpty() const
-	{
-		return (0 != AncestorType::size);
-	}
-
-
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::shrink()
+	CString<ChunkSizeT,ExpandableT>::shrink()
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		AncestorType::shrink();
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::resize(Size len)
+	CString<ChunkSizeT,ExpandableT>::resize(Size len)
 	{
 		if (AncestorType::expandable)
 		{
 			// Dynamic cstr
 			if (!adapter)
-				AncestorType::reserve(len + AncestorType::zeroTerminated);
+				AncestorType::reserve(len + 1 /*AncestorType::zeroTerminated*/);
 			AncestorType::size = len;
 		}
 		else
@@ -2546,10 +2548,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::resize(Size len, const StringT& pattern)
+	CString<ChunkSizeT,ExpandableT>::resize(Size len, const StringT& pattern)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		if (len > AncestorType::size)
@@ -2564,9 +2566,9 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::trimRight(char c)
+	CString<ChunkSizeT,ExpandableT>::trimRight(char c)
 	{
 		while (AncestorType::size > 0 && AncestorType::data[AncestorType::size - 1] == c)
 			--AncestorType::size;
@@ -2575,9 +2577,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::trimLeft(char c)
+	CString<ChunkSizeT,ExpandableT>::trimLeft(char c)
 	{
 		if (AncestorType::size > 0)
 		{
@@ -2598,10 +2600,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::trimRight(const StringT& whitespaces)
+	CString<ChunkSizeT,ExpandableT>::trimRight(const StringT& whitespaces)
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 
@@ -2633,10 +2635,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::trimLeft(const StringT& whitespaces)
+	CString<ChunkSizeT,ExpandableT>::trimLeft(const StringT& whitespaces)
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 
@@ -2666,18 +2668,18 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::decalOffset(Size count)
+	CString<ChunkSizeT,ExpandableT>::decalOffset(Size count)
 	{
 		AncestorType::data += count;
 		AncestorType::size -= count;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::trim()
+	CString<ChunkSizeT,ExpandableT>::trim()
 	{
 		// It seems more interesting to trim from the end first, to reduce the size
 		// of the cstr as soon as possible and to reduce the amount of data to move
@@ -2688,9 +2690,9 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::trim(char c)
+	CString<ChunkSizeT,ExpandableT>::trim(char c)
 	{
 		// It seems more interesting to trim from the end first, to reduce the size
 		// of the cstr as soon as possible and to reduce the amount of data to move
@@ -2700,10 +2702,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::trim(const StringT& whitespaces)
+	CString<ChunkSizeT,ExpandableT>::trim(const StringT& whitespaces)
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForLength);
@@ -2717,9 +2719,9 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::assignWithoutChecking(
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::assignWithoutChecking(
 		const char* const block, Size blockSize)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
@@ -2727,9 +2729,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::appendWithoutChecking(
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::appendWithoutChecking(
 		const char* const block, Size blockSize)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
@@ -2737,18 +2739,18 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::assignWithoutChecking(char c)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::assignWithoutChecking(char c)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		return AncestorType::assignWithoutChecking(c);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Size
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::appendWithoutChecking(char c)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::Size
+	CString<ChunkSizeT,ExpandableT>::appendWithoutChecking(char c)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		return AncestorType::appendWithoutChecking(c);
@@ -2758,14 +2760,13 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::format(const StringT& format, ...)
+	CString<ChunkSizeT,ExpandableT>&
+	CString<ChunkSizeT,ExpandableT>::format(const StringT& format, ...)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
-		YUNI_STATIC_ASSERT(Traits::CString<StringT>::zeroTerminated, CString_FormatMustBeZeroTerminated);
 
 		// Empty the cstr
 		clear();
@@ -2778,14 +2779,13 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::appendFormat(const StringT& format, ...)
+	CString<ChunkSizeT,ExpandableT>&
+	CString<ChunkSizeT,ExpandableT>::appendFormat(const StringT& format, ...)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
-		YUNI_STATIC_ASSERT(Traits::CString<StringT>::zeroTerminated, CString_FormatMustBeZeroTerminated);
 
 		// Dealing with the variadic arguments
 		va_list parg;
@@ -2796,9 +2796,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::vappendFormat(const char* format, va_list args)
+	CString<ChunkSizeT,ExpandableT>::vappendFormat(const char* format, va_list args)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		// Nothing to do if the format is empty
@@ -2878,9 +2878,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::toLower()
+	template<uint ChunkSizeT, bool ExpandableT>
+	CString<ChunkSizeT,ExpandableT>&
+	CString<ChunkSizeT,ExpandableT>::toLower()
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		for (Size i = 0; i < AncestorType::size; ++i)
@@ -2892,9 +2892,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::toUpper()
+	template<uint ChunkSizeT, bool ExpandableT>
+	CString<ChunkSizeT,ExpandableT>&
+	CString<ChunkSizeT,ExpandableT>::toUpper()
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		for (Size i = 0; i < AncestorType::size; ++i)
@@ -2906,17 +2906,17 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<template<class,class> class ListT, class UType, class Alloc, class StringT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::split(ListT<UType,Alloc>& out, const StringT& sep,
+	CString<ChunkSizeT,ExpandableT>::split(ListT<UType,Alloc>& out, const StringT& sep,
 		bool keepEmptyElements, bool trimElements, bool emptyBefore) const
 	{
 		// Empty the container
 		if (emptyBefore)
 			out.clear();
 		// String empty
-		if (this->notEmpty())
+		if (AncestorType::size != 0)
 		{
 			// Indexes
 			Size indx = 0;
@@ -2934,7 +2934,7 @@ namespace Yuni
 					segment.assign(AncestorType::data + indx, AncestorType::size - indx);
 					if (trimElements)
 						segment.trim();
-					if (segment.notEmpty() || keepEmptyElements)
+					if (not segment.empty() || keepEmptyElements)
 						out.push_back(segment.template to<UType>());
 					return;
 				}
@@ -2944,7 +2944,7 @@ namespace Yuni
 					segment.assign(AncestorType::data + indx, len);
 					if (trimElements)
 						segment.trim();
-					if (segment.notEmpty() || keepEmptyElements)
+					if (not segment.empty() || keepEmptyElements)
 						out.push_back(segment.template to<UType>());
 				}
 				indx = newIndx + 1;
@@ -2954,24 +2954,24 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline char
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::first() const
+	CString<ChunkSizeT,ExpandableT>::first() const
 	{
 		return (AncestorType::size) ? AncestorType::data[0] : '\0';
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline char
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::last() const
+	CString<ChunkSizeT,ExpandableT>::last() const
 	{
 		return (AncestorType::size) ? AncestorType::data[AncestorType::size - 1] : '\0';
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::convertSlashesIntoBackslashes()
+	CString<ChunkSizeT,ExpandableT>::convertSlashesIntoBackslashes()
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		for (uint i = 0; i != AncestorType::size; ++i)
@@ -2982,9 +2982,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::convertBackslashesIntoSlashes()
+	CString<ChunkSizeT,ExpandableT>::convertBackslashesIntoSlashes()
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		for (uint i = 0; i != AncestorType::size; ++i)
@@ -2995,9 +2995,9 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::duplicate(int n)
+	CString<ChunkSizeT,ExpandableT>::duplicate(int n)
 	{
 		YUNI_STATIC_ASSERT(!adapter, CString_Adapter_ReadOnly);
 		if (n > 0 && AncestorType::size > 0)
@@ -3030,27 +3030,27 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline int
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Compare(const char* const s1, uint l1,
+	CString<ChunkSizeT,ExpandableT>::Compare(const char* const s1, uint l1,
 		const char* const s2, uint l2)
 	{
 		return Yuni::Private::CStringImpl::Compare(s1, l1, s2, l2);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline int
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::CompareInsensitive(const char* const s1, uint l1,
+	CString<ChunkSizeT,ExpandableT>::CompareInsensitive(const char* const s1, uint l1,
 		const char* const s2, uint l2)
 	{
 		return Yuni::Private::CStringImpl::CompareInsensitive(s1, l1, s2, l2);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::equals(const StringT& rhs) const
+	CString<ChunkSizeT,ExpandableT>::equals(const StringT& rhs) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -3061,10 +3061,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::equalsInsensitive(const StringT& rhs) const
+	CString<ChunkSizeT,ExpandableT>::equalsInsensitive(const StringT& rhs) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -3075,10 +3075,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline int
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::compare(const StringT& rhs) const
+	CString<ChunkSizeT,ExpandableT>::compare(const StringT& rhs) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -3087,10 +3087,10 @@ namespace Yuni
 			Traits::CString<StringT>::Perform(rhs), Traits::Length<StringT,Size>::Value(rhs));
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline int
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::compareInsensitive(const StringT& rhs) const
+	CString<ChunkSizeT,ExpandableT>::compareInsensitive(const StringT& rhs) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -3101,75 +3101,75 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::ConstOperatorBracketReturnType // char&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator [] (Size offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::ConstOperatorBracketReturnType // char&
+	CString<ChunkSizeT,ExpandableT>::operator [] (Size offset) const
 	{
 		assert(offset < AncestorType::size && "string, operator[] : index out of bounds");
 		return AncestorType::data[offset];
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::OperatorBracketReturnType // char&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator [] (Size offset)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::OperatorBracketReturnType // char&
+	CString<ChunkSizeT,ExpandableT>::operator [] (Size offset)
 	{
 		assert(offset < AncestorType::size && "string, operator[] : index out of bounds");
 		return AncestorType::data[offset];
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator != (const StringT& rhs) const
+	CString<ChunkSizeT,ExpandableT>::operator != (const StringT& rhs) const
 	{
 		return !(*this == rhs);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator ! () const
+	CString<ChunkSizeT,ExpandableT>::operator ! () const
 	{
 		return !AncestorType::size;
 	}
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
-	inline CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator += (const U& rhs)
+	inline CString<ChunkSizeT,ExpandableT>&
+	CString<ChunkSizeT,ExpandableT>::operator += (const U& rhs)
 	{
 		append(rhs);
 		return *this;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
-	inline CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator << (const U& rhs)
+	inline CString<ChunkSizeT,ExpandableT>&
+	CString<ChunkSizeT,ExpandableT>::operator << (const U& rhs)
 	{
 		append(rhs);
 		return *this;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator = (const CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>& rhs)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline CString<ChunkSizeT,ExpandableT>&
+	CString<ChunkSizeT,ExpandableT>::operator = (const CString<ChunkSizeT,ExpandableT>& rhs)
 	{
 		assign(rhs);
 		return *this;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class U>
-	inline CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator = (const U& rhs)
+	inline CString<ChunkSizeT,ExpandableT>&
+	CString<ChunkSizeT,ExpandableT>::operator = (const U& rhs)
 	{
 		assign(rhs);
 		return *this;
@@ -3177,10 +3177,10 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator < (const StringT& rhs) const
+	CString<ChunkSizeT,ExpandableT>::operator < (const StringT& rhs) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -3189,10 +3189,10 @@ namespace Yuni
 			Traits::CString<StringT>::Perform(rhs), Traits::Length<StringT,Size>::Value(rhs)) < 0;
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator > (const StringT& rhs) const
+	CString<ChunkSizeT,ExpandableT>::operator > (const StringT& rhs) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -3201,10 +3201,10 @@ namespace Yuni
 			Traits::CString<StringT>::Perform(rhs), Traits::Length<StringT,Size>::Value(rhs)) > 0;
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator <= (const StringT& rhs) const
+	CString<ChunkSizeT,ExpandableT>::operator <= (const StringT& rhs) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -3213,10 +3213,10 @@ namespace Yuni
 			Traits::CString<StringT>::Perform(rhs), Traits::Length<StringT,Size>::Value(rhs)) <= 0;
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator >= (const StringT& rhs) const
+	CString<ChunkSizeT,ExpandableT>::operator >= (const StringT& rhs) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -3226,10 +3226,10 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator == (const StringT& rhs) const
+	CString<ChunkSizeT,ExpandableT>::operator == (const StringT& rhs) const
 	{
 		YUNI_STATIC_ASSERT(Traits::CString<StringT>::valid, CString_InvalidTypeForBuffer);
 		YUNI_STATIC_ASSERT(Traits::Length<StringT>::valid,  CString_InvalidTypeForBufferSize);
@@ -3237,36 +3237,36 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline bool
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator == (const CString& rhs) const
+	CString<ChunkSizeT,ExpandableT>::operator == (const CString& rhs) const
 	{
 		return equals(rhs);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>&
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::operator *= (int n)
+	template<uint ChunkSizeT, bool ExpandableT>
+	CString<ChunkSizeT,ExpandableT>&
+	CString<ChunkSizeT,ExpandableT>::operator *= (int n)
 	{
 		duplicate(n);
 		return *this;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::adapt(const char* cstring, Size length)
+	CString<ChunkSizeT,ExpandableT>::adapt(const char* cstring, Size length)
 	{
 		Yuni::Private::CStringImpl::AdapterAssign<CStringType, adapter>::Perform(*this,
 			cstring, length);
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::adapt(const StringT& string)
+	CString<ChunkSizeT,ExpandableT>::adapt(const StringT& string)
 	{
 		Yuni::Private::CStringImpl::AdapterAssign<CStringType, adapter>::Perform(*this,
 			Traits::CString<StringT>::Perform(string),
@@ -3274,29 +3274,29 @@ namespace Yuni
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::adapt(const StringT& string, Size length, Size offset)
+	CString<ChunkSizeT,ExpandableT>::adapt(const StringT& string, Size length, Size offset)
 	{
 		Yuni::Private::CStringImpl::AdapterAssign<CStringType, adapter>::Perform(*this,
 			Traits::CString<StringT>::Perform(string) + offset,
 			length);
 	}
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::adaptWithoutChecking(const char* const cstring, Size length)
+	CString<ChunkSizeT,ExpandableT>::adaptWithoutChecking(const char* const cstring, Size length)
 	{
 		AncestorType::data = const_cast<char*>(cstring);
 		AncestorType::size = length;
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT1, class StringT2>
 	inline void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::extractKeyValue(StringT1& key, StringT2& value,
+	CString<ChunkSizeT,ExpandableT>::extractKeyValue(StringT1& key, StringT2& value,
 		bool ignoreCase, char separator) const
 	{
 		// ReInitializing
@@ -3416,10 +3416,10 @@ namespace Yuni
 
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	template<class StringT, class PredicateT>
 	void
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::words(const StringT& separators, const PredicateT& predicate) const
+	CString<ChunkSizeT,ExpandableT>::words(const StringT& separators, const PredicateT& predicate) const
 	{
 		if (0 == AncestorType::size)
 			return;

@@ -411,7 +411,7 @@ namespace Core
 	template<class T, template<class> class TP, template <class> class ChckP,
 		class ConvP>
 	inline void
-	TreeN<T,TP,ChckP,ConvP>::printBeginWL(std::ostream& out, unsigned int) const
+	TreeN<T,TP,ChckP,ConvP>::printBeginWL(std::ostream& out, uint) const
 	{
 		out << "<node>";
 	}
@@ -420,7 +420,7 @@ namespace Core
 	template<class T, template<class> class TP, template <class> class ChckP,
 		class ConvP>
 	inline void
-	TreeN<T,TP,ChckP,ConvP>::printEndWL(std::ostream& out, unsigned int) const
+	TreeN<T,TP,ChckP,ConvP>::printEndWL(std::ostream& out, uint) const
 	{
 		out << "</node>";
 	}
@@ -429,10 +429,10 @@ namespace Core
 	template<class T, template<class> class TP, template <class> class ChckP,
 		class ConvP>
 	std::ostream&
-	TreeN<T,TP,ChckP,ConvP>::print(std::ostream& out, bool recursive, unsigned int level)
+	TreeN<T,TP,ChckP,ConvP>::print(std::ostream& out, bool recursive, uint level)
 	{
 		typename ThreadingPolicy::MutexLocker locker(*this);
-		for (unsigned int i = 0; i < level; ++i)
+		for (uint i = 0; i < level; ++i)
 			out << "    ";
 		printBeginWL(out, level);
 		out << "\n";
@@ -444,7 +444,7 @@ namespace Core
 				i->print(out, true, level + 1);
 		}
 
-		for (unsigned int i = 0; i < level; ++i)
+		for (uint i = 0; i < level; ++i)
 			out << "    ";
 		printEndWL(out, level);
 		out << '\n';

@@ -13,9 +13,9 @@ namespace CStringImpl
 {
 
 
-	bool Equals(const char* const s1, const char* const s2, unsigned int len)
+	bool Equals(const char* const s1, const char* const s2, uint len)
 	{
-		for (unsigned int i = 0; i != len; ++i)
+		for (uint i = 0; i != len; ++i)
 		{
 			if (s1[i] != s2[i])
 				return false;
@@ -24,9 +24,9 @@ namespace CStringImpl
 	}
 
 
-	bool EqualsInsensitive(const char* const s1, const char* const s2, unsigned int len)
+	bool EqualsInsensitive(const char* const s1, const char* const s2, uint len)
 	{
-		for (unsigned int i = 0; i != len; ++i)
+		for (uint i = 0; i != len; ++i)
 		{
 			if (tolower(s1[i]) != tolower(s2[i]))
 				return false;
@@ -35,11 +35,11 @@ namespace CStringImpl
 	}
 
 
-	int Compare(const char* const s1, unsigned int l1, const char* const s2, unsigned int l2)
+	int Compare(const char* const s1, uint l1, const char* const s2, uint l2)
 	{
-		const unsigned int l = (l1 < l2) ? l1 : l2;
+		const uint l = (l1 < l2) ? l1 : l2;
 
-		for (unsigned int i = 0; i != l; ++i)
+		for (uint i = 0; i != l; ++i)
 		{
 			if (s1[i] != s2[i])
 				return (((unsigned char)s1[i] < (unsigned char)s2[i]) ? -1 : +1);
@@ -48,11 +48,11 @@ namespace CStringImpl
 	}
 
 
-	int CompareInsensitive(const char* const s1, unsigned int l1, const char* const s2, unsigned int l2)
+	int CompareInsensitive(const char* const s1, uint l1, const char* const s2, uint l2)
 	{
-		const unsigned int l = (l1 < l2) ? l1 : l2;
+		const uint l = (l1 < l2) ? l1 : l2;
 
-		for (unsigned int i = 0; i != l; ++i)
+		for (uint i = 0; i != l; ++i)
 		{
 			if (tolower(s1[i]) != tolower(s2[i]))
 				return ((tolower((unsigned char)s1[i]) < tolower((unsigned char)s2[i])) ? -1 : +1);
@@ -61,15 +61,15 @@ namespace CStringImpl
 	}
 
 
-	bool Glob(const char* const s, unsigned int l1, const char* const pattern, unsigned int patternlen)
+	bool Glob(const char* const s, uint l1, const char* const pattern, uint patternlen)
 	{
 		if (patternlen)
 		{
 			if (l1)
 			{
-				unsigned int e = 0;
-				unsigned int prev = ((unsigned int) -1);
-				for (unsigned int i = 0 ; i < l1; ++i)
+				uint e = 0;
+				uint prev = ((uint) -1);
+				for (uint i = 0 ; i < l1; ++i)
 				{
 					if ('*' == pattern[e])
 					{
@@ -90,7 +90,7 @@ namespace CStringImpl
 							++e;
 						else
 						{
-							if (prev != ((unsigned int) -1))
+							if (prev != ((uint) -1))
 								e = prev;
 							else
 								return false;

@@ -13,7 +13,7 @@ namespace Private
 namespace System
 {
 
-	unsigned int WindowsUsername(char* cstring, unsigned int size)
+	uint WindowsUsername(char* cstring, uint size)
 	{
 		enum
 		{
@@ -33,10 +33,10 @@ namespace System
 				int sizeRequired = WideCharToMultiByte(CP_UTF8, 0, unw, unwsize, NULL, 0,  NULL, NULL);
 				if (sizeRequired > 0)
 				{
-					if (static_cast<unsigned int>(sizeRequired) > size)
+					if (static_cast<uint>(sizeRequired) > size)
 						sizeRequired = size;
 					WideCharToMultiByte(CP_UTF8, 0, unw, unwsize, cstring, sizeRequired,  NULL, NULL);
-					return static_cast<unsigned int>(sizeRequired);
+					return static_cast<uint>(sizeRequired);
 				}
 			}
 		}

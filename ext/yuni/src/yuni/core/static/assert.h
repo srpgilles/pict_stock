@@ -47,17 +47,17 @@
 ** 	// The following statement will compile
 ** 	dummy0.foo();
 **
-** 	Dummy<unsigned int> dummy1;
+** 	Dummy<uint> dummy1;
 ** 	// But this one will fail
 ** 	dummy1.foo();
 **
 ** 	// Error with gcc 3.x :
-** 	// ./main.cpp: In member function `void Dummy<T>::foo() [with T = unsigned int]':
+** 	// ./main.cpp: In member function `void Dummy<T>::foo() [with T = uint]':
 ** 	//	./main.cpp:36:   instantiated from here
 ** 	//	./main.cpp:11: error: creating array with size zero (` Assert_TheImplementationIsMissing')
 **
 ** 	// Error with gcc 4.x :
-** 	// ./main.cpp: In member function ‘void Dummy<T>::foo() [with T = unsigned int]’:
+** 	// ./main.cpp: In member function ‘void Dummy<T>::foo() [with T = uint]’:
 ** 	//	./main.cpp:36:   instantiated from here
 ** 	//	./main.cpp:11: error: creating array with negative size (‘(StaticAssert_TheImplementationIsMissing::._67)-0x000000001’)
 ** 	return 0;

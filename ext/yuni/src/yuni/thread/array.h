@@ -64,12 +64,12 @@ namespace Thread
 		/*!
 		** \brief Constructor with a given amount of thread
 		*/
-		Array(unsigned int n);
+		Array(uint n);
 
 		/*!
 		** \brief Constructor, with a given amount of thread
 		*/
-		Array(unsigned int n, bool autoStart);
+		Array(uint n, bool autoStart);
 
 		//! Destructor
 		~Array();
@@ -132,7 +132,7 @@ namespace Thread
 		**
 		** \param n The new number of threads in the pool
 		*/
-		void resize(unsigned int n);
+		void resize(uint n);
 
 
 		/*!
@@ -152,7 +152,7 @@ namespace Thread
 		**   (and stopped) if they are not used any longer.
 		** \param timeout A timeout for waiting a thread to stop (in milliseconds)
 		*/
-		void stop(unsigned int timeout = defaultTimeout);
+		void stop(uint timeout = defaultTimeout);
 
 		/*!
 		** \brief Restart all threads
@@ -161,7 +161,7 @@ namespace Thread
 		**   (and stopped) if they are not used any longer.
 		** \param timeout A timeout for waiting a thread to stop (in milliseconds)
 		*/
-		void restart(unsigned int timeout = defaultTimeout);
+		void restart(uint timeout = defaultTimeout);
 
 		/*!
 		** \brief Wake up all threads
@@ -174,10 +174,10 @@ namespace Thread
 		/*!
 		** \brief Get the number of threads
 		*/
-		unsigned int size() const;
+		uint size() const;
 
 		//! \see size()
-		unsigned int count() const;
+		uint count() const;
 
 		//! Get if the array is empty
 		bool empty() const;
@@ -201,7 +201,7 @@ namespace Thread
 		** \param index A zero-based index of the thread (invalid values accepted)
 		** \return A pointer to the thread (can be NULL if the index is invalid)
 		*/
-		typename T::Ptr operator [] (unsigned int index) const;
+		typename T::Ptr operator [] (uint index) const;
 
 		//! Copy operator
 		Array& operator = (const Array& rhs);
@@ -234,7 +234,7 @@ namespace Thread
 		**   use of the atomic one `pAutoStart` when possible and to
 		**   avoid changes while adding new threads.
 		*/
-		void appendNThreadsWL(unsigned int n, bool autostart);
+		void appendNThreadsWL(uint n, bool autostart);
 
 	private:
 		# ifdef YUNI_OS_MSVC

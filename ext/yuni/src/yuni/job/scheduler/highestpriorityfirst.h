@@ -40,13 +40,13 @@ namespace Scheduler
 		~HighestPriorityFirst();
 		//@}
 
-		unsigned int minimumThreadCount() const;
+		uint minimumThreadCount() const;
 
-		bool minimumThreadCount(unsigned int);
+		bool minimumThreadCount(uint);
 
-		unsigned int maximumThreadCount() const;
+		uint maximumThreadCount() const;
 
-		bool maximumThreadCount(unsigned int n);
+		bool maximumThreadCount(uint n);
 
 		/*!
 		** \brief Get if the scheduler is idle
@@ -62,7 +62,7 @@ namespace Scheduler
 		/*!
 		** \brief Stop all working threads
 		*/
-		bool schedulerStop(unsigned int timeout);
+		bool schedulerStop(uint timeout);
 
 		/*!
 		** \brief Event: A job has just been added into the waiting room
@@ -79,7 +79,7 @@ namespace Scheduler
 		/*!
 		** \brief Get the number of threads currently in use
 		*/
-		unsigned int schedulerThreadCount() const;
+		uint schedulerThreadCount() const;
 
 		template<class PredicateT>
 		void schedulerForeachThread(PredicateT& predicate)
@@ -108,7 +108,7 @@ namespace Scheduler
 		Atomic::Int<32> pWorkerCount;
 
 		//! The maximum number of thread
-		unsigned int pMaximumThreadCount;
+		uint pMaximumThreadCount;
 
 		// friend
 		template<class T> friend class Yuni::Private::Jobs::QueueThread;

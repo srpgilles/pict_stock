@@ -107,8 +107,6 @@ namespace Color
 
 		//! \name Stream printing
 		//@{
-		template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroT>
-		void print(CString<ChunkSizeT, ExpandableT, ZeroT>& string) const;
 		//! Print the color value
 		template<class StreamT> void print(StreamT& out) const;
 		//@}
@@ -130,6 +128,8 @@ namespace Color
 		template<class U> bool operator == (const U& rhs) const;
 		//! Comparison
 		template<class U> bool operator != (const U& rhs) const;
+		//! Index access
+		T& operator [] (const uint i);
 		//@}
 
 

@@ -286,7 +286,7 @@ namespace Thread
 	}
 
 
-	Error IThread::stop(unsigned int timeout)
+	Error IThread::stop(uint timeout)
 	{
 		assert(timeout < INVALID_TIMEOUT && "Invalid range for timeout, IThread::stop");
 		(void) timeout; // unused
@@ -298,7 +298,7 @@ namespace Thread
 
 
 	# ifndef YUNI_NO_THREAD_SAFE
-	Error IThread::stop(unsigned int timeout)
+	Error IThread::stop(uint timeout)
 	{
 		assert(timeout < INVALID_TIMEOUT && "Invalid range for timeout, IThread::stop");
 
@@ -307,7 +307,7 @@ namespace Thread
 	}
 
 
-	Error IThread::stopWL(unsigned int timeout)
+	Error IThread::stopWL(uint timeout)
 	{
 		// Checking the thread status
 		{
@@ -381,7 +381,7 @@ namespace Thread
 
 
 
-	Error IThread::wait(unsigned int timeout)
+	Error IThread::wait(uint timeout)
 	{
 		assert(timeout < INVALID_TIMEOUT && "Invalid range for timeout, IThread::wait");
 
@@ -415,7 +415,7 @@ namespace Thread
 	}
 
 
-	bool IThread::suspend(unsigned int delay)
+	bool IThread::suspend(uint delay)
 	{
 		# ifndef YUNI_NO_THREAD_SAFE
 		// The thread may have to stop
@@ -460,7 +460,7 @@ namespace Thread
 	}
 
 
-	Error IThread::restart(unsigned int timeout)
+	Error IThread::restart(uint timeout)
 	{
 		assert(timeout < INVALID_TIMEOUT && "Invalid range for timeout, IThread::restart");
 

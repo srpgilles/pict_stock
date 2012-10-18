@@ -13,13 +13,13 @@ namespace Random
 	inline void Default::reset()
 	{
 		// Initializing the random generator with a standard seed
-		::srand((unsigned int) ::time(NULL));
+		::srand((uint) ::time(NULL));
 		// Compute a random number for nothing, to avoid the first generated number
 		::rand();
 	}
 
 
-	inline void Default::reset(unsigned int seed)
+	inline void Default::reset(uint seed)
 	{
 		// Initializing the random generator with the given seed
 		::srand(seed);

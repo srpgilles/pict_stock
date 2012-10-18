@@ -315,7 +315,7 @@ namespace Unit
 		//@{
 		// Builtin types
 		bool operator <= (int u) const;
-		bool operator <= (unsigned int u) const;
+		bool operator <= (uint u) const;
 		bool operator <= (float u) const;
 		bool operator <= (double u) const;
 		bool operator <= (long double u) const;
@@ -331,7 +331,7 @@ namespace Unit
 		//@{
 		// Builtin types
 		bool operator >= (int u) const;
-		bool operator >= (unsigned int u) const;
+		bool operator >= (uint u) const;
 		bool operator >= (float u) const;
 		bool operator >= (double u) const;
 		// Itself (same quantity)
@@ -346,7 +346,7 @@ namespace Unit
 		//@{
 		// Builtin types
 		bool operator < (int u) const;
-		bool operator < (unsigned int u) const;
+		bool operator < (uint u) const;
 		bool operator < (float u) const;
 		bool operator < (double u) const;
 		// Itself (same quantity)
@@ -361,7 +361,7 @@ namespace Unit
 		//@{
 		// Builtin types
 		bool operator > (int u) const;
-		bool operator > (unsigned int u) const;
+		bool operator > (uint u) const;
 		bool operator > (float u) const;
 		bool operator > (double u) const;
 		// Itself (same quantity)
@@ -376,7 +376,7 @@ namespace Unit
 		//@{
 		// Builtin types
 		bool operator == (int u) const;
-		bool operator == (unsigned int u) const;
+		bool operator == (uint u) const;
 		bool operator == (float u) const;
 		bool operator == (double u) const;
 		// Itself (same quantity)
@@ -391,7 +391,7 @@ namespace Unit
 		//@{
 		// Builtin types
 		bool operator != (int u) const;
-		bool operator != (unsigned int u) const;
+		bool operator != (uint u) const;
 		bool operator != (float u) const;
 		bool operator != (double u) const;
 		// Itself (same quantity)

@@ -31,7 +31,7 @@ namespace EventLoop
 			stop();
 		}
 
-		void suspendTheThread(unsigned int timeout)
+		void suspendTheThread(uint timeout)
 		{
 			(void) suspend(timeout);
 		}
@@ -167,7 +167,7 @@ namespace EventLoop
 
 	template<class ParentT, template<class> class FlowT, template<class> class StatsT,
 		bool DetachedT>
-	void IEventLoop<ParentT,FlowT,StatsT,DetachedT>::stop(unsigned int timeout)
+	void IEventLoop<ParentT,FlowT,StatsT,DetachedT>::stop(uint timeout)
 	{
 		// Locking for checking internal status and inserting a 'stop' request
 		{
@@ -204,7 +204,7 @@ namespace EventLoop
 		{
 			// Trying to wait for the end of the event loop
 			// Spinning lock, since we don't have better ways here.
-			unsigned int elapsed = 0;
+			uint elapsed = 0;
 			do
 			{
 				// Checking for the thread termination
@@ -383,7 +383,7 @@ namespace EventLoop
 	template<class ParentT, template<class> class FlowT, template<class> class StatsT,
 		bool DetachedT>
 	inline void
-	IEventLoop<ParentT,FlowT,StatsT,DetachedT>::suspend(unsigned int timeout)
+	IEventLoop<ParentT,FlowT,StatsT,DetachedT>::suspend(uint timeout)
 	{
 		if (detached)
 		{

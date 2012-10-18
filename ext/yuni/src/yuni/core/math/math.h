@@ -322,7 +322,7 @@ namespace Math
 	** \param x A number
 	** \param place The place of the decimal number to round
 	*/
-	template<class T> T Round(T x, unsigned int place = 0);
+	template<class T> T Round(T x, uint place = 0);
 
 
 	/*!
@@ -333,13 +333,13 @@ namespace Math
 	** \param x A number
 	** \param place The place of the decimal number to round
 	*/
-	template<class T> T Trunc(T x, unsigned int place = 0);
+	template<class T> T Trunc(T x, uint place = 0);
 
 
 	/*!
 	** \brief Trunc decimal places
 	*/
-	double Trunc(double x, unsigned int places);
+	double Trunc(double x, uint places);
 
 	/*!
 	** \brief Integral value nearest to x

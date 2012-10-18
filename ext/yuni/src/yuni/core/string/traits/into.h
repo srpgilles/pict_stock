@@ -62,11 +62,11 @@ namespace CString
 	/*!
 	** \brief String, with the same POD type
 	*/
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	class Into<Yuni::CString<ChunkSizeT, ExpandableT, ZeroTerminatedT> >
+	template<uint ChunkSizeT, bool ExpandableT>
+	class Into<Yuni::CString<ChunkSizeT, ExpandableT> >
 	{
 	public:
-		typedef Yuni::CString<ChunkSizeT, ExpandableT, ZeroTerminatedT> TargetType;
+		typedef Yuni::CString<ChunkSizeT, ExpandableT> TargetType;
 		enum { valid = 1 };
 
 		template<class StringT> static bool Perform(const StringT& s, TargetType& out)
@@ -200,9 +200,9 @@ namespace CString
 
 		template<class StringT> static bool Perform(const StringT& s)
 		{
-			if (s.notEmpty())
+			if (not s.empty())
 			{
-				const unsigned int count = static_cast<unsigned int>(s.sizeInBytes());
+				const uint count = static_cast<uint>(s.sizeInBytes());
 				if (count < 5)
 				{
 					if (count == 1)
@@ -212,7 +212,7 @@ namespace CString
 					}
 
 					char buffer[5] = {0,0,0,0,0};
-					for (unsigned int i = 0; i != count; ++i)
+					for (uint i = 0; i != count; ++i)
 						buffer[i] = static_cast<char>(::tolower(s[i]));
 					return (!::strcmp("true", buffer) || !::strcmp("on", buffer) || !::strcmp("yes", buffer));
 				}
@@ -227,7 +227,7 @@ namespace CString
 	class AutoDetectBaseNumber
 	{
 	public:
-		static const char* Value(const char* const s, unsigned int length, int& base)
+		static const char* Value(const char* const s, uint length, int& base)
 		{
 			switch (s[0])
 			{
@@ -369,7 +369,7 @@ namespace CString
 
 		template<class StringT> static bool Perform(const StringT& s, float& out)
 		{
-			if (s.notEmpty())
+			if (not s.empty())
 			{
 				char* pend;
 				const char* cstr;
@@ -405,7 +405,7 @@ namespace CString
 
 		template<class StringT> static float Perform(const StringT& s)
 		{
-			if (s.notEmpty())
+			if (not s.empty())
 			{
 				char* pend;
 				const char* cstr;
@@ -451,7 +451,7 @@ namespace CString
 
 		template<class StringT> static bool Perform(const StringT& s, double& out)
 		{
-			if (s.notEmpty())
+			if (not s.empty())
 			{
 				char* pend;
 				const char* cstr;
@@ -482,7 +482,7 @@ namespace CString
 
 		template<class StringT> static double Perform(const StringT& s)
 		{
-			if (s.notEmpty())
+			if (not s.empty())
 			{
 				char* pend;
 				const char* cstr;

@@ -8,12 +8,12 @@ namespace Utils
 {
 
 
-	void Hexdump::dumpHexadecimal(String& line, const char* buffer, unsigned int size) const
+	void Hexdump::dumpHexadecimal(String& line, const char* buffer, uint size) const
 	{
-		for (unsigned int printed = 0; printed < 0x10; ++printed)
+		for (uint printed = 0; printed < 0x10; ++printed)
 		{
 			if (printed < size)
-				line.appendFormat("%02x", (unsigned int) (*(unsigned char *)(buffer + printed)));
+				line.appendFormat("%02x", (uint) (*(unsigned char *)(buffer + printed)));
 			else
 				line.append("  ");
 
@@ -23,9 +23,9 @@ namespace Utils
 	}
 
 
-	void Hexdump::dumpPrintable(String& line, const char* buffer, unsigned int size) const
+	void Hexdump::dumpPrintable(String& line, const char* buffer, uint size) const
 	{
-		unsigned int printed;
+		uint printed;
 
 		line.append('|');
 		for (printed = 0; printed < size; ++printed)

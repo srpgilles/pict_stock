@@ -20,7 +20,7 @@ namespace Yuni
 	{
 	public:
 		//! Size type
-		typedef unsigned int Size;
+		typedef uint Size;
 		//! Size type (STL compliant)
 		typedef Size size_type;
 
@@ -271,12 +271,6 @@ namespace Yuni
 		*/
 		bool empty() const;
 
-		/*!
-		** \brief Get if the container is not empty
-		** \return True if the container is not empty, false otherwise
-		*/
-		bool notEmpty() const;
-
 		//! Get the number of items in the container
 		Size size() const;
 		//@}
@@ -371,7 +365,7 @@ namespace Yuni
 		//! The last item in the list
 		Item* pLast;
 		//! Item count
-		unsigned int pCount;
+		uint pCount;
 
 	}; // class LinkedList
 

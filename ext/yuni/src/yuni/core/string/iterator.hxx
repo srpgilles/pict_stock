@@ -5,65 +5,65 @@
 namespace Yuni
 {
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8iterator
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8begin(uint offset)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::utf8iterator
+	CString<ChunkSizeT,ExpandableT>::utf8begin(uint offset)
 	{
 		return utf8iterator(*this, offset);
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::const_utf8iterator
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8begin(uint offset) const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::const_utf8iterator
+	CString<ChunkSizeT,ExpandableT>::utf8begin(uint offset) const
 	{
 		return const_utf8iterator(*this, offset);
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::null_iterator
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8end()
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::null_iterator
+	CString<ChunkSizeT,ExpandableT>::utf8end()
 	{
 		return null_iterator(*this);
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::null_iterator
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::utf8end() const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::null_iterator
+	CString<ChunkSizeT,ExpandableT>::utf8end() const
 	{
 		return null_iterator(*this);
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::null_iterator
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::end()
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::null_iterator
+	CString<ChunkSizeT,ExpandableT>::end()
 	{
 		return null_iterator(*this);
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::null_iterator
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::end() const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::null_iterator
+	CString<ChunkSizeT,ExpandableT>::end() const
 	{
 		return null_iterator(*this);
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::iterator
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::begin()
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::iterator
+	CString<ChunkSizeT,ExpandableT>::begin()
 	{
 		return iterator(*this, 0);
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
-	inline typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::const_iterator
-	CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::begin() const
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline typename CString<ChunkSizeT,ExpandableT>::const_iterator
+	CString<ChunkSizeT,ExpandableT>::begin() const
 	{
 		return const_iterator(*this, 0);
 	}

@@ -30,7 +30,7 @@ namespace Thread
 	**	 virtual bool onInterval();
 	** };
 	**
-	** bool Timer::onInterval(unsigned int cycle)
+	** bool Timer::onInterval(uint cycle)
 	** {
 	** 	std::cout << cycle << std::endl;
 	** 	return true;
@@ -59,7 +59,7 @@ namespace Thread
 		enum
 		{
 			//! Special value to use for an infinite loop
-			infinite = (unsigned int) -1,
+			infinite = (uint) -1,
 			//! The default time interval (in milliseconds)
 			defaultInterval = 1000,
 		};
@@ -79,14 +79,14 @@ namespace Thread
 		**
 		** An infinite number of cycles will be used by default.
 		*/
-		Timer(const unsigned int interval);
+		Timer(uint interval);
 		/*!
 		** \brief Constructor with a time interval + cycle count
 		**
 		** \param interval The new time interval (in milliseconds)
 		** \param cycles The number of cycles [0 .. n[
 		*/
-		Timer(const unsigned int interval, const unsigned int cycles);
+		Timer(uint interval, uint cycles);
 		/*!
 		** \brief Copy constructor
 		**
@@ -125,7 +125,7 @@ namespace Thread
 		**
 		** \param interval The new time interval (in milliseconds)
 		*/
-		void reload(unsigned int interval);
+		void reload(uint interval);
 
 		/*!
 		** \brief Modify then Reload the settings
@@ -143,12 +143,12 @@ namespace Thread
 		** \param interval The new time interval (in milliseconds)
 		** \param cycles The number of cycles [0 .. n[
 		*/
-		void reload(unsigned int interval, unsigned int cycles);
+		void reload(uint interval, uint cycles);
 
 		/*!
 		** \brief Get the time interval (in milliseconds)
 		*/
-		unsigned int interval() const;
+		uint interval() const;
 
 		/*!
 		** \brief Set the time interval (in `ms`)
@@ -156,13 +156,13 @@ namespace Thread
 		** Use `reload()` to apply the changes if the timer is already started.
 		** \param t The new time interval (in milliseconds)
 		*/
-		void interval(const unsigned int t);
+		void interval(uint t);
 
 		/*!
 		** \brief Get the number of cycle to run
 		** \see Timer::infinite
 		*/
-		unsigned int cycleCount() const;
+		uint cycleCount() const;
 
 		/*!
 		** \brief Set the number of cycle to run
@@ -171,7 +171,7 @@ namespace Thread
 		** \param n The number of cycles [0 .. n[
 		** \see Timer::infinite
 		*/
-		void cycleCount(const unsigned int n = infinite);
+		void cycleCount(uint n = infinite);
 		//@}
 
 
@@ -210,7 +210,7 @@ namespace Thread
 		** \param cycle The current cycle number. Always 0 in the case of an infinite timer
 		** \return True to continue the execution of the timer, False otherwise
 		*/
-		virtual bool onInterval(unsigned int cycle) = 0;
+		virtual bool onInterval(uint cycle) = 0;
 
 		/*!
 		** \brief Event: The timer has been stopped
@@ -248,9 +248,9 @@ namespace Thread
 
 	private:
 		//! The time interval
-		unsigned int pTimeInterval;
+		uint pTimeInterval;
 		//! The maximum number of cycles before stopping, 0 means infinite
-		unsigned int pCycleCount;
+		uint pCycleCount;
 		//! A bool value to indicate if the settings should be reloaded
 		Atomic::Int<32> pShouldReload;
 		//! Mutex

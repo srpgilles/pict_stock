@@ -82,7 +82,7 @@ namespace File
 	bool Size(const AnyString& filename, uint64& value)
 	{
 		struct stat results;
-		if (filename.notEmpty() && stat(filename.c_str(), &results) == 0)
+		if (not filename.empty() && stat(filename.c_str(), &results) == 0)
 		{
 			value = (uint64) results.st_size;
 			return true;

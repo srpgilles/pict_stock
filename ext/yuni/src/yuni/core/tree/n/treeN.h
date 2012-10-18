@@ -95,11 +95,11 @@ namespace Core
 	**		}
 	**
 	** protected:
-	**		virtual void printBeginWL(std::ostream& out, unsigned int) const
+	**		virtual void printBeginWL(std::ostream& out, uint) const
 	**		{
 	**			out << "<node><![CDATA[" << pValue << "]]>";
 	**		}
-	**		virtual void printBeginWL(std::ostream& out, unsigned int) const
+	**		virtual void printBeginWL(std::ostream& out, uint) const
 	**		{
 	**			out << "</node>";
 	**		}
@@ -188,7 +188,7 @@ namespace Core
 		typedef typename Ptr::NonConstSmartPtrType NonConstPtr;
 
 		//! Size
-		typedef unsigned int SizeType;
+		typedef uint SizeType;
 		//! Size (signed)
 		typedef int SignedSizeType;
 
@@ -485,7 +485,7 @@ namespace Core
 		**
 		** Should only be used for debugging purposes only
 		*/
-		std::ostream& print(std::ostream& out, bool recursive = true, unsigned int level = 0);
+		std::ostream& print(std::ostream& out, bool recursive = true, uint level = 0);
 
 
 		//! \name Pointer management
@@ -506,9 +506,9 @@ namespace Core
 		virtual bool isInvalidatedWL() {return true;}
 
 		//! (only used for debugging)
-		virtual void printBeginWL(std::ostream& out, unsigned int level) const;
+		virtual void printBeginWL(std::ostream& out, uint level) const;
 		//! (only used for debugging)
-		virtual void printEndWL(std::ostream& out, unsigned int level) const;
+		virtual void printEndWL(std::ostream& out, uint level) const;
 
 		//! Remove all children
 		void clearWL();

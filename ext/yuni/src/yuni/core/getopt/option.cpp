@@ -110,7 +110,7 @@ namespace GetOptImpl
 				out << "\n                             ";
 			else
 			{
-				for (unsigned int i = 6 + 2 + 1 + (unsigned int) longName.size() + (requireParameter ? 6 : 0); i < 30; ++i)
+				for (uint i = 6 + 2 + 1 + (uint) longName.size() + (requireParameter ? 6 : 0); i < 30; ++i)
 					out.put(' ');
 			}
 		}

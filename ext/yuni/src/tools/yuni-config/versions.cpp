@@ -104,10 +104,10 @@ namespace VersionInfo
 
 			Version version;
 
-	 		// A buffer. The given capacity will be the maximum length for a single line
-	 		CString<8192> buffer;
+			// A buffer. The given capacity will be the maximum length for a single line
+			CString<8192> buffer;
 			buffer.reserve(8000);
-	 		while (file.readline(buffer))
+			while (file.readline(buffer))
 			{
 				buffer.extractKeyValue(key, value);
 
@@ -131,12 +131,12 @@ namespace VersionInfo
 					loadFromPath(value);
 				if (key == "path.include")
 				{
-					if (value.notEmpty())
+					if (not value.empty())
 						info.includePath.push_back(value);
 				}
 				if (key == "path.lib")
 				{
-					if (value.notEmpty())
+					if (not value.empty())
 						info.libPath.push_back(value);
 				}
 			}
@@ -287,7 +287,7 @@ namespace VersionInfo
 		// The default compiler is gcc
 		CompilerCompliant compliant = gcc;
 		// Checking for Visual Studio
-		if (compiler.notEmpty() && compiler.at(0) == 'v' && compiler.at(1) == 's')
+		if (not compiler.empty() && compiler.at(0) == 'v' && compiler.at(1) == 's')
 			compliant = visualstudio;
 
 		// For each entry in the ini file

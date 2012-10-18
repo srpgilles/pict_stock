@@ -23,7 +23,7 @@ namespace Thread
 
 
 	template<class T>
-	inline Array<T>::Array(unsigned int n) :
+	inline Array<T>::Array(uint n) :
 		pAutoStart(false)
 	{
 		// Bound checks
@@ -34,7 +34,7 @@ namespace Thread
 
 
 	template<class T>
-	inline Array<T>::Array(unsigned int n, bool autoStart) :
+	inline Array<T>::Array(uint n, bool autoStart) :
 		pAutoStart(autoStart)
 	{
 		// Bound checks
@@ -116,7 +116,7 @@ namespace Thread
 
 
 	template<class T>
-	void Array<T>::resize(unsigned int n)
+	void Array<T>::resize(uint n)
 	{
 		if (!n)
 		{
@@ -139,7 +139,7 @@ namespace Thread
 			typename ThreadingPolicy::MutexLocker locker(*this);
 
 			// Keeping the number of existing thread
-			const unsigned int count = pList.size();
+			const uint count = pList.size();
 			if (count == n)
 				return;
 
@@ -153,12 +153,12 @@ namespace Thread
 			// Asking to the last threads to stop by themselves as soon as possible
 			// This should be done early to make them stop asynchronously.
 			// We may earn a lot of time like this.
-			for (unsigned int i = n; i < count; ++i)
+			for (uint i = n; i < count; ++i)
 				pList[i]->gracefulStop();
 
 			// Creating a list of all threads that must be removed
 			copy.reserve(count - n);
-			for (unsigned int i = n; i < count; ++i)
+			for (uint i = n; i < count; ++i)
 				copy.push_back(pList[i]);
 			// We can resize the vector, the removed threads will be stopped soon
 			pList.resize(count);
@@ -196,7 +196,7 @@ namespace Thread
 
 
 	template<class T>
-	void Array<T>::stop(unsigned int timeout)
+	void Array<T>::stop(uint timeout)
 	{
 		// We will make a copy of the list to release the lock as soon as
 		// possible since this routine may take some time...
@@ -224,7 +224,7 @@ namespace Thread
 
 
 	template<class T>
-	void Array<T>::restart(unsigned int timeout)
+	void Array<T>::restart(uint timeout)
 	{
 		// We will make a copy of the list to release the lock as soon as
 		// possible since this routine may take some time...
@@ -266,7 +266,7 @@ namespace Thread
 
 
 	template<class T>
-	inline typename T::Ptr Array<T>::operator [] (unsigned int index) const
+	inline typename T::Ptr Array<T>::operator [] (uint index) const
 	{
 		typename ThreadingPolicy::MutexLocker locker(*this);
 		return (index < pList.size()) ? pList[index] : T::Ptr();
@@ -380,10 +380,10 @@ namespace Thread
 
 
 	template<class T>
-	void Array<T>::appendNThreadsWL(unsigned int n, bool autostart)
+	void Array<T>::appendNThreadsWL(uint n, bool autostart)
 	{
 		// Keeping the number of existing thread
-		const unsigned int count = pList.size();
+		const uint count = pList.size();
 		if (count < n)
 		{
 			// We don't have enough threads in pool. Creating a few of them...
@@ -391,7 +391,7 @@ namespace Thread
 			// changes while adding the new threads
 			if (autostart)
 			{
-				for (unsigned int i = count; i < n; ++i)
+				for (uint i = count; i < n; ++i)
 				{
 					T* thread = new T();
 					thread->start();
@@ -400,7 +400,7 @@ namespace Thread
 			}
 			else
 			{
-				for (unsigned int i = count; i < n; ++i)
+				for (uint i = count; i < n; ++i)
 					pList.push_back(new T());
 			}
 		}
@@ -408,7 +408,7 @@ namespace Thread
 
 
 	template<class T>
-	inline unsigned int Array<T>::size() const
+	inline uint Array<T>::size() const
 	{
 		typename ThreadingPolicy::MutexLocker locker(*this);
 		return pList.size();
@@ -416,10 +416,10 @@ namespace Thread
 
 
 	template<class T>
-	inline unsigned int Array<T>::count() const
+	inline uint Array<T>::count() const
 	{
 		typename ThreadingPolicy::MutexLocker locker(*this);
-		return (unsigned int) pList.size();
+		return (uint) pList.size();
 	}
 
 

@@ -139,7 +139,7 @@ namespace Unit
 
 	template<class Q, class Child, typename T, typename P, typename N>
 	inline bool
-	Abstract<Q,Child,T,P,N>::operator != (unsigned int u) const
+	Abstract<Q,Child,T,P,N>::operator != (uint u) const
 	{
 		return pValue != (T)u;
 	}
@@ -186,7 +186,7 @@ namespace Unit
 
 	template<class Q, class Child, typename T, typename P, typename N>
 	inline bool
-	Abstract<Q,Child,T,P,N>::operator == (unsigned int u) const
+	Abstract<Q,Child,T,P,N>::operator == (uint u) const
 	{
 		return pValue == (T)u;
 	}
@@ -232,7 +232,7 @@ namespace Unit
 
 	template<class Q, class Child, typename T, typename P, typename N>
 	inline bool
-	Abstract<Q,Child,T,P,N>::operator <= (unsigned int u) const
+	Abstract<Q,Child,T,P,N>::operator <= (uint u) const
 	{
 		return pValue <= (T)u;
 	}
@@ -286,7 +286,7 @@ namespace Unit
 
 	template<class Q, class Child, typename T, typename P, typename N>
 	inline bool
-	Abstract<Q,Child,T,P,N>::operator >= (unsigned int u) const
+	Abstract<Q,Child,T,P,N>::operator >= (uint u) const
 	{
 		return pValue >= (T)u;
 	}
@@ -332,7 +332,7 @@ namespace Unit
 
 	template<class Q, class Child, typename T, typename P, typename N>
 	inline bool
-	Abstract<Q,Child,T,P,N>::operator < (unsigned int u) const
+	Abstract<Q,Child,T,P,N>::operator < (uint u) const
 	{
 		return pValue < (T)u;
 	}
@@ -378,7 +378,7 @@ namespace Unit
 
 	template<class Q, class Child, typename T, typename P, typename N>
 	inline bool
-	Abstract<Q,Child,T,P,N>::operator > (unsigned int u) const
+	Abstract<Q,Child,T,P,N>::operator > (uint u) const
 	{
 		return pValue > (T)u;
 	}

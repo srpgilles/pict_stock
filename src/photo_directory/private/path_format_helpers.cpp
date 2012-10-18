@@ -240,7 +240,7 @@ namespace Private
 	void PathFormatHelper::setRegEx()
 	{
 		const auto& path = pFormat;
-		assert(path.notEmpty());
+		assert(!path.empty());
 
 		{
 			// First determine the ordering of the symbols found in user-defined expression

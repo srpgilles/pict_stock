@@ -282,13 +282,13 @@ namespace Math
 	}
 
 
-	template<class T> inline T Round(T x, unsigned int)
+	template<class T> inline T Round(T x, uint)
 	{
 		return x;
 	}
 
 
-	template<> inline double Round<double>(double x, unsigned int place)
+	template<> inline double Round<double>(double x, uint place)
 	{
 		if (place)
 		{
@@ -309,7 +309,7 @@ namespace Math
 	}
 
 	# ifdef YUNI_HAS_LONG_DOUBLE
-	template<> inline long double Round<long double>(long double x, unsigned int place)
+	template<> inline long double Round<long double>(long double x, uint place)
 	{
 		if (place)
 		{
@@ -330,7 +330,7 @@ namespace Math
 	}
 	# endif
 
-	template<> inline float Round<float>(float x, unsigned int place)
+	template<> inline float Round<float>(float x, uint place)
 	{
 		if (place)
 		{
@@ -353,12 +353,12 @@ namespace Math
 
 
 
-	template<class T> inline T Trunc(T x, unsigned int)
+	template<class T> inline T Trunc(T x, uint)
 	{
 		return x;
 	}
 
-	template<> inline double Trunc<double>(double x, unsigned int place)
+	template<> inline double Trunc<double>(double x, uint place)
 	{
 		if (place)
 		{
@@ -378,7 +378,7 @@ namespace Math
 		}
 	}
 
-	template<> inline float Trunc<float>(float x, unsigned int place)
+	template<> inline float Trunc<float>(float x, uint place)
 	{
 		if (place)
 		{
@@ -400,7 +400,7 @@ namespace Math
 
 
 	# ifdef YUNI_HAS_LONG_DOUBLE
-	template<> inline long double Trunc<long double>(long double x, unsigned int place)
+	template<> inline long double Trunc<long double>(long double x, uint place)
 	{
 		if (place)
 		{

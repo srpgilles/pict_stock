@@ -229,7 +229,7 @@ namespace Directory
 
 		IteratorData(const IteratorData& rhs)
 		{
-			if (rhs.dirinfo.notEmpty())
+			if (not rhs.dirinfo.empty())
 				push(rhs.dirinfo.front().parent);
 		}
 

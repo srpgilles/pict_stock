@@ -4,11 +4,42 @@
 /* !!! "C compatibility" header !!! */
 
 
-/*! String concatenation */
+/*!
+** \brief String concatenation
+*/
 # define YUNI_JOIN(X,Y)  X ## Y
 
-/*! Convenient define to deal with temporary (or not) unused parameter */
+/*!
+** \brief Convenient define to deal with temporary (or not) unused parameter
+*/
 # define YUNI_UNUSED_ARGUMENT(X) (void)(X)
+
+
+
+#define __YN_STRINGIZE(X) #X
+
+/*!
+** \brief Transform X into a string
+*/
+#define YUNI_STRINGIZE(X)  __YN_STRINGIZE(X)
+
+/*!
+** \brief Test if something is empty
+**
+** \code
+** #include <iostream>
+** #define MY_EMPTY_STRING
+**
+** int main()
+** {
+**	if (YUNI_IS_EMPTY(MY_EMPTY_STRING))
+**		std::cout << "empty !\n";
+**	return 0;
+** }
+** \endcode
+*/
+#define YUNI_IS_EMPTY(X)  (YUNI_STRINGIZE(X)[0] == '\0')
+
 
 
 /*! The identity function */

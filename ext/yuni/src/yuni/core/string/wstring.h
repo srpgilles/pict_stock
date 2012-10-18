@@ -32,7 +32,7 @@ namespace Private
 		/*!
 		** \brief Constructor with a C-String
 		*/
-		WString(const char* cstring, unsigned int size);
+		WString(const char* cstring, uint size);
 		//! Destructor
 		~WString();
 		//@}
@@ -40,7 +40,7 @@ namespace Private
 		/*!
 		** \brief Size of the wide string
 		*/
-		unsigned int size() const;
+		uint size() const;
 
 		/*!
 		** \brief Get if the string is empty
@@ -71,13 +71,13 @@ namespace Private
 
 	private:
 		//! Convert a C-String into a Wide String
-		void prepareWString(const char* const cstring, unsigned int size);
+		void prepareWString(const char* const cstring, uint size);
 
 	private:
 		//! Wide string
 		wchar_t* pWString;
 		//! Size of the wide string
-		unsigned int pSize;
+		uint pSize;
 
 	}; // class WString
 

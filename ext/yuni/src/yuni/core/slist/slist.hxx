@@ -630,11 +630,6 @@ namespace Yuni
 		return (NULL == pHead);
 	}
 
-	template<class T, class Alloc>
-	inline bool LinkedList<T,Alloc>::notEmpty() const
-	{
-		return (NULL != pHead);
-	}
 
 	template<class T, class Alloc>
 	inline typename LinkedList<T,Alloc>::Size LinkedList<T,Alloc>::size() const

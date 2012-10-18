@@ -34,7 +34,7 @@ namespace Random
 		~Default() {}
 
 		void reset();
-		void reset(unsigned int seed);
+		void reset(uint seed);
 
 		Value next();
 

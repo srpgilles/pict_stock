@@ -42,13 +42,13 @@ namespace Bit
 	{
 	public:
 		//! Size
-		typedef unsigned int Size;
+		typedef uint Size;
 		//! Buffer Type
-		typedef CString<20, true, false> BufferType;
+		typedef CString<20, true> BufferType;
 		enum
 		{
 			//! Invalide offset
-			npos = (unsigned int) (-1),
+			npos = (uint) (-1),
 		};
 
 	public:
@@ -62,12 +62,12 @@ namespace Bit
 		/*!
 		** \brief Constructor, with an initial number of bits
 		*/
-		explicit Array(unsigned int n);
+		explicit Array(uint n);
 
 		/*!
 		** \brief Constructor, with an initial number of bits and a value for each of them
 		*/
-		Array(unsigned int n, bool value);
+		Array(uint n, bool value);
 
 		/*!
 		** \brief Copy constructor
@@ -94,17 +94,17 @@ namespace Bit
 		/*!
 		** \brief Set the Ith bit
 		*/
-		void set(unsigned int i);
+		void set(uint i);
 
 		/*!
 		** \brief Set/Unset the Ith bit
 		*/
-		void set(unsigned int i, bool value);
+		void set(uint i, bool value);
 
 		/*!
 		** \brief Unset the Ith bit
 		*/
-		void unset(unsigned int i);
+		void unset(uint i);
 
 		/*!
 		** \brief Unset all bits at once
@@ -116,14 +116,14 @@ namespace Bit
 		/*!
 		** \brief Get if the Ith bit is set
 		*/
-		bool get(unsigned int i) const;
+		bool get(uint i) const;
 
 		/*!
 		** \brief Get if the Ith bit is set
 		**
 		** This routine is provided for STL compatibility.
 		*/
-		bool test(unsigned int i) const;
+		bool test(uint i) const;
 
 		/*!
 		** \brief Test if any bit is set
@@ -157,7 +157,7 @@ namespace Bit
 		** \param buffer A raw buffer
 		** \param size Size ofthe buffer
 		*/
-		template<class StringT> void loadFromBuffer(const StringT& buffer, unsigned int size);
+		template<class StringT> void loadFromBuffer(const StringT& buffer, uint size);
 
 		/*!
 		** \brief Save the array of bits into another buffer (which may use any type)
@@ -177,7 +177,7 @@ namespace Bit
 		** \return The bit index. npos if not found
 		** \tparam ValueT True to find the first bit set, false for the first unset
 		*/
-		template<bool ValueT> unsigned int find(unsigned int offset = 0) const;
+		template<bool ValueT> uint find(uint offset = 0) const;
 
 		/*!
 		** \brief Find the first N bit set or unset from a given offset
@@ -187,7 +187,7 @@ namespace Bit
 		** \return The bit index. npos if not found
 		** \tparam ValueT True to find the first bit set, false for the first unset
 		*/
-		template<bool ValueT> unsigned int findN(unsigned int count, unsigned int offset = 0) const;
+		template<bool ValueT> uint findN(uint count, uint offset = 0) const;
 		//@}
 
 		//! \name Memory management
@@ -195,34 +195,34 @@ namespace Bit
 		/*!
 		** \brief The number of bits within the buffer
 		*/
-		unsigned int size() const;
+		uint size() const;
 
 		/*!
 		** \brief The number of bits within the buffer
 		*/
-		unsigned int count() const;
+		uint count() const;
 
 		/*!
 		** \brief The size in bytes needed to store all bits within the buffer
 		**
 		** This value greater of equal to the value returned by size().
 		*/
-		unsigned int sizeInBytes() const;
+		uint sizeInBytes() const;
 
 		/*!
 		** \brief Reserve an amount of bits
 		*/
-		void reserve(unsigned int n);
+		void reserve(uint n);
 
 		/*!
 		** \brief Truncate to an amount of bits
 		*/
-		void truncate(unsigned int n);
+		void truncate(uint n);
 
 		/*!
 		** \brief Resize the internal buffer to a given amount of bit
 		*/
-		void resize(unsigned int n);
+		void resize(uint n);
 		//@}
 
 		const char* c_str() const;
@@ -244,12 +244,12 @@ namespace Bit
 
 
 	private:
-		unsigned int findFirstSet(unsigned int offset) const;
-		unsigned int findFirstUnset(unsigned int offset) const;
+		uint findFirstSet(uint offset) const;
+		uint findFirstUnset(uint offset) const;
 
 	private:
 		//! Number of bits into the buffer, requested by the caller
-		unsigned int pCount;
+		uint pCount;
 		//! Internal buffer
 		BufferType pBuffer;
 

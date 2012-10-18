@@ -10,22 +10,22 @@ namespace Yuni
 	{}
 
 
-	inline Version::Version(unsigned int h) :
+	inline Version::Version(uint h) :
 		hi(h), lo(0u), revision(0u)
 	{}
 
 
-	inline Version::Version(unsigned int h, unsigned int l) :
+	inline Version::Version(uint h, uint l) :
 		hi(h), lo(l), revision(0u)
 	{}
 
 
-	inline Version::Version(unsigned int h, unsigned int l, unsigned int r) :
+	inline Version::Version(uint h, uint l, uint r) :
 		hi(h), lo(l), revision(r)
 	{}
 
 
-	inline void Version::assign(unsigned int h, unsigned int l, unsigned int r)
+	inline void Version::assign(uint h, uint l, uint r)
 	{
 		hi = h;
 		lo = l;

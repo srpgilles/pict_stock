@@ -259,9 +259,9 @@ namespace File
 	}
 
 
-	template<uint CSizeT, bool ExpT, bool ZeroT>
+	template<uint CSizeT, bool ExpT>
 	inline uint
-	Stream::read(CString<CSizeT, ExpT,ZeroT>& buffer, uint size)
+	Stream::read(CString<CSizeT, ExpT>& buffer, uint size)
 	{
 		assert(pFd && "File not opened");
 		if (!size)
@@ -277,7 +277,7 @@ namespace File
 		// Assert to prevent SegV
 		assert(buffer.capacity() != 0 && "When reading a file, the buffer must have reserved some space");
 
-		typedef CString<CSizeT, ExpT,ZeroT> StringType;
+		typedef CString<CSizeT, ExpT> StringType;
 		typedef typename StringType::Char C;
 		// Reading the file
 		const size_t result = ::fread(const_cast<char*>(buffer.data()), 1, sizeof(C) * size, pFd);
@@ -291,16 +291,16 @@ namespace File
 	}
 
 
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline uint
-	Stream::chunckRead(CString<ChunkSizeT, ExpandableT,ZeroTerminatedT>& buffer)
+	Stream::chunckRead(CString<ChunkSizeT, ExpandableT>& buffer)
 	{
 		// Resizing the buffer
 		buffer.reserve(buffer.chunkSize);
 		// Assert to prevent SegV
 		assert(buffer.capacity() != 0 && "When reading a file, the buffer must have reserved some space");
 
-		typedef CString<ChunkSizeT, ExpandableT,ZeroTerminatedT> StringType;
+		typedef CString<ChunkSizeT, ExpandableT> StringType;
 		typedef typename StringType::Char C;
 		// Reading the file
 		const size_t result = ::fread(buffer.data(), 1, sizeof(C) * buffer.chunkSize, pFd);

@@ -34,11 +34,11 @@ namespace GetOptImpl
 	};
 
 
-	template<unsigned int ChunkT, bool ExpT, bool ZeroT>
-	class Value<CString<ChunkT, ExpT, ZeroT> >
+	template<uint ChunkT, bool ExpT>
+	class Value<CString<ChunkT, ExpT> >
 	{
 	public:
-		static bool Add(CString<ChunkT,ExpT, ZeroT>& out, const char* c_str, const String::size_type len)
+		static bool Add(CString<ChunkT,ExpT>& out, const char* c_str, const String::size_type len)
 		{
 			out.assign(c_str, len);
 			return true;
@@ -76,13 +76,13 @@ namespace GetOptImpl
 	};
 
 
-	template<template<class, class> class L, unsigned int ChunkT, bool ExpT, bool ZeroT, class Alloc>
-	class Value<L<CString<ChunkT,ExpT, ZeroT>, Alloc> >
+	template<template<class, class> class L, uint ChunkT, bool ExpT, class Alloc>
+	class Value<L<CString<ChunkT,ExpT>, Alloc> >
 	{
 	public:
-		static bool Add(L<CString<ChunkT,ExpT,ZeroT>, Alloc>& out, const char* c_str, const String::size_type len)
+		static bool Add(L<CString<ChunkT,ExpT>, Alloc>& out, const char* c_str, const String::size_type len)
 		{
-			out.push_back(CString<ChunkT,ExpT,ZeroT>(c_str, len));
+			out.push_back(CString<ChunkT,ExpT>(c_str, len));
 			return true;
 		}
 	};
@@ -182,11 +182,11 @@ namespace GetOptImpl
 
 
 
-	template<unsigned int ChunkT, bool ExpT, bool ZeroT>
-	class Flag<CString<ChunkT,ExpT,ZeroT> >
+	template<uint ChunkT, bool ExpT>
+	class Flag<CString<ChunkT,ExpT> >
 	{
 	public:
-		static void Enable(CString<ChunkT,ExpT,ZeroT>& out)
+		static void Enable(CString<ChunkT,ExpT>& out)
 		{
 			out = "true";
 		}
@@ -214,11 +214,11 @@ namespace GetOptImpl
 	};
 
 
-	template<template<class, class> class L, unsigned int ChunkT, bool ExpT, bool ZeroT, class Alloc>
-	class Flag<L<CString<ChunkT,ExpT,ZeroT>, Alloc> >
+	template<template<class, class> class L, uint ChunkT, bool ExpT, class Alloc>
+	class Flag<L<CString<ChunkT,ExpT>, Alloc> >
 	{
 	public:
-		static void Enable(L<CString<ChunkT,ExpT,ZeroT>, Alloc>& out)
+		static void Enable(L<CString<ChunkT,ExpT>, Alloc>& out)
 		{
 			out.push_back("true");
 		}

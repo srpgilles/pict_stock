@@ -51,11 +51,6 @@ namespace QueueService
 		bool empty() const;
 
 		/*!
-		** \brief Get if the waiting room is not empty
-		*/
-		bool notEmpty() const;
-
-		/*!
 		** \brief Add a job into the waiting room, with a default priority
 		**
 		** The job will see its state changed to `stateWaiting`.

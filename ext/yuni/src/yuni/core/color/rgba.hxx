@@ -300,13 +300,13 @@ namespace Color
 	inline RGBA<T>::RGBA()
 		:red(), green(), blue(), alpha()
 	{}
-	
+
 
 	template<class T>
 	inline RGBA<T>::RGBA(const RGBA<T>& rhs)
 		:red(rhs.red), green(rhs.green), blue(rhs.blue), alpha(rhs.alpha)
 	{}
-	
+
 
 	template<class T>
 	template<class U>
@@ -314,7 +314,7 @@ namespace Color
 	{
 		Yuni::Extension::Color::RGBA<RGBA<T>, U>::Assign(*this, value);
 	}
-	
+
 
 	template<class T>
 	template<class R, class G, class B, class A>
@@ -447,27 +447,33 @@ namespace Color
 
 
 	template<class T>
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroT>
-	void RGBA<T>::print(CString<ChunkSizeT, ExpandableT, ZeroT>& string) const
+	inline T& RGBA<T>::operator [] (const uint i)
 	{
-		string << "rgba("
-			<< static_cast<PrintType>(red) << ','
-			<< static_cast<PrintType>(green) << ','
-			<< static_cast<PrintType>(blue) << ','
-			<< static_cast<PrintType>(alpha) << ')';
+		switch (i)
+		{
+			case 0:
+				return red;
+			case 1:
+				return green;
+			case 2:
+				return blue;
+			case 3:
+				return alpha;
+			default:
+				assert(false && "Index out of bounds !");
+		}
 	}
+
 
 	template<class T>
 	template<class StreamT>
-	void RGBA<T>::print(StreamT& out) const
+	void RGBA<T>::print(StreamT& stream) const
 	{
-		CString<64, false, true> string;
-		string
+		stream << "rgba("
 			<< static_cast<PrintType>(red) << ','
 			<< static_cast<PrintType>(green) << ','
 			<< static_cast<PrintType>(blue) << ','
 			<< static_cast<PrintType>(alpha) << ')';
-		out << "rgba(" << string;
 	}
 
 

@@ -15,14 +15,14 @@ namespace Thread
 	{}
 
 
-	Timer::Timer(const unsigned int interval) :
+	Timer::Timer(uint interval) :
 		IThread(),
 		pTimeInterval(interval),
 		pCycleCount(infinite)
 	{}
 
 
-	Timer::Timer(const unsigned int interval, const unsigned int cycles) :
+	Timer::Timer(uint interval, uint cycles) :
 		IThread(),
 		pTimeInterval(interval),
 		pCycleCount(cycles)
@@ -60,7 +60,7 @@ namespace Thread
 
 	bool Timer::internalRunInfiniteLoop()
 	{
-		const unsigned int nnTimeInterval(pTimeInterval);
+		uint nnTimeInterval(pTimeInterval);
 		pTimerMutex.unlock();
 
 		while (true)
@@ -78,8 +78,8 @@ namespace Thread
 
 	bool Timer::internalRunFixedNumberOfCycles()
 	{
-		unsigned int cycleIndex = 0;
-		const unsigned int nnTimeInterval = pTimeInterval;
+		uint cycleIndex = 0;
+		uint nnTimeInterval = pTimeInterval;
 		pTimerMutex.unlock();
 
 		while (true)
@@ -131,7 +131,7 @@ namespace Thread
 	}
 
 
-	void Timer::interval(const unsigned int t)
+	void Timer::interval(uint t)
 	{
 		pTimerMutex.lock();
 		pTimeInterval = t;
@@ -139,7 +139,7 @@ namespace Thread
 	}
 
 
-	void Timer::cycleCount(const unsigned int n)
+	void Timer::cycleCount(uint n)
 	{
 		pTimerMutex.lock();
 		pCycleCount = n;
@@ -147,7 +147,7 @@ namespace Thread
 	}
 
 
-	void Timer::reload(unsigned int interval)
+	void Timer::reload(uint interval)
 	{
 		pTimerMutex.lock();
 		pTimeInterval = interval;
@@ -156,7 +156,7 @@ namespace Thread
 	}
 
 
-	void Timer::reload(unsigned int interval, unsigned int cycles)
+	void Timer::reload(uint interval, uint cycles)
 	{
 		pTimerMutex.lock();
 		pTimeInterval = interval;

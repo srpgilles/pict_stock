@@ -81,6 +81,12 @@ namespace Yuni
 		Quaternion<T> conjugate() const;
 		//@}
 
+		//! \name Manipulation
+		//@{
+		//! Normalization
+		void normalize();
+		//@}
+
 		//! \name Operator overloads
 		//@{
 		//! Assignment

@@ -323,6 +323,24 @@ namespace Yuni
 		*/
 		template<class U>
 		Vector3D<T>& operator = (const Vector3D<U>& p);
+
+		/*!
+		** \brief Operator [] overload.
+		*/
+		T& operator [] (const uint i)
+		{
+			switch (i)
+			{
+				case 0:
+					return x;
+				case 1:
+					return y;
+				case 2:
+					return z;
+				default:
+					assert(false && "Index out of bounds !");
+			}
+		}
 		//@} Operators
 
 

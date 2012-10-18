@@ -15,12 +15,6 @@ namespace QueueService
 	}
 
 
-	inline bool WaitingRoom::notEmpty() const
-	{
-		return (!(!pJobCount));
-	}
-
-
 	inline uint WaitingRoom::size() const
 	{
 		return (uint) pJobCount;

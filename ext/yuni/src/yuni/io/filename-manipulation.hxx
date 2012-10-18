@@ -37,21 +37,21 @@ namespace IO
 		if (!p)
 			return false;
 		// Find the substring
-		if (Traits::Length<StringT, unsigned int>::isFixed)
+		if (Traits::Length<StringT, uint>::isFixed)
 		{
 			// We can make some optimisations when the length is known at compile compile time
 			// This part of the code should not bring better performances but it should
-			// prevent against bad uses of the API, like using a typename CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>::Char* for looking for a single char.
+			// prevent against bad uses of the API, like using a typename CString<ChunkSizeT,ExpandableT>::Char* for looking for a single char.
 
 			// The value to find is actually empty, npos will be the unique answer
-			if (0 == Traits::Length<StringT, unsigned int>::fixedLength)
+			if (0 == Traits::Length<StringT, uint>::fixedLength)
 				return false;
 			// The string is actually a single POD item
-			if (1 == Traits::Length<StringT, unsigned int>::fixedLength)
+			if (1 == Traits::Length<StringT, uint>::fixedLength)
 				return *p == '/' || *p == '\\';
 		}
 
-		const unsigned int len = Traits::Length<StringT, unsigned int>::Value(filename);
+		const uint len = Traits::Length<StringT, uint>::Value(filename);
 		return (len != 0 && p)           // The string must not be empty
 			&& (*p == '/' || *p == '\\'  // Unix-style
 				|| (isalpha(*p)          // Windows-style (Drive letter)
@@ -62,7 +62,7 @@ namespace IO
 	template<class StringT>
 	inline bool IsRelative(const StringT& filename)
 	{
-		return !IsAbsolute(filename);
+		return not IsAbsolute(filename);
 	}
 
 
@@ -85,7 +85,7 @@ namespace IO
 	template<class StringT1, class StringT2>
 	void ExtractFileName(StringT1& out, const StringT2& p, const bool systemDependant)
 	{
-		if (p.notEmpty())
+		if (not p.empty())
 			out.clear();
 		const typename StringT2::size_type pos = (systemDependant)
 			? p.find_last_of(IO::Constant<char>::Separator)
@@ -143,7 +143,7 @@ namespace IO
 		// If the string is empty, the buffer may be invalid (NULL)
 		if (filename.size())
 		{
-			unsigned int i = filename.size();
+			uint i = filename.size();
 			do
 			{
 				--i;
@@ -153,7 +153,7 @@ namespace IO
 						{
 							if (!dot)
 							{
-								if (++i >= (unsigned int) filename.size())
+								if (++i >= (uint) filename.size())
 									return true;
 							}
 							out.append(filename.c_str() + i, filename.size() - i);
@@ -193,9 +193,9 @@ namespace IO
 		if (clearBefore)
 			out.clear();
 		if (IsAbsolute(filename))
-        {
+		{
 			out += filename;
-        }
+		}
 		else
 		{
 			out += currentPath;
@@ -211,7 +211,7 @@ namespace IO
 		// If the string is empty, the buffer may be invalid (NULL)
 		if (filename.size())
 		{
-			unsigned int i = filename.size();
+			uint i = filename.size();
 			do
 			{
 				--i;
@@ -235,21 +235,21 @@ namespace IO
 
 
 	template<class StringT1, class StringT2>
-	void Normalize(StringT1& out, const StringT2& in, unsigned int inLength, bool replaceSlashes)
+	void Normalize(StringT1& out, const StringT2& in, uint inLength, bool replaceSlashes)
 	{
 		YUNI_STATIC_ASSERT(Traits::IsString<StringT2>::yes, InvalidInType);
 
 		// Some static checks
-		if (Traits::Length<StringT2,unsigned int>::isFixed)
+		if (Traits::Length<StringT2,uint>::isFixed)
 		{
 			// The value to find is actually empty, nothing to do
-			if (0 == Traits::Length<StringT2,unsigned int>::fixedLength)
+			if (0 == Traits::Length<StringT2,uint>::fixedLength)
 			{
 				out.clear();
 				return;
 			}
 			// The string is actually a single POD item
-			if (1 == Traits::Length<StringT2,unsigned int>::fixedLength)
+			if (1 == Traits::Length<StringT2,uint>::fixedLength)
 			{
 				out = in;
 				if (replaceSlashes)
@@ -265,8 +265,8 @@ namespace IO
 		}
 
 		// The length of the input
-		if (inLength == static_cast<unsigned int>(-1))
-			inLength = Traits::Length<StringT2,unsigned int>::Value(in);
+		if (inLength == static_cast<uint>(-1))
+			inLength = Traits::Length<StringT2,uint>::Value(in);
 		if (!inLength)
 		{
 			out.clear();
@@ -296,12 +296,12 @@ namespace IO
 		}
 
 		// Counting slashes
-		unsigned int slashes = 0;
+		uint slashes = 0;
 		// An index, used at different places
-		unsigned int i = 0;
+		uint i = 0;
 		// We will keep the position of the character after the first slash. It improves
 		// a bit performances for relative filenames
-		unsigned int start = 0;
+		uint start = 0;
 		for (; i != inLength; ++i)
 		{
 			if (input[i] == '/' || input[i] == '\\')
@@ -360,10 +360,10 @@ namespace IO
 		}
 
 		// The last known good position
-		unsigned int cursor = start;
+		uint cursor = start;
 		// The number of non-relative folders, used when the path is not absolute
 		// This value is used to keep the relative segments at the begining
-		unsigned int realFolderCount = 0;
+		uint realFolderCount = 0;
 
 		// The stack
 		// PreAllocating the stack, to speed up the algoritm by avoiding numerous
@@ -371,18 +371,18 @@ namespace IO
 		struct Stack
 		{
 		public:
-			void operator () (unsigned int c, unsigned int l)
+			void operator () (uint c, uint l)
 			{
 				cursor = c;
 				length = l;
 			}
 		public:
-			unsigned int cursor;
-			unsigned int length;
+			uint cursor;
+			uint length;
 		};
 		Stack* stack = new Stack[slashes + 1]; // Ex: path/to/somewhere/on/my/hdd
 		// Index on the stack
-		unsigned int count = 0;
+		uint count = 0;
 
 		for (i = start; i < inLength; ++i)
 		{
@@ -469,7 +469,7 @@ namespace IO
 		// Pushing all stored segments
 		if (count)
 		{
-			for (unsigned int j = 0; j != count; ++j)
+			for (uint j = 0; j != count; ++j)
 				out.append(input + stack[j].cursor, stack[j].length);
 		}
 

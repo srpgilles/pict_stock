@@ -138,13 +138,13 @@ namespace Octet
 	YUNI_UNIT_IMPL(Tebioctet, "tebioctet", "Tio", uint64_t, 1099511627776LL);
 	//! Gibioctet
 	//! \ingroup UnitDataOctet
-	YUNI_UNIT_IMPL(Gibioctet, "gibioctet", "Gio", unsigned int, 1073741824);
+	YUNI_UNIT_IMPL(Gibioctet, "gibioctet", "Gio", uint, 1073741824);
 	//! Mebioctet
 	//! \ingroup UnitDataOctet
-	YUNI_UNIT_IMPL(Mebioctet, "mebioctet", "Mio", unsigned int, 1048576);
+	YUNI_UNIT_IMPL(Mebioctet, "mebioctet", "Mio", uint, 1048576);
 	//! Kibioctet
 	//! \ingroup UnitDataOctet
-	YUNI_UNIT_IMPL(Kibioctet, "kibioctet", "Kio", unsigned int, 1024);
+	YUNI_UNIT_IMPL(Kibioctet, "kibioctet", "Kio", uint, 1024);
 
 	//! Bit
 	//! \ingroup UnitDataOctet

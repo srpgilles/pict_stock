@@ -201,7 +201,7 @@ namespace Dox2Article
 				assert(!(!compound) && "invalid compound");
 				pStack.pop_front();
 
-				if (compound->name.notEmpty())
+				if (not compound->name.empty())
 					allSymbolsByName[compound->kind][compound->name] = compound;
 				return true;
 			}

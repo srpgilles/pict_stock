@@ -133,8 +133,8 @@ namespace EventLoop
 		**
 		** \param timeout The number of milliseconds to wait before killing the event loop
 		*/
-		void stop(unsigned int timeout = 5000 /* 5 seconds */);
-		
+		void stop(uint timeout = 5000 /* 5 seconds */);
+
 		/*!
 		** \brief Is the event loop running ?
 		*/
@@ -173,7 +173,7 @@ namespace EventLoop
 
 	protected:
 		//! Suspend the thread
-		void suspend(unsigned int timeout);
+		void suspend(uint timeout);
 
 	private:
 		//! Copy constructor

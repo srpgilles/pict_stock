@@ -46,7 +46,7 @@ namespace Yuni
 	{
 	public:
 		//! IEvent list
-		typedef std::map<IEvent*, unsigned int> Map;
+		typedef std::map<IEvent*, uint> Map;
 
 	public:
 		IEvent() {}

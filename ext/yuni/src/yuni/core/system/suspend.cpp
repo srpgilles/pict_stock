@@ -13,7 +13,7 @@
 namespace Yuni
 {
 
-	void Suspend(unsigned int seconds)
+	void Suspend(uint seconds)
 	{
 		# if defined(YUNI_OS_WINDOWS)
 		Sleep(1000 * seconds);
@@ -27,7 +27,7 @@ namespace Yuni
 	}
 
 
-	void SuspendMilliSeconds(unsigned int milliseconds)
+	void SuspendMilliSeconds(uint milliseconds)
 	{
 		# if defined(YUNI_OS_WINDOWS)
 		Sleep(milliseconds);

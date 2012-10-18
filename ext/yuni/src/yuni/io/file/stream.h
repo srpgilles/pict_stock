@@ -252,8 +252,8 @@ namespace File
 		** \param size The size in bytes to read
 		** \return The number of bytes that have been read
 		*/
-		template<uint CSizeT, bool ExpT, bool ZeroT>
-		uint read(CString<CSizeT,ExpT,ZeroT>&  buffer, uint size);
+		template<uint CSizeT, bool ExpT>
+		uint read(CString<CSizeT,ExpT>&  buffer, uint size);
 
 		/*!
 		** \brief Read a buffer
@@ -274,8 +274,8 @@ namespace File
 		** \param buffer An arbitrary buffer
 		** \return The number of bytes that have been read
 		*/
-		template<uint CSizeT, bool ExpT, bool ZeroT>
-		uint chunckRead(CString<CSizeT,ExpT,ZeroT>&  buffer);
+		template<uint CSizeT, bool ExpT>
+		uint chunckRead(CString<CSizeT,ExpT>&  buffer);
 		//@}
 
 

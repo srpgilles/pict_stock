@@ -13,12 +13,12 @@ namespace Private
 	inline WString<UNCPrefix, AppendSeparatorT>::WString(const StringT& string)
 	{
 		prepareWString(Traits::CString<StringT>::Perform(string),
-			Traits::Length<StringT, unsigned int>::Value(string));
+			Traits::Length<StringT, uint>::Value(string));
 	}
 
 
 	template<bool UNCPrefix, bool AppendSeparatorT>
-	inline WString<UNCPrefix, AppendSeparatorT>::WString(const char* cstring, unsigned int size)
+	inline WString<UNCPrefix, AppendSeparatorT>::WString(const char* cstring, uint size)
 	{
 		prepareWString(cstring, size);
 	}
@@ -32,7 +32,7 @@ namespace Private
 
 
 	template<bool UNCPrefix, bool AppendSeparatorT>
-	inline unsigned int WString<UNCPrefix, AppendSeparatorT>::size() const
+	inline uint WString<UNCPrefix, AppendSeparatorT>::size() const
 	{
 		return pSize;
 	}
@@ -41,7 +41,7 @@ namespace Private
 	template<bool UNCPrefix, bool AppendSeparatorT>
 	inline void WString<UNCPrefix, AppendSeparatorT>::replace(char from, char to)
 	{
-		for (unsigned int i = 0; i != pSize; ++i)
+		for (uint i = 0; i != pSize; ++i)
 		{
 			if (pWString[i] == from)
 				pWString[i] = to;
@@ -78,7 +78,7 @@ namespace Private
 
 
 	template<bool UNCPrefix, bool AppendSeparatorT>
-	void WString<UNCPrefix, AppendSeparatorT>::prepareWString(const char* const cstring, unsigned int size)
+	void WString<UNCPrefix, AppendSeparatorT>::prepareWString(const char* const cstring, uint size)
 	{
 		if (!size)
 		{
@@ -101,7 +101,7 @@ namespace Private
 		}
 
 		// Offset according to the presence of the UNC prefix
-		const unsigned int offset = UNCPrefix ? 4 : 0;
+		const uint offset = UNCPrefix ? 4 : 0;
 
 		// Size of the wide string. This value may be modified if there is not
 		// enough room for converting the C-String

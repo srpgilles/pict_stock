@@ -16,7 +16,7 @@ namespace System
 	/*!
 	** \brief Retrieves the calling user's name into a mere C-String buffer (Windows only)
 	*/
-	unsigned int WindowsUsername(char* cstring, unsigned int size);
+	uint WindowsUsername(char* cstring, uint size);
 	# endif
 
 
@@ -50,12 +50,12 @@ namespace System
 		// The target buffer
 		char* target = const_cast<char*>(out.c_str()) + out.size();
 		// Since it may be any string (like a static one), we may have less than 256 chars
-		unsigned int size = out.capacity() - out.size();
+		uint size = out.capacity() - out.size();
 		if (!size)
 			return false; // not enough rooms
 		// Appending the username to our buffer and retrieving the size of
 		// the username
-		unsigned int written = Yuni::Private::System::WindowsUsername(target, size);
+		uint written = Yuni::Private::System::WindowsUsername(target, size);
 		if (written)
 		{
 			// The username has been written, we have to properly resize the string

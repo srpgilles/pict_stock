@@ -82,7 +82,7 @@ namespace CStringImpl
 				// A pointer to the current char (at the end of the buffer)
 				char* p = buffer + (bufferCapacity - 1);
 				// Char count
-				unsigned int nbChar = 0;
+				uint nbChar = 0;
 
 				if (strictlyPositiveByContract || value > 0)
 				{

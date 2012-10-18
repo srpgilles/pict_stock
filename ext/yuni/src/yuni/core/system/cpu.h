@@ -16,7 +16,7 @@ namespace CPU
 	**
 	** \return The number of CPU (logic or not), 1 when the value is unknown
 	*/
-	unsigned int Count();
+	uint Count();
 
 
 

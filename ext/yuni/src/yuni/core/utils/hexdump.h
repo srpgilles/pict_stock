@@ -50,7 +50,7 @@ namespace Utils
 		** \param[in] buffer A pointer to a raw buffer.
 		** \param[in] size The size to dump.
 		*/
-		Hexdump(const char* buffer, unsigned int size);
+		Hexdump(const char* buffer, uint size);
 
 		/*!
 		** \brief Copy ctor.
@@ -101,7 +101,7 @@ namespace Utils
 		** \param[in] buffer The start address of the sub-buffer.
 		** \param[in] size The size of the sub-buffer
 		*/
-		void dumpHexadecimal(String& line, const char* buffer, unsigned int size) const;
+		void dumpHexadecimal(String& line, const char* buffer, uint size) const;
 
 		/*!
 		** \brief Dumps the printable-version of a sub-buffer into a string
@@ -110,13 +110,13 @@ namespace Utils
 		** \param[in] buffer The start address of the sub-buffer.
 		** \param[in] size The size of the sub-buffer
 		*/
-		void dumpPrintable(String& line, const char* buffer, unsigned int size) const;
+		void dumpPrintable(String& line, const char* buffer, uint size) const;
 
 	private:
 		//! Pointer to the current buffer (not owned by Hexdump)
 		char const* pBuffer;
 		//! The current dump size.
-		unsigned int pSize;
+		uint pSize;
 
 	}; // class HexDump
 

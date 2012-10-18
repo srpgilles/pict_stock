@@ -22,7 +22,7 @@ namespace Yuni
 
 
 	// Forward declaration for the base class String
-	template<unsigned int ChunkSizeT = 128, bool ExpandableT = true, bool ZeroTerminatedT = true>
+	template<uint ChunkSizeT = 128, bool ExpandableT = true>
 	class YUNI_DECL CString;
 
 

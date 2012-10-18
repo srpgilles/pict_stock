@@ -15,7 +15,7 @@ namespace UI
 	class Window;
 
 	//! String identifier type
-	typedef CString<40, false, false> GUID;
+	typedef CString<40, false> GUID;
 
 
 namespace Adapter

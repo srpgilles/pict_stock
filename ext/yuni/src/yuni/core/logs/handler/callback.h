@@ -27,9 +27,9 @@ namespace Logs
 		template<class LoggerT, class VerbosityType, class StringT>
 		void internalDecoratorWriteWL(LoggerT& logger, const StringT& s) const
 		{
-			if ((int)VerbosityType::level != (int)Verbosity::Debug::level)
+			if ((uint) VerbosityType::level != (uint) Verbosity::Debug::level)
 			{
-				if (callback.notEmpty() && !s.empty())
+				if (not callback.empty() && not s.empty())
 				{
 					// A mutex is already locked
 					pDispatchedMessage = s;

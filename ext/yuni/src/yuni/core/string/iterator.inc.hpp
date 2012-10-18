@@ -22,7 +22,7 @@ struct Model
 
 		//! The type of the orignal object
 		typedef UTF8::Char value_type;
-		//! An unsigned integral type
+		//! An uintegral type
 		typedef typename CStringType::size_type  size_type;
 		//! A signed integral type
 		typedef typename CStringType::difference_type  difference_type;
@@ -122,7 +122,7 @@ struct Model
 
 		//! The type of the orignal object
 		typedef UTF8::Char value_type;
-		//! An unsigned integral type
+		//! An uintegral type
 		typedef typename CStringType::size_type  size_type;
 		//! A signed integral type
 		typedef typename CStringType::difference_type  difference_type;
@@ -307,7 +307,7 @@ struct Model
 
 		//! The type of the orignal object
 		typedef char value_type;
-		//! An unsigned integral type
+		//! An unsigned  integral type
 		typedef typename CStringType::size_type  size_type;
 		//! A signed integral type
 		typedef typename CStringType::difference_type  difference_type;

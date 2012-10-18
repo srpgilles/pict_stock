@@ -250,7 +250,7 @@ namespace // anonymous
 				const AnyString type = element.Attribute("type");
 				if (!type || (type != "lines" && type != "bars" && type != "points"))
 				{
-					if (type.notEmpty())
+					if (not type.empty())
 						logs.warning() << pArticle.relativeFilename << ": invalid curve type, got '" << type << "'";
 					pCurrentChart->currentCurve->type = "lines";
 				}
@@ -258,7 +258,7 @@ namespace // anonymous
 					pCurrentChart->currentCurve->type = type;
 
 				const AnyString fill = element.Attribute("fill");
-				if (fill.notEmpty())
+				if (not fill.empty())
 					pCurrentChart->currentCurve->fill = fill.to<bool>();
 
 				return true;
@@ -266,7 +266,7 @@ namespace // anonymous
 			if (tag == "legend")
 			{
 				const AnyString pos = element.Attribute("position");
-				if (pos.notEmpty())
+				if (not pos.empty())
 				{
 					if (pos != "ne" && pos != "nw" && pos != "se" && pos != "sw")
 					{
@@ -283,14 +283,14 @@ namespace // anonymous
 			if (tag == "x")
 			{
 				const AnyString value = element.GetText();
-				if (value.notEmpty())
+				if (not value.empty())
 					value.split(pCurrentChart->currentCurve->x, " ,;\t\r\n|");
 				return true;
 			}
 			if (tag == "y")
 			{
 				const AnyString value = element.GetText();
-				if (value.notEmpty())
+				if (not value.empty())
 					value.split(pCurrentChart->currentCurve->y, " ,;\t\r\n|");
 				return true;
 			}
@@ -609,7 +609,7 @@ void JobWriter::prepareVariables(const String& filenameInHtdocs)
 	TiXmlDocument doc;
 	doc.SetTabSize(4);
 
-	if (pArticle.originalFilename.notEmpty())
+	if (not pArticle.originalFilename.empty())
 	{
 		if (!doc.LoadFile(pArticle.originalFilename.c_str(), TIXML_ENCODING_UTF8))
 		{
@@ -796,7 +796,7 @@ void JobWriter::prepareVariables(const String& filenameInHtdocs)
 	}
 
 	// @{CONTENT}
-	if (pArticle.originalFilename.notEmpty())
+	if (not pArticle.originalFilename.empty())
 	{
 		if (IO::Directory::System::Temporary(tmp))
 		{
@@ -822,7 +822,7 @@ void JobWriter::prepareVariables(const String& filenameInHtdocs)
 		pVars["CONTENT"] = nullptr;
 
 	// @{DIRECTORY_INPUT}
-	if (pArticle.directoryIndex.notEmpty())
+	if (not pArticle.directoryIndex.empty())
 	{
 		Clob data;
 		DocIndex::BuildDirectoryIndex(data, pArticle.directoryIndex);

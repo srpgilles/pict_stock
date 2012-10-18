@@ -33,7 +33,7 @@ namespace Job
 	{
 		// Write articles
 		{
-			unsigned int count = (unsigned int) allSymbolsByRefID.size();
+			uint count = (uint) allSymbolsByRefID.size();
 			switch (count)
 			{
 				case 0:  logs.info() << "No article";break;
@@ -129,7 +129,7 @@ namespace Job
 				fileOut << "\n\n\n";
 
 				fileOut << "<h2>";
-				if (pCompound->brief.notEmpty())
+				if (not pCompound->brief.empty())
 					PrepareTitle(tmp, pCompound->brief);
 				else
 					PrepareTitle(tmp, pageTitle);
@@ -147,9 +147,9 @@ namespace Job
 			{
 				// resetting temporary stream outputs
 				out.clear();
-				for (unsigned int i = 0; i != 2; ++i)
+				for (uint i = 0; i != 2; ++i)
 				{
-					for (unsigned int j = 0; j != (unsigned int) kdMax; ++j)
+					for (uint j = 0; j != (uint) kdMax; ++j)
 						outC[i][j].clear();
 				}
 
@@ -169,23 +169,25 @@ namespace Job
 				// End of table
 				out << "</table>\n\n\n";
 			}
-			
+
 			// Writing the begining of the article (title...)
 			file << fileOut;
 
 			// Preparing indexes from temporary buffers
 			fileOut.clear();
-			for (unsigned int i = 1; i < 2; --i)
+			for (uint i = 1; i < 2; --i)
 			{
-				for (unsigned int j = 0; j != (unsigned int) kdMax; ++j)
+				for (uint j = 0; j != (uint) kdMax; ++j)
 				{
-					if (outC[i][j].notEmpty())
+					if (not outC[i][j].empty())
 						appendClassIndex(fileOut, (i != 0) /*isPublic*/, (CompoundType) j, outC[i][j]);
 				}
 			}
-			if (fileOut.notEmpty())
+
+			if (not fileOut.empty())
 				fileOut << "<h2>Detailed Description</h2>";
-			if (pCompound->description.notEmpty())
+
+			if (not pCompound->description.empty())
 			{
 				fileOut << "<div>" << pCompound->description
 					<< "</div><div style=\"margin-top:3em;border:1px solid #aaa;border-bottom-style:none;border-left-style:none;border-right-style:none\"></div>\n";
@@ -240,8 +242,8 @@ namespace Job
 		// Section ID
 		CString<48,false> id;
 
-		unsigned int count = (unsigned int) pCompound->sections.size();
-		for (unsigned int i = 0; i != count; ++i)
+		uint count = (uint) pCompound->sections.size();
+		for (uint i = 0; i != count; ++i)
 		{
 			const Section::Ptr& sectionptr = pCompound->sections[i];
 			if (!sectionptr) // just in case
@@ -271,8 +273,8 @@ namespace Job
 			// In the same time, this loop will filter empty sections
 			// (push_back will never be called) which may occur in some
 			// rare cases
-			unsigned int memcount = (unsigned int) section.members.size();
-			for (unsigned int j = 0; j != memcount; ++j)
+			uint memcount = (uint) section.members.size();
+			for (uint j = 0; j != memcount; ++j)
 			{
 				const Member::Ptr& memberptr = section.members[j];
 				const Member& member = *memberptr;
@@ -301,7 +303,7 @@ namespace Job
 	{
 		subtitle = "<tr><td class=\"doxnone\"></td><td class=\"doxnone\">";
 
-		if (section.caption.notEmpty())
+		if (not section.caption.empty())
 		{
 			HtmlEntities(sectionName, section.caption);
 			subtitle << "<h3 class=\"doxygen_section\">" << sectionName << " <code class=\"doxygen_visibility\">" << visibility << "</code></h3>\n";
@@ -348,8 +350,8 @@ namespace Job
 
 		bool subtitleAlreadyWritten = false;
 		bool firstIndexMember = true;
-		unsigned int memcount = (unsigned int) section.members.size();
-		for (unsigned int j = 0; j != memcount; ++j)
+		uint memcount = (uint) section.members.size();
+		for (uint j = 0; j != memcount; ++j)
 		{
 			const Member::Ptr& memberptr = section.members[j];
 			const Member& member = *memberptr;
@@ -398,7 +400,7 @@ namespace Job
 			}
 			out << "</td><td class=\"doxnone\"><div class=\"doxygen_brief\">";
 
-			if (member.brief.notEmpty())
+			if (not member.brief.empty())
 				out << "<b>" << member.brief << "</b><div class=\"doxygen_name_spacer\"></div>\n";
 			out << "<code>";
 
@@ -414,7 +416,7 @@ namespace Job
 					appendClassVariable();
 					break;
 				default:
-					out << "<i>(unmanaged tag: " << (unsigned int) member.kind << ")</i>";
+					out << "<i>(unmanaged tag: " << (uint) member.kind << ")</i>";
 					break;
 			}
 
@@ -426,7 +428,7 @@ namespace Job
 			out << "<tr><td class=\"doxnone doxreturn\"></td><td class=\"doxnone\">\n";
 			out << "<div class=\"doxygen_name_spacer\"></div>\n<div class=\"doxygen_desc\">";
 
-			if (member.detailedDescription.notEmpty())
+			if (not member.detailedDescription.empty())
 				out << member.detailedDescription;
 
 			out << "\n</div>\n";
@@ -453,7 +455,7 @@ namespace Job
 		{
 			out << "<div class=\"doxygen_tmpllist\">";
 			out << "<span class=\"keyword\">template</span>&lt;";
-			for (unsigned int p = 0; p != member.templates.size(); ++p)
+			for (uint p = 0; p != member.templates.size(); ++p)
 			{
 				if (p)
 					out << ", ";
@@ -488,7 +490,7 @@ namespace Job
 		out   << type << " (";
 		outIx << '(';
 
-		for (unsigned int p = 0; p != member.parameters.size(); ++p)
+		for (uint p = 0; p != member.parameters.size(); ++p)
 		{
 			if (p)
 			{
@@ -503,8 +505,10 @@ namespace Job
 			out << paramType << ' ' << paramName;
 			outIx << paramType << ' ' << paramName;
 		}
+
 		out << ')';
 		outIx << ')';
+
 		if (member.isConst)
 		{
 			out  << " <span class=\"keyword\">const</span>";

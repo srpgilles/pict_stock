@@ -359,7 +359,7 @@ namespace Job
 								if (!member->templates.empty())
 								{
 									Parameter::Ptr& param = member->templates[member->templates.size() - 1];
-									if (param->name.notEmpty())
+									if (not param->name.empty())
 										param->name += ' ';
 									param->name.append(name.c_str(), (unsigned int)name.size());
 								}
@@ -369,7 +369,7 @@ namespace Job
 								if (!member->parameters.empty())
 								{
 									Parameter::Ptr& param = member->parameters[member->parameters.size() - 1];
-									if (param->name.notEmpty())
+									if (not param->name.empty())
 										param->name += ' ';
 									param->name.append(name.c_str(), (unsigned int)name.size());
 								}
@@ -398,7 +398,7 @@ namespace Job
 								if (!member->templates.empty())
 								{
 									Parameter::Ptr& param = member->templates[member->templates.size() - 1];
-									if (param->type.notEmpty())
+									if (not param->type.empty())
 										param->type += ' ';
 									param->type.append(name.c_str(), (unsigned int)name.size());
 								}
@@ -408,7 +408,7 @@ namespace Job
 								if (!member->parameters.empty())
 								{
 									Parameter::Ptr& param = member->parameters[member->parameters.size() - 1];
-									if (param->type.notEmpty())
+									if (not param->type.empty())
 										param->type += ' ';
 									param->type.append(name.c_str(), (unsigned int)name.size());
 								}
@@ -416,7 +416,7 @@ namespace Job
 						}
 						else
 						{
-							if (member->type.notEmpty())
+							if (not member->type.empty())
 								member->type += ' ';
 							member->type.append(name.c_str(), (unsigned int)name.size());
 						}
@@ -438,7 +438,7 @@ namespace Job
 			if (pCurrentParagraph)
 			{
 				const TIXML_STRING& name = text.ValueTStr();
-				if ((*pCurrentParagraph).notEmpty())
+				if (not (*pCurrentParagraph).empty())
 					(*pCurrentParagraph) += ' ';
 				HtmlEntities(pS, AnyString(name.c_str(), (unsigned int)name.size()));
 				(*pCurrentParagraph) += pS;

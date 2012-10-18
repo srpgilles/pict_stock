@@ -38,7 +38,7 @@ namespace Flow
 		** the loop is not in detached mode. There is no restriction in detached mode
 		** (which is the default).
 		*/
-		void timeout(unsigned int t)
+		void timeout(uint t)
 		{
 			if (!EventLoopType::detached)
 			{
@@ -107,7 +107,7 @@ namespace Flow
 		}
 
 	private:
-		bool internalSetLoopTimeout(unsigned int t)
+		bool internalSetLoopTimeout(uint t)
 		{
 			// We assume here that `t` is valid.
 			pTimeout = t;
@@ -116,7 +116,7 @@ namespace Flow
 
 	private:
 		//! Timeout (ms)
-		unsigned int pTimeout;
+		uint pTimeout;
 		//! Pointer to the original event loop
 		EventLoopType* pEventLoop;
 

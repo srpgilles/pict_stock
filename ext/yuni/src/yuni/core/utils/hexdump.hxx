@@ -9,7 +9,7 @@ namespace Core
 namespace Utils
 {
 
-	inline Hexdump::Hexdump(const char* buffer, unsigned int size)
+	inline Hexdump::Hexdump(const char* buffer, uint size)
 		:pBuffer(buffer), pSize(size)
 	{}
 
@@ -29,8 +29,8 @@ namespace Utils
 	void Hexdump::dump(U& stream) const
 	{
 		Yuni::String line;
-		unsigned int printed;
-		unsigned int remains = pSize;
+		uint printed;
+		uint remains = pSize;
 
 		for (printed = 0; printed <	pSize; printed += 0x10)
 		{

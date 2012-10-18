@@ -45,13 +45,13 @@ namespace Color
 	*/
 	template<class T> struct Print  { typedef T Type; };
 	template<> struct Print<char>  { typedef int Type; };
-	template<> struct Print<unsigned char>  { typedef unsigned int Type; };
+	template<> struct Print<unsigned char>  { typedef uint Type; };
 
 
 	template<class T>
 	struct SignedType
 	{
-		typedef typename Static::If<(T(-1) < T(0)), int, unsigned int>::Type Type;
+		typedef typename Static::If<(T(-1) < T(0)), int, uint>::Type Type;
 	};
 
 	template<> struct SignedType<float>       { typedef float Type; };

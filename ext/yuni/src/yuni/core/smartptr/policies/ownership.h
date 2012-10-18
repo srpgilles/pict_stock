@@ -54,7 +54,7 @@ namespace Ownership
 		//@{
 		//! Default constructor
 		ReferenceCounted() :
-			pCount(new unsigned int(1))
+			pCount(new uint(1))
 		{}
 
 		//! Copy constructor
@@ -111,7 +111,7 @@ namespace Ownership
 
 	private:
 		//! The reference count
-		unsigned int* pCount;
+		uint* pCount;
 
 	}; // class ReferenceCounted
 

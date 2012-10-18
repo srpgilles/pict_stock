@@ -32,22 +32,22 @@ namespace Bit
 	/*!
 	** \brief Get the number of bits that are set
 	*/
-	template<class T> unsigned int Count(T data);
+	template<class T> uint Count(T data);
 
 	/*!
 	** \brief Get if the bit at a given index
 	*/
-	bool Get(const char*, unsigned int index);
+	bool Get(const char*, uint index);
 
 	/*!
 	** \brief Set the Nth bit in a raw buffer
 	*/
-	void Set(char* data, unsigned int index);
+	void Set(char* data, uint index);
 
 	/*!
 	** \brief Unset the Nth bit in a raw buffer
 	*/
-	void Unset(char* data, unsigned int index);
+	void Unset(char* data, uint index);
 
 
 

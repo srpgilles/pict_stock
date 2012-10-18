@@ -8,9 +8,9 @@ namespace Bit
 {
 
 	template<class T>
-	unsigned int Count(T data)
+	uint Count(T data)
 	{
-		unsigned int c = 0;
+		uint c = 0;
 		while (data)
 		{
 			c += c & 0x1u;
@@ -20,7 +20,7 @@ namespace Bit
 	}
 
 
-	inline bool Get(const char* data, unsigned int index)
+	inline bool Get(const char* data, uint index)
 	{
 		# ifdef YUNI_OS_MSVC
 		return (YUNI_BIT_GET(data, index)) ? true : false;
@@ -30,14 +30,14 @@ namespace Bit
 	}
 
 
-	inline void Set(char* data, unsigned int index)
+	inline void Set(char* data, uint index)
 	{
 		//data[index >> 3] |= 1 << ((ENDIANESS) ? (7 - (i) & 7) : (i) & 7);
 		YUNI_BIT_SET(data, index);
 	}
 
 
-	inline void Unset(char* data, unsigned int index)
+	inline void Unset(char* data, uint index)
 	{
 		//data[index >> 3] ~= (1 << ((ENDIANESS) ? (7 - (index) & 7) : (index) & 7));
 		YUNI_BIT_UNSET(data, index);

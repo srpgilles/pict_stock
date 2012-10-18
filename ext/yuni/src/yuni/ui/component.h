@@ -47,7 +47,7 @@ namespace Adapter
 		typedef EventObserverType::ThreadingPolicy ThreadingPolicy;
 
 		//! A class name is a string tag representing a type of component
-		typedef CString<64, false, false> ClassName;
+		typedef CString<64, false> ClassName;
 
 		//! Unique local identifier
 		typedef Yuni::UI::ID::Type ID;

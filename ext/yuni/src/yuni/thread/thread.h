@@ -95,7 +95,7 @@ namespace Thread
 		** \param timeout The timeout in milliseconds before killing the thread (default: 5000ms)
 		** \return An error status (`errNone` if succeeded)
 		*/
-		Error stop(unsigned int timeout = defaultTimeout);
+		Error stop(uint timeout = defaultTimeout);
 
 		/*!
 		** \brief Wait for an infinite amount of time for the end of the thread
@@ -112,7 +112,7 @@ namespace Thread
 		** \param timeout The timeout in milliseconds
 		** \return An error status (`errNone` if succeeded)
 		*/
-		Error wait(unsigned int timeout);
+		Error wait(uint timeout);
 
 		/*!
 		** \brief Restart the thread
@@ -123,7 +123,7 @@ namespace Thread
 		** \see stop()
 		** \see start()
 		*/
-		Error restart(unsigned int timeout = defaultTimeout);
+		Error restart(uint timeout = defaultTimeout);
 
 		/*!
 		** \brief Ask to Stop the execution of the thread as soon as possible
@@ -170,7 +170,7 @@ namespace Thread
 		** \param delay The delay in miliseconds. O will only return if the thread should exit
 		** \return True indicates that the thread should stop immediately
 		*/
-		bool suspend(unsigned int delay = 0);
+		bool suspend(uint delay = 0);
 
 		/*!
 		** \brief Get if the thread should abort as soon as possible
@@ -254,7 +254,7 @@ namespace Thread
 
 		# ifndef YUNI_NO_THREAD_SAFE
 		//! Stop the native thread
-		Error stopWL(unsigned int timeout);
+		Error stopWL(uint timeout);
 		# endif
 
 	private:

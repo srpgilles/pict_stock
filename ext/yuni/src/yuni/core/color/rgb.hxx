@@ -424,25 +424,30 @@ namespace Color
 
 
 	template<class T>
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroT>
-	void RGB<T>::print(CString<ChunkSizeT, ExpandableT, ZeroT>& string) const
+	inline T& RGB<T>::operator [] (const uint i)
 	{
-		string << "rgb("
-			<< static_cast<PrintType>(red) << ','
-			<< static_cast<PrintType>(green) << ','
-			<< static_cast<PrintType>(blue) << ')';
+		switch (i)
+		{
+			case 0:
+				return red;
+			case 1:
+				return green;
+			case 2:
+				return blue;
+			default:
+				assert(false && "Index out of bounds !");
+		}
 	}
+
 
 	template<class T>
 	template<class StreamT>
-	void RGB<T>::print(StreamT& out) const
+	void RGB<T>::print(StreamT& stream) const
 	{
-		CString<64, false, true> string;
-		string
+		stream << "rgb("
 			<< static_cast<PrintType>(red) << ','
 			<< static_cast<PrintType>(green) << ','
 			<< static_cast<PrintType>(blue) << ')';
-		out << "rgb(" << string;
 	}
 
 
@@ -524,7 +529,7 @@ namespace CString
 				return false;
 			if (*i != '(')
 			{
-				if (!i.findFirstNonSpace(end.offset()) || *i != '(')
+				if (not i.findFirstNonSpace(end.offset()) || *i != '(')
 					return false;
 			}
 			if (++i == end || !i.findFirstNonSpace(end.offset()))

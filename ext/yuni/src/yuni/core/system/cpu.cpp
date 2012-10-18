@@ -22,21 +22,21 @@ namespace CPU
 
 #if defined(YUNI_OS_DARWIN) || defined(YUNI_OS_FREEBSD) || defined(YUNI_OS_NETBSD) || defined(YUNI_OS_OPENBSD)
 # define YUNI_CPU_COUNT_HAS_IMPLEMENTATION
-	unsigned int Count()
+	uint Count()
 	{
 		int count;
 		size_t size = sizeof(count);
 
 		if (sysctlbyname("hw.ncpu", &count, &size, NULL, 0))
 			return 1;
-		return (count <= 0) ? 1 : (unsigned int) count;
+		return (count <= 0) ? 1 : (uint) count;
 	}
 #endif
 
 
 #ifdef YUNI_OS_WINDOWS
 # define YUNI_CPU_COUNT_HAS_IMPLEMENTATION
-	unsigned int Count()
+	uint Count()
 	{
 		SYSTEM_INFO si;
 		GetSystemInfo(&si);
@@ -47,12 +47,12 @@ namespace CPU
 
 #if defined(YUNI_OS_LINUX) || defined(YUNI_OS_CYGWIN)
 # define YUNI_CPU_COUNT_HAS_IMPLEMENTATION
-	unsigned int Count()
+	uint Count()
 	{
 		// It seems there's no better way to get this info on Linux systems.
 		// If somebody can find it without depending on the location of /proc,
 		// please patch this function.
-		unsigned int count = 0;
+		uint count = 0;
 		std::ifstream cpuInfo("/proc/cpuinfo", std::ifstream::in);
 		std::string lineBuffer;
 
@@ -75,7 +75,7 @@ namespace CPU
 #ifndef YUNI_CPU_COUNT_HAS_IMPLEMENTATION
 #  warning "The method Yuni::System::CPU::Count() has not been implemented for the current platform"
 
-	unsigned int Count()
+	uint Count()
 	{
 		return 1; // Default value
 	}

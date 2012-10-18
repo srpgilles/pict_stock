@@ -10,15 +10,19 @@ namespace Private
 namespace CStringImpl
 {
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
-	inline Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>::Data()
-		:size(0), capacity(0), data(NULL)
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline Data<ChunkSizeT,ExpandableT>::Data() :
+		size(0),
+		capacity(0),
+		data(NULL)
 	{}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
-	Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>::Data(const Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>& rhs)
-		:size(rhs.size), capacity(rhs.size), data(NULL)
+	template<uint ChunkSizeT, bool ExpandableT>
+	Data<ChunkSizeT,ExpandableT>::Data(const Data<ChunkSizeT,ExpandableT>& rhs) :
+		size(rhs.size),
+		capacity(rhs.size),
+		data(NULL)
 	{
 		if (size)
 		{
@@ -39,8 +43,8 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
-	inline Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>::~Data()
+	template<uint ChunkSizeT, bool ExpandableT>
+	inline Data<ChunkSizeT,ExpandableT>::~Data()
 	{
 		// Release the internal buffer if allocated
 		// The string is a string adapter only if the chunk size if null
@@ -50,27 +54,27 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>::adapt(const char* const cstring)
+	Data<ChunkSizeT,ExpandableT>::adapt(const char* const cstring)
 	{
 		data = const_cast<char*>(cstring);
 		capacity = size = (data ? (Size)::strlen(data) : 0);
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>::adapt(const char* const cstring, Size length)
+	Data<ChunkSizeT,ExpandableT>::adapt(const char* const cstring, Size length)
 	{
 		data = const_cast<char*>(cstring);
 		capacity = size = length;
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>::clear()
+	Data<ChunkSizeT,ExpandableT>::clear()
 	{
 		if (zeroTerminated)
 		{
@@ -85,9 +89,9 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>::shrink()
+	Data<ChunkSizeT,ExpandableT>::shrink()
 	{
 		if (data)
 		{
@@ -106,9 +110,9 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>::insert(Size offset, const C* const buffer, const Size len)
+	Data<ChunkSizeT,ExpandableT>::insert(Size offset, const C* const buffer, const Size len)
 	{
 		// Reserving enough space to insert the buffer
 		reserve(len + size + zeroTerminated);
@@ -124,9 +128,9 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
+	template<uint ChunkSizeT, bool ExpandableT>
 	inline void
-	Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>::put(const C rhs)
+	Data<ChunkSizeT,ExpandableT>::put(const C rhs)
 	{
 		// Making sure that we have enough space
 		reserve(size + 1 + zeroTerminated);
@@ -139,9 +143,9 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
+	template<uint ChunkSizeT, bool ExpandableT>
 	void
-	Data<ChunkSizeT,ExpandableT,ZeroTerminatedT,C>::reserve(Size minCapacity)
+	Data<ChunkSizeT,ExpandableT>::reserve(Size minCapacity)
 	{
 		if (adapter)
 			return;
@@ -174,9 +178,9 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ZeroTerminatedT, class C>
-	typename Data<ChunkSizeT,false,ZeroTerminatedT,C>::Size
-	Data<ChunkSizeT,false,ZeroTerminatedT,C>::assignWithoutChecking(const C* const block,
+	template<uint ChunkSizeT>
+	typename Data<ChunkSizeT,false>::Size
+	Data<ChunkSizeT,false>::assignWithoutChecking(const C* const block,
 		Size blockSize)
 	{
 		// We have to trunk the size if we are outer limits
@@ -211,9 +215,9 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ZeroTerminatedT, class C>
-	typename Data<ChunkSizeT,false,ZeroTerminatedT,C>::Size
-	Data<ChunkSizeT,false,ZeroTerminatedT,C>::appendWithoutChecking(const C* const block, Size blockSize)
+	template<uint ChunkSizeT>
+	typename Data<ChunkSizeT,false>::Size
+	Data<ChunkSizeT,false>::appendWithoutChecking(const C* const block, Size blockSize)
 	{
 		// We have to trunk the size if we are outer limits
 		// This condition is a little faster than the folowing replacement code :
@@ -250,9 +254,9 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ZeroTerminatedT, class C>
-	inline typename Data<ChunkSizeT,false,ZeroTerminatedT,C>::Size
-	Data<ChunkSizeT,false,ZeroTerminatedT,C>::assignWithoutChecking(const C c)
+	template<uint ChunkSizeT>
+	inline typename Data<ChunkSizeT,false>::Size
+	Data<ChunkSizeT,false>::assignWithoutChecking(const C c)
 	{
 		data[0] = c;
 		size = 1;
@@ -262,9 +266,9 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ZeroTerminatedT, class C>
-	typename Data<ChunkSizeT,false,ZeroTerminatedT,C>::Size
-	Data<ChunkSizeT,false,ZeroTerminatedT,C>::appendWithoutChecking(const C c)
+	template<uint ChunkSizeT>
+	typename Data<ChunkSizeT,false>::Size
+	Data<ChunkSizeT,false>::appendWithoutChecking(const C c)
 	{
 		if (size == capacity)
 			return 0;
@@ -279,9 +283,9 @@ namespace CStringImpl
 	}
 
 
-	template<unsigned int ChunkSizeT, bool ZeroTerminatedT, class C>
+	template<uint ChunkSizeT>
 	void
-	Data<ChunkSizeT,false,ZeroTerminatedT,C>::put(const C rhs)
+	Data<ChunkSizeT,false>::put(const C rhs)
 	{
 		// Making sure that we have enough space
 		if (size != capacity)

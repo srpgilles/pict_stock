@@ -23,14 +23,14 @@ namespace Yuni
 
 
 	template<typename P>
-	inline unsigned int Event<P>::count() const
+	inline uint Event<P>::count() const
 	{
 		return AncestorType::pBindList.size();
 	}
 
 
 	template<typename P>
-	inline unsigned int Event<P>::size() const
+	inline uint Event<P>::size() const
 	{
 		return AncestorType::pBindList.size();
 	}
@@ -225,12 +225,6 @@ namespace Yuni
 		return (AncestorType::pEmpty);
 	}
 
-
-	template<typename P>
-	inline bool Event<P>::notEmpty() const
-	{
-		return !(AncestorType::pEmpty);
-	}
 
 
 

@@ -7,14 +7,14 @@ namespace Yuni
 namespace Thread
 {
 
-	inline unsigned int Timer::interval() const
+	inline uint Timer::interval() const
 	{
 		Yuni::MutexLocker locker(pTimerMutex);
 		return pTimeInterval;
 	}
 
 
-	inline unsigned int Timer::cycleCount() const
+	inline uint Timer::cycleCount() const
 	{
 		Yuni::MutexLocker locker(pTimerMutex);
 		return pCycleCount;

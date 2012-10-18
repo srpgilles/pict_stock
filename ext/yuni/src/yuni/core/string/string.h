@@ -112,11 +112,10 @@ namespace Yuni
 	** \tparam ChunkSizeT The size for a single chunk (> 3)
 	** \tparam ExpandableT True to make a growable string. Otherwise it will be a
 	**   string with a fixed-length capacity (equals to ChunkSizeT)
-	** \tparam ZeroTerminatedT True to make the string zero-terminated
 	*/
-	template<uint ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT>
+	template<uint ChunkSizeT, bool ExpandableT>
 	class YUNI_DECL CString :
-		protected Private::CStringImpl::Data<ChunkSizeT,ExpandableT,ZeroTerminatedT, char>
+		protected Private::CStringImpl::Data<ChunkSizeT,ExpandableT>
 	{
 	public:
 		//! POD type
@@ -125,11 +124,11 @@ namespace Yuni
 		typedef char Type;
 
 		//! Ancestor
-		typedef Private::CStringImpl::Data<ChunkSizeT,ExpandableT,ZeroTerminatedT, char>  AncestorType;
+		typedef Private::CStringImpl::Data<ChunkSizeT,ExpandableT>  AncestorType;
 		//! Size type
 		typedef typename AncestorType::Size Size;
 		//! Self
-		typedef CString<ChunkSizeT,ExpandableT,ZeroTerminatedT>  CStringType;
+		typedef CString<ChunkSizeT,ExpandableT>  CStringType;
 
 		//! \name Compatibility with std::string
 		//@{
@@ -165,11 +164,11 @@ namespace Yuni
 			//! Invalid offset
 			npos           = (Size)(-1),
 			//! A non-zero value if the string must be zero terminated
-			zeroTerminated = AncestorType::zeroTerminated,
+			zeroTerminated = 1, //AncestorType::zeroTerminated,
 			//! A non-zero value if the string can be expanded
 			expandable     = AncestorType::expandable,
 			//! True if the string is a string adapter (only read-only operations are allowed)
-			adapter        = (!chunkSize && expandable && !zeroTerminated),
+			adapter        = (!chunkSize && expandable),
 		};
 		//! char Case
 		enum charCase
@@ -181,7 +180,7 @@ namespace Yuni
 		};
 
 		//! Self, which can be written
-		typedef typename Static::If<adapter || !zeroTerminated || (!expandable && chunkSize > 512),
+		typedef typename Static::If<adapter || (!expandable && chunkSize > 512),
 			CString<>, CStringType>::RetTrue  WritableType;
 
 		//! Operator [] return type
@@ -276,8 +275,8 @@ namespace Yuni
 		** The substring is the portion of str that begins at the character position
 		** 'offset'.
 		*/
-		template<uint SizeT, bool ExpT, bool ZeroT>
-		CString(const CString<SizeT,ExpT,ZeroT>& s, Size offset);
+		template<uint SizeT, bool ExpT>
+		CString(const CString<SizeT,ExpT>& s, Size offset);
 
 		/*!
 		** \brief Constructor from a copy of a substring of 's'
@@ -286,8 +285,8 @@ namespace Yuni
 		** 'offset' and takes up to 'n' characters (it takes less than n if the end
 		** of 's' is reached before).
 		*/
-		template<uint SizeT, bool ExpT, bool ZeroT>
-		CString(const CString<SizeT,ExpT,ZeroT>& s, Size offset, Size n /*= npos*/);
+		template<uint SizeT, bool ExpT>
+		CString(const CString<SizeT,ExpT>& s, Size offset, Size n /*= npos*/);
 
 		/*!
 		** \brief Constructor from a copy of a substring of 's' (std::string)
@@ -1728,11 +1727,6 @@ namespace Yuni
 		bool null() const;
 
 		/*!
-		** \brief Get if the string is not empty (the exact opposite of `empty()`)
-		*/
-		bool notEmpty() const;
-
-		/*!
 		** \brief Get the current capacity of the string (in bytes)
 		** \return The amount of memory used by the string
 		*/
@@ -2015,7 +2009,7 @@ namespace Yuni
 		template<class, class> friend class Yuni::Extension::CString::Fill;
 		template<class, bool>  friend struct Private::CStringImpl::AdapterAssign;
 		template<class, bool>  friend struct Private::CStringImpl::Consume;
-		template<uint, bool, bool> friend class CString;
+		template<uint, bool>   friend class CString;
 
 	}; // class CString
 
@@ -2067,7 +2061,7 @@ typedef Yuni::String  YString;
 ** std::cout << adapter << " (size: " << adapter.size() << ")" << std::endl;
 ** \endcode
 */
-typedef ::Yuni::CString<0, true, false>  AnyString;
+typedef ::Yuni::CString<0, true>  AnyString;
 
 
 
@@ -2089,7 +2083,7 @@ namespace Traits
 			//! A non-zero value if the type 'U' is a valid string representation
 			yes = (Traits::CString<U>::valid && Traits::Length<U>::valid),
 			//! A non-zero value if the type 'U' is _not_ a valid string representation
-			no  = (!Traits::CString<U>::valid && !Traits::Length<U>::valid),
+			no  = (not Traits::CString<U>::valid && not Traits::Length<U>::valid),
 		};
 	};
 

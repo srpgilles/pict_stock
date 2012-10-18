@@ -1,6 +1,7 @@
 #ifndef __YUNI_CORE_MATH_GEOMETRY_POINT3D_H__
 # define __YUNI_CORE_MATH_GEOMETRY_POINT3D_H__
 
+# include <cassert>
 # include "../math.h"
 
 
@@ -296,6 +297,24 @@ namespace Yuni
 		bool operator >= (const Point3D<U>& p) const
 		{
 			return !(*this < p);
+		}
+
+		/*!
+		** \brief Operator [] overload.
+		*/
+		T& operator [] (const uint i)
+		{
+			switch (i)
+			{
+				case 0:
+					return x;
+				case 1:
+					return y;
+				case 2:
+					return z;
+				default:
+					assert(false && "Index out of bounds !");
+			}
 		}
 
 		//} Operators

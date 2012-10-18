@@ -34,7 +34,7 @@ namespace UTF8
 		** \param p Address of a potential utf8 char
 		** \return The size in bytes of the UTF8 char at the address \p p  (1,2,3, or 4, 0 if invalid).
 		*/
-		static unsigned int Size(const void* p);
+		static uint Size(const void* p);
 
 		/*!
 		** \brief Extract the first unsigned char from a raw buffer
@@ -66,13 +66,13 @@ namespace UTF8
 			pValue(rhs.pValue)
 		{}
 		explicit Char(char c) :
-			pValue((unsigned int) c)
+			pValue((uint) c)
 		{}
 
 		/*!
 		** \brief The size of the UTF8 character, in bytes
 		*/
-		unsigned int size() const;
+		uint size() const;
 
 		uint32 value() const {return pValue;}
 
@@ -130,7 +130,7 @@ namespace UTF8
 		//! The UTF-8 character
 		uint32 pValue;
 		// A friend !
-		template<unsigned int, bool, bool> friend class Yuni::CString;
+		template<uint, bool, bool> friend class Yuni::CString;
 	};
 
 

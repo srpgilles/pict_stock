@@ -170,7 +170,7 @@ namespace // anonymous
 						else if (tag == "pragma:directoryindex")
 						{
 							const AnyString string = element.Attribute("src");
-							if (string.notEmpty())
+							if (not string.empty())
 							{
 								String src = pArticle.htdocsFilename;
 								src << SEP << string;
@@ -184,7 +184,7 @@ namespace // anonymous
 							}
 
 							const CString<42,false> content = element.Attribute("content");
-							if (content.notEmpty())
+							if (not content.empty())
 							{
 								if (content == "nofollow")
 									pArticle.directoryIndexContent = ArticleData::dicNoFollow;

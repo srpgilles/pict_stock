@@ -23,26 +23,26 @@ namespace CStringImpl
 
 
 
-	int Compare(const char* const s1, unsigned int l1, const char* const s2, unsigned int l2);
-	int CompareInsensitive(const char* const s1, unsigned int l1, const char* const s2, unsigned int l2);
+	int Compare(const char* const s1, uint l1, const char* const s2, uint l2);
+	int CompareInsensitive(const char* const s1, uint l1, const char* const s2, uint l2);
 
-	bool Equals(const char* const s1, const char* const s2, unsigned int len);
-	bool EqualsInsensitive(const char* const s1, const char* const s2, unsigned int len);
+	bool Equals(const char* const s1, const char* const s2, uint len);
+	bool EqualsInsensitive(const char* const s1, const char* const s2, uint len);
 
-	bool Glob(const char* const s, unsigned int l1, const char* const pattern, unsigned int patternlen);
+	bool Glob(const char* const s, uint l1, const char* const pattern, uint patternlen);
 
 
 
 	template<bool AdapterT>
 	struct FinalZero
 	{
-		static void Set(const char*, uint) {}
+		YNATTR_ALWAYS_INLINE static void Set(const char*, uint) {}
 	};
 
 	template<>
 	struct FinalZero<false>
 	{
-		static void Set(char* buffer, uint offset)
+		YNATTR_ALWAYS_INLINE static void Set(char* buffer, uint offset)
 		{
 			buffer[offset] = '\0';
 		}
@@ -53,7 +53,7 @@ namespace CStringImpl
 	template<class StringT, bool Adapter>
 	struct AdapterAssign
 	{
-		static void Perform(StringT& out, const char* const cstring, typename StringT::Size size)
+		static inline void Perform(StringT& out, const char* const cstring, typename StringT::Size size)
 		{
 			out.adaptWithoutChecking(cstring, size);
 		}
@@ -62,7 +62,7 @@ namespace CStringImpl
 	template<class StringT>
 	struct AdapterAssign<StringT, false>
 	{
-		static void Perform(StringT& out, const char* const cstring, typename StringT::Size size)
+		static inline void Perform(StringT& out, const char* const cstring, typename StringT::Size size)
 		{
 			// fallback
 			out.assign(cstring, size);
@@ -73,7 +73,7 @@ namespace CStringImpl
 	template<class StringT, bool Adapter>
 	struct Consume
 	{
-		static void Perform(StringT& out, typename StringT::Size count)
+		static inline void Perform(StringT& out, typename StringT::Size count)
 		{
 			if (count >= out.size())
 				out.clear();
@@ -85,7 +85,7 @@ namespace CStringImpl
 	template<class StringT>
 	struct Consume<StringT, false>
 	{
-		static void Perform(StringT& out, typename StringT::Size count)
+		static inline void Perform(StringT& out, typename StringT::Size count)
 		{
 			out.erase(0, count);
 		}
@@ -97,15 +97,16 @@ namespace CStringImpl
 
 
 
-	template<unsigned int ChunkSizeT, bool ExpandableT, bool ZeroTerminatedT, class C>
+	template<uint ChunkSizeT, bool ExpandableT>
 	struct Data
 	{
 	public:
-		typedef unsigned int Size;
+		typedef char C;
+		typedef uint Size;
 		enum
 		{
 			chunkSize = ChunkSizeT,
-			zeroTerminated = (ZeroTerminatedT ? 1 : 0),
+			zeroTerminated = 1, //(ZeroTerminatedT ? 1 : 0),
 			expandable = 1,
 			adapter  = (!chunkSize && expandable && !zeroTerminated),
 		};
@@ -218,7 +219,7 @@ namespace CStringImpl
 		//! Our buffer
 		typename QualifierFromAdapterMode<(0 != adapter), C>::Type data;
 		// Friend
-		template<unsigned int SizeT, bool ExpT, bool ZeroT> friend class Yuni::CString;
+		template<uint SizeT, bool ExpT> friend class Yuni::CString;
 
 	}; // class Data
 
@@ -226,16 +227,17 @@ namespace CStringImpl
 
 
 
-	template<unsigned int ChunkSizeT, bool ZeroTerminatedT, class C>
-	struct Data<ChunkSizeT, false, ZeroTerminatedT, C>
+	template<uint ChunkSizeT>
+	struct Data<ChunkSizeT, false>
 	{
 	public:
-		typedef unsigned int Size;
+		typedef char C;
+		typedef uint Size;
 		enum
 		{
 			chunkSize = ChunkSizeT,
 			capacity = ChunkSizeT,
-			zeroTerminated = (ZeroTerminatedT ? 1 : 0),
+			zeroTerminated = 1, // (ZeroTerminatedT ? 1 : 0),
 			expandable = 0,
 		};
 
@@ -344,7 +346,7 @@ namespace CStringImpl
 		C data[capacity + 1];
 
 		// Friend
-		template<unsigned int SizeT, bool ExpT, bool ZeroT> friend class Yuni::CString;
+		template<uint SizeT, bool ExpT> friend class Yuni::CString;
 
 	}; // class Data;
 

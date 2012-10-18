@@ -191,7 +191,7 @@ namespace ExtendedPhoto
 			{
 				Date::DateString buf = match[i + 1].str();
 				buf.trim();
-				if (buf.notEmpty())
+				if (!buf.empty())
 					elements[static_cast<size_t>(i)] = buf.to<int>();
 				else
 					elements[static_cast<size_t>(i)] = -1; // default value

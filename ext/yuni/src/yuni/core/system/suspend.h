@@ -19,7 +19,7 @@ namespace Yuni
 	**
 	** \see Yuni::Threads::AThread::suspend()
 	*/
-	void Suspend(unsigned int seconds);
+	void Suspend(uint seconds);
 
 
 	/*!
@@ -32,7 +32,7 @@ namespace Yuni
 	** You should not use this routine when using the thread facility provided
 	** by the Yuni library and you should prefer the method `suspend()` instead.
 	*/
-	void SuspendMilliSeconds(unsigned int milliseconds);
+	void SuspendMilliSeconds(uint milliseconds);
 
 
 

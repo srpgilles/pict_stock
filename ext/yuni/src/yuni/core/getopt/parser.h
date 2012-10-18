@@ -153,7 +153,7 @@ namespace GetOpt
 		/*!
 		** \brief The count of errors that have been encountered
 		*/
-		unsigned int errors() const {return pErrors;}
+		uint errors() const {return pErrors;}
 		//@}
 
 
@@ -192,7 +192,7 @@ namespace GetOpt
 		IOption* pRemains;
 
 		//! Count of error
-		unsigned int pErrors;
+		uint pErrors;
 
 		// A friend
 		friend class Private::GetOptImpl::Context;

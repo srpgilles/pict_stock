@@ -24,7 +24,7 @@ namespace Yuni
 	{
 		// YUNI_STATIC_ASSERT(Extension::IntoCString<StringT>::valid, InvalidString);
 		const char* cstr = Traits::CString<StringT>::Perform(string);
-		const unsigned int length = Traits::Length<StringT,unsigned int>::Value(string);
+		const uint length = Traits::Length<StringT,uint>::Value(string);
 
 		if (length >= 36)
 		{
@@ -36,7 +36,7 @@ namespace Yuni
 			else
 			{
 				char buffer[64]; // 8 Byte Stack Alignment
-				for (unsigned int i = 0; i != 64; ++i)
+				for (uint i = 0; i != 64; ++i)
 					buffer[i] = cstr[i];
 				buffer[36] = '\0';
 				if (initializeFromCString(buffer))
@@ -61,7 +61,7 @@ namespace Yuni
 		// TODO This hash may not be suitable for hashing guids,
 		std::size_t r = 0;
 		const char* p = pValue.signedcstring;
-		for (unsigned int i = 0; i != 16; ++i)
+		for (uint i = 0; i != 16; ++i)
 		{
 			r = p[i] + (r << 6) + (r << 16) - r;
 		}
@@ -118,7 +118,7 @@ namespace CString
 	public:
 		static void Perform(CStringT& s, const Yuni::UUID& rhs)
 		{
-			const unsigned int currentLength = s.size();
+			const uint currentLength = s.size();
 			// writeToCString is guarantee to have 42 chars
 			s.reserve(currentLength + 42); // at least 36 + 1 zero-terminated
 			Yuni::Private::UUID::Helper::WriteToCString((char*)s.data() + currentLength, rhs);

@@ -13,14 +13,16 @@ int main(int argc, char* argv[])
 	db.createTable("Photographers",
 		"FirstName varchar(80),"
 		"LastName varchar(80),"
-		"Abbreviation varchar(8) PRIMARY KEY NOT NULL"
+		"Abbreviation varchar(8) PRIMARY KEY NOT NULL,"
+		"UNIQUE (FirstName, LastName) ON CONFLICT ABORT"
 		);
 
 	db.createTable("Cameras",
 		"Keyword varchar(80),"
 		"Value varchar(80),"
 		"Owner varchar(8),"
-		"FOREIGN KEY(Owner) REFERENCES Photographers(Abbreviation)"
+		"FOREIGN KEY(Owner) REFERENCES Photographers(Abbreviation),"
+		"UNIQUE (Keyword, Value) ON CONFLICT ABORT"
 			);
 
 	{

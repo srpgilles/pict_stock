@@ -136,7 +136,7 @@ namespace GenericTools
 
 	template<typename StreamT, typename StringT = std::string, typename... Args>
 	void printTuple(StreamT& stream, const std::tuple<Args...>&t, StringT separator = ",",
-		StringT opener = "[", StringT closer = "]")
+		StringT opener = "[", StringT closer = "]\n")
 	{
 		stream << opener;
 		printTupleHelper<StreamT, 0, sizeof...(Args), Args...>::print(stream, t, separator);

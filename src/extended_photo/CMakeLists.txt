@@ -19,9 +19,9 @@ add_library(extended_photo STATIC
 	private/helpers.hpp
 	private/date_helpers.hpp
 	private/photographer_helpers.hpp
-	private/photographer.cpp
-	private/photographer.hpp
-	private/photographer.hxx
+	photographer.cpp
+	photographer.hpp
+	photographer.hxx
 )
 
 target_link_libraries(extended_photo

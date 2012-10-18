@@ -34,7 +34,7 @@ namespace ExtendedPhoto
 
 				std::for_each(buf.begin(), buf.end(), [&pData](const TupleString& tuple)
 					{
-						pData.push_back(new Private::Photographer(tuple));
+						pData.push_back(new Photographer(tuple));
 					}
 				);
 			}

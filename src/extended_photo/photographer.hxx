@@ -5,8 +5,6 @@ namespace PictStock
 {
 namespace ExtendedPhoto
 {
-namespace Private
-{
 
 	inline bool operator==(const Photographer& lhs, const Photographer& rhs)
 	{
@@ -38,7 +36,6 @@ namespace Private
 	}
 
 
-} // namespace Private
 } // namespace ExtendedPhoto
 } // namespace PictStock
 

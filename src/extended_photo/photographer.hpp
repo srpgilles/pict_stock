@@ -5,14 +5,12 @@
 # include <yuni/core/smartptr.h>
 # include <list>
 # include <map>
-# include "table_photographers.hpp"
-# include "../../pict_stock.hpp"
+# include "private/table_photographers.hpp"
+# include "../pict_stock.hpp"
 
 namespace PictStock
 {
 namespace ExtendedPhoto
-{
-namespace Private
 {
 
 	/*!
@@ -83,7 +81,6 @@ namespace Private
 	inline bool operator==(const Photographer& lhs, const Photographer& rhs);
 	inline bool operator!=(const Photographer& lhs, const Photographer& rhs);
 
-} // namespace Private
 } // namespace ExtendedPhoto
 } // namespace PictStock
 

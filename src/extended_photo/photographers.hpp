@@ -8,7 +8,7 @@
 # include "../pict_stock.hpp"
 # include "../tools/tools.hpp"
 # include "private/helpers.hpp"
-# include "private/photographer.hpp"
+# include "photographer.hpp"
 # include "private/table_photographers.hpp"
 
 namespace GenericTools
@@ -76,7 +76,7 @@ namespace ExtendedPhoto
 		** Each entry matches a row in the sqlite database
 		**
 		*/
-		Private::Photographer::Vector pData;
+		Photographer::Vector pData;
 
 	};
 

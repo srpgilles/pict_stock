@@ -1,11 +1,9 @@
-#include "../../tools/tools.hpp"
+#include "../tools/tools.hpp"
 #include "photographer.hpp"
 
 namespace PictStock
 {
 namespace ExtendedPhoto
-{
-namespace Private
 {
 
 	Photographer::Photographer(const TupleString& row)
@@ -14,6 +12,5 @@ namespace Private
 		  pAbbreviation(std::get<GenericTools::IndexOf<TablePhotographers::Abbreviation, Tuple>::value>(row))
 	{ }
 
-} // namespace Private
 } // namespace ExtendedPhoto
 } // namespace PictStock

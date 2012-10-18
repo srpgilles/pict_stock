@@ -4,7 +4,7 @@
 
 # include <ostream>
 # include "date.hpp"
-# include "private/photographer.hpp"
+# include "photographer.hpp"
 # include "private/date_helpers.hpp"
 # include "private/photographer_helpers.hpp"
 # include <tuple>
@@ -63,7 +63,7 @@ namespace ExtendedPhoto
 		PathInformations& operator = (const PathInformations& );
 
 		//! Set the photographer
-		void setPhotographer(const Private::Photographer::Ptr& photographer);
+		void setPhotographer(const Photographer::Ptr& photographer);
 
 		//! Set the date
 		void setDate(const Date& date);
@@ -138,7 +138,7 @@ namespace ExtendedPhoto
 	private:
 
 		//! Photographer informations
-		Private::Photographer::Ptr pPhotographerPtr;
+		Photographer::Ptr pPhotographerPtr;
 
 		//! Date informations
 		Date pDate;

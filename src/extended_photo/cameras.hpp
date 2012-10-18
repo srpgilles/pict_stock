@@ -144,6 +144,14 @@ namespace ExtendedPhoto
 		 */
 		void addNewTuple(const TupleString& tuple);
 
+		# ifndef NDEBUG
+		/*!
+		** \brief Print on screen the list of all cameras and related informations
+		 */
+		void printRows() const;
+		# endif // NDEBUG
+
+
 	private:
 
 		//! Reference to database object

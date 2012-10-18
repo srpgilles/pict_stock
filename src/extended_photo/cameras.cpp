@@ -2,6 +2,11 @@
 #include "photographers.hpp"
 #include "../tools/sqlite_wrapper.hpp"
 #include "../tools/exceptions.hpp"
+#include <ostream>
+
+#ifndef NDEBUG
+# include "../tools/tools.hpp"
+#endif // NDEBUG
 
 
 namespace PictStock
@@ -57,6 +62,8 @@ namespace ExtendedPhoto
 		const Value::StringType& valueToCheck,
 		Photographer::Ptr photographer) const
 	{
+		printRows();
+
 		enum { indexKeyword = GenericTools::IndexOf<Keyword, Tuple>::value };
 		enum { indexValue = GenericTools::IndexOf<Value, Tuple>::value };
 
@@ -135,6 +142,20 @@ namespace ExtendedPhoto
 			});
 
 	}
+
+
+	#ifndef NDEBUG
+	void Cameras::printRows() const
+	{
+		std::cout << "All the rows (" << pRows.size() << ") found in memory are:\n";
+		std::for_each(pRows.cbegin(), pRows.cend(), [](const TupleString& tuple)
+			{
+				GenericTools::printTuple(std::cout, tuple);
+			}
+		);
+		std::cout << "-------------------------------\n";
+	}
+	#endif // NDEBUG
 
 } // namespace ExtendedPhoto
 } // namespace PictStock

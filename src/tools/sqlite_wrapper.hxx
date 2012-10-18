@@ -64,7 +64,12 @@ namespace GenericTools
 		SqliteStatement statement;
 
 		int errCode = prepareCommand(statement, command);
-		assert(errCode == SQLITE_OK);
+		if (errCode != SQLITE_OK)
+		{
+			YString message("Following insertion command is somehow incorrect:\n\t");
+			message << command;
+			throw Exception(message);
+		}
 
 		errCode = sqlite3_step(statement);
 

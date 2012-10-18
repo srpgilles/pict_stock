@@ -65,6 +65,8 @@ namespace ExtendedPhoto
 		*/
 		typedef Private::TupleString<Tuple>::type TupleString;
 
+		static YString TableName() { return "Cameras"; }
+
 	public:
 
 		//! Constructor(s)

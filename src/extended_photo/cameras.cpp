@@ -25,7 +25,7 @@ namespace ExtendedPhoto
 					command << elt << ',';
 				});
 				command.removeLast();
-				command << " FROM Cameras ORDER BY Keyword";
+				command << " FROM " << TableName() << " ORDER BY Keyword";
 			}
 
 			database.select(pRows, command);
@@ -35,7 +35,9 @@ namespace ExtendedPhoto
 			// Also init #pKeywords
 			typedef std::tuple<Keyword::StringType> TupleKeyword;
 			std::vector<TupleKeyword> keywords;
-			database.select(keywords, "Keyword FROM Cameras");
+			YString command("Keyword FROM ");
+			command << TableName();
+			database.select(keywords, command);
 
 			for (auto it = keywords.begin(), end = keywords.end(); it != end; ++it)
 				pKeywords.insert(std::get<0>(*it));
@@ -89,7 +91,7 @@ namespace ExtendedPhoto
 		std::get<GenericTools::IndexOf<Keyword, Tuple>::value>(newTuple) = currentKeyword;
 
 		// Add the camera in the database (which will check by the way if the insertion is legit or not)
-		pDatabase.insertData("Cameras", fieldNames, newTuple);
+		pDatabase.insertData(TableName(), fieldNames, newTuple);
 
 		// If database accepted the query without throwing exception, all is ok
 		// Add the camera in the memory

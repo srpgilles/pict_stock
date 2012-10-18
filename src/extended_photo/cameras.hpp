@@ -3,7 +3,7 @@
 
 # include <tuple>
 # include <vector>
-# include <set>
+# include <unordered_set>
 # include <yuni/core/string.h>
 # include "../pict_stock.hpp"
 # include "../tools/tools.hpp"
@@ -81,7 +81,7 @@ namespace ExtendedPhoto
 			const TableCameras::Owner::StringType& photographer);
 
 		//! Return the list of known keywords
-		const std::set<TableCameras::Keyword::StringType>& keywords() const;
+		const std::unordered_set<TableCameras::Keyword::StringType>& keywords() const;
 
 		/*!
 		** \brief Identify the photographer is possible
@@ -118,7 +118,7 @@ namespace ExtendedPhoto
 		std::vector<TupleString> pRows;
 
 		//! It's convenient to have a list of all known keywords
-		std::set<TableCameras::Keyword::StringType> pKeywords;
+		std::unordered_set<TableCameras::Keyword::StringType> pKeywords;
 
 	};
 

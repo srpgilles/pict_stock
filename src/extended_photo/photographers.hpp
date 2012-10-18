@@ -57,7 +57,7 @@ namespace ExtendedPhoto
 		explicit Photographers(GenericTools::SqliteWrapper& database);
 		//@}
 
-		//! Add a new camera
+		//! Add a new photographer
 		void addNewPhotographer(const TablePhotographers::FirstName::StringType& firstName,
 			const TablePhotographers::LastName::StringType& lastName,
 			const TablePhotographers::Abbreviation::StringType& abbreviation);

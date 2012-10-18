@@ -9,6 +9,7 @@
 # include "../pict_stock.hpp"
 # include "../tools/tools.hpp"
 # include "private/helpers.hpp"
+# include "private/table_photographers.hpp"
 # include "photographer.hpp"
 # include "photographers.hpp"
 
@@ -85,6 +86,11 @@ namespace ExtendedPhoto
 		void addNewCamera(const TableCameras::Keyword::StringType& currentKeyword,
 			const TableCameras::Value::StringType& valueToCheck,
 			const TableCameras::Owner::StringType& photographer);
+
+		//! Add a new photographer
+		inline void addNewPhotographer(const TablePhotographers::FirstName::StringType& firstName,
+			const TablePhotographers::LastName::StringType& lastName,
+			const TablePhotographers::Abbreviation::StringType& abbreviation);
 
 		//! Return the list of known keywords
 		const std::unordered_set<TableCameras::Keyword::StringType>& keywords() const;

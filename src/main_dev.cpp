@@ -138,6 +138,7 @@
 
 //}
 
+using namespace PictStock;
 
 int main(int argc, char* argv[])
 {
@@ -145,23 +146,6 @@ int main(int argc, char* argv[])
 	(void) argv;
 
 	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
-
-/*	typedef std::tuple<YString, YString, YString> CameraTuple;
-	std::vector<CameraTuple> values;
-
-	db.select(values, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
-
-	for (auto it = values.cbegin(), end = values.cend(); it != end; ++it)
-	{
-		const CameraTuple& buf = *it;
-
-		GenericTools::printTuple(std::cout, buf, ",", "", "");
-		std::cout << '\n';
-	}*/
-
-	//using namespace PictStock::NSCameras::Private;
-
-	//typedef std::tuple<PictStock::NSCameras::Private::Keyword, PictStock::NSCameras::Private::Value, PictStock::NSCameras::Private::Owner> Tuple;
 
 	typedef PictStock::ExtendedPhoto::Cameras::Tuple Tuple;
 
@@ -180,6 +164,10 @@ int main(int argc, char* argv[])
 	for (auto it = fieldNames.cbegin(), end = fieldNames.cend(); it != end; ++it)
 		std::cout << *it << '\n';
 
+	ExtendedPhoto::Cameras cameras(db);
+
+	cameras.addNewPhotographer("FOO", "BAR", "Baz");
+	cameras.addNewCamera("Foo", "Bar", "Baz");
 
 	return 0;
 }

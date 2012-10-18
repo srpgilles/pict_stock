@@ -28,6 +28,16 @@ namespace ExtendedPhoto
 		identifyPhotographerAbbr(buf, photographer);
 	}
 
+
+	inline void Cameras::addNewPhotographer(const TablePhotographers::FirstName::StringType& firstName,
+		const TablePhotographers::LastName::StringType& lastName,
+		const TablePhotographers::Abbreviation::StringType& abbreviation)
+	{
+		assert(!(!pPhotographersPtr));
+		pPhotographersPtr->addNewPhotographer(firstName, lastName, abbreviation);
+	}
+
+
 } // namespace ExtendedPhoto
 } // namespace pictStock
 

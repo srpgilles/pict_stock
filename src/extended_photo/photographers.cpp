@@ -28,11 +28,11 @@ namespace ExtendedPhoto
 			}
 
 			{
-				std::vector<TupleString> buf;
+				std::vector<TupleWrappedType> buf;
 				database.select(buf, command);
 				pData.reserve(buf.size());
 
-				std::for_each(buf.begin(), buf.end(), [&pData](const TupleString& tuple)
+				std::for_each(buf.begin(), buf.end(), [&pData](const TupleWrappedType& tuple)
 					{
 						pData.push_back(new Photographer(tuple));
 					}
@@ -43,16 +43,16 @@ namespace ExtendedPhoto
 	}
 
 
-	void Photographers::addNewPhotographer(const FirstName::StringType& firstName,
-		const LastName::StringType& lastName,
-		const Abbreviation::StringType& abbreviation)
+	void Photographers::addNewPhotographer(const FirstName::WrappedType& firstName,
+		const LastName::WrappedType& lastName,
+		const Abbreviation::WrappedType& abbreviation)
 	{
 		// Determine names of the fields in the database
 		std::vector<YString> fieldNames;
 		Private::TupleFields<Tuple>::FieldNames(fieldNames);
 
 		// Create a tuple with new elements to introduce
-		TupleString newTuple;
+		TupleWrappedType newTuple;
 		std::get<GenericTools::IndexOf<FirstName, Tuple>::value>(newTuple) = firstName;
 		std::get<GenericTools::IndexOf<LastName, Tuple>::value>(newTuple) = lastName;
 		std::get<GenericTools::IndexOf<Abbreviation, Tuple>::value>(newTuple) = abbreviation;
@@ -64,7 +64,7 @@ namespace ExtendedPhoto
 
 
 	bool Photographers::findPhotographer(Photographer::Ptr& photographer,
-		const TablePhotographers::Abbreviation::StringType& abbreviation) const
+		const TablePhotographers::Abbreviation::WrappedType& abbreviation) const
 	{
 		auto end = pData.cend();
 		auto it = std::find_if(pData.cbegin(), end,

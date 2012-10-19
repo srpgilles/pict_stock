@@ -20,17 +20,17 @@ namespace ExtendedPhoto
 	}
 
 
-	inline const TablePhotographers::FirstName::StringType& Photographer::firstName() const
+	inline const TablePhotographers::FirstName::WrappedType& Photographer::firstName() const
 	{
 		return pFirstName;
 	}
 
-	inline const TablePhotographers::LastName::StringType& Photographer::lastName() const
+	inline const TablePhotographers::LastName::WrappedType& Photographer::lastName() const
 	{
 		return pLastName;
 	}
 
-	inline const TablePhotographers::Abbreviation::StringType&	Photographer::abbreviation() const
+	inline const TablePhotographers::Abbreviation::WrappedType&	Photographer::abbreviation() const
 	{
 		return pAbbreviation;
 	}

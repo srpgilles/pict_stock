@@ -13,19 +13,19 @@ namespace TablePhotographers
 {
 	struct FirstName
 	{
-		typedef Yuni::CString<80, false> StringType;
+		typedef Yuni::CString<80, false> WrappedType;
 		static YString FieldName() { return "FirstName"; }
 	};
 
 	struct LastName
 	{
-		typedef Yuni::CString<80, false> StringType;
+		typedef Yuni::CString<80, false> WrappedType;
 		static YString FieldName() { return "LastName"; }
 	};
 
 	struct Abbreviation
 	{
-		typedef Yuni::CString<8, false> StringType;
+		typedef Yuni::CString<8, false> WrappedType;
 		static YString FieldName() { return "Abbreviation"; }
 	};
 
@@ -38,7 +38,7 @@ namespace TablePhotographers
 	** For instance, if TupleT = [Keyword, Value, Owner] keyword type will yield
 	** 	[Keyword::StringType, Value::StringType, Owner::StringType]
 	*/
-	typedef Private::TupleString<Tuple>::type TupleString;
+	typedef Private::TupleWrappedType<Tuple>::type TupleWrappedType;
 
 } // namespace TablePhotographers
 } // namespace ExtendedPhoto

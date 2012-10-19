@@ -37,12 +37,12 @@ namespace ExtendedPhoto
 		typedef TablePhotographers::Tuple Tuple;
 
 		/*!
-		** \brief Yields the StringType hold by each element of the input tuple
+		** \brief Yields the WrappedType hold by each element of the input tuple
 		**
 		** For instance, if TupleT = [Keyword, Value, Owner] keyword type will yield
-		** 	[Keyword::StringType, Value::StringType, Owner::StringType]
+		** 	[Keyword::WrappedType, Value::WrappedType, Owner::WrappedType]
 		*/
-		typedef TablePhotographers::TupleString TupleString;
+		typedef TablePhotographers::TupleWrappedType TupleWrappedType;
 
 		//! Name of the table in sqlite database
 		static YString TableName() { return "Photographers"; }
@@ -58,15 +58,15 @@ namespace ExtendedPhoto
 		//@}
 
 		//! Add a new photographer
-		void addNewPhotographer(const TablePhotographers::FirstName::StringType& firstName,
-			const TablePhotographers::LastName::StringType& lastName,
-			const TablePhotographers::Abbreviation::StringType& abbreviation);
+		void addNewPhotographer(const TablePhotographers::FirstName::WrappedType& firstName,
+			const TablePhotographers::LastName::WrappedType& lastName,
+			const TablePhotographers::Abbreviation::WrappedType& abbreviation);
 
 		/*!
 		** \brief Find the photographer whose abbreviation is the one given in input
 		*/
 		bool findPhotographer(Photographer::Ptr& photographer,
-			const TablePhotographers::Abbreviation::StringType& abbreviation) const;
+			const TablePhotographers::Abbreviation::WrappedType& abbreviation) const;
 
 	private:
 

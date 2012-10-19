@@ -29,19 +29,19 @@ namespace ExtendedPhoto
 	{
 		struct Keyword
 		{
-			typedef std::string StringType;
+			typedef std::string WrappedType;
 			static YString FieldName() { return "Keyword"; }
 		};
 
 		struct Value
 		{
-			typedef Yuni::CString<80, false> StringType;
+			typedef Yuni::CString<80, false> WrappedType;
 			static YString FieldName() { return "Value"; }
 		};
 
 		struct Owner
 		{
-			typedef Yuni::CString<8, false> StringType;
+			typedef Yuni::CString<8, false> WrappedType;
 			static YString FieldName() { return "Owner"; }
 		};
 	} // namespace TableCameras
@@ -62,12 +62,12 @@ namespace ExtendedPhoto
 			TableCameras::Owner> Tuple;
 
 		/*!
-		** \brief Yields the StringType hold by each element of the input tuple
+		** \brief Yields the WrappedType hold by each element of the input tuple
 		**
 		** For instance, if TupleT = [Keyword, Value, Owner] keyword type will yield
-		** 	[Keyword::StringType, Value::StringType, Owner::StringType]
+		** 	[Keyword::WrappedType, Value::WrappedType, Owner::WrappedType]
 		*/
-		typedef Private::TupleString<Tuple>::type TupleString;
+		typedef Private::TupleWrappedType<Tuple>::type TupleWrappedType;
 
 		//! Name of the table in sqlite database
 		static YString TableName() { return "Cameras"; }
@@ -83,17 +83,17 @@ namespace ExtendedPhoto
 		//@}
 
 		//! Add a new camera
-		void addNewCamera(const TableCameras::Keyword::StringType& currentKeyword,
-			const TableCameras::Value::StringType& valueToCheck,
-			const TableCameras::Owner::StringType& photographer);
+		void addNewCamera(const TableCameras::Keyword::WrappedType& currentKeyword,
+			const TableCameras::Value::WrappedType& valueToCheck,
+			const TableCameras::Owner::WrappedType& photographer);
 
 		//! Add a new photographer
-		inline void addNewPhotographer(const TablePhotographers::FirstName::StringType& firstName,
-			const TablePhotographers::LastName::StringType& lastName,
-			const TablePhotographers::Abbreviation::StringType& abbreviation);
+		inline void addNewPhotographer(const TablePhotographers::FirstName::WrappedType& firstName,
+			const TablePhotographers::LastName::WrappedType& lastName,
+			const TablePhotographers::Abbreviation::WrappedType& abbreviation);
 
 		//! Return the list of known keywords
-		const std::unordered_set<TableCameras::Keyword::StringType>& keywords() const;
+		const std::unordered_set<TableCameras::Keyword::WrappedType>& keywords() const;
 
 		/*!
 		** \brief Identify the photographer is possible
@@ -110,8 +110,8 @@ namespace ExtendedPhoto
 		** \return True if a photographer was found
 		*/
 		bool identifyPhotographer(
-			const TableCameras::Keyword::StringType& currentKeyword,
-			const TableCameras::Value::StringType& valueToCheck,
+			const TableCameras::Keyword::WrappedType& currentKeyword,
+			const TableCameras::Value::WrappedType& valueToCheck,
 			Photographer::Ptr& photographer) const;
 
 
@@ -124,7 +124,7 @@ namespace ExtendedPhoto
 		** \return True if a photographer was found
 		*/
 		void identifyPhotographerAbbr(
-			const TableCameras::Owner::StringType& abbreviation,
+			const TableCameras::Owner::WrappedType& abbreviation,
 			Photographer::Ptr& photographer) const;
 
 
@@ -142,7 +142,7 @@ namespace ExtendedPhoto
 		**
 		** Addition to database is performed in #addNewCameras
 		 */
-		void addNewTuple(const TupleString& tuple);
+		void addNewTuple(const TupleWrappedType& tuple);
 
 		# ifndef NDEBUG
 		/*!
@@ -162,10 +162,10 @@ namespace ExtendedPhoto
 		**
 		** IMPORTANT: This vector is assumed to be sort by keyword.
 		*/
-		std::vector<TupleString> pRows;
+		std::vector<TupleWrappedType> pRows;
 
 		//! It's convenient to have a list of all known keywords
-		std::unordered_set<TableCameras::Keyword::StringType> pKeywords;
+		std::unordered_set<TableCameras::Keyword::WrappedType> pKeywords;
 
 		//! Photographers
 		std::unique_ptr<Photographers> pPhotographersPtr;

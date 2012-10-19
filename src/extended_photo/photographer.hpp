@@ -36,12 +36,12 @@ namespace ExtendedPhoto
 		typedef TablePhotographers::Tuple Tuple;
 
 		/*!
-		** \brief Yields the StringType hold by each element of the input tuple
+		** \brief Yields the WrappedType hold by each element of the input tuple
 		**
 		** For instance, if TupleT = [Keyword, Value, Owner] keyword type will yield
-		** 	[Keyword::StringType, Value::StringType, Owner::StringType]
+		** 	[Keyword::WrappedType, Value::WrappedType, Owner::WrappedType]
 		*/
-		typedef TablePhotographers::TupleString TupleString;
+		typedef TablePhotographers::TupleWrappedType TupleWrappedType;
 
 
 	public:
@@ -52,27 +52,27 @@ namespace ExtendedPhoto
 		** \param[in] row Tuple that stem directly from a row in sqlite database
 		**
 		*/
-		explicit Photographer(const TupleString& row);
+		explicit Photographer(const TupleWrappedType& row);
 
 		//! First name of the photographer
-		const TablePhotographers::FirstName::StringType& firstName() const;
+		const TablePhotographers::FirstName::WrappedType& firstName() const;
 
 		//! Last name of the photographer
-		const TablePhotographers::LastName::StringType& lastName() const;
+		const TablePhotographers::LastName::WrappedType& lastName() const;
 
 		//! Abbreviation sued to designate the photographer
-		const TablePhotographers::Abbreviation::StringType& abbreviation() const;
+		const TablePhotographers::Abbreviation::WrappedType& abbreviation() const;
 
 	private:
 
 		//! First name of the photographer
-		TablePhotographers::FirstName::StringType pFirstName;
+		TablePhotographers::FirstName::WrappedType pFirstName;
 
 		//! Last name of the photographer
-		TablePhotographers::LastName::StringType pLastName;
+		TablePhotographers::LastName::WrappedType pLastName;
 
 		//! Abbreviation sued to designate the photographer
-		TablePhotographers::Abbreviation::StringType pAbbreviation;
+		TablePhotographers::Abbreviation::WrappedType pAbbreviation;
 
 		friend bool operator==(const Photographer& lhs, const Photographer& rhs);
 		friend bool operator!=(const Photographer& lhs, const Photographer& rhs);

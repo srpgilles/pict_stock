@@ -40,7 +40,7 @@ namespace ExtendedPhoto
 
 		{
 			// Also init #pKeywords
-			typedef std::tuple<Keyword::StringType> TupleKeyword;
+			typedef std::tuple<Keyword::WrappedType> TupleKeyword;
 			std::vector<TupleKeyword> keywords;
 			YString command("Keyword FROM ");
 			command << TableName();
@@ -58,8 +58,8 @@ namespace ExtendedPhoto
 	}
 
 	bool Cameras::identifyPhotographer(
-		const Keyword::StringType& currentKeyword,
-		const Value::StringType& valueToCheck,
+		const Keyword::WrappedType& currentKeyword,
+		const Value::WrappedType& valueToCheck,
 		Photographer::Ptr& photographer) const
 	{
 		enum { indexKeyword = GenericTools::IndexOf<Keyword, Tuple>::value };
@@ -67,7 +67,7 @@ namespace ExtendedPhoto
 
 		auto end = pRows.cend();
 		auto it = std::find_if(pRows.cbegin(), end,
-			[&] (const TupleString& tuple) -> bool
+			[&] (const TupleWrappedType& tuple) -> bool
 			{
 				return (std::get<indexKeyword>(tuple) == currentKeyword
 					&& std::get<indexValue>(tuple) == valueToCheck);
@@ -89,7 +89,7 @@ namespace ExtendedPhoto
 
 
 	void Cameras::identifyPhotographerAbbr(
-		const TableCameras::Owner::StringType& abbreviation,
+		const TableCameras::Owner::WrappedType& abbreviation,
 		Photographer::Ptr& photographer) const
 	{
 		if (!pPhotographersPtr->findPhotographer(photographer, abbreviation))
@@ -104,16 +104,16 @@ namespace ExtendedPhoto
 	}
 
 
-	void Cameras::addNewCamera(const Keyword::StringType& currentKeyword,
-		const Value::StringType& value,
-		const Owner::StringType& photographer)
+	void Cameras::addNewCamera(const Keyword::WrappedType& currentKeyword,
+		const Value::WrappedType& value,
+		const Owner::WrappedType& photographer)
 	{
 		// Determine names of the fields in the database
 		std::vector<YString> fieldNames;
 		Private::TupleFields<Tuple>::FieldNames(fieldNames);
 
 		// Create a tuple with new elements to introduce
-		TupleString newTuple;
+		TupleWrappedType newTuple;
 		std::get<GenericTools::IndexOf<Owner, Tuple>::value>(newTuple) = photographer;
 		std::get<GenericTools::IndexOf<Value, Tuple>::value>(newTuple) = value;
 		std::get<GenericTools::IndexOf<Keyword, Tuple>::value>(newTuple) = currentKeyword;
@@ -130,7 +130,7 @@ namespace ExtendedPhoto
 		// instead of using a set or alike
 		enum { indexKeyword = GenericTools::IndexOf<Keyword, Tuple>::value };
 
-		std::sort(pRows.begin(), pRows.end(), [](const TupleString& tuple1, const TupleString& tuple2) -> bool
+		std::sort(pRows.begin(), pRows.end(), [](const TupleWrappedType& tuple1, const TupleWrappedType& tuple2) -> bool
 			{
 				return (std::get<indexKeyword>(tuple1) < std::get<indexKeyword>(tuple2));
 			});
@@ -142,7 +142,7 @@ namespace ExtendedPhoto
 	void Cameras::printRows() const
 	{
 		std::cout << "All the rows (" << pRows.size() << ") found in memory are:\n";
-		std::for_each(pRows.cbegin(), pRows.cend(), [](const TupleString& tuple)
+		std::for_each(pRows.cbegin(), pRows.cend(), [](const TupleWrappedType& tuple)
 			{
 				GenericTools::printTuple(std::cout, tuple, ",", "\t[", "]\n");
 			}

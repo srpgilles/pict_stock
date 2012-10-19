@@ -150,7 +150,7 @@ int main(int argc, char* argv[])
 	typedef PictStock::ExtendedPhoto::Cameras::Tuple Tuple;
 
 	std::cout << std::tuple_size<Tuple>::value << '\n';
-	typedef PictStock::ExtendedPhoto::Private::TupleString<Tuple>::type Strings;
+	typedef PictStock::ExtendedPhoto::Private::TupleWrappedType<Tuple>::type Strings;
 
 
 	std::cout << std::tuple_size<Strings>::value << '\n';

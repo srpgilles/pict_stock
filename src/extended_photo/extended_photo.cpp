@@ -36,8 +36,6 @@ namespace ExtendedPhoto
 
 			if (!identifyPhotographer())
 				logs.warning() << "Photographer not identified for photo " << filename;
-			else
-				logs.notice() << "Photographer of " << filename << " is " << pPathInformations->getElement<Private::PhotographerInformations>();
 
 			if (!extractDate())
 				pStatus = epExiv2Problem;
@@ -124,7 +122,6 @@ namespace ExtendedPhoto
 			{
 				value = citer->value().toString();
 				value.trim();
-				logs.notice("Key = ") << key << ", value = " << value;
 				return true;
 			}
 

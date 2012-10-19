@@ -6,27 +6,29 @@ v0.2 (delivered)
 	. Folder structure and photos names are now fully customizable
 	. Refactoring to ease tremendously maintenance
 	
-v0.3 
+v0.3 (cancelled)
+	Was not properly delivered due to lack of testing; all foreseen content has therefore
+	been delivered in v0.4 (couldn't rename it as branches were already labelled v0.4)
+	
+v0.4 (delivered)
 	. PictFrame: a new program to choose randomly photos to display on a digital frame
 	. Improve the Date class to speed up all related operations (underlying C struct tm
 	instead of cumbersome string comparisons)
-	
-v0.4
 	. Introduce sqlite to handle photographers (and remove dreadful hardcoded data)
 	. Use also sqlite to manage configuration (instead of current input parameters file)
 	
 v0.5
 	. Implement a QT interface for PictStock and PictFrame
-	
-v0.6
 	. Add in the QT interface utility to modify exif (peculiarly the date). Date should
 	be modifiable by photo but also for an entire directory (this should replace the 
 	cumbersome way to do so given to PictStock, which is quite tedious to use because it asks
 	for each folder what to do)
-	. Add also another utility to handle photographers and camera
+	. Handle parameters through QT and database (instead of parameter file)
+	. Add also another utility to handle photographers and camera (to be able to
+	introduce or remove cameras and photographers)
 	. Add language support (using QT facilities for that)
 	
-v0.7
+v0.6
 	. Clean exiv2 library: 
 		- Currently the evix2 library is a copy done at a moment that has been
 		tweaked a bit for my need (only compilation-related). 
@@ -38,6 +40,7 @@ v0.7
 Future
 	. Some modifications when all compilers I use (g++, clang, MSVC) implement all the
 	C++11 features I want to use
+	. See if multithreading can be introduced
 	. Redmine (GitHub project manager is too scarce and cumbersome to use; I gave up)
 	
 

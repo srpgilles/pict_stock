@@ -74,14 +74,17 @@ namespace ExtendedPhoto
 			}
 		);
 
-		if (it != end)
+		if (it == end)
 			return false;
+
+		assert(it != pRows.end());
 
 		// We get the abbreviation; let's fetch the complete photographer object
 		assert(!(!pPhotographersPtr));
 
+		GenericTools::printTuple(std::cout, *it);
 		auto abbreviation =	std::get<GenericTools::IndexOf<Owner, Tuple>::value>(*it);
-		std::cout << "ABBREV = " << abbreviation << '\n';
+		std::cout << "CAMERA ABBREV = " << abbreviation << '\n';
 		identifyPhotographerAbbr(abbreviation, photographer);
 
 		return true;

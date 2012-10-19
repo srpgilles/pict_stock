@@ -63,7 +63,7 @@ namespace ExtendedPhoto
 			const TablePhotographers::Abbreviation::StringType& abbreviation);
 
 		/*!
-		** \brief Find the photographer whom abbreviation is the one given in input
+		** \brief Find the photographer whose abbreviation is the one given in input
 		*/
 		bool findPhotographer(Photographer::Ptr& photographer,
 			const TablePhotographers::Abbreviation::StringType& abbreviation) const;

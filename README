@@ -1,6 +1,0 @@
-This project goal is to help sort automatically photos taken with a camera.
-
-Required:
-
-g++ 4.5 (4.6 doesn't manage well with Yuni library in current state)
-exiv2 library (including dev packages for includes)

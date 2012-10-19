@@ -52,6 +52,8 @@ namespace PictFrame
 			{
 				out.reserve(1u + poolSize / dist); // upper bound of maximum size
 				Math::Random::Default random;
+				random.reset();
+
 				unsigned int startingIndex = static_cast<unsigned int>(random.next()) % dist;
 
 				for (unsigned int i = startingIndex; i < poolSize; i += dist)
@@ -156,6 +158,8 @@ namespace PictFrame
 
 			// Select semi-randomly a subset of indexes between 0 and poolSize - 1
 			semiRandomSubset(randomSequence, poolSize, pNbPhotos);
+
+			GenericTools::printContainer(std::cout, randomSequence, ", ", "Random sequence is: ", "\n");
 
 			{
 				// Finally create the list from the index generated above

@@ -134,6 +134,9 @@ namespace GenericTools
 	};
 
 
+	/*!
+	** \brief Print the content of a tuple
+	*/
 	template<typename StreamT, typename StringT = YString, typename... Args>
 	void printTuple(StreamT& stream, const std::tuple<Args...>&t, StringT separator = ",",
 		StringT opener = "[", StringT closer = "]\n")
@@ -142,6 +145,31 @@ namespace GenericTools
 		printTupleHelper<StreamT, 0, sizeof...(Args), Args...>::print(stream, t, separator);
 		stream << closer;
 	}
+
+
+	/*!
+	** \brief Print the content of a container
+	*/
+	template<typename StreamT, class ContainerT, typename StringT = YString>
+	void printContainer(StreamT& stream, const ContainerT& container,
+		StringT separator = ",", StringT opener = "[", StringT closer = "]\n")
+	{
+		stream << opener;
+
+		auto it = container.cbegin();
+		auto end = container.cend();
+		auto lastElement = end;
+		--lastElement;
+
+		for (; it != lastElement; ++it)
+			stream << *it << separator;
+
+		if (lastElement != end)
+			stream << *lastElement;
+
+		stream << closer;
+	}
+
 
 
 } // namespace GenericTools

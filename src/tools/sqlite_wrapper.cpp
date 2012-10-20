@@ -37,6 +37,18 @@ namespace GenericTools
 			errCode = sqlite3_step(statement);
 			assert(errCode == SQLITE_DONE);
 		}
+
+		{
+			// Disables synchronous
+			YString command("PRAGMA synchronous = OFF");
+			SqliteStatement statement;
+
+			int errCode = prepareCommand(statement, command);
+			assert(errCode == SQLITE_OK);
+			errCode = sqlite3_step(statement);
+			assert(errCode == SQLITE_DONE);
+		}
+
 	}
 
 

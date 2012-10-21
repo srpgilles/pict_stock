@@ -149,6 +149,18 @@ namespace GenericTools
 	}
 
 
+	inline void SqliteWrapper::pragmaForeignKeys(PragmaForeignKeys::Values choice)
+	{
+		Yuni::CString<30, false> cmd("PRAGMA foreign_keys = ");
+		simpleCommand(cmd << static_cast<int>(choice));
+	}
+
+	inline void SqliteWrapper::pragmaSynchronous(PragmaSynchronous::Values choice)
+	{
+		Yuni::CString<30, false> cmd("PRAGMA synchronous = ");
+		simpleCommand(cmd << static_cast<int>(choice));
+	}
+
 } // namespace GenericTools
 
 

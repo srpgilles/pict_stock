@@ -57,6 +57,25 @@ namespace GenericTools
 	** as much as possible introducing too many libraries)
 	*/
 
+	namespace PragmaForeignKeys // waiting for enum class support in MSVC
+	{
+		enum Values
+		{
+			off = 0,
+			on = 1
+		};
+	}
+
+	namespace PragmaSynchronous // waiting for enum class support in MSVC
+	{
+		enum Values
+		{
+			off = 0,
+			normal = 1,
+			full = 2
+		};
+	}
+
 	class YUNI_DECL SqliteWrapper
 	{
 	public:
@@ -74,11 +93,15 @@ namespace GenericTools
 		 * \brief Constructor
 		 *
 		 * \param[in] dbName Name of the file holding the database
-		 * \param[in] fla#include "exceptions.hpp"gs Flags related to the mode. See http://www.sqlite.org/c3ref/open.html
+		 * \param[in] flags Flags related to the mode. See http://www.sqlite.org/c3ref/open.html
+		 * \param[in] synchronous Off, normal or full (see sqlite documentation). Disabled by default
+		 * (it is a huge performance hit, but we clearly loose safety here)
+		 * \param[in] foreign_keys Enables or not foreign keys (enabled by default)
 		 *
 		 */
-
-		explicit SqliteWrapper(const AnyString& dbName, int flags);
+		explicit SqliteWrapper(const AnyString& dbName, int flags,
+			PragmaSynchronous::Values synchronous = PragmaSynchronous::off,
+			PragmaForeignKeys::Values foreignKey = PragmaForeignKeys::on);
 
 		//! Destructor
 		~SqliteWrapper();
@@ -132,6 +155,24 @@ namespace GenericTools
 		void select(std::vector<TupleT>& out, const AnyString& sqlQuery) const;
 
 
+		/*!
+		** \brief Choose the status for foreign_keys
+		**
+		** See sqlite documentation for the whereabouts of this choice
+		*/
+		inline void pragmaForeignKeys(PragmaForeignKeys::Values choice);
+
+
+		/*!
+		** \brief Choose the status for synchronous
+		**
+		** See sqlite documentation for the whereabouts of this choice
+		**
+		** To put in a nutshell: full is much more secure but is a huge performance hit
+		*/
+		inline void pragmaSynchronous(PragmaSynchronous::Values choice);
+
+
 	private:
 
 		/*!
@@ -146,6 +187,7 @@ namespace GenericTools
 		** For instance, command = PRAGMA synchronous = OFF
 		*/
 		void simpleCommand(const AnyString& command);
+
 
 	private:
 

@@ -15,7 +15,8 @@ namespace GenericTools
 		assert(errCode == SQLITE_OK);
 	}
 
-	SqliteWrapper::SqliteWrapper(const AnyString& dbName, int flags)
+	SqliteWrapper::SqliteWrapper(const AnyString& dbName, int flags,
+		PragmaSynchronous::Values synchronous, PragmaForeignKeys::Values foreignKey)
 		: pDb(nullptr)
 	{
 		int errCode = sqlite3_open_v2(dbName.c_str(), &pDb, flags, NULL);
@@ -28,11 +29,8 @@ namespace GenericTools
 		}
 
 		{
-			// Enables foreign keys
-			simpleCommand("PRAGMA foreign_keys = ON;");
-
-			// Disables synchronous
-			simpleCommand("PRAGMA synchronous = OFF");
+			pragmaForeignKeys(foreignKey);
+			pragmaSynchronous(synchronous);
 		}
 	}
 

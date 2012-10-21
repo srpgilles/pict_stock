@@ -25,7 +25,7 @@ namespace GenericTools
 	}
 
 
-	inline int SqliteWrapper::prepareCommand(SqliteStatement& statement, const YString& command) const
+	inline int SqliteWrapper::prepareCommand(SqliteStatement& statement, const AnyString& command) const
 	{
 		// size + 1 because terminal character must be counted (see sqlite website)
 		return sqlite3_prepare_v2(pDb, command.c_str(), command.size() + 1, statement.ptr(), NULL);

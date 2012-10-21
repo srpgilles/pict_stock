@@ -137,8 +137,15 @@ namespace GenericTools
 		/*!
 		** \brief A wrapper over sqlite3_prepare_v2
 		*/
-		int prepareCommand(SqliteStatement& statement, const YString& command) const;
+		int prepareCommand(SqliteStatement& statement, const AnyString& command) const;
 
+
+		/*!
+		** \brief Call this method to issue a single command, which returns SQLITE_DONE
+		**
+		** For instance, command = PRAGMA synchronous = OFF
+		*/
+		void simpleCommand(const AnyString& command);
 
 	private:
 

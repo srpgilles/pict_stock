@@ -5,14 +5,15 @@ add_subdirectory(photo_directory)
 add_subdirectory(sort_new_photos)
 add_subdirectory(pict_frame)
 add_subdirectory(tools)
+add_subdirectory(gui)
 
 
 
-add_executable(PictStock
+add_executable(SortPhotos
 	main.cpp
 )
 
-target_link_libraries(PictStock
+target_link_libraries(SortPhotos
 	sort_new_photos
 	tools
 )
@@ -38,6 +39,17 @@ target_link_libraries(createPhotographerDatabase
 	tools
 	sqlite3
 )
+
+
+add_executable(PictStock
+    main_pict_stock.cpp
+)
+
+target_link_libraries(PictStock
+    gui_pict_stock
+    ${QT_LIBRARIES}
+)
+
 
 
 add_executable(dev

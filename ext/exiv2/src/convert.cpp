@@ -704,7 +704,7 @@ namespace Exiv2 {
         Exiv2::ExifData::iterator pos = exifData_->findKey(ExifKey(from));
         if (pos == exifData_->end() || pos->count() == 0) return;
         if (!prepareXmpTarget(to)) return;
-        int value = pos->toLong();
+        int value = static_cast<int>(pos->toLong());
         if (!pos->value().ok()) {
 #ifndef SUPPRESS_WARNINGS
             EXV_WARNING << "Failed to convert " << from << " to " << to << "\n";
@@ -971,10 +971,10 @@ namespace Exiv2 {
         Exiv2::XmpData::iterator pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Fired"));
         if (pos == xmpData_->end()) return;
         if (!prepareExifTarget(to)) return;
-        unsigned short value = 0;
+        int value = 0; // changed from unsigned short
 
         if (pos != xmpData_->end() && pos->count() > 0) {
-            int fired = pos->toLong();
+            int fired = static_cast<int>(pos->toLong());
             if (pos->value().ok())
                 value |= fired & 1;
 #ifndef SUPPRESS_WARNINGS
@@ -984,9 +984,9 @@ namespace Exiv2 {
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Return"));
         if (pos != xmpData_->end() && pos->count() > 0) {
-            int ret = pos->toLong();
+            int ret = static_cast<int>(pos->toLong());
             if (pos->value().ok())
-                value |= (ret & 3) << 1;
+                value |= static_cast<unsigned short>((ret & 3) << 1);
 #ifndef SUPPRESS_WARNINGS
             else
                 EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Return" << " to " << to << "\n";
@@ -994,9 +994,9 @@ namespace Exiv2 {
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Mode"));
         if (pos != xmpData_->end() && pos->count() > 0) {
-            int mode = pos->toLong();
+            int mode = static_cast<int>(pos->toLong());
             if (pos->value().ok())
-                value |= (mode & 3) << 3;
+                value |= static_cast<unsigned short>((mode & 3) << 3);
 #ifndef SUPPRESS_WARNINGS
             else
                 EXV_WARNING << "Failed to convert " << std::string(from) + "/exif:Mode" << " to " << to << "\n";
@@ -1004,7 +1004,7 @@ namespace Exiv2 {
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:Function"));
         if (pos != xmpData_->end() && pos->count() > 0) {
-            int function = pos->toLong();
+            int function = static_cast<int>(pos->toLong());
             if (pos->value().ok())
                 value |= (function & 1) << 5;
 #ifndef SUPPRESS_WARNINGS
@@ -1014,7 +1014,7 @@ namespace Exiv2 {
         }
         pos = xmpData_->findKey(XmpKey(std::string(from) + "/exif:RedEyeMode"));
         if (pos != xmpData_->end() && pos->count() > 0) {
-            int red = pos->toLong();
+            int red = static_cast<int>(pos->toLong());
             if (pos->value().ok())
                 value |= (red & 1) << 6;
 #ifndef SUPPRESS_WARNINGS
@@ -1138,7 +1138,7 @@ namespace Exiv2 {
             return;
         }
 
-        int count = pos->count();
+        int count = static_cast<int>(pos->count());
         bool added = false;
         for (int i = 0; i < count; ++i) {
             std::string value = pos->toString(i);
@@ -1190,6 +1190,7 @@ namespace Exiv2 {
         }
         return res.str();
 #else
+        (void) tiff;
         return std::string("");
 #endif
     }
@@ -1532,7 +1533,7 @@ namespace {
                               &inbytesleft,
                               &outptr,
                               &outbytesleft);
-            int outbytesProduced = sizeof(outbuf) - outbytesleft;
+            int outbytesProduced = static_cast<int>(sizeof(outbuf) - outbytesleft);
             if (rc == size_t(-1) && errno != E2BIG) {
 #ifndef SUPPRESS_WARNINGS
                 EXV_WARNING << "iconv: " << strError()

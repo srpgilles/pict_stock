@@ -344,7 +344,7 @@ namespace Exiv2 {
 
     uint16_t Exifdatum::tag() const
     {
-        return key_.get() == 0 ? 0xffff : key_->tag();
+        return key_.get() == 0 ? static_cast<uint16_t>(0xffff) : key_->tag();
     }
 
     int Exifdatum::ifdId() const
@@ -723,7 +723,7 @@ namespace Exiv2 {
                                                   header.get(),
                                                   0);
         if (mio1.size() <= 65527) {
-            append(blob, mio1.mmap(), mio1.size());
+            append(blob, mio1.mmap(), static_cast<uint32_t>(mio1.size()));
             return wm;
         }
 
@@ -820,7 +820,7 @@ namespace Exiv2 {
                                       TiffMapping::findEncoder,
                                       header.get(),
                                       0);
-        append(blob, mio2.mmap(), mio2.size());
+        append(blob, mio2.mmap(), static_cast<uint32_t>(mio2.size()));
 #ifdef DEBUG
         if (wm == wmIntrusive) {
             std::cerr << "SIZE OF EXIF DATA IS " << std::dec << io.size() << " BYTES\n";

@@ -1167,7 +1167,7 @@ namespace Exiv2 {
             || model.find("350D") != std::string::npos
             || model.substr(model.size() - 8, 8) == "REBEL XT"
             || model.find("Kiss Digital N") != std::string::npos) {
-            uint32_t val = value.toLong();
+            uint32_t val = static_cast<uint32_t>(value.toLong());
             uint32_t dn = (val & 0xffc0) >> 6;
             uint32_t fn = ((val >> 16) & 0xff) + ((val & 0x3f) << 8);
             return os << std::dec << dn << "-" << std::setw(4) << std::setfill('0') << fn;
@@ -1177,7 +1177,7 @@ namespace Exiv2 {
             || model.find("REBEL XTi") != std::string::npos
             || model.find("Kiss Digital X") != std::string::npos
             || model.find("K236") != std::string::npos) {
-            uint32_t val = value.toLong();
+            uint32_t val = static_cast<uint32_t>(value.toLong());
             uint32_t dn = (val & 0xffc00) >> 10;
             while (dn < 100) dn += 0x40;
             uint32_t fn = ((val & 0x3ff) << 4) + ((val >> 20) & 0x0f);
@@ -1252,7 +1252,7 @@ namespace Exiv2 {
             os << "Off";
         }
         else {
-            os << l / 10.0 << " s";
+            os << static_cast<double>(l) / 10.0 << " s";
         }
         return os;
     }
@@ -1286,8 +1286,8 @@ namespace Exiv2 {
             && pos->value().typeId() == unsignedShort) {
             float fu = pos->value().toFloat(2);
             if (fu != 0.0) {
-                float len1 = pos->value().toLong(0) / fu;
-                float len2 = pos->value().toLong(1) / fu;
+                float len1 = static_cast<float>(pos->value().toLong(0)) / fu;
+                float len2 = static_cast<float>(pos->value().toLong(1)) / fu;
                 std::ostringstream oss;
                 oss << std::fixed << std::setprecision(0);
                 if (len1 == len2) {
@@ -1333,8 +1333,8 @@ namespace Exiv2 {
 
         float fu = value.toFloat(2);
         if (fu == 0.0) return os << value;
-        float len1 = value.toLong(0) / fu;
-        float len2 = value.toLong(1) / fu;
+        float len1 = static_cast<float>(value.toLong(0)) / fu;
+        float len2 = static_cast<float>(value.toLong(1)) / fu;
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(1);
@@ -1371,7 +1371,7 @@ namespace Exiv2 {
             // see also printSi0x0017
             std::ostringstream oss;
             oss.copyfmt(os);
-            int res = static_cast<int>(100.0 * (value.toLong() / 32.0 + 5.0) + 0.5);
+            int res = static_cast<int>(100.0 * (static_cast<float>(value.toLong()) / 32.0 + 5.0) + 0.5);
             os << std::fixed << std::setprecision(2) << res / 100.0;
             os.copyfmt(oss);
         }
@@ -1471,7 +1471,7 @@ namespace Exiv2 {
         std::ostringstream oss;
         oss.copyfmt(os);
         os << std::fixed << std::setprecision(2)
-           << value.toLong() / 8.0 - 6.0;
+           << static_cast<double>(value.toLong()) / 8.0 - 6.0;
         os.copyfmt(oss);
         return os;
     }
@@ -1497,7 +1497,7 @@ namespace Exiv2 {
         else if (frac == 0x14) {
             frac = 64.0f / 3;
         }
-        return sign * (val + frac) / 32.0f;
+        return static_cast<float>(sign) * (static_cast<float>(val) + frac) / 32.0f;
     }
 
 }}                                      // namespace Internal, Exiv2

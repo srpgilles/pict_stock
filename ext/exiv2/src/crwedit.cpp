@@ -44,7 +44,7 @@ try {
 
     // Parse the image, starting with a CIFF header component
     Exiv2::Internal::CiffHeader::UniquePtr parseTree(new Exiv2::Internal::CiffHeader);
-    parseTree->read(buf.pData_, buf.size_);
+    parseTree->read(buf.pData_, static_cast<uint32_t>(buf.size_));
 
     // Allow user to make changes
     bool go = true;

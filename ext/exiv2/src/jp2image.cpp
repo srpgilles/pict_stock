@@ -279,7 +279,7 @@ namespace Exiv2
                                                                       iptcData(),
                                                                       xmpData(),
                                                                       rawData.pData_ + pos,
-                                                                      rawData.size_ - pos);
+                                                                      static_cast<uint32_t>(rawData.size_) - pos);
                                     setByteOrder(bo);
                                 }
                             }
@@ -302,7 +302,7 @@ namespace Exiv2
                             if (io_->error()) throw Error(14);
                             if (bufRead != rawData.size_) throw Error(20);
 
-                            if (IptcParser::decode(iptcData_, rawData.pData_, rawData.size_))
+                            if (IptcParser::decode(iptcData_, rawData.pData_, static_cast<uint32_t>(rawData.size_)))
                             {
 #ifndef SUPPRESS_WARNINGS
                                 EXV_WARNING << "Failed to decode IPTC metadata.\n";
@@ -432,7 +432,7 @@ namespace Exiv2
                 std::cout << "Exiv2::Jp2Image::doWriteMetadata: Null Box size has been found. "
                              "This is the last box of file.\n";
 #endif
-                box.boxLength = io_->size() - io_->tell() + 8;
+                box.boxLength = static_cast<uint32_t>(io_->size() - io_->tell()) + 8;
             }
             if (box.boxLength == 1)
             {
@@ -488,7 +488,7 @@ namespace Exiv2
                             memcpy(rawExif.pData_ + sizeof(ExifHeader), &blob[0], blob.size());
 
                             DataBuf boxData(8 + 16 + rawExif.size_);
-                            ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                            ul2Data(boxDataSize, static_cast<uint32_t>(boxData.size_), Exiv2::bigEndian);
                             ul2Data(boxUUIDtype, kJp2BoxTypeUuid, Exiv2::bigEndian);
                             memcpy(boxData.pData_,          boxDataSize,    4);
                             memcpy(boxData.pData_ + 4,      boxUUIDtype,    4);
@@ -511,7 +511,7 @@ namespace Exiv2
                         if (rawIptc.size_ > 0)
                         {
                             DataBuf boxData(8 + 16 + rawIptc.size_);
-                            ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                            ul2Data(boxDataSize, static_cast<uint32_t>(boxData.size_), Exiv2::bigEndian);
                             ul2Data(boxUUIDtype, kJp2BoxTypeUuid, Exiv2::bigEndian);
                             memcpy(boxData.pData_,          boxDataSize,    4);
                             memcpy(boxData.pData_ + 4,      boxUUIDtype,    4);
@@ -541,7 +541,7 @@ namespace Exiv2
 
                         DataBuf xmp(reinterpret_cast<const byte*>(xmpPacket_.data()), static_cast<long>(xmpPacket_.size()));
                         DataBuf boxData(8 + 16 + xmp.size_);
-                        ul2Data(boxDataSize, boxData.size_, Exiv2::bigEndian);
+                        ul2Data(boxDataSize, static_cast<uint32_t>(boxData.size_), Exiv2::bigEndian);
                         ul2Data(boxUUIDtype, kJp2BoxTypeUuid, Exiv2::bigEndian);
                         memcpy(boxData.pData_,          boxDataSize,  4);
                         memcpy(boxData.pData_ + 4,      boxUUIDtype,  4);

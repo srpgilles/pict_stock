@@ -72,7 +72,7 @@ namespace Exiv2 {
     {
         ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageWidth"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-            return imageWidth->toLong();
+            return static_cast<int>(imageWidth->toLong());
         }
         return 0;
     }
@@ -81,7 +81,7 @@ namespace Exiv2 {
     {
         ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Image.ImageLength"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-            return imageHeight->toLong();
+            return static_cast<int>(imageHeight->toLong());
         }
         return 0;
     }
@@ -111,7 +111,7 @@ namespace Exiv2 {
                                          iptcData_,
                                          xmpData_,
                                          io_->mmap(),
-                                         io_->size());
+                                         static_cast<uint32_t>(io_->size()));
         setByteOrder(bo);
     } // OrfImage::readMetadata
 
@@ -139,7 +139,7 @@ namespace Exiv2 {
             bo = littleEndian;
         }
         setByteOrder(bo);
-        OrfParser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
+        OrfParser::encode(*io_, pData, static_cast<uint32_t>(size), bo, exifData_, iptcData_, xmpData_); // may throw
     } // OrfImage::writeMetadata
 
     ByteOrder OrfParser::decode(

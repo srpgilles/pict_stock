@@ -252,9 +252,9 @@ namespace Exiv2 {
             us2Data(tmpBuf + 4, iptc_, bigEndian);
             tmpBuf[6] = 0;
             tmpBuf[7] = 0;
-            ul2Data(tmpBuf + 8, rawIptc.size_, bigEndian);
+            ul2Data(tmpBuf + 8, static_cast<uint32_t>(rawIptc.size_), bigEndian);
             append(psBlob, tmpBuf, 12);
-            append(psBlob, rawIptc.pData_, rawIptc.size_);
+            append(psBlob, rawIptc.pData_, static_cast<uint32_t>(rawIptc.size_));
             // Data is padded to be even (but not included in size)
             if (rawIptc.size_ & 1) psBlob.push_back(0x00);
         }

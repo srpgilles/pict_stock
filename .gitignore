@@ -28,10 +28,18 @@ ext/yuni/src/yuni/platform.h
 ext/yuni/src/yuni/yuni.config.gcc.target
 ext/yuni/src/yuni/yuni.version
 
+# Qt
+*.cbp
+
 # Exiv2
 exv_conf.h
 #exv_msvc.h Finally needed for compilation under Windows (which is more of a patch than a real compilation process)
 
+# Miscellaneous
+.metadata
+
+# Sqlite databases
+*.db3
 
 # Windows
 *.vcxproj

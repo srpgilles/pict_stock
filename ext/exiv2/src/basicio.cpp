@@ -482,9 +482,9 @@ namespace Exiv2 {
         return p_->pMappedArea_;
     }
 
-    BasicIo::AutoPtr FileIo::temporary() const
+    BasicIo::UniquePtr FileIo::temporary() const
     {
-        BasicIo::AutoPtr basicIo;
+        BasicIo::UniquePtr basicIo;
 
         Impl::StructStat buf;
         int ret = p_->stat(buf);
@@ -499,17 +499,17 @@ namespace Exiv2 {
         // buffer, which is a workaround to ensure that the links don't get broken.
         if (ret != 0 || (buf.st_size > 1048576 && nlink == 1)) {
             pid_t pid = ::getpid();
-            std::auto_ptr<FileIo> fileIo;
+            std::unique_ptr<FileIo> fileIo;
 #ifdef EXV_UNICODE_PATH
             if (p_->wpMode_ == Impl::wpUnicode) {
                 std::wstring tmpname = wpath() + s2ws(toString(pid));
-                fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
+                fileIo = std::unique_ptr<FileIo>(new FileIo(tmpname));
             }
             else
 #endif
             {
                 std::string tmpname = path() + toString(pid);
-                fileIo = std::auto_ptr<FileIo>(new FileIo(tmpname));
+                fileIo = std::unique_ptr<FileIo>(new FileIo(tmpname));
             }
             if (fileIo->open("w+b") != 0) {
 #ifdef EXV_UNICODE_PATH
@@ -522,7 +522,7 @@ namespace Exiv2 {
                     throw Error(10, path(), "w+b", strError());
                 }
             }
-            basicIo = fileIo;
+            basicIo = std::move(fileIo);
         }
         else {
             basicIo.reset(new MemIo);
@@ -991,9 +991,9 @@ namespace Exiv2 {
         delete p_;
     }
 
-    BasicIo::AutoPtr MemIo::temporary() const
+    BasicIo::UniquePtr MemIo::temporary() const
     {
-        return BasicIo::AutoPtr(new MemIo);
+        return BasicIo::UniquePtr(new MemIo);
     }
 
     long MemIo::write(const byte* data, long wcount)

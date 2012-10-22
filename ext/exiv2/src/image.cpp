@@ -139,8 +139,8 @@ namespace Exiv2 {
 
     Image::Image(int              imageType,
                  uint16_t         supportedMetadata,
-                 BasicIo::AutoPtr io)
-        : io_(io),
+                 BasicIo::UniquePtr io)
+        : io_(std::move(io)),
           pixelWidth_(0),
           pixelHeight_(0),
           imageType_(imageType),
@@ -252,6 +252,8 @@ namespace Exiv2 {
     {
 #ifdef EXV_HAVE_XMP_TOOLKIT
         writeXmpFromPacket_ = flag;
+#else
+        (void) flag; // avoid compilation warning
 #endif
     }
 
@@ -408,94 +410,94 @@ namespace Exiv2 {
         return ImageType::none;
     } // ImageFactory::getType
 
-    Image::AutoPtr ImageFactory::open(const std::string& path)
+    Image::UniquePtr ImageFactory::open(const std::string& path)
     {
-        BasicIo::AutoPtr io(new FileIo(path));
-        Image::AutoPtr image = open(io); // may throw
+        BasicIo::UniquePtr io(new FileIo(path));
+        Image::UniquePtr image = open(std::move(io)); // may throw
         if (image.get() == 0) throw Error(11, path);
         return image;
     }
 
 #ifdef EXV_UNICODE_PATH
-    Image::AutoPtr ImageFactory::open(const std::wstring& wpath)
+    Image::UniquePtr ImageFactory::open(const std::wstring& wpath)
     {
-        BasicIo::AutoPtr io(new FileIo(wpath));
-        Image::AutoPtr image = open(io); // may throw
+        BasicIo::UniquePtr io(new FileIo(wpath));
+        Image::UniquePtr image = open(io); // may throw
         if (image.get() == 0) throw WError(11, wpath);
         return image;
     }
 
 #endif
-    Image::AutoPtr ImageFactory::open(const byte* data, long size)
+    Image::UniquePtr ImageFactory::open(const byte* data, long size)
     {
-        BasicIo::AutoPtr io(new MemIo(data, size));
-        Image::AutoPtr image = open(io); // may throw
+        BasicIo::UniquePtr io(new MemIo(data, size));
+        Image::UniquePtr image = open(std::move(io)); // may throw
         if (image.get() == 0) throw Error(12);
         return image;
     }
 
-    Image::AutoPtr ImageFactory::open(BasicIo::AutoPtr io)
+    Image::UniquePtr ImageFactory::open(BasicIo::UniquePtr io)
     {
         if (io->open() != 0) {
             throw Error(9, io->path(), strError());
         }
         for (unsigned int i = 0; registry[i].imageType_ != ImageType::none; ++i) {
             if (registry[i].isThisType_(*io, false)) {
-                return registry[i].newInstance_(io, false);
+                return registry[i].newInstance_(std::move(io), false);
             }
         }
-        return Image::AutoPtr();
+        return Image::UniquePtr();
     } // ImageFactory::open
 
-    Image::AutoPtr ImageFactory::create(int type,
+    Image::UniquePtr ImageFactory::create(int type,
                                         const std::string& path)
     {
-        std::auto_ptr<FileIo> fileIo(new FileIo(path));
+        std::unique_ptr<FileIo> fileIo(new FileIo(path));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
             throw Error(10, path, "w+b", strError());
         }
         fileIo->close();
-        BasicIo::AutoPtr io(fileIo);
-        Image::AutoPtr image = create(type, io);
+        BasicIo::UniquePtr io(std::move(fileIo));
+        Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) throw Error(13, type);
         return image;
     }
 
 #ifdef EXV_UNICODE_PATH
-    Image::AutoPtr ImageFactory::create(int type,
+    Image::UniquePtr ImageFactory::create(int type,
                                         const std::wstring& wpath)
     {
-        std::auto_ptr<FileIo> fileIo(new FileIo(wpath));
+        std::unique_ptr<FileIo> fileIo(new FileIo(wpath));
         // Create or overwrite the file, then close it
         if (fileIo->open("w+b") != 0) {
             throw WError(10, wpath, "w+b", strError().c_str());
         }
         fileIo->close();
-        BasicIo::AutoPtr io(fileIo);
-        Image::AutoPtr image = create(type, io);
+        BasicIo::UniquePtr io(fileIo);
+        Image::UniquePtr image = create(type, io);
         if (image.get() == 0) throw Error(13, type);
         return image;
     }
 
 #endif
-    Image::AutoPtr ImageFactory::create(int type)
+    Image::UniquePtr ImageFactory::create(int type)
     {
-        BasicIo::AutoPtr io(new MemIo);
-        Image::AutoPtr image = create(type, io);
+        BasicIo::UniquePtr io(new MemIo);
+        Image::UniquePtr image = create(type, std::move(io));
         if (image.get() == 0) throw Error(13, type);
         return image;
     }
 
-    Image::AutoPtr ImageFactory::create(int type,
-                                        BasicIo::AutoPtr io)
+    Image::UniquePtr ImageFactory::create(int type,
+                                        BasicIo::UniquePtr io)
     {
         // BasicIo instance does not need to be open
         const Registry* r = find(registry, type);
         if (0 != r) {
-            return r->newInstance_(io, true);
+            return r->newInstance_(std::move(io), true);
         }
-        return Image::AutoPtr();
+        return Image::UniquePtr();
     } // ImageFactory::create
 
 // *****************************************************************************

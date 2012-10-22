@@ -131,8 +131,8 @@ enum {
 // class member definitions
 namespace Exiv2 {
 
-    PsdImage::PsdImage(BasicIo::AutoPtr io)
-        : Image(ImageType::psd, mdExif | mdIptc | mdXmp, io)
+    PsdImage::PsdImage(BasicIo::UniquePtr io)
+        : Image(ImageType::psd, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // PsdImage::PsdImage
 
@@ -354,7 +354,7 @@ namespace Exiv2 {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+        BasicIo::UniquePtr tempIo(io_->temporary()); // may throw
         assert (tempIo.get() != 0);
 
         doWriteMetadata(*tempIo); // may throw
@@ -683,9 +683,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newPsdInstance(BasicIo::AutoPtr io, bool /*create*/)
+    Image::UniquePtr newPsdInstance(BasicIo::UniquePtr io, bool /*create*/)
     {
-        Image::AutoPtr image(new PsdImage(io));
+        Image::UniquePtr image(new PsdImage(std::move(io)));
         if (!image->good())
         {
             image.reset();

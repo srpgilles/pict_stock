@@ -107,7 +107,7 @@ namespace Exiv2 {
              Use TiffComponent::AutoPtr, it is not used in this declaration only
              to reduce dependencies.
      */
-    typedef std::auto_ptr<TiffComponent> (*NewTiffCompFct)(uint16_t tag, IfdId group);
+    typedef std::unique_ptr<TiffComponent> (*NewTiffCompFct)(uint16_t tag, IfdId group);
 
     //! Stack to hold a path from the TIFF root element to a TIFF entry
     typedef std::stack<TiffPathItem> TiffPath;

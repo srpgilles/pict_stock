@@ -117,8 +117,8 @@ struct Jp2UuidBox
 namespace Exiv2
 {
 
-    Jp2Image::Jp2Image(BasicIo::AutoPtr io, bool create)
-            : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, io)
+    Jp2Image::Jp2Image(BasicIo::UniquePtr io, bool create)
+            : Image(ImageType::jp2, mdExif | mdIptc | mdXmp, std::move(io))
     {
         if (create)
         {
@@ -365,7 +365,7 @@ namespace Exiv2
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+        BasicIo::UniquePtr tempIo(io_->temporary()); // may throw
         assert (tempIo.get() != 0);
 
         doWriteMetadata(*tempIo); // may throw
@@ -608,9 +608,9 @@ namespace Exiv2
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newJp2Instance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newJp2Instance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new Jp2Image(io, create));
+        Image::UniquePtr image(new Jp2Image(std::move(io), create));
         if (!image->good())
         {
             image.reset();

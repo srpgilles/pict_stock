@@ -35,7 +35,7 @@
 
 // + standard includes
 #include <string>
-#include <memory>                               // for std::auto_ptr
+#include <memory>                               // for std::unique_ptr
 
 // *****************************************************************************
 // namespace extensions
@@ -53,8 +53,8 @@ namespace Exiv2 {
      */
     class EXIV2API BasicIo {
     public:
-        //! BasicIo auto_ptr type
-        typedef std::auto_ptr<BasicIo> AutoPtr;
+        //! BasicIo unique_ptr type
+        typedef std::unique_ptr<BasicIo> UniquePtr;
 
         //! Seek starting positions
         enum Position { beg, cur, end };
@@ -235,7 +235,7 @@ namespace Exiv2 {
           @return An instance of BasicIo on success
           @throw Error In case of failure
          */
-        virtual BasicIo::AutoPtr temporary() const = 0;
+        virtual BasicIo::UniquePtr temporary() const = 0;
         //@}
 
     protected:
@@ -486,7 +486,7 @@ namespace Exiv2 {
           @return An instance of BasicIo on success
           @throw Error If opening the temporary file fails
          */
-        virtual BasicIo::AutoPtr temporary() const;
+        virtual BasicIo::UniquePtr temporary() const;
         //@}
 
     private:
@@ -679,7 +679,7 @@ namespace Exiv2 {
               behavior since it may change.
           @return An instance of BasicIo
          */
-        virtual BasicIo::AutoPtr temporary() const;
+        virtual BasicIo::UniquePtr temporary() const;
         //@}
 
     private:

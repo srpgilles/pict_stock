@@ -58,8 +58,8 @@ namespace Exiv2 {
 
     using namespace Internal;
 
-    Cr2Image::Cr2Image(BasicIo::AutoPtr io, bool /*create*/)
-        : Image(ImageType::cr2, mdExif | mdIptc | mdXmp, io)
+    Cr2Image::Cr2Image(BasicIo::UniquePtr io, bool /*create*/)
+        : Image(ImageType::cr2, mdExif | mdIptc | mdXmp, std::move(io))
     {
     } // Cr2Image::Cr2Image
 
@@ -72,7 +72,7 @@ namespace Exiv2 {
     {
         ExifData::const_iterator imageWidth = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelXDimension"));
         if (imageWidth != exifData_.end() && imageWidth->count() > 0) {
-            return imageWidth->toLong();
+            return static_cast<int>(imageWidth->toLong());
         }
         return 0;
     }
@@ -81,7 +81,7 @@ namespace Exiv2 {
     {
         ExifData::const_iterator imageHeight = exifData_.findKey(Exiv2::ExifKey("Exif.Photo.PixelYDimension"));
         if (imageHeight != exifData_.end() && imageHeight->count() > 0) {
-            return imageHeight->toLong();
+            return static_cast<int>(imageHeight->toLong());
         }
         return 0;
     }
@@ -111,7 +111,7 @@ namespace Exiv2 {
                                          iptcData_,
                                          xmpData_,
                                          io_->mmap(),
-                                         io_->size());
+                                         static_cast<int>(io_->size())); // again terrible conversion...
         setByteOrder(bo);
     } // Cr2Image::readMetadata
 
@@ -139,7 +139,7 @@ namespace Exiv2 {
             bo = littleEndian;
         }
         setByteOrder(bo);
-        Cr2Parser::encode(*io_, pData, size, bo, exifData_, iptcData_, xmpData_); // may throw
+        Cr2Parser::encode(*io_, pData, static_cast<uint32_t>(size), bo, exifData_, iptcData_, xmpData_); // may throw
     } // Cr2Image::writeMetadata
 
     ByteOrder Cr2Parser::decode(
@@ -188,7 +188,7 @@ namespace Exiv2 {
                      ed.end());
         }
 
-        std::auto_ptr<TiffHeaderBase> header(new Cr2Header(byteOrder));
+        std::unique_ptr<TiffHeaderBase> header(new Cr2Header(byteOrder));
         OffsetWriter offsetWriter;
         offsetWriter.setOrigin(OffsetWriter::cr2RawIfdOffset, Cr2Header::offset2addr(), byteOrder);
         return TiffParserWorker::encode(io,
@@ -205,9 +205,9 @@ namespace Exiv2 {
 
     // *************************************************************************
     // free functions
-    Image::AutoPtr newCr2Instance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newCr2Instance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new Cr2Image(io, create));
+        Image::UniquePtr image(new Cr2Image(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }

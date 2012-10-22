@@ -285,9 +285,9 @@ namespace Exiv2 {
 
     } // Photoshop::setIptcIrb
 
-    JpegBase::JpegBase(int type, BasicIo::AutoPtr io, bool create,
+    JpegBase::JpegBase(int type, BasicIo::UniquePtr io, bool create,
                        const byte initData[], long dataSize)
-        : Image(type, mdExif | mdIptc | mdXmp | mdComment, io)
+        : Image(type, mdExif | mdIptc | mdXmp | mdComment, std::move(io))
     {
         if (create) {
             initImage(initData, dataSize);
@@ -515,7 +515,7 @@ namespace Exiv2 {
             throw Error(9, io_->path(), strError());
         }
         IoCloser closer(*io_);
-        BasicIo::AutoPtr tempIo(io_->temporary()); // may throw
+        BasicIo::UniquePtr tempIo(io_->temporary()); // may throw
         assert (tempIo.get() != 0);
 
         doWriteMetadata(*tempIo); // may throw
@@ -855,8 +855,8 @@ namespace Exiv2 {
         0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xDA,0x00,0x0C,0x03,0x01,0x00,0x02,
         0x11,0x03,0x11,0x00,0x3F,0x00,0xA0,0x00,0x0F,0xFF,0xD9 };
 
-    JpegImage::JpegImage(BasicIo::AutoPtr io, bool create)
-        : JpegBase(ImageType::jpeg, io, create, blank_, sizeof(blank_))
+    JpegImage::JpegImage(BasicIo::UniquePtr io, bool create)
+        : JpegBase(ImageType::jpeg, std::move(io), create, blank_, sizeof(blank_))
     {
     }
 
@@ -881,9 +881,9 @@ namespace Exiv2 {
         return isJpegType(iIo, advance);
     }
 
-    Image::AutoPtr newJpegInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newJpegInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image(new JpegImage(io, create));
+        Image::UniquePtr image(new JpegImage(std::move(io), create));
         if (!image->good()) {
             image.reset();
         }
@@ -907,8 +907,8 @@ namespace Exiv2 {
     const char ExvImage::exiv2Id_[] = "Exiv2";
     const byte ExvImage::blank_[] = { 0xff,0x01,'E','x','i','v','2',0xff,0xd9 };
 
-    ExvImage::ExvImage(BasicIo::AutoPtr io, bool create)
-        : JpegBase(ImageType::exv, io, create, blank_, sizeof(blank_))
+    ExvImage::ExvImage(BasicIo::UniquePtr io, bool create)
+        : JpegBase(ImageType::exv, std::move(io), create, blank_, sizeof(blank_))
     {
     }
 
@@ -934,10 +934,10 @@ namespace Exiv2 {
         return isExvType(iIo, advance);
     }
 
-    Image::AutoPtr newExvInstance(BasicIo::AutoPtr io, bool create)
+    Image::UniquePtr newExvInstance(BasicIo::UniquePtr io, bool create)
     {
-        Image::AutoPtr image;
-        image = Image::AutoPtr(new ExvImage(io, create));
+        Image::UniquePtr image;
+        image = Image::UniquePtr(new ExvImage(std::move(io), create));
         if (!image->good()) image.reset();
         return image;
     }

@@ -220,11 +220,11 @@ namespace Exiv2 {
         assert(object != 0);
 
         if (pHeader_->isImageTag(object->tag(), object->group(), pPrimaryGroups_)) {
-            TiffComponent::AutoPtr clone = object->clone();
+            TiffComponent::UniquePtr clone = object->clone();
             // Assumption is that the corresponding TIFF entry doesn't exist
             TiffPath tiffPath;
             TiffCreator::getPath(tiffPath, object->tag(), object->group(), root_);
-            pRoot_->addPath(object->tag(), tiffPath, pRoot_, clone);
+            pRoot_->addPath(object->tag(), tiffPath, pRoot_, std::move(clone));
 #ifdef DEBUG
             ExifKey key(object->tag(), groupName(object->group()));
             std::cerr << "Copied " << key << "\n";
@@ -580,7 +580,7 @@ namespace Exiv2 {
             irbKey.setIdx(pos->idx());
         }
         if (rawIptc.size_ != 0 && (del || pos == exifData_.end())) {
-            Value::AutoPtr value = Value::create(unsignedLong);
+            Value::UniquePtr value = Value::create(unsignedLong);
             DataBuf buf;
             if (rawIptc.size_ % 4 != 0) {
                 // Pad the last unsignedLong value with 0s
@@ -604,7 +604,7 @@ namespace Exiv2 {
             irbBuf = Photoshop::setIptcIrb(irbBuf.pData_, irbBuf.size_, iptcData_);
             exifData_.erase(pos);
             if (irbBuf.size_ != 0) {
-                Value::AutoPtr value = Value::create(unsignedByte);
+                Value::UniquePtr value = Value::create(unsignedByte);
                 value->read(irbBuf.pData_, irbBuf.size_, invalidByteOrder);
                 Exifdatum iptcDatum(irbKey, value.get());
                 exifData_.add(iptcDatum);
@@ -629,7 +629,7 @@ namespace Exiv2 {
         }
         if (!xmpPacket.empty()) {
             // Set the XMP Exif tag to the new value
-            Value::AutoPtr value = Value::create(unsignedByte);
+            Value::UniquePtr value = Value::create(unsignedByte);
             value->read(reinterpret_cast<const byte*>(&xmpPacket[0]),
                         static_cast<long>(xmpPacket.size()),
                         invalidByteOrder);
@@ -1137,7 +1137,7 @@ namespace Exiv2 {
     TiffReader::TiffReader(const byte*    pData,
                            uint32_t       size,
                            TiffComponent* pRoot,
-                           TiffRwState::AutoPtr state)
+                           TiffRwState::UniquePtr state)
         : pData_(pData),
           size_(size),
           pLast_(pData + size),
@@ -1162,7 +1162,7 @@ namespace Exiv2 {
         pState_ = pOrigState_;
     }
 
-    void TiffReader::changeState(TiffRwState::AutoPtr state)
+    void TiffReader::changeState(TiffRwState::UniquePtr state)
     {
         if (state.get() != 0) {
             if (pOrigState_ != pState_) delete pState_;
@@ -1289,12 +1289,12 @@ namespace Exiv2 {
                 return;
             }
             uint16_t tag = getUShort(p, byteOrder());
-            TiffComponent::AutoPtr tc = TiffCreator::create(tag, object->group());
+            TiffComponent::UniquePtr tc = TiffCreator::create(tag, object->group());
             // The assertion typically fails if a component is not configured in
             // the TIFF structure table
             assert(tc.get());
             tc->setStart(p);
-            object->addChild(tc);
+            object->addChild(std::move(tc));
             p += 12;
         }
 
@@ -1306,7 +1306,7 @@ namespace Exiv2 {
 #endif
                 return;
             }
-            TiffComponent::AutoPtr tc(0);
+            TiffComponent::UniquePtr tc(0);
             uint32_t next = getLong(p, byteOrder());
             if (next) {
                 tc = TiffCreator::create(Tag::next, object->group());
@@ -1326,7 +1326,7 @@ namespace Exiv2 {
                     return;
                 }
                 tc->setStart(pData_ + baseOffset() + next);
-                object->addNext(tc);
+                object->addNext(std::move(tc));
             }
         } // object->hasNext()
 
@@ -1366,10 +1366,10 @@ namespace Exiv2 {
                     break;
                 }
                 // If there are multiple dirs, group is incremented for each
-                TiffComponent::AutoPtr td(new TiffDirectory(object->tag(),
+                TiffComponent::UniquePtr td(new TiffDirectory(object->tag(),
                                                             static_cast<IfdId>(object->newGroup_ + i)));
                 td->setStart(pData_ + baseOffset() + offset);
-                object->addChild(td);
+                object->addChild(std::move(td));
             }
         }
 #ifndef SUPPRESS_WARNINGS
@@ -1434,10 +1434,10 @@ namespace Exiv2 {
 
         // Modify reader for Makernote peculiarities, byte order and offset
         object->mnOffset_ = static_cast<uint32_t>(object->start() - pData_);
-        TiffRwState::AutoPtr state(
+        TiffRwState::UniquePtr state(
             new TiffRwState(object->byteOrder(), object->baseOffset())
         );
-        changeState(state);
+        changeState(std::move(state));
 
     } // TiffReader::visitIfdMakernote
 
@@ -1528,11 +1528,11 @@ namespace Exiv2 {
                 size = 0;
             }
         }
-        Value::AutoPtr v = Value::create(typeId);
+        Value::UniquePtr v = Value::create(typeId);
         assert(v.get());
         v->read(pData, size, byteOrder());
 
-        object->setValue(v);
+        object->setValue(std::move(v));
         object->setData(pData, size);
         object->setOffset(offset);
         object->setIdx(nextIdx(object->group()));
@@ -1627,11 +1627,11 @@ namespace Exiv2 {
         ByteOrder bo = object->elByteOrder();
         if (bo == invalidByteOrder) bo = byteOrder();
         TypeId typeId = toTypeId(object->elDef()->tiffType_, object->tag(), object->group());
-        Value::AutoPtr v = Value::create(typeId);
+        Value::UniquePtr v = Value::create(typeId);
         assert(v.get());
         v->read(pData, size, bo);
 
-        object->setValue(v);
+        object->setValue(std::move(v));
         object->setOffset(0);
         object->setIdx(nextIdx(object->group()));
 

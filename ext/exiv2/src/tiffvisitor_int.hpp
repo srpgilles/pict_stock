@@ -589,7 +589,7 @@ namespace Exiv2 {
         friend class TiffReader;
     public:
         //! TiffRWState auto_ptr type
-        typedef std::auto_ptr<TiffRwState> AutoPtr;
+        typedef std::unique_ptr<TiffRwState> UniquePtr;
 
         //! @name Creators
         //@{
@@ -647,7 +647,7 @@ namespace Exiv2 {
         TiffReader(const byte*          pData,
                    uint32_t             size,
                    TiffComponent*       pRoot,
-                   TiffRwState::AutoPtr state);
+                   TiffRwState::UniquePtr state);
 
         //! Virtual destructor
         virtual ~TiffReader();
@@ -683,7 +683,7 @@ namespace Exiv2 {
         //! Read a TiffDataEntryBase from the data buffer
         void readDataEntryBase(TiffDataEntryBase* object);
         //! Set the \em state class. Assumes ownership of the object passed in.
-        void changeState(TiffRwState::AutoPtr state);
+        void changeState(TiffRwState::UniquePtr state);
         //! Reset the state to the original state as set in the constructor.
         void resetState();
         //! Check IFD directory pointer \em start for circular reference

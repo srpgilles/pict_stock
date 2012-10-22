@@ -173,7 +173,7 @@ namespace Exiv2 {
 
     /*!
       @brief Auxiliary type to enable copies and assignments, similar to
-             std::auto_ptr_ref. See http://www.josuttis.com/libbook/auto_ptr.html
+             std::unique_ptr_ref. See http://www.josuttis.com/libbook/unique_ptr.html
              for a discussion.
      */
     struct EXIV2API DataBufRef {
@@ -201,7 +201,7 @@ namespace Exiv2 {
         DataBuf(const byte* pData, long size);
         /*!
           @brief Copy constructor. Transfers the buffer to the newly created
-                 object similar to std::auto_ptr, i.e., the original object is
+                 object similar to std::unique_ptr, i.e., the original object is
                  modified.
          */
         DataBuf(DataBuf& rhs);
@@ -213,7 +213,7 @@ namespace Exiv2 {
         //@{
         /*!
           @brief Assignment operator. Transfers the buffer and releases the
-                 buffer at the original object similar to std::auto_ptr, i.e.,
+                 buffer at the original object similar to std::unique_ptr, i.e.,
                  the original object is modified.
          */
         DataBuf& operator=(DataBuf& rhs);
@@ -237,8 +237,8 @@ namespace Exiv2 {
           @name Conversions
 
           Special conversions with auxiliary type to enable copies
-          and assignments, similar to those used for std::auto_ptr.
-          See http://www.josuttis.com/libbook/auto_ptr.html for a discussion.
+          and assignments, similar to those used for std::unique_ptr.
+          See http://www.josuttis.com/libbook/unique_ptr.html for a discussion.
          */
         //@{
         DataBuf(DataBufRef rhs) : pData_(rhs.p.first), size_(rhs.p.second) {}

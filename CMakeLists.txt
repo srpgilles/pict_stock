@@ -24,9 +24,15 @@ if (UNIX)
     	ADD_DEFINITIONS( "-DHAS_BOOST" )
     	ADD_DEFINITIONS( "-DUSE_BOOST_REGULAR_EXPR" )
 	ENDIF()
-	
-	
 endif(UNIX)
+
+FIND_PACKAGE(Qt4 REQUIRED)
+
+# the next line sets up include and link directories and defines some variables that we will use.
+# you can modify the behavior by setting some variables, e.g.
+#   set(QT_USE_OPENGL TRUE)
+# -> this will cause cmake to include and link against the OpenGL module
+include(${QT_USE_FILE})
 
 add_subdirectory(src)
 

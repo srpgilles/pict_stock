@@ -7,6 +7,7 @@ add_subdirectory(pict_frame)
 add_subdirectory(tools)
 
 
+
 add_executable(PictStock
 	main.cpp
 )
@@ -25,6 +26,7 @@ target_link_libraries(PictFrame
 	tools
 	photo_directory
 	pict_frame
+	${QT_LIBRARIES}
 )
 
 

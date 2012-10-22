@@ -6,7 +6,7 @@
 #include "extended_photo/cameras.hpp"
 #include "photo_directory/private/path_format_helpers.hpp"
 #include "pict_frame/pict_frame.hpp"
-
+#include <QApplication>
 
 using namespace Yuni;
 using namespace PictStock;
@@ -52,6 +52,8 @@ namespace
 
 int main(int argc, char* argv[])
 {
+	QApplication app(argc, argv);
+
 	LoggingFacility logs;
 
 	GetOpt::Parser parser;
@@ -129,6 +131,8 @@ int main(int argc, char* argv[])
 			parameters["outputFolder"], nbPhotos, beginDate, endDate,
 			mode, isChronological);
 
+
+
 	}
 	catch(const std::exception& e)
 	{
@@ -136,5 +140,5 @@ int main(int argc, char* argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	return 0;
+    return app.exec();
 }

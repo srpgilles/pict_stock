@@ -1,13 +1,12 @@
-#include "tab_sort_photos.hpp"
+#include "tab_change_date.hpp"
 
 namespace PictStock
 {
 namespace Gui
 {
 
-    TabSortPhotos::TabSortPhotos()
+    TabChangeDate::TabChangeDate()
     { }
-
 
 
 } // namespace Gui

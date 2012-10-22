@@ -2,10 +2,10 @@
 # define _MAIN_WINDOW_HPP
 
 # include <QMainWindow>
-# include <QWidget>
-# include <QStatusBar>
-# include <QTabWidget>
 
+class QHBoxLayout;
+class QWidget;
+class QStatusBar;
 
 namespace PictStock
 {
@@ -13,9 +13,10 @@ namespace Gui
 {
     class TabPictFrame;
     class TabSortPhotos;
+    class TabPhotographersCameras;
+    class TabChangeDate;
 
-
-    class MainWindow : public QMainWindow
+    class MainWindow : public ::QMainWindow
     {
     public:
 
@@ -28,11 +29,21 @@ namespace Gui
 
     private:
 
+        /*!
+        ** \brief Creates the tab manager
+        */
+        void createTabManager();
+
+    private:
+
         //! Central area
         QWidget* pCentralArea;
 
         //! Status bar
         QStatusBar* pStatusBar;
+
+        //! Tab layout
+        QHBoxLayout* pTabLayout;
 
         //! Tab manager
         QTabWidget* pTabManager;
@@ -42,6 +53,12 @@ namespace Gui
 
         //! Tab related to SortPhotos
         TabSortPhotos* pTabSortPhotos;
+
+        //! Tab related to Photographers and cameras
+        TabPhotographersCameras* pTabPhotographersCameras;
+
+        //! Tab related to date modification
+        TabChangeDate* pTabChangeDate;
 
     };
 

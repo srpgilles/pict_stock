@@ -1,23 +1,21 @@
-#ifndef _TAB_PICT_FRAME_HPP
-# define _TAB_PICT_FRAME_HPP
+#ifndef _TAB_CHANGE_DATE_HPP_
+# define _TAB_CHANGE_DATE_HPP_
 
 # include <QWidget>
-
-
 
 namespace PictStock
 {
 namespace Gui
 {
 
-    class TabPictFrame : public ::QWidget
+    class TabChangeDate : public ::QWidget
     {
     public:
 
         //! Constructors
         //@{
         //
-        TabPictFrame();
+        TabChangeDate();
 
         //@}
 
@@ -32,4 +30,4 @@ namespace Gui
 } // namespace Gui
 } // namespace PictStock
 
-#endif // _TAB_PICT_FRAME_HPP
+#endif // _TAB_CHANGE_DATE_HPP_

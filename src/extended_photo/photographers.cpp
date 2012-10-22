@@ -32,7 +32,7 @@ namespace ExtendedPhoto
 				database.select(buf, command);
 				pData.reserve(buf.size());
 
-				std::for_each(buf.begin(), buf.end(), [&pData](const TupleWrappedType& tuple)
+                std::for_each(buf.begin(), buf.end(), [this](const TupleWrappedType& tuple)
 					{
 						pData.push_back(new Photographer(tuple));
 					}

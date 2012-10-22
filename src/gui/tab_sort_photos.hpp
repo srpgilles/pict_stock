@@ -10,7 +10,7 @@ namespace PictStock
 namespace Gui
 {
 
-    class TabSortPhotos : public QWidget
+    class TabSortPhotos : public ::QWidget
     {
     public:
 

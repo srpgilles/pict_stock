@@ -1657,7 +1657,7 @@ namespace Exiv2 {
     {
         ok_ = (value_[n].second != 0);
         if (!ok_) return 0.0f;
-        return static_cast<float>(value_[n].first) / value_[n].second;
+        return static_cast<float>(value_[n].first) / static_cast<float>(value_[n].second);
     }
     // Specialization for unsigned rational
     template<>
@@ -1665,7 +1665,7 @@ namespace Exiv2 {
     {
         ok_ = (value_[n].second != 0);
         if (!ok_) return 0.0f;
-        return static_cast<float>(value_[n].first) / value_[n].second;
+        return static_cast<float>(value_[n].first) / static_cast<float>(value_[n].second);
     }
     // Default implementation
     template<typename T>

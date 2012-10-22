@@ -364,7 +364,7 @@ namespace Exiv2 {
     void TiffEntryBase::setData(DataBuf buf)
     {
         std::pair<byte*, long> p = buf.release();
-        setData(p.first, p.second);
+        setData(p.first, static_cast<uint32_t>(p.second));
         isMalloced_ = true;
     }
 
@@ -381,12 +381,12 @@ namespace Exiv2 {
     void TiffEntryBase::updateValue(Value::AutoPtr value, ByteOrder byteOrder)
     {
         if (value.get() == 0) return;
-        uint32_t newSize = value->size();
+        uint32_t newSize = static_cast<uint32_t>(value->size());
         if (newSize > size_) {
             setData(DataBuf(newSize));
         }
         memset(pData_, 0x0, size_);
-        size_ = value->copy(pData_, byteOrder);
+        size_ = static_cast<uint32_t>(value->copy(pData_, byteOrder));
         assert(size_ == newSize);
         setValue(value);
     } // TiffEntryBase::updateValue
@@ -395,7 +395,7 @@ namespace Exiv2 {
     {
         if (value.get() == 0) return;
         tiffType_ = toTiffType(value->typeId());
-        count_ = value->count();
+        count_ = static_cast<uint32_t>(value->count());
         delete pValue_;
         pValue_ = value.release();
     } // TiffEntryBase::setValue
@@ -567,7 +567,7 @@ namespace Exiv2 {
     uint32_t ArrayDef::size(uint16_t tag, IfdId group) const
     {
         TypeId typeId = toTypeId(tiffType_, tag, group);
-        return count_ * TypeInfo::typeSize(typeId);
+        return static_cast<uint32_t>(count_ * TypeInfo::typeSize(typeId));
     }
 
     bool TiffBinaryArray::initialize(IfdId group)
@@ -1062,7 +1062,7 @@ namespace Exiv2 {
             typeSize = 1;
         }
 
-        return static_cast<uint32_t>(static_cast<double>(size()) / typeSize + 0.5);
+        return static_cast<uint32_t>(static_cast<double>(size()) / static_cast<double>(typeSize) + 0.5);
     }
 
     uint32_t TiffBinaryElement::doCount() const
@@ -1257,7 +1257,7 @@ namespace Exiv2 {
         DataBuf buf(pValue_->size());
         pValue_->copy(buf.pData_, byteOrder);
         ioWrapper.write(buf.pData_, buf.size_);
-        return buf.size_;
+        return static_cast<uint32_t>(buf.size_);
     } // TiffEntryBase::doWrite
 
     uint32_t TiffEntryBase::writeOffset(byte*     buf,
@@ -1270,11 +1270,11 @@ namespace Exiv2 {
         case ttUnsignedShort:
         case ttSignedShort:
             if (static_cast<uint32_t>(offset) > 0xffff) throw Error(26);
-            rc = s2Data(buf, static_cast<int16_t>(offset), byteOrder);
+            rc = static_cast<uint32_t>(s2Data(buf, static_cast<int16_t>(offset), byteOrder));
             break;
         case ttUnsignedLong:
         case ttSignedLong:
-            rc = l2Data(buf, static_cast<int32_t>(offset), byteOrder);
+            rc = static_cast<uint32_t>(l2Data(buf, static_cast<int32_t>(offset), byteOrder));
             break;
         default:
             throw Error(27);
@@ -1299,12 +1299,12 @@ namespace Exiv2 {
             const long newDataIdx =   pValue()->toLong(i) - prevOffset
                                     + static_cast<long>(dataIdx);
             idx += writeOffset(buf.pData_ + idx,
-                               offset + newDataIdx,
+                               static_cast<int32_t>(offset + newDataIdx),
                                tiffType(),
                                byteOrder);
         }
         ioWrapper.write(buf.pData_, buf.size_);
-        return buf.size_;
+        return static_cast<uint32_t>(buf.size_);
     } // TiffDataEntry::doWrite
 
     uint32_t TiffImageEntry::doWrite(IoWrapper& ioWrapper,
@@ -1336,7 +1336,7 @@ namespace Exiv2 {
             }
         }
         ioWrapper.write(buf.pData_, buf.size_);
-        return buf.size_;
+        return static_cast<uint32_t>(buf.size_);
     } // TiffImageEntry::doWrite
 
     uint32_t TiffSubIfd::doWrite(IoWrapper& ioWrapper,
@@ -1355,7 +1355,7 @@ namespace Exiv2 {
             dataIdx += (*i)->size();
         }
         ioWrapper.write(buf.pData_, buf.size_);
-        return buf.size_;
+        return static_cast<uint32_t>(buf.size_);
     } // TiffSubIfd::doWrite
 
     uint32_t TiffMnEntry::doWrite(IoWrapper& ioWrapper,
@@ -1413,10 +1413,10 @@ namespace Exiv2 {
             long elSize = TypeInfo::typeSize(toTypeId(cfg()->elTiffType_, 0, cfg()->group_));
             switch (elSize) {
             case 2:
-                idx += us2Data(buf, size(), byteOrder);
+                idx += static_cast<uint32_t>(us2Data(buf, static_cast<uint16_t>(size()), byteOrder)); // this cast is terrible (size is uint32) but done implicitly anyway, so I'd rather get rid of the warning
                 break;
             case 4:
-                idx += ul2Data(buf, size(), byteOrder);
+                idx += static_cast<uint32_t>(ul2Data(buf, size(), byteOrder));
                 break;
             default:
                 assert(false);
@@ -1462,7 +1462,7 @@ namespace Exiv2 {
         DataBuf buf(pv->size());
         pv->copy(buf.pData_, byteOrder);
         ioWrapper.write(buf.pData_, buf.size_);
-        return buf.size_;
+        return static_cast<uint32_t>(buf.size_);
     } // TiffBinaryElement::doWrite
 
     uint32_t TiffComponent::writeData(IoWrapper& ioWrapper,
@@ -1524,7 +1524,7 @@ namespace Exiv2 {
         uint32_t align = (buf.size_ & 1);
         if (align) ioWrapper.putb(0x0);
 
-        return buf.size_ + align;
+        return static_cast<uint32_t>(buf.size_ + align);
     } // TiffDataEntry::doWriteData
 
     uint32_t TiffSubIfd::doWriteData(IoWrapper& ioWrapper,
@@ -1612,7 +1612,7 @@ namespace Exiv2 {
     uint32_t TiffImageEntry::doWriteImage(IoWrapper& ioWrapper,
                                           ByteOrder  /*byteOrder*/) const
     {
-        uint32_t len = pValue()->sizeDataArea();
+        uint32_t len = static_cast<uint32_t>(pValue()->sizeDataArea());
         if (len > 0) {
 #ifdef DEBUG
             std::cerr << "TiffImageEntry, Directory " << groupName(group())
@@ -1739,7 +1739,7 @@ namespace Exiv2 {
     uint32_t TiffBinaryElement::doSize() const
     {
         if (!pValue()) return 0;
-        return pValue()->size();
+        return static_cast<uint32_t>(pValue()->size());
     } // TiffBinaryElement::doSize
 
     uint32_t TiffComponent::sizeData() const
@@ -1771,7 +1771,7 @@ namespace Exiv2 {
     uint32_t TiffDataEntry::doSizeData() const
     {
         if (!pValue()) return 0;
-        return pValue()->sizeDataArea();
+        return static_cast<uint32_t>(pValue()->sizeDataArea());
     } // TiffDataEntry::doSizeData
 
     uint32_t TiffSubIfd::doSizeData() const
@@ -1828,7 +1828,7 @@ namespace Exiv2 {
     uint32_t TiffImageEntry::doSizeImage() const
     {
         if (!pValue()) return 0;
-        uint32_t len = pValue()->sizeDataArea();
+        uint32_t len = static_cast<uint32_t>(pValue()->sizeDataArea());
         if (len == 0) {
             for (Strips::const_iterator i = strips_.begin(); i != strips_.end(); ++i) {
                 len += i->second;

@@ -13,6 +13,7 @@
 #include "tab_change_date.hpp"
 #include "tab_photographers_cameras.hpp"
 
+
 namespace PictStock
 {
 namespace Gui
@@ -20,6 +21,7 @@ namespace Gui
 
     MainWindow::MainWindow()
         : QMainWindow(),
+          pDb(nullptr),
           pCentralArea(nullptr),
           pStatusBar(nullptr),
           pTabLayout(nullptr),
@@ -29,7 +31,7 @@ namespace Gui
           pTabPhotographersCameras(nullptr),
           pTabChangeDate(nullptr)
     {
-        resize(640, 480);
+        resize(640, 480);       
 
         pCentralArea = new QWidget(this);
         pStatusBar = statusBar();
@@ -37,6 +39,7 @@ namespace Gui
         createMenuBar();
         createTabManager();
         setCentralWidget(pCentralArea);
+        loadDatabaseWhenStarting();
     }
 
 
@@ -60,6 +63,7 @@ namespace Gui
         databaseMenu->addAction(loadAction);
         databaseMenu->addAction(saveCopyAction);
     }
+
 
     void MainWindow::menuQuit(QMenuBar &menuBar)
     {
@@ -95,6 +99,7 @@ namespace Gui
         pTabLayout->addWidget(pTabManager);
         pCentralArea->setLayout(pTabLayout);
     }
+
 
 
 } // namespace Gui

@@ -1,6 +1,7 @@
 add_library(gui_pict_stock STATIC
 
     main_window.cpp
+    main_window_db_operations.cpp
     main_window.hpp
     tab_photographers_cameras.cpp
     tab_photographers_cameras.hpp
@@ -15,5 +16,7 @@ add_library(gui_pict_stock STATIC
 
 target_link_libraries(gui_pict_stock
     ${QT_LIBRARIES}
+    tools
+    yuni-static-core
 )
 

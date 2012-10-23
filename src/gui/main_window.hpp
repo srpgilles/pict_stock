@@ -2,11 +2,16 @@
 # define _MAIN_WINDOW_HPP
 
 # include <QMainWindow>
+# include <memory>
+
+# include "../tools/sqlite_wrapper.hpp"
+# include <yuni/core/string.h>
 
 class QHBoxLayout;
 class QWidget;
 class QStatusBar;
 class QMenuBar;
+
 
 namespace PictStock
 {
@@ -31,6 +36,19 @@ namespace Gui
     private:
 
         /*!
+        ** \brief Load the sqlite database when starting the application
+        **
+        ** If existing, load the default one, otherwise prompt the user
+        ** to ask whether a default one should be created or to make him
+        ** give the path to a valid one
+        **/
+        void loadDatabaseWhenStarting();
+
+
+        /*! \brief Load the sqlite file given in argument */
+        bool loadSqliteFile(const YString& sqlite);
+
+        /*!
         ** \brief Creates the tab manager
         */
         void createTabManager();
@@ -52,6 +70,9 @@ namespace Gui
         void menuQuit(QMenuBar& menuBar);
 
     private:
+
+        //! Sqlite access
+        std::unique_ptr<GenericTools::SqliteWrapper> pDb;
 
         //! Central area
         QWidget* pCentralArea;

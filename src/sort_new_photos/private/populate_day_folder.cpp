@@ -6,7 +6,7 @@
 #include "populate_day_folder.hpp"
 #include "../../photo_directory/path_format.hpp"
 #include "../../tools/numeration.hpp"
-#include "../../extended_photo/cameras.hpp"
+#include "../../database/cameras.hpp"
 
 using namespace Yuni;
 
@@ -190,7 +190,7 @@ namespace Private
 
 		if (!alreadyShown)
 		{
-			logs.warning("[DEV] Do not remove input files");
+			logs.warning("[DEV] Do not remove input files");
 			alreadyShown = true;
 		}
 		#else

@@ -3,7 +3,7 @@
 #include <ctime>
 //# include "tools/numeration.hpp"
 
-#include "extended_photo/cameras.hpp"
+#include "database/cameras.hpp"
 #include "tools/sqlite_wrapper.hpp"
 #include "tools/tools.hpp"
 #include <ostream>

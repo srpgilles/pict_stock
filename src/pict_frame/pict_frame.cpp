@@ -4,7 +4,7 @@
 #include <yuni/core/math/random/default.h>
 #include "../photo_directory/path_format.hpp"
 #include "../tools/numeration.hpp"
-#include "../extended_photo/cameras.hpp"
+#include "../database/cameras.hpp"
 
 
 using namespace Yuni;
@@ -25,7 +25,7 @@ namespace PictFrame
 		 ** "Almost homogeneously" because we respect the exact number of indexes
 		 ** requested and therefore delete a few if sequence generated was too long
 		 **
-		 ** \param[out] out Subset generated
+		 ** \param[out] out Subset generated
 		 ** \param[in] poolSize Size of the original pool from which subset will be formed
 		 ** \param[in] subsetSize Requested size for the subset. Must be strictly lower
 		 ** than poolSize (other cases should have been handled in another part of the code)

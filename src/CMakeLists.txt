@@ -5,6 +5,7 @@ add_subdirectory(photo_directory)
 add_subdirectory(sort_new_photos)
 add_subdirectory(pict_frame)
 add_subdirectory(tools)
+add_subdirectory(database)
 add_subdirectory(gui)
 
 
@@ -16,6 +17,7 @@ add_executable(SortPhotos
 target_link_libraries(SortPhotos
 	sort_new_photos
 	tools
+    pict_stock_database
 )
 
 
@@ -27,6 +29,7 @@ target_link_libraries(PictFrame
 	tools
 	photo_directory
 	pict_frame
+    pict_stock_database
 	${QT_LIBRARIES}
 )
 
@@ -38,6 +41,7 @@ add_executable(createPhotographerDatabase
 target_link_libraries(createPhotographerDatabase
 	tools
 	sqlite3
+    pict_stock_database
 )
 
 
@@ -47,6 +51,7 @@ add_executable(PictStock
 
 target_link_libraries(PictStock
     gui_pict_stock
+    pict_stock_database
     ${QT_LIBRARIES}
 )
 
@@ -61,6 +66,7 @@ target_link_libraries(dev
 	tools
 	sqlite3
 	yuni-static-core
+    pict_stock_database
 )
 
 

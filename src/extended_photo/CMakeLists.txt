@@ -10,18 +10,8 @@ add_library(extended_photo STATIC
 	path_informations.cpp
 	path_informations.hpp
 	path_informations.hxx
-	cameras.cpp
-	cameras.hpp
-	cameras.hxx		
-	photographers.cpp
-	photographers.hpp
-	photographers.hxx	
-	private/helpers.hpp
-	private/date_helpers.hpp
-	private/photographer_helpers.hpp
-	photographer.cpp
-	photographer.hpp
-	photographer.hxx
+    private/date_helpers.hpp
+    private/photographer_helpers.hpp
 )
 
 target_link_libraries(extended_photo

@@ -3,7 +3,7 @@
 #include "tools/exceptions.hpp"
 #include "tools/sqlite_wrapper.hpp"
 #include "extended_photo/date.hpp"
-#include "extended_photo/cameras.hpp"
+#include "database/cameras.hpp"
 #include "photo_directory/private/path_format_helpers.hpp"
 #include "pict_frame/pict_frame.hpp"
 #include <QApplication>

@@ -1,6 +1,6 @@
 #include "sort_new_photos_iterator.hpp"
 #include "../../photo_directory/path_format.hpp"
-#include "../../extended_photo/cameras.hpp"
+#include "../../database/cameras.hpp"
 
 
 # ifdef USE_BOOST_REGULAR_EXPR

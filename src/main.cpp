@@ -1,7 +1,7 @@
 #include "sort_new_photos/sort_new_photos.hpp"
 #include <yuni/core/getopt.h>
 #include "tools/read_parameter_file.hpp"
-#include "extended_photo/cameras.hpp"
+#include "database/cameras.hpp"
 #include "tools/sqlite_wrapper.hpp"
 
 using namespace Yuni;

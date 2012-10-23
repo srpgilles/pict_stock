@@ -2,7 +2,7 @@
 #include "../../photo_directory/path_format.hpp"
 #include "../../extended_photo/path_informations.hpp"
 #include "../../extended_photo/extended_photo.hpp"
-#include "../../extended_photo/cameras.hpp"
+#include "../../database/cameras.hpp"
 
 using namespace Yuni;
 

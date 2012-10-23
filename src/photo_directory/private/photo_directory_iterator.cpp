@@ -1,7 +1,7 @@
 #include "photo_directory_iterator.hpp"
 #include "../path_format.hpp"
 #include "../../extended_photo/path_informations.hpp"
-#include "../../extended_photo/cameras.hpp"
+#include "../../database/cameras.hpp"
 
 using namespace Yuni;
 

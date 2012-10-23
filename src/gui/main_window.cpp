@@ -1,7 +1,10 @@
+# include <QApplication>
 # include <QWidget>
 # include <QStatusBar>
 # include <QTabWidget>
 # include <QHBoxLayout>
+# include <QMenu>
+# include <QMenuBar>
 # include <cassert>
 
 #include "main_window.hpp"
@@ -31,8 +34,40 @@ namespace Gui
         pCentralArea = new QWidget(this);
         pStatusBar = statusBar();
 
-        createTabManager(); // to call before setCentralWidget()
+        createMenuBar();
+        createTabManager();
         setCentralWidget(pCentralArea);
+    }
+
+
+    void MainWindow::createMenuBar()
+    {
+        QMenuBar* menuBarPtr = menuBar();
+        QMenuBar& menuBar = *menuBarPtr;
+
+        menuDatabase(menuBar);
+        menuQuit(menuBar);
+    }
+
+
+    void MainWindow::menuDatabase(QMenuBar &menuBar)
+    {
+        // Operations upon database (save a copy, change)
+        QMenu* databaseMenu = menuBar.addMenu(tr("Database"));
+
+        QAction* loadAction = new QAction(tr("Load new database"), this);
+        QAction* saveCopyAction = new QAction(tr("Save copy of the database"), this);
+        databaseMenu->addAction(loadAction);
+        databaseMenu->addAction(saveCopyAction);
+    }
+
+    void MainWindow::menuQuit(QMenuBar &menuBar)
+    {
+        QMenu* quitMenu = menuBar.addMenu(tr("Quit"));
+
+        QAction* quitAction = new QAction(tr("Quit"), this);
+        quitMenu->addAction(quitAction);
+        connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     }
 
 

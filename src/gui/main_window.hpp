@@ -6,6 +6,7 @@
 class QHBoxLayout;
 class QWidget;
 class QStatusBar;
+class QMenuBar;
 
 namespace PictStock
 {
@@ -33,6 +34,22 @@ namespace Gui
         ** \brief Creates the tab manager
         */
         void createTabManager();
+
+        /**
+        ** \brief Create the menu bar
+        */
+        void createMenuBar();
+
+        /**
+        ** \brief Create the menu related to database operations
+        */
+        void menuDatabase(QMenuBar& menuBar);
+
+
+        /**
+        ** \brief Create the menu related to quit action
+        */
+        void menuQuit(QMenuBar& menuBar);
 
     private:
 

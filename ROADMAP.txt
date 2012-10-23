@@ -28,19 +28,3 @@ v0.5
 	introduce or remove cameras and photographers)
 	. Add language support (using QT facilities for that)
 	
-v0.6
-	. Clean exiv2 library: 
-		- Currently the evix2 library is a copy done at a moment that has been
-		tweaked a bit for my need (only compilation-related). 
-		- The Windows compilation peculiarly is a scary process that need some work
-		- Many warnings in compilation that are bothersome when compiling PictStock;
-		maybe work a bit on them and propose a path to exiv2 guys if not solved 
-		(I posted a ticket on their forum but exiv2 seems in development hell...)
-	
-Future
-	. Some modifications when all compilers I use (g++, clang, MSVC) implement all the
-	C++11 features I want to use
-	. See if multithreading can be introduced
-	. Redmine (GitHub project manager is too scarce and cumbersome to use; I gave up)
-	
-

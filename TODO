@@ -1,0 +1,43 @@
+This file intends to give several small tasks to do that are not directory release features (so for instance creating the Qt interface is not there as it is the goal of release 0.5). Each of this task will be a ticket the day I take the time to provide a Redmine for Pict Stock.
+
+The tasks are not ordered here
+
+
+. Cross-platform compatibility
+
+The purpose of PictStock is to be cross-platform, but I have actually derived much from this goal, mainly because I wanted to play with neww C++11 tools such as lambda functions.
+
+So currently:
+   . v0.4 runs for sure with g++ 4.5 and 4.7. g++ 4.6 fails due to incompatibility with Yuni library (due to GNU fault according to Yuni developers)
+   . v0.5 (in development) runs only with 4.7, but for a trifle: nullptr isn't present in 4.5 and I didn't call Yuni ones in Gui implementation. Can be fixed any time
+   . clang no longer works: I introduced lambda functions in v0.4 and they are not supported until clang 3.1. For some reason, clang3.1 doesn't fare well with my libstdc++; I have not investigated this in depth
+   . Visual Studio compilation hasn't been checked for some time.
+
+
+. Redmine
+
+I should see how to deploy a Redmine facility, which would be a huge improvement over either files like this or the very poor interface provided by GitHub.
+
+. Exif library
+
+PictStock is plagued by error messages that stem from exiv2 library; I guess they compile with sloppy warning options.
+So I should either corrected them (I have begun this out of weariness but this is a very huge task: there are many unwise stuff done in exiv2) or use a different exif library.
+
+If exiv2 is kept, some work should be done in MSVC compilation: their CMake is indicated as experimental and truly is... svn update should also be done for exiv2 (not done as I had to tweaked their CMake to make it work within my project).
+
+
+. Profiling
+
+Do some profiling to identify the bottlenecks in my code. related to previous point, several exif libraries should be tested (the tests I did some time ago pointed to most of the time spent in exiv2 functionalities).
+
+
+. Review code
+  . Some containers may not be the wisest choice (it is obviously the case in SqliteWrapper; it won't be long to change that but I'd ratehr go on on new development at the moment)
+  . Update some code as soon as newest version of compilers or libraries are available (for instance new connect in Qt5 is much cleaner than current one; new C++11 feature support should also be reported)
+
+
+. Future
+  . Unit test
+  . See to what extent multithreading might be introduced (could be appealing for instance for some operations such as scanning all directories)
+
+

@@ -60,7 +60,7 @@ namespace Private
 		** \param[in] summaryFile File in which all operations will be saved
 		*/
 		PopulateDayFolder(LoggingFacility& logs,
-			const ExtendedPhoto::Cameras& cameras,
+			const Database::Cameras& cameras,
 			const PhotoDirectory::PathFormat& pathFormat,
 			const YString& targetFolder,
 			const ExtendedPhoto::PathInformations& targetInfos,
@@ -138,7 +138,7 @@ namespace Private
 		const YString& pSummaryFile;
 
 		//! Object that keeps all known cameras under check
-		const ExtendedPhoto::Cameras& pCameras;
+		const Database::Cameras& pCameras;
 	};
 
 

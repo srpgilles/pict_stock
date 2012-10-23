@@ -14,7 +14,7 @@ namespace Private
 
 
 	PhotoDirectoryIterator::PhotoDirectoryIterator(LoggingFacility& logs,
-		const ExtendedPhoto::Cameras& cameras, const PathFormat& pathFormat)
+		const Database::Cameras& cameras, const PathFormat& pathFormat)
 		: logs(logs),
 		  pFolderCount(0u),
 		  pValidFolderCount(0u),

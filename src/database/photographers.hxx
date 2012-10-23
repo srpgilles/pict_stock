@@ -3,11 +3,11 @@
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 
 
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace pictStock
 
 

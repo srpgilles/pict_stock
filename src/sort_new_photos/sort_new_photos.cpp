@@ -10,7 +10,7 @@ namespace SortNewPhotos
 {
 
 	SortNewPhotos::SortNewPhotos(LoggingFacility& logs,
-		const ExtendedPhoto::Cameras& cameras,
+		const Database::Cameras& cameras,
 		const String& inputDirectory,
 		PhotoDirectory::PhotoDirectory& photoDirectory,
 		const String& summaryFile,

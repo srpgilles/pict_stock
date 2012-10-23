@@ -7,7 +7,7 @@
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 namespace TablePhotographers
 {
@@ -41,7 +41,7 @@ namespace TablePhotographers
 	typedef Private::TupleWrappedType<Tuple>::type TupleWrappedType;
 
 } // namespace TablePhotographers
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace PictStock
 
 

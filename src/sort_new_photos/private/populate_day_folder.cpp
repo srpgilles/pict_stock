@@ -19,7 +19,7 @@ namespace Private
 
 
 	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs,
-		const ExtendedPhoto::Cameras& cameras,
+		const Database::Cameras& cameras,
 		const PhotoDirectory::PathFormat& pathFormat,
 		const YString& targetFolder,
 		const ExtendedPhoto::PathInformations& targetInfos,

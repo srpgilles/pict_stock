@@ -3,7 +3,7 @@
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 
 	inline bool operator==(const Photographer& lhs, const Photographer& rhs)
@@ -36,7 +36,7 @@ namespace ExtendedPhoto
 	}
 
 
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace PictStock
 
 #endif /* PHOTOGRAPHER_HXX_ */

@@ -5,7 +5,7 @@
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 namespace Private
 {
@@ -19,7 +19,7 @@ namespace Private
 	**
 	** I want to be able to be able to distinguish between those data, so a wrapper class is
 	** added. So for instance if columns are
-	** 	"Foo" [ type std::string ], 
+	** 	"Foo" [ type std::string ], 
 	** 	"Bar" [ type YString ]
 	** 	"Baz" [ type YString ],
 	** I create a struct for each of them (conveniently named Foo, Bar, Baz)
@@ -33,7 +33,7 @@ namespace Private
 	** The initial types are wrapped in those tuples; so for instance Foo::WrappedType yields std::string
 	**
 	** TupleWrappedType structure yields the wrapped type as a tuple.
-	**  So TupleWrappedType<TupleT>::WrappedType is a tuple { std::string, YString, YString } in the example.
+	**  So TupleWrappedType<TupleT>::WrappedType is a tuple { std::string, YString, YString } in the example.
 	**
 	** TupleFields::FieldNames(std::vector<YString>& fields) enables to obtain the names of the column
 	** ({"Foo", "Bar", "Baz"} in our example
@@ -119,10 +119,10 @@ namespace Private
 
 
 } // namespace Private
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace PictStock
 
 
 
 
-#endif /* CAMERA_HELPERS_HPP_ */
+#endif /* HELPERS_HPP_ */

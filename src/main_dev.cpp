@@ -147,10 +147,10 @@ int main(int argc, char* argv[])
 
 	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
 
-	typedef PictStock::ExtendedPhoto::Cameras::Tuple Tuple;
+	typedef PictStock::Database::Cameras::Tuple Tuple;
 
 	std::cout << std::tuple_size<Tuple>::value << '\n';
-	typedef PictStock::ExtendedPhoto::Private::TupleWrappedType<Tuple>::type Strings;
+    typedef PictStock::Database::Private::TupleWrappedType<Tuple>::type Strings;
 
 
 	std::cout << std::tuple_size<Strings>::value << '\n';
@@ -159,12 +159,12 @@ int main(int argc, char* argv[])
 	db.select(pRows, "Keyword,Value,Owner FROM Cameras ORDER BY Keyword");
 
 	std::vector<YString> fieldNames;
-	PictStock::ExtendedPhoto::Private::TupleFields<Tuple>::FieldNames(fieldNames);
+    Database::Private::TupleFields<Tuple>::FieldNames(fieldNames);
 
 	for (auto it = fieldNames.cbegin(), end = fieldNames.cend(); it != end; ++it)
 		std::cout << *it << '\n';
 
-	ExtendedPhoto::Cameras cameras(db);
+	Database::Cameras cameras(db);
 
 	cameras.addNewPhotographer("FOO", "BAR", "Baz");
 	cameras.addNewCamera("Foo", "Bar", "Baz");

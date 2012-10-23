@@ -31,18 +31,18 @@ namespace PictFrame
 		/*!
 		** \briefConstructor
 		**
-		** \param[in] logs Logging facility
+		** \param[in] logs Logging facility
 		** \param[in] photoDirectory Folder in which the entire pool of photos considered
 		** is stored
 		** \param[in] outputDirectory Output directory (probably on a photo card such as a SD)
-		** \param[in] pathFormat Path format to identify date from path
+		** \param[in] pathFormat Path format to identify date from path
 		** \param[in] nbPhotos Number of photos requested on the digital frame
 		** \param[in] beginDate Oldest date considered
 		** \param[in] endDate Newest date considered
 		** \param[in] isChronological If true, pictures will be sort chronologically
  		**
 		*/
-		PictFrame(LoggingFacility& logs, const ExtendedPhoto::Cameras& cameras, const YString& pathFormat,
+		PictFrame(LoggingFacility& logs, const Database::Cameras& cameras, const YString& pathFormat,
 			const YString& photoDirectory, const YString& outputDirectory,
 			unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
 			ReadDate::Mode mode, bool isChronological);
@@ -83,7 +83,7 @@ namespace PictFrame
 		std::list<ExtendedPhoto::ExtendedPhoto::Ptr> pPhotosChosen;
 
 		//! Object that keeps all known cameras under check
-		const ExtendedPhoto::Cameras& pCameras;
+		const Database::Cameras& pCameras;
 
 	};
 

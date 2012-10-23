@@ -4,7 +4,7 @@
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 
 	using namespace TablePhotographers;
@@ -87,5 +87,5 @@ namespace ExtendedPhoto
 	}
 
 
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace PictStock

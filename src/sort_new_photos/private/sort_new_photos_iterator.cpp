@@ -49,7 +49,7 @@ namespace Private
 	using namespace Yuni;
 
 	SortNewPhotosIterator::SortNewPhotosIterator(LoggingFacility& logs,
-		const ExtendedPhoto::Cameras& cameras,
+		const Database::Cameras& cameras,
 		const String& inputDirectory,
 		const PhotoDirectory::PathFormat& pathFormat,
 		bool doFolderManualDate)

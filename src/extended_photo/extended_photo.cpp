@@ -11,7 +11,7 @@ namespace PictStock
 namespace ExtendedPhoto
 {
 
-	ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const Cameras& cameras, const String& filename)
+    ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const Database::Cameras& cameras, const String& filename)
 		: logs(logs),
 		  pOriginalPath(filename),
 		  pPathInformations(new PathInformations(logs, cameras)),
@@ -58,7 +58,7 @@ namespace ExtendedPhoto
 		// So we're checking one after another the keywords used by the known cameras
 		const auto& keywords = pCameras.keywords();
 
-		Photographer::Ptr photographerPtr(nullptr);
+        Database::Photographer::Ptr photographerPtr(nullptr);
 
 		for (auto it = keywords.cbegin(), end = keywords.cend(); it != end; ++it)
 		{

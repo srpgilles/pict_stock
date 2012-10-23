@@ -3,7 +3,7 @@
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 
 	inline const std::unordered_set<TableCameras::Keyword::WrappedType>& Cameras::keywords() const
@@ -38,7 +38,7 @@ namespace ExtendedPhoto
 	}
 
 
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace pictStock
 
 

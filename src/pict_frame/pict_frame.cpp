@@ -90,7 +90,7 @@ namespace PictFrame
 
 
 
-	PictFrame::PictFrame(LoggingFacility& logs, const ExtendedPhoto::Cameras& cameras,
+	PictFrame::PictFrame(LoggingFacility& logs, const Database::Cameras& cameras,
 		const YString& strPathFormat,
 		const YString& photoDirectory, const YString& outputDirectory,
 		unsigned int nbPhotos, const time_t beginDate, const time_t endDate,

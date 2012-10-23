@@ -10,7 +10,7 @@
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 
 	/*!
@@ -81,7 +81,7 @@ namespace ExtendedPhoto
 	inline bool operator==(const Photographer& lhs, const Photographer& rhs);
 	inline bool operator!=(const Photographer& lhs, const Photographer& rhs);
 
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace PictStock
 
 #include "photographer.hxx"

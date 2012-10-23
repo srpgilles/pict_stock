@@ -17,7 +17,7 @@ namespace PictStock
 		class PathFormat;
 	}
 
-	namespace ExtendedPhoto
+    namespace Database
 	{
 		class Cameras;
 	}
@@ -72,7 +72,7 @@ namespace Private
 		//@{
 		//! Constructor
 		ScanPhotoDirectory(LoggingFacility& logs,
-			const ExtendedPhoto::Cameras& cameras,
+			const Database::Cameras& cameras,
 			const PhotoDirectory::PathFormat& pathFormat,
 			const YString& photoDirectory,
 			const time_t beginDate, const time_t endDate, ReadDate::Mode mode);
@@ -140,7 +140,7 @@ namespace Private
 		bool pIsValidFolder;
 
 		//! Object that keeps all known cameras under check
-		const ExtendedPhoto::Cameras& pCameras;
+		const Database::Cameras& pCameras;
 
 	};
 

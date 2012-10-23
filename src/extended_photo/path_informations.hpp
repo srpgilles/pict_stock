@@ -13,11 +13,15 @@
 
 namespace PictStock
 {
+    namespace Database
+    {
+        class Cameras;
+    }
+
+
 namespace ExtendedPhoto
 {
-	class Cameras;
-
-	namespace Private
+    namespace Private
 	{
 		//! Tuple of all possible relevant elements in the user-defined format
 		typedef std::tuple<Year, Month, Day, Hour, Minute, Second, PhotographerInformations> TupleType;
@@ -54,7 +58,7 @@ namespace ExtendedPhoto
 		 * \param[in] logs Logging facility
 		 *
 		 */
-		explicit PathInformations(LoggingFacility& logs, const Cameras& cameras);
+        explicit PathInformations(LoggingFacility& logs, const Database::Cameras& cameras);
 
 		//! Recopy constructor
 		PathInformations(const PathInformations& );
@@ -65,7 +69,7 @@ namespace ExtendedPhoto
 		PathInformations& operator = (const PathInformations& );
 
 		//! Set the photographer
-		void setPhotographer(const Photographer::Ptr& photographer);
+        void setPhotographer(const Database::Photographer::Ptr& photographer);
 
 		//! Set the date
 		void setDate(const Date& date);
@@ -140,13 +144,13 @@ namespace ExtendedPhoto
 	private:
 
 		//! Photographer informations
-		Photographer::Ptr pPhotographerPtr;
+        Database::Photographer::Ptr pPhotographerPtr;
 
 		//! Date informations
 		Date pDate;
 
-		//! Object that keeps all known cameras under check
-		const Cameras& pCameras;
+        //! Object that keeps all known Database::Cameras under check
+        const Database::Cameras& pCameras;
 
 	};
 

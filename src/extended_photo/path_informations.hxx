@@ -6,7 +6,7 @@ namespace PictStock
 namespace ExtendedPhoto
 {
 
-	inline void PathInformations::setPhotographer(const Photographer::Ptr& photographer)
+    inline void PathInformations::setPhotographer(const Database::Photographer::Ptr& photographer)
 	{
 		pPhotographerPtr = photographer;
 	}

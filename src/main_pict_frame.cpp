@@ -25,7 +25,7 @@ namespace
 	**/
 
 	void determineTimeLimits(LoggingFacility& logs,
-		const ExtendedPhoto::Cameras& cameras,
+		const Database::Cameras& cameras,
 		time_t& out,
 		const PhotoDirectory::Private::PathFormatHelper& helper,
 		const GenericTools::ReadParameterFile& parameters,
@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
 		GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
-		ExtendedPhoto::Cameras cameras(db);
+		Database::Cameras cameras(db);
 
 
 		PhotoDirectory::Private::PathFormatHelper helper(logs, "%Y-%m-%d");

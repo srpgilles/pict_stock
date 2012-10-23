@@ -20,7 +20,7 @@ namespace GenericTools
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 
 
@@ -83,7 +83,7 @@ namespace ExtendedPhoto
 
 	};
 
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace PictStock
 
 # include "photographers.hxx"

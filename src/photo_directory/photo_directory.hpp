@@ -11,7 +11,7 @@
 
 namespace PictStock
 {
-	namespace ExtendedPhoto
+    namespace Database
 	{
 		class Cameras;
 	}
@@ -57,7 +57,7 @@ namespace PhotoDirectory
 		** 		to form a valid regular expression
 		 *
 		 */
-		explicit PhotoDirectory(LoggingFacility& logs, const ExtendedPhoto::Cameras& cameras,
+        explicit PhotoDirectory(LoggingFacility& logs, const Database::Cameras& cameras,
 			const Yuni::String& pFolder, const YString& pathFormat);
 
 		//! Destructor
@@ -100,7 +100,7 @@ namespace PhotoDirectory
 		ValidDirectoriesType pTree;
 
 		//! Object that keeps all known cameras under check
-		const ExtendedPhoto::Cameras& pCameras;
+        const Database::Cameras& pCameras;
 
 	};
 

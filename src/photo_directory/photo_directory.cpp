@@ -9,7 +9,7 @@ namespace PictStock
 namespace PhotoDirectory
 {
 
-	PhotoDirectory::PhotoDirectory(LoggingFacility& logs, const ExtendedPhoto::Cameras& cameras,
+    PhotoDirectory::PhotoDirectory(LoggingFacility& logs, const Database::Cameras& cameras,
 		const Yuni::String& folder, const YString& strPathFormat)
 		: logs(logs),
 		  pMainFolder(folder),

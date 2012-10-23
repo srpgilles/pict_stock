@@ -15,7 +15,7 @@ namespace Private
 
 
 	ScanPhotoDirectory::ScanPhotoDirectory(LoggingFacility& logs,
-		const ExtendedPhoto::Cameras& cameras,
+		const Database::Cameras& cameras,
 		const PhotoDirectory::PathFormat& pathFormat,
 		const YString& photoDirectory,
 		const time_t beginDate,

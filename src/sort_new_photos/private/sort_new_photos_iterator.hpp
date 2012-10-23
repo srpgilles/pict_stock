@@ -51,7 +51,7 @@ namespace Private
 		 * should be false most of the time...
 		 */
 		explicit SortNewPhotosIterator(LoggingFacility& logs,
-			const ExtendedPhoto::Cameras& cameras,
+			const Database::Cameras& cameras,
 			const Yuni::String& inputDirectory, const PhotoDirectory::PathFormat& pathFormat,
 			bool doFolderManualDate = false);
 
@@ -148,7 +148,7 @@ namespace Private
 		unsigned int pCurrentFolderManualLevel;
 
 		//! Object that keeps all known cameras under check
-		const ExtendedPhoto::Cameras& pCameras;
+		const Database::Cameras& pCameras;
 
 	};
 

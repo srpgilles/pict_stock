@@ -3,7 +3,7 @@
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 
 	Photographer::Photographer(const TupleWrappedType& row)
@@ -12,5 +12,5 @@ namespace ExtendedPhoto
 		  pAbbreviation(std::get<GenericTools::IndexOf<TablePhotographers::Abbreviation, Tuple>::value>(row))
 	{ }
 
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace PictStock

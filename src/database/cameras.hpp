@@ -22,7 +22,7 @@ namespace GenericTools
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 
 	namespace TableCameras
@@ -103,7 +103,7 @@ namespace ExtendedPhoto
 		**
 		** We want to check then whether this couple is known or not
 		**
-		** \param[out] photographer The photographer
+		** \param[out] photographer The photographer
 		** \param[in] currentKeyword Keyword used in exif to identify the camera
 		** \param[in] valueToCheck Value associated to this keyword for the current picture
 		**
@@ -118,7 +118,7 @@ namespace ExtendedPhoto
 		/*!
 		** \brief Identify the photographer from its abbreviation
 		**
-		** \param[out] photographer The photographer
+		** \param[out] photographer The photographer
 		** \param[in] abbreviation Abbreviation related to the photographer (unique)
 		**
 		** \return True if a photographer was found
@@ -172,7 +172,7 @@ namespace ExtendedPhoto
 
 	};
 
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace PictStock
 
 # include "cameras.hxx"

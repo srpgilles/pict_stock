@@ -11,7 +11,7 @@
 
 namespace PictStock
 {
-namespace ExtendedPhoto
+namespace Database
 {
 
 	using namespace TableCameras;
@@ -151,5 +151,5 @@ namespace ExtendedPhoto
 	}
 	#endif // NDEBUG
 
-} // namespace ExtendedPhoto
+} // namespace Database
 } // namespace PictStock

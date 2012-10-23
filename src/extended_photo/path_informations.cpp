@@ -8,7 +8,7 @@ namespace PictStock
 namespace ExtendedPhoto
 {
 
-	PathInformations::PathInformations(LoggingFacility& logs, const Cameras& cameras)
+    PathInformations::PathInformations(LoggingFacility& logs, const Database::Cameras& cameras)
 		: logs(logs),
 		  pPhotographerPtr(nullptr),
 		  pCameras(cameras)

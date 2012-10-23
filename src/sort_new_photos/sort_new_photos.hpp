@@ -40,7 +40,7 @@ namespace SortNewPhotos
 		 * \param[in] summaryFile File in which all operations will be saved
 		 */
         explicit SortNewPhotos(LoggingFacility& logs,
-        	const ExtendedPhoto::Cameras& cameras,
+        	const Database::Cameras& cameras,
         	const Yuni::String& inputDirectory,
         	PhotoDirectory::PhotoDirectory& photoDirectory,
         	const YString& summaryFile,
@@ -76,7 +76,7 @@ namespace SortNewPhotos
         const YString pSummaryFile;
 
         //! Object that keeps all known cameras under check
-        const ExtendedPhoto::Cameras& pCameras;
+        const Database::Cameras& pCameras;
 
     };//! Path to the file in which all operations are recorded
 

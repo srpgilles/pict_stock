@@ -12,10 +12,16 @@
 
 namespace PictStock
 {
+    namespace Database
+    {
+        class Cameras;
+    }
+
+
 namespace ExtendedPhoto
 {
 
-	class Cameras;
+
 
 
 	class YUNI_DECL ExtendedPhoto : private Yuni::NonCopyable<ExtendedPhoto>
@@ -39,7 +45,8 @@ namespace ExtendedPhoto
 
 		//! Constructor
 		//@{
-		explicit ExtendedPhoto(LoggingFacility& logs, const Cameras& cameras, const YString& filename);
+        explicit ExtendedPhoto(LoggingFacility& logs, const Database::Cameras& cameras,
+            const YString& filename);
 
 		//@}
 
@@ -139,7 +146,7 @@ namespace ExtendedPhoto
 		Status pStatus;
 
 		//! Object that keeps all known cameras under check
-		const Cameras& pCameras;
+        const Database::Cameras& pCameras;
 	};
 
 	//! Operator== : two #ExtendedPhoto are equals if they share the same object *pImage
@@ -148,7 +155,7 @@ namespace ExtendedPhoto
 	/*!
 	** \brief Examines the name of the file and check whether it seems a valid candidate for ExtendedPhoto
 	**
-	** \param[in] file Name of the file
+	** \param[in] file Name of the file
 	** \return True if the file seems to be a valid photo file
 	*/
 	bool isExtensionManaged(const YString& file);

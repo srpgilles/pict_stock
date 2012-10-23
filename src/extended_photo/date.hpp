@@ -6,7 +6,7 @@
 # include <ostream>
 # include <bitset>
 # include "../pict_stock.hpp"
-# include "../tools/tools.hpp"
+# include "../tools/tuple_utilities.hpp"
 # include <ctime>
 # include <array>
 # include "private/date_helpers.hpp"
@@ -125,7 +125,7 @@ namespace ExtendedPhoto
 		** IMPORTANT: it is assumed pIsElementPresent has been filled along
 		** with input array
 		**
-		** \param[in] in Array that contains original values that must be converted
+		** \param[in] in Array that contains original values that must be converted
 		** to fit inside tm object. For instance, in[Element::year] = 2012 yields
 		** to 112 in pData structure
 		**
@@ -152,7 +152,7 @@ namespace ExtendedPhoto
 		**
 		** \param[in, out] out An array with the values to consider for each element.
 		** Basically, out[index(T)] = value
-		** \param[in] value Value before conversion (for instance 2012 for T=Private::Year)
+		** \param[in] value Value before conversion (for instance 2012 for T=Private::Year)
 		** If -1, set #pIsElementPresent to false for the considered date element
 		**
 		** Note: Not used recursively

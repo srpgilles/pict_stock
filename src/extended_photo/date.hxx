@@ -18,7 +18,7 @@ namespace ExtendedPhoto
 		**
 		** \tparam An element of DateTuple
 		**
-		** \param[in] value Value before conversion (for instance 2012 for year)
+		** \param[in] value Value before conversion (for instance 2012 for year)
 		*/
 		template<class T>
 		void toCTimeInformations(struct tm& out, int value);
@@ -79,7 +79,7 @@ namespace ExtendedPhoto
 	/*!
 	** \brief Helper to perform recursively all required conversions
 	**
-	** \param[in] in Array that contains original values that must be converted
+	** \param[in] in Array that contains original values that must be converted
 	** to fit inside tm object. For instance, in[Element::year] = 2012 yields
 	** 112 in pData structure. If -1, pIsElementPresent is put as false
 	**
@@ -122,36 +122,36 @@ namespace ExtendedPhoto
 		YString format;
 
 
-		YUNI_STATIC_ASSERT((GenericTools::IndexOf<Private::Year, DateTuple>::value >= 0),
+        YUNI_STATIC_ASSERT((GenericTools::Tuple::IndexOf<Private::Year, DateTuple>::value >= 0),
 			YearNotFoundInTuple);
-		YUNI_STATIC_ASSERT((GenericTools::IndexOf<Private::Month, DateTuple>::value >= 0),
+        YUNI_STATIC_ASSERT((GenericTools::Tuple::IndexOf<Private::Month, DateTuple>::value >= 0),
 			MonthNotFoundInTuple);
-		YUNI_STATIC_ASSERT((GenericTools::IndexOf<Private::Day, DateTuple>::value >= 0),
+        YUNI_STATIC_ASSERT((GenericTools::Tuple::IndexOf<Private::Day, DateTuple>::value >= 0),
 			DayNotFoundInTuple);
-		YUNI_STATIC_ASSERT((GenericTools::IndexOf<Private::Hour, DateTuple>::value >= 0),
+        YUNI_STATIC_ASSERT((GenericTools::Tuple::IndexOf<Private::Hour, DateTuple>::value >= 0),
 			HourNotFoundInTuple);
-		YUNI_STATIC_ASSERT((GenericTools::IndexOf<Private::Minute, DateTuple>::value >= 0),
+        YUNI_STATIC_ASSERT((GenericTools::Tuple::IndexOf<Private::Minute, DateTuple>::value >= 0),
 			MinuteNotFoundInTuple);
-		YUNI_STATIC_ASSERT((GenericTools::IndexOf<Private::Second, DateTuple>::value >= 0),
+        YUNI_STATIC_ASSERT((GenericTools::Tuple::IndexOf<Private::Second, DateTuple>::value >= 0),
 			SecondNotFoundInTuple);
 
 
-		if (pIsElementPresent[GenericTools::IndexOf<Private::Year, DateTuple>::value])
+        if (pIsElementPresent[GenericTools::Tuple::IndexOf<Private::Year, DateTuple>::value])
 			format << "Year = %Y\n";
 
-		if (pIsElementPresent[GenericTools::IndexOf<Private::Month, DateTuple>::value])
+        if (pIsElementPresent[GenericTools::Tuple::IndexOf<Private::Month, DateTuple>::value])
 			format << "Month = %m\n";
 
-		if (pIsElementPresent[GenericTools::IndexOf<Private::Day, DateTuple>::value])
+        if (pIsElementPresent[GenericTools::Tuple::IndexOf<Private::Day, DateTuple>::value])
 			format << "Day = %d\n";
 
-		if (pIsElementPresent[GenericTools::IndexOf<Private::Hour, DateTuple>::value])
+        if (pIsElementPresent[GenericTools::Tuple::IndexOf<Private::Hour, DateTuple>::value])
 			format << "Hour = %H\n";
 
-		if (pIsElementPresent[GenericTools::IndexOf<Private::Minute, DateTuple>::value])
+        if (pIsElementPresent[GenericTools::Tuple::IndexOf<Private::Minute, DateTuple>::value])
 			format << "Minute = %M\n";
 
-		if (pIsElementPresent[GenericTools::IndexOf<Private::Second, DateTuple>::value])
+        if (pIsElementPresent[GenericTools::Tuple::IndexOf<Private::Second, DateTuple>::value])
 			format << "Second = %S\n";
 
 		return Yuni::DateTime::TimestampToString(out, format, timeStamp(), false);
@@ -167,7 +167,7 @@ namespace ExtendedPhoto
 	template<class T>
 	void Date::constructorHelper(std::array<int, dateTupleSize>& out, int value)
 	{
-		enum { temp = GenericTools::IndexOf<T, DateTuple>::value };
+        enum { temp = GenericTools::Tuple::IndexOf<T, DateTuple>::value };
 		YUNI_STATIC_ASSERT(( temp != -1),
 			TheTemplateParameterDoesntExistInDateTuple);
 
@@ -222,7 +222,7 @@ namespace ExtendedPhoto
 	template<class  T>
 	inline void Date::set(const DateString& in)
 	{
-		enum { value = GenericTools::IndexOf<T, DateTuple>::value };
+        enum { value = GenericTools::Tuple::IndexOf<T, DateTuple>::value };
 		if (in.empty())
 			pIsElementPresent.reset(value);
 		else
@@ -286,7 +286,7 @@ namespace ExtendedPhoto
 	template<class T>
 	void Date::copyBitsetHelper(const Date& rhs)
 	{
-		enum { value = GenericTools::IndexOf<T, DateTuple>::value};
+        enum { value = GenericTools::Tuple::IndexOf<T, DateTuple>::value};
 		pIsElementPresent[value] = rhs.pIsElementPresent[value];
 	}
 

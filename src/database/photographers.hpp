@@ -7,7 +7,7 @@
 # include <yuni/core/string.h>
 # include "../pict_stock.hpp"
 # include "../tools/tools.hpp"
-# include "private/helpers.hpp"
+# include "../tools/tuple_utilities.hpp"
 # include "photographer.hpp"
 # include "private/table_photographers.hpp"
 

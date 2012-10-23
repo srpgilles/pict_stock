@@ -57,7 +57,7 @@ namespace GenericTools
 		command << ") VALUES (";
 
 		{
-			printTuple<YString, AnyString>(command, values, ",", "", "");
+            Tuple::print<YString, AnyString>(command, values, ",", "", "");
 		}
 		command << ");";
 

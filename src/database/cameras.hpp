@@ -8,7 +8,7 @@
 # include <yuni/core/string.h>
 # include "../pict_stock.hpp"
 # include "../tools/tools.hpp"
-# include "private/helpers.hpp"
+# include "../tools/tuple_utilities.hpp"
 # include "private/table_photographers.hpp"
 # include "photographer.hpp"
 # include "photographers.hpp"
@@ -67,7 +67,7 @@ namespace Database
 		** For instance, if TupleT = [Keyword, Value, Owner] keyword type will yield
 		** 	[Keyword::WrappedType, Value::WrappedType, Owner::WrappedType]
 		*/
-		typedef Private::TupleWrappedType<Tuple>::type TupleWrappedType;
+        typedef GenericTools::Tuple::WrappedType<Tuple>::type TupleWrappedType;
 
 		//! Name of the table in sqlite database
 		static YString TableName() { return "Cameras"; }

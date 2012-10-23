@@ -18,7 +18,7 @@ namespace Database
 			YString command;
 			{
 				std::vector<YString> fields;
-				Private::TupleFields<Tuple>::FieldNames(fields);
+                GenericTools::Tuple::Fields<Tuple>::FieldNames(fields);
 				std::for_each(fields.begin(), fields.end(), [&command](const YString& elt)
 				{
 					command << elt << ',';
@@ -49,13 +49,13 @@ namespace Database
 	{
 		// Determine names of the fields in the database
 		std::vector<YString> fieldNames;
-		Private::TupleFields<Tuple>::FieldNames(fieldNames);
+        GenericTools::Tuple::Fields<Tuple>::FieldNames(fieldNames);
 
 		// Create a tuple with new elements to introduce
 		TupleWrappedType newTuple;
-		std::get<GenericTools::IndexOf<FirstName, Tuple>::value>(newTuple) = firstName;
-		std::get<GenericTools::IndexOf<LastName, Tuple>::value>(newTuple) = lastName;
-		std::get<GenericTools::IndexOf<Abbreviation, Tuple>::value>(newTuple) = abbreviation;
+        std::get<GenericTools::Tuple::IndexOf<FirstName, Tuple>::value>(newTuple) = firstName;
+        std::get<GenericTools::Tuple::IndexOf<LastName, Tuple>::value>(newTuple) = lastName;
+        std::get<GenericTools::Tuple::IndexOf<Abbreviation, Tuple>::value>(newTuple) = abbreviation;
 
 		// Add the photographer in the database (which will check by the way if the insertion is legit or not)
 		pDatabase.insertData(TableName(), fieldNames, newTuple);

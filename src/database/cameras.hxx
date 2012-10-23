@@ -15,7 +15,7 @@ namespace Database
 	inline void Cameras::addNewTuple(const TupleWrappedType& tuple)
 	{
 		pRows.push_back(tuple);
-		pKeywords.insert(std::get<GenericTools::IndexOf<TableCameras::Keyword, Tuple>::value >(tuple));
+        pKeywords.insert(std::get<GenericTools::Tuple::IndexOf<TableCameras::Keyword, Tuple>::value >(tuple));
 	}
 
 

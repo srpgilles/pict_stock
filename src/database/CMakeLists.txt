@@ -8,7 +8,6 @@ add_library(pict_stock_database STATIC
     photographers.cpp
     photographers.hpp
     photographers.hxx
-    private/helpers.hpp
     private/table_photographers.hpp
     photographer.cpp
     photographer.hpp

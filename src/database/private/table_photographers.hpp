@@ -3,7 +3,7 @@
 
 # include <tuple>
 # include <yuni/core/string.h>
-# include "helpers.hpp"
+# include "../../tools/tuple_utilities.hpp"
 
 namespace PictStock
 {
@@ -38,7 +38,7 @@ namespace TablePhotographers
 	** For instance, if TupleT = [Keyword, Value, Owner] keyword type will yield
 	** 	[Keyword::StringType, Value::StringType, Owner::StringType]
 	*/
-	typedef Private::TupleWrappedType<Tuple>::type TupleWrappedType;
+    typedef GenericTools::Tuple::WrappedType<Tuple>::type TupleWrappedType;
 
 } // namespace TablePhotographers
 } // namespace Database

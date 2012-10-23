@@ -26,7 +26,7 @@ namespace Database
 			YString command;
 			{
 				std::vector<YString> fields;
-				Private::TupleFields<Tuple>::FieldNames(fields);
+                GenericTools::Tuple::Fields<Tuple>::FieldNames(fields);
 				std::for_each(fields.begin(), fields.end(), [&command](const YString& elt)
 				{
 					command << elt << ',';
@@ -62,8 +62,8 @@ namespace Database
 		const Value::WrappedType& valueToCheck,
 		Photographer::Ptr& photographer) const
 	{
-		enum { indexKeyword = GenericTools::IndexOf<Keyword, Tuple>::value };
-		enum { indexValue = GenericTools::IndexOf<Value, Tuple>::value };
+        enum { indexKeyword = GenericTools::Tuple::IndexOf<Keyword, Tuple>::value };
+        enum { indexValue = GenericTools::Tuple::IndexOf<Value, Tuple>::value };
 
 		auto end = pRows.cend();
 		auto it = std::find_if(pRows.cbegin(), end,
@@ -80,7 +80,7 @@ namespace Database
 		// We get the abbreviation; let's fetch the complete photographer object
 		assert(!(!pPhotographersPtr));
 
-		auto abbreviation =	std::get<GenericTools::IndexOf<Owner, Tuple>::value>(*it);
+        auto abbreviation =	std::get<GenericTools::Tuple::IndexOf<Owner, Tuple>::value>(*it);
 		identifyPhotographerAbbr(abbreviation, photographer);
 
 		return true;
@@ -110,13 +110,13 @@ namespace Database
 	{
 		// Determine names of the fields in the database
 		std::vector<YString> fieldNames;
-		Private::TupleFields<Tuple>::FieldNames(fieldNames);
+        GenericTools::Tuple::Fields<Tuple>::FieldNames(fieldNames);
 
 		// Create a tuple with new elements to introduce
 		TupleWrappedType newTuple;
-		std::get<GenericTools::IndexOf<Owner, Tuple>::value>(newTuple) = photographer;
-		std::get<GenericTools::IndexOf<Value, Tuple>::value>(newTuple) = value;
-		std::get<GenericTools::IndexOf<Keyword, Tuple>::value>(newTuple) = currentKeyword;
+        std::get<GenericTools::Tuple::IndexOf<Owner, Tuple>::value>(newTuple) = photographer;
+        std::get<GenericTools::Tuple::IndexOf<Value, Tuple>::value>(newTuple) = value;
+        std::get<GenericTools::Tuple::IndexOf<Keyword, Tuple>::value>(newTuple) = currentKeyword;
 
 		// Add the camera in the database (which will check by the way if the insertion is legit or not)
 		pDatabase.insertData(TableName(), fieldNames, newTuple);
@@ -128,7 +128,7 @@ namespace Database
 		// Do not forget to reorder pRows!
 		// As insertion will be quite a rare event, it is sensical to reorder it whenever it happens
 		// instead of using a set or alike
-		enum { indexKeyword = GenericTools::IndexOf<Keyword, Tuple>::value };
+        enum { indexKeyword = GenericTools::Tuple::IndexOf<Keyword, Tuple>::value };
 
 		std::sort(pRows.begin(), pRows.end(), [](const TupleWrappedType& tuple1, const TupleWrappedType& tuple2) -> bool
 			{
@@ -144,7 +144,7 @@ namespace Database
 		std::cout << "All the rows (" << pRows.size() << ") found in memory are:\n";
 		std::for_each(pRows.cbegin(), pRows.cend(), [](const TupleWrappedType& tuple)
 			{
-				GenericTools::printTuple(std::cout, tuple, ",", "\t[", "]\n");
+                GenericTools::Tuple::print(std::cout, tuple, ",", "\t[", "]\n");
 			}
 		);
 		std::cout << "-------------------------------\n";

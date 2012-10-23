@@ -5,6 +5,7 @@
 # include <yuni/core/string.h>
 # include <sqlite3.h>
 # include "exceptions.hpp"
+# include "tuple_utilities.hpp"
 
 namespace GenericTools
 {
@@ -149,7 +150,7 @@ namespace GenericTools
 		** \tparam TupleT Tuple describing all columns
 		**
 		** \param[out] out Output rows
-		** \param[in] sqlQuery Without the "SELECT" word
+		** \param[in] sqlQuery Without the "SELECT" word
 		*/
 		template<typename TupleT>
 		void select(std::vector<TupleT>& out, const AnyString& sqlQuery) const;

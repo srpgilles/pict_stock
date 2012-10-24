@@ -23,7 +23,7 @@ namespace Exceptions
     } // namespace Anonymous
 
 
-    struct YUNI_DECL Exception : private GenericTools::Exception
+    struct YUNI_DECL Exception : public GenericTools::Exception
     {
         Exception(const AnyString& msg)
             : GenericTools::Exception(msg)
@@ -31,7 +31,7 @@ namespace Exceptions
     };
 
 
-    struct YUNI_DECL FileNotFound : private Exception
+    struct YUNI_DECL FileNotFound : public Exception
     {
         FileNotFound(const AnyString& db3File)
             : Exception(msgFileNotFound(db3File))

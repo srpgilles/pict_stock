@@ -1,19 +1,27 @@
 #include <yuni/core/getopt.h>
+#include "database/database_exceptions.hpp"
 
 using namespace Yuni;
 
+
+
 int main(int argc, char* argv[])
 {
-    GetOpt::Parser parser;
-    String parameterFile;
-    parser.addParagraph("\nUsual option(s):\n");
-    parser.add(parameterFile, ' ', "parameter_file", "Parameters file. If not precised "
-        "parameters_pict_frame.ini in current folder is attempted.");
 
-    parser.addParagraph("\nHelp:\n");
+    try
+    {
+        throw B();
+    }
+    catch(const A&)
+    {
+        std::cout << "All right\n";
+    }
+    catch(...)
+    {
+        std::cout << "Nope\n";
+    }
 
-    if (!parser(argc, argv))
-        exit(EXIT_FAILURE);
+
 
 /*	(void) argc;
 	(void) argv;

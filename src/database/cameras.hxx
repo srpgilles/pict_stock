@@ -29,13 +29,6 @@ namespace Database
 	}
 
 
-	inline void Cameras::addNewPhotographer(const TablePhotographers::FirstName::WrappedType& firstName,
-		const TablePhotographers::LastName::WrappedType& lastName,
-		const TablePhotographers::Abbreviation::WrappedType& abbreviation)
-	{
-		assert(!(!pPhotographersPtr));
-		pPhotographersPtr->addNewPhotographer(firstName, lastName, abbreviation);
-	}
 
 
 } // namespace Database

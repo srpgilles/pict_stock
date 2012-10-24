@@ -46,7 +46,9 @@ int main(int argc, char* argv[])
 
 		GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
 
-		Database::Cameras cameras(db);
+        Database::Photographers photographers(db);
+        Database::Cameras cameras(db, photographers);
+
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
 		PhotoDirectory::PhotoDirectory photoDirectory(logs, cameras, parameters["outputFolder"], parameters["pathFormat"]);

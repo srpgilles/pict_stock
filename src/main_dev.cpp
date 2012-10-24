@@ -164,10 +164,6 @@ int main(int argc, char* argv[])
 	for (auto it = fieldNames.cbegin(), end = fieldNames.cend(); it != end; ++it)
 		std::cout << *it << '\n';
 
-	Database::Cameras cameras(db);
-
-	cameras.addNewPhotographer("FOO", "BAR", "Baz");
-	cameras.addNewCamera("Foo", "Bar", "Baz");
 
 	return 0;
 }

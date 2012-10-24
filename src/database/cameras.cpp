@@ -16,9 +16,9 @@ namespace Database
 
 	using namespace TableCameras;
 
-	Cameras::Cameras(GenericTools::SqliteWrapper& database)
+    Cameras::Cameras(GenericTools::SqliteWrapper& database, const Photographers& photographers)
 		: pDatabase(database),
-		  pPhotographersPtr(nullptr)
+          pPhotographers(photographers)
 	{
 
 		{
@@ -49,12 +49,6 @@ namespace Database
 			for (auto it = keywords.begin(), end = keywords.end(); it != end; ++it)
 				pKeywords.insert(std::get<0>(*it));
 		}
-
-		{
-			// Init photographers
-			std::unique_ptr<Photographers> buf(new Photographers(database));
-			pPhotographersPtr = std::move(buf);
-		}
 	}
 
 	bool Cameras::identifyPhotographer(
@@ -78,8 +72,6 @@ namespace Database
 			return false;
 
 		// We get the abbreviation; let's fetch the complete photographer object
-		assert(!(!pPhotographersPtr));
-
         auto abbreviation =	std::get<GenericTools::Tuple::IndexOf<Owner, Tuple>::value>(*it);
 		identifyPhotographerAbbr(abbreviation, photographer);
 
@@ -92,7 +84,7 @@ namespace Database
 		const TableCameras::Owner::WrappedType& abbreviation,
 		Photographer::Ptr& photographer) const
 	{
-		if (!pPhotographersPtr->findPhotographer(photographer, abbreviation))
+        if (!pPhotographers.findPhotographer(photographer, abbreviation))
 		{
 			YString message("Malformed database (or bug in the code): a camera was associated "
 				"to photographer whose abbreviation is \"");

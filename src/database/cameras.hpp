@@ -79,7 +79,7 @@ namespace Database
 		/*!
 		 * \brief Constructor
 		 */
-		explicit Cameras(GenericTools::SqliteWrapper& database);
+        explicit Cameras(GenericTools::SqliteWrapper& database, const Photographers& photographers);
 		//@}
 
 		//! Add a new camera
@@ -87,10 +87,6 @@ namespace Database
 			const TableCameras::Value::WrappedType& valueToCheck,
 			const TableCameras::Owner::WrappedType& photographer);
 
-		//! Add a new photographer
-		inline void addNewPhotographer(const TablePhotographers::FirstName::WrappedType& firstName,
-			const TablePhotographers::LastName::WrappedType& lastName,
-			const TablePhotographers::Abbreviation::WrappedType& abbreviation);
 
 		//! Return the list of known keywords
 		const std::unordered_set<TableCameras::Keyword::WrappedType>& keywords() const;
@@ -168,7 +164,7 @@ namespace Database
 		std::unordered_set<TableCameras::Keyword::WrappedType> pKeywords;
 
 		//! Photographers
-		std::unique_ptr<Photographers> pPhotographersPtr;
+        const Photographers& pPhotographers;
 
 	};
 

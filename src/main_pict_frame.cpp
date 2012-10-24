@@ -86,7 +86,8 @@ int main(int argc, char* argv[])
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
 		GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
-		Database::Cameras cameras(db);
+        Database::Photographers photographers(db);
+        Database::Cameras cameras(db, photographers);
 
 
 		PhotoDirectory::Private::PathFormatHelper helper(logs, "%Y-%m-%d");

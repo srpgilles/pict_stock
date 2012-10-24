@@ -54,6 +54,12 @@ namespace Database
         inline const Cameras& cameras() const;
 
 
+        /*!
+        ** \brief Check the database includes the expected tables
+        */
+        void checkExpectedFormat();
+
+
     private:
 
         //! Underlying database

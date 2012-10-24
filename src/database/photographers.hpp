@@ -10,6 +10,7 @@
 # include "../tools/tuple_utilities.hpp"
 # include "photographer.hpp"
 # include "private/table_photographers.hpp"
+# include "private/table.hpp"
 
 namespace GenericTools
 {
@@ -28,7 +29,8 @@ namespace Database
 	** \brief This class handles all the known photographers, including
 	** their storing inside sqlite database
 	*/
-	class YUNI_DECL Photographers : private Yuni::NonCopyable<Photographers>
+    class YUNI_DECL Photographers : private Yuni::NonCopyable<Photographers>,
+                                    public Private::Table
 	{
 
 	public:
@@ -54,7 +56,8 @@ namespace Database
 		/*!
 		 * \brief Constructor
 		 */
-		explicit Photographers(GenericTools::SqliteWrapper& database);
+        explicit Photographers(GenericTools::SqliteWrapper& database,
+            nsTable::Values mode = nsTable::load);
 		//@}
 
 		//! Add a new photographer
@@ -67,6 +70,17 @@ namespace Database
 		*/
 		bool findPhotographer(Photographer::Ptr& photographer,
 			const TablePhotographers::Abbreviation::WrappedType& abbreviation) const;
+
+
+    private:
+
+        /*!
+        ** \brief Load existing data
+        **
+        ** Expected to be called in constructor if load mode
+        */
+        void load();
+
 
 	private:
 

@@ -1,5 +1,6 @@
 #include "tools/sqlite_wrapper.hpp"
 #include "pict_stock.hpp"
+#include "database/cameras.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -10,20 +11,25 @@ int main(int argc, char* argv[])
 
 	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
 
-	db.createTable("Photographers",
+    /*db.createTable("Photographers",
 		"FirstName varchar(80),"
 		"LastName varchar(80),"
 		"Abbreviation varchar(8) PRIMARY KEY NOT NULL,"
 		"UNIQUE (FirstName, LastName) ON CONFLICT ABORT"
 		);
 
-	db.createTable("Cameras",
+    /*db.createTable("Cameras",
 		"Keyword varchar(80),"
 		"Value varchar(80),"
 		"Owner varchar(8),"
 		"FOREIGN KEY(Owner) REFERENCES Photographers(Abbreviation),"
 		"UNIQUE (Keyword, Value) ON CONFLICT ABORT"
-			);
+            );*/
+
+
+    PictStock::Database::Photographers photographers(db, PictStock::Database::nsTable::create);
+    PictStock::Database::Cameras cameras(db, photographers, PictStock::Database::nsTable::create);
+
 
 	{
 		std::vector<YString> fields { "FirstName", "LastName", "Abbreviation" };

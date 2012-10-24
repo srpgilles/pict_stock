@@ -13,6 +13,9 @@ add_library(pict_stock_database STATIC
     photographer.cpp
     photographer.hpp
     photographer.hxx
+    private/table.cpp
+    private/table.hpp
+    private/table.hxx
 )
 
 target_link_libraries(pict_stock_database

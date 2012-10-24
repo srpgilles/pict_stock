@@ -10,8 +10,10 @@
 # include "../tools/tools.hpp"
 # include "../tools/tuple_utilities.hpp"
 # include "private/table_photographers.hpp"
+# include "private/table.hpp"
 # include "photographer.hpp"
 # include "photographers.hpp"
+
 
 namespace GenericTools
 {
@@ -52,7 +54,8 @@ namespace Database
 	** \brief This class handles all the known photographers and cameras, including
 	** their storing inside sqlite database
 	*/
-	class YUNI_DECL Cameras : private Yuni::NonCopyable<Cameras>
+    class YUNI_DECL Cameras : private Yuni::NonCopyable<Cameras>,
+                              public Private::Table
 	{
 
 	public:
@@ -69,8 +72,7 @@ namespace Database
 		*/
         typedef GenericTools::Tuple::WrappedType<Tuple>::type TupleWrappedType;
 
-		//! Name of the table in sqlite database
-		static YString TableName() { return "Cameras"; }
+
 
 	public:
 
@@ -79,7 +81,9 @@ namespace Database
 		/*!
 		 * \brief Constructor
 		 */
-        explicit Cameras(GenericTools::SqliteWrapper& database, const Photographers& photographers);
+        explicit Cameras(GenericTools::SqliteWrapper& database,
+            const Photographers& photographers,
+            nsTable::Values mode = nsTable::load);
 		//@}
 
 		//! Add a new camera
@@ -131,6 +135,7 @@ namespace Database
 			Photographer::Ptr& photographer) const;
 
 
+
 	private:
 
 		/*!
@@ -139,6 +144,14 @@ namespace Database
 		** Addition to database is performed in #addNewCameras
 		 */
 		void addNewTuple(const TupleWrappedType& tuple);
+
+        /*!
+        ** \brief Load existing data
+        **
+        ** Expected to be called in constructor if load mode
+        */
+        void load();
+
 
 		# ifndef NDEBUG
 		/*!

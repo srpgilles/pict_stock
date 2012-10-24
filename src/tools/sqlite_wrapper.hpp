@@ -6,6 +6,7 @@
 # include <sqlite3.h>
 # include "exceptions.hpp"
 # include "tuple_utilities.hpp"
+# include "exceptions/sqlite_wrapper_exceptions.hpp"
 
 namespace GenericTools
 {
@@ -172,6 +173,8 @@ namespace GenericTools
 		** To put in a nutshell: full is much more secure but is a huge performance hit
 		*/
 		inline void pragmaSynchronous(PragmaSynchronous::Values choice);
+
+
 
 
 	private:

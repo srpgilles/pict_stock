@@ -13,42 +13,73 @@ namespace PictStock
 {
 namespace Database
 {
+    namespace
+    {
+        static YString schema()
+        {
+            YString ret("Keyword varchar(80),"
+                "Value varchar(80),"
+                "Owner varchar(8),"
+                "FOREIGN KEY(Owner) REFERENCES Photographers(Abbreviation),"
+                "UNIQUE (Keyword, Value) ON CONFLICT ABORT");
+
+            return std::move(ret);
+        }
+
+    } // namespace anonymous
+
 
 	using namespace TableCameras;
 
-    Cameras::Cameras(GenericTools::SqliteWrapper& database, const Photographers& photographers)
-        : pDatabase(database),
+    Cameras::Cameras(GenericTools::SqliteWrapper& database,
+        const Photographers& photographers, nsTable::Values mode)
+        : Private::Table("Cameras", schema()),
+          pDatabase(database),
           pPhotographers(photographers)
 	{
+        switch(mode)
+        {
+            case nsTable::create:
+                create(database);
+                break;
+            case nsTable::load:
+                load();
+                break;
+        }
+    }
 
-		{
-			// Request from the database
-			YString command;
-			{
-				std::vector<YString> fields;
+    void Cameras::load()
+    {
+        {
+            // Request from the database
+            YString command;
+            {
+                std::vector<YString> fields;
                 GenericTools::Tuple::Fields<Tuple>::FieldNames(fields);
-				std::for_each(fields.begin(), fields.end(), [&command](const YString& elt)
-				{
-					command << elt << ',';
-				});
-				command.removeLast();
-				command << " FROM " << TableName() << " ORDER BY " << Owner::FieldName() << ';';
-			}
+                std::for_each(fields.begin(), fields.end(), [&command](const YString& elt)
+                {
+                    command << elt << ',';
+                });
+                command.removeLast();
+                command << " FROM " << tableName() << " ORDER BY " << Owner::FieldName() << ';';
+            }
 
-			database.select(pRows, command);
-		}
+            std::cout << "COMMAND = " << command << '\n';
+            pDatabase.select(pRows, command);
+            std::cout << "OK\n";
+        }
 
-		{
-			// Also init #pKeywords
-			typedef std::tuple<Keyword::WrappedType> TupleKeyword;
-			std::vector<TupleKeyword> keywords;
-			YString command("Keyword FROM ");
-			command << TableName();
-			database.select(keywords, command);
+        {
+            // Also init #pKeywords
+            typedef std::tuple<Keyword::WrappedType> TupleKeyword;
+            std::vector<TupleKeyword> keywords;
+            YString command("Keyword FROM ");
+            command << tableName();
+            pDatabase.select(keywords, command);
 
-			for (auto it = keywords.begin(), end = keywords.end(); it != end; ++it)
-				pKeywords.insert(std::get<0>(*it));
-		}
+            for (auto it = keywords.begin(), end = keywords.end(); it != end; ++it)
+                pKeywords.insert(std::get<0>(*it));
+        }
 	}
 
 	bool Cameras::identifyPhotographer(
@@ -111,7 +142,7 @@ namespace Database
         std::get<GenericTools::Tuple::IndexOf<Keyword, Tuple>::value>(newTuple) = currentKeyword;
 
 		// Add the camera in the database (which will check by the way if the insertion is legit or not)
-		pDatabase.insertData(TableName(), fieldNames, newTuple);
+        pDatabase.insertData(tableName(), fieldNames, newTuple);
 
 		// If database accepted the query without throwing exception, all is ok
 		// Add the camera in the memory
@@ -129,8 +160,7 @@ namespace Database
 
 	}
 
-
-	#ifndef NDEBUG
+    #ifndef NDEBUG
 	void Cameras::printRows() const
 	{
 		std::cout << "All the rows (" << pRows.size() << ") found in memory are:\n";

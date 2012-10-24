@@ -8,6 +8,7 @@ add_library(tools STATIC
     sqlite_wrapper.cpp
     sqlite_wrapper.hpp
     sqlite_wrapper.hxx
+    exceptions/sqlite_wrapper_exceptions.hpp
     tools.hpp
     tuple_utilities.hpp
 )

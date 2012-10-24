@@ -49,5 +49,13 @@ namespace Database
     }
 
 
+    void Database::checkExpectedFormat()
+    {
+
+
+
+    }
+
+
 } // namespace Database
 } // namespace PictStock

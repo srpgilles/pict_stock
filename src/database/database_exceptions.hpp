@@ -18,8 +18,6 @@ namespace Exceptions
             msg << db3File << " doesn't exist";
             return std::move(msg);
         }
-
-
     } // namespace Anonymous
 
 

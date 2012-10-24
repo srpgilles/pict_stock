@@ -6,40 +6,66 @@ namespace PictStock
 {
 namespace Database
 {
+    namespace
+    {
+        static YString schema()
+        {
+            YString ret("FirstName varchar(80),"
+                "LastName varchar(80),"
+                "Abbreviation varchar(8) PRIMARY KEY NOT NULL,"
+                "UNIQUE (FirstName, LastName) ON CONFLICT ABORT");
+
+            return std::move(ret);
+        }
+
+    } // namespace anonymous
+
+
 
 	using namespace TablePhotographers;
 
-	Photographers::Photographers(GenericTools::SqliteWrapper& database)
-		: pDatabase(database)
+    Photographers::Photographers(GenericTools::SqliteWrapper& database, nsTable::Values mode)
+        : Private::Table("Photographers", schema()),
+          pDatabase(database)
 	{
+        switch(mode)
+        {
+            case nsTable::create:
+                create(database);
+                break;
+            case nsTable::load:
+                load();
+                break;
+        }
+    }
 
-		{
-			// Request from the database
-			YString command;
-			{
-				std::vector<YString> fields;
-                GenericTools::Tuple::Fields<Tuple>::FieldNames(fields);
-				std::for_each(fields.begin(), fields.end(), [&command](const YString& elt)
-				{
-					command << elt << ',';
-				});
-				command.removeLast();
-				command << " FROM " << TableName() << " ORDER BY " << Abbreviation::FieldName() << ';';
-			}
 
-			{
-				std::vector<TupleWrappedType> buf;
-				database.select(buf, command);
-				pData.reserve(buf.size());
+    void Photographers::load()
+    {
 
-                std::for_each(buf.begin(), buf.end(), [this](const TupleWrappedType& tuple)
-					{
-						pData.push_back(new Photographer(tuple));
-					}
-				);
-			}
+        YString command;
+        {
+            std::vector<YString> fields;
+            GenericTools::Tuple::Fields<Tuple>::FieldNames(fields);
+            std::for_each(fields.begin(), fields.end(), [&command](const YString& elt)
+            {
+                command << elt << ',';
+            });
+            command.removeLast();
+            command << " FROM " << TableName() << " ORDER BY " << Abbreviation::FieldName() << ';';
+        }
 
-		}
+        {
+            std::vector<TupleWrappedType> buf;
+            pDatabase.select(buf, command);
+            pData.reserve(buf.size());
+
+            std::for_each(buf.begin(), buf.end(), [this](const TupleWrappedType& tuple)
+                {
+                    pData.push_back(new Photographer(tuple));
+                }
+            );
+        }
 	}
 
 

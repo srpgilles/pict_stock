@@ -115,7 +115,7 @@ namespace GenericTools
 		struct TupleElement<Max, Max, TupleT>
 		{
 			static void fill(SqliteStatement&, TupleT& )
-			{ };
+            { }
 		};
 	}
 
@@ -128,9 +128,11 @@ namespace GenericTools
 		SqliteStatement statement;
 
 		int errCode = prepareCommand(statement, command);
-		assert(errCode == SQLITE_OK);
+        if (errCode != SQLITE_OK)
+            throw Exceptions::IncorrectPrepCommand(command);
 
 		assert(std::tuple_size<TupleT>::value == static_cast<size_t>(sqlite3_column_count(statement)));
+
 
 		while ((errCode = sqlite3_step(statement)) && errCode == SQLITE_ROW)
 		{

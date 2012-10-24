@@ -1,12 +1,8 @@
 #include <yuni/core/getopt.h>
-#include "tools/read_parameter_file.hpp"
-#include "tools/exceptions.hpp"
-#include "tools/sqlite_wrapper.hpp"
-#include "extended_photo/date.hpp"
-#include "database/cameras.hpp"
-#include "photo_directory/private/path_format_helpers.hpp"
 #include "pict_frame/pict_frame.hpp"
-#include <QApplication>
+#include "photo_directory/path_format.hpp"
+#include "tools/read_parameter_file.hpp"
+
 
 using namespace Yuni;
 using namespace PictStock;
@@ -25,7 +21,7 @@ namespace
 	**/
 
 	void determineTimeLimits(LoggingFacility& logs,
-		const Database::Cameras& cameras,
+        const Database::Database& database,
 		time_t& out,
 		const PhotoDirectory::Private::PathFormatHelper& helper,
 		const GenericTools::ReadParameterFile& parameters,
@@ -35,7 +31,7 @@ namespace
 
 		if (parameterValue != "none")
 		{
-			ExtendedPhoto::PathInformations infos(logs, cameras);
+            ExtendedPhoto::PathInformations infos(logs, database);
 
 			if (!helper.isOk(parameterValue, infos))
 			{
@@ -52,8 +48,6 @@ namespace
 
 int main(int argc, char* argv[])
 {
-	QApplication app(argc, argv);
-
 	LoggingFacility logs;
 
 	GetOpt::Parser parser;
@@ -64,7 +58,7 @@ int main(int argc, char* argv[])
 
 	parser.addParagraph("\nHelp:\n");
 
-	if (!parser(argc, argv))
+    if (!parser(argc, argv))
 		exit(EXIT_FAILURE);
 
 	// Default values
@@ -85,18 +79,16 @@ int main(int argc, char* argv[])
 		keys.push_back("isChronological");
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
-		GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
-        Database::Photographers photographers(db);
-        Database::Cameras cameras(db, photographers);
-
+        //GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
+        Database::Database database("test.db3");
 
 		PhotoDirectory::Private::PathFormatHelper helper(logs, "%Y-%m-%d");
 
 		time_t beginDate(0);
 		time_t endDate(std::numeric_limits<int>::max()); // int because struct tm components are defined as such
 
-		determineTimeLimits(logs, cameras, beginDate, helper, parameters, "beginDate");
-		determineTimeLimits(logs, cameras, endDate, helper, parameters, "endDate");
+        determineTimeLimits(logs, database, beginDate, helper, parameters, "beginDate");
+        determineTimeLimits(logs, database, endDate, helper, parameters, "endDate");
 
 		PictFrame::ReadDate::Mode mode;
 		{
@@ -128,7 +120,7 @@ int main(int argc, char* argv[])
 		}
 
 
-		PictFrame::PictFrame(logs, cameras, parameters["pathFormat"], parameters["inputFolder"],
+        PictFrame::PictFrame(logs, database, parameters["pathFormat"], parameters["inputFolder"],
 			parameters["outputFolder"], nbPhotos, beginDate, endDate,
 			mode, isChronological);
 
@@ -141,5 +133,5 @@ int main(int argc, char* argv[])
 		exit(EXIT_FAILURE);
 	}
 
-    return app.exec();
+    return 0;
 }

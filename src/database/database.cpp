@@ -48,5 +48,6 @@ namespace Database
 
     }
 
+
 } // namespace Database
 } // namespace PictStock

@@ -10,7 +10,7 @@ namespace PictStock
 {
 	namespace ExtendedPhoto
 	{
-		class Cameras;
+		class Database;
 	}
 
 namespace SortNewPhotos
@@ -40,7 +40,7 @@ namespace SortNewPhotos
 		 * \param[in] summaryFile File in which all operations will be saved
 		 */
         explicit SortNewPhotos(LoggingFacility& logs,
-        	const Database::Cameras& cameras,
+        	const Database::Database& database,
         	const Yuni::String& inputDirectory,
         	PhotoDirectory::PhotoDirectory& photoDirectory,
         	const YString& summaryFile,
@@ -76,7 +76,7 @@ namespace SortNewPhotos
         const YString pSummaryFile;
 
         //! Object that keeps all known cameras under check
-        const Database::Cameras& pCameras;
+        const Database::Database& pDatabase;
 
     };//! Path to the file in which all operations are recorded
 

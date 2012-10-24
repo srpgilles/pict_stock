@@ -13,7 +13,7 @@ namespace PictStock
 
 	namespace ExtendedPhoto
 	{
-		class Cameras;
+		class Database;
 	}
 
 namespace SortNewPhotos
@@ -60,7 +60,7 @@ namespace Private
 		** \param[in] summaryFile File in which all operations will be saved
 		*/
 		PopulateDayFolder(LoggingFacility& logs,
-			const Database::Cameras& cameras,
+			const Database::Database& database,
 			const PhotoDirectory::PathFormat& pathFormat,
 			const YString& targetFolder,
 			const ExtendedPhoto::PathInformations& targetInfos,
@@ -138,7 +138,7 @@ namespace Private
 		const YString& pSummaryFile;
 
 		//! Object that keeps all known cameras under check
-		const Database::Cameras& pCameras;
+		const Database::Database& pDatabase;
 	};
 
 

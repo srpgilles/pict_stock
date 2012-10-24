@@ -10,7 +10,7 @@ namespace SortNewPhotos
 {
 
 	SortNewPhotos::SortNewPhotos(LoggingFacility& logs,
-		const Database::Cameras& cameras,
+		const Database::Database& database,
 		const String& inputDirectory,
 		PhotoDirectory::PhotoDirectory& photoDirectory,
 		const String& summaryFile,
@@ -19,12 +19,12 @@ namespace SortNewPhotos
 		  pPhotoDirectory(photoDirectory),
 		  pInputDirectory(inputDirectory),
 		  pSummaryFile(summaryFile),
-		  pCameras(cameras)
+		  pDatabase(database)
 	{
 		auto pathFormatPtr = pPhotoDirectory.pathFormat();
 		assert(!(!pathFormatPtr));
 
-		Private::SortNewPhotosIterator iterator(logs, cameras, inputDirectory, *pathFormatPtr, doFolderManuallyDate);
+        Private::SortNewPhotosIterator iterator(logs, database, inputDirectory, *pathFormatPtr, doFolderManuallyDate);
 		iterator.picturesToProcess(pPicturesToProcess);
 	}
 
@@ -64,7 +64,7 @@ namespace SortNewPhotos
 				auto pathFormatPtr = pPhotoDirectory.pathFormat();
 				assert(!(!pathFormatPtr));
 
-				Private::PopulateDayFolder populateFolder(logs, pCameras, *pathFormatPtr,
+                Private::PopulateDayFolder populateFolder(logs, pDatabase, *pathFormatPtr,
 					targetFolder, folderInfos, it->second, pSummaryFile);
 				if (!populateFolder.proceed())
 					return false;

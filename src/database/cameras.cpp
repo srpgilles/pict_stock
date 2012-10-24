@@ -17,7 +17,7 @@ namespace Database
 	using namespace TableCameras;
 
     Cameras::Cameras(GenericTools::SqliteWrapper& database, const Photographers& photographers)
-		: pDatabase(database),
+        : pDatabase(database),
           pPhotographers(photographers)
 	{
 

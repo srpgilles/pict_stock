@@ -1,7 +1,7 @@
 #include "photo_directory_iterator.hpp"
 #include "../path_format.hpp"
 #include "../../extended_photo/path_informations.hpp"
-#include "../../database/cameras.hpp"
+#include "../../database/database.hpp"
 
 using namespace Yuni;
 
@@ -14,12 +14,12 @@ namespace Private
 
 
 	PhotoDirectoryIterator::PhotoDirectoryIterator(LoggingFacility& logs,
-		const Database::Cameras& cameras, const PathFormat& pathFormat)
+		const Database::Database& database, const PathFormat& pathFormat)
 		: logs(logs),
 		  pFolderCount(0u),
 		  pValidFolderCount(0u),
 		  pPathFormat(pathFormat),
-		  pCameras(cameras)
+		  pDatabase(database)
 	{ }
 
 
@@ -73,7 +73,7 @@ namespace Private
 
 	bool PhotoDirectoryIterator::checkValidity(const String& directory)
 	{
-		ExtendedPhoto::PathInformations usefulInformations(logs, pCameras);
+        ExtendedPhoto::PathInformations usefulInformations(logs, pDatabase);
 
 		if (pPathFormat.doFolderMatch(directory, usefulInformations))
 		{

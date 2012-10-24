@@ -15,7 +15,7 @@ namespace PictStock
 
 	namespace ExtendedPhoto
 	{
-		class Cameras;
+		class Database;
 	}
 
 namespace SortNewPhotos
@@ -51,7 +51,7 @@ namespace Private
 		 * should be false most of the time...
 		 */
 		explicit SortNewPhotosIterator(LoggingFacility& logs,
-			const Database::Cameras& cameras,
+			const Database::Database& database,
 			const Yuni::String& inputDirectory, const PhotoDirectory::PathFormat& pathFormat,
 			bool doFolderManualDate = false);
 
@@ -148,7 +148,7 @@ namespace Private
 		unsigned int pCurrentFolderManualLevel;
 
 		//! Object that keeps all known cameras under check
-		const Database::Cameras& pCameras;
+		const Database::Database& pDatabase;
 
 	};
 

@@ -35,6 +35,24 @@ namespace Database
             const TablePhotographers::LastName::WrappedType& lastName,
             const TablePhotographers::Abbreviation::WrappedType& abbreviation);
 
+        /*!
+        ** \brief Identify the owner of a photographer
+        **
+        ** If no photographer is identified, an exception is thrown:
+        ** this method should be called when a camera has been identified
+        ** and an abbreviation returned; this abbreviation should exist
+        ** in photographers database unless this one is malformed
+        */
+        template<class StringT>
+        inline void identifyCameraOwner(
+            const StringT& abbreviation,
+            Photographer::Ptr& photographer) const;
+
+        /*!
+        ** \brief Returns the underlying #Cameras object
+        */
+        inline const Cameras& cameras() const;
+
 
     private:
 

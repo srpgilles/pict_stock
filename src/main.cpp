@@ -1,7 +1,7 @@
 #include "sort_new_photos/sort_new_photos.hpp"
 #include <yuni/core/getopt.h>
 #include "tools/read_parameter_file.hpp"
-#include "database/cameras.hpp"
+#include "database/database.hpp"
 #include "tools/sqlite_wrapper.hpp"
 
 using namespace Yuni;
@@ -44,15 +44,11 @@ int main(int argc, char* argv[])
 		keys.push_back("pathFormat");
 		keys.push_back("logFile");
 
-		GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
-
-        Database::Photographers photographers(db);
-        Database::Cameras cameras(db, photographers);
-
+        Database::Database database("test.db3");
 
 		const GenericTools::ReadParameterFile parameters(logs, parameterFile, keys);
-		PhotoDirectory::PhotoDirectory photoDirectory(logs, cameras, parameters["outputFolder"], parameters["pathFormat"]);
-		SortNewPhotos::SortNewPhotos sortNewPhotos(logs, cameras, parameters["inputFolder"], photoDirectory,
+        PhotoDirectory::PhotoDirectory photoDirectory(logs, database, parameters["outputFolder"], parameters["pathFormat"]);
+        SortNewPhotos::SortNewPhotos sortNewPhotos(logs, database, parameters["inputFolder"], photoDirectory,
 			parameters["logFile"], doAskModifyDate);
 
 		if (!sortNewPhotos.proceed())

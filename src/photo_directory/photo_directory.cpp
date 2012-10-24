@@ -9,17 +9,17 @@ namespace PictStock
 namespace PhotoDirectory
 {
 
-    PhotoDirectory::PhotoDirectory(LoggingFacility& logs, const Database::Cameras& cameras,
+    PhotoDirectory::PhotoDirectory(LoggingFacility& logs, const Database::Database& database,
 		const Yuni::String& folder, const YString& strPathFormat)
 		: logs(logs),
 		  pMainFolder(folder),
 		  pPathFormat(new PathFormat(logs, strPathFormat)),
-		  pCameras(cameras)
+		  pDatabase(database)
 	{
 		assert(!(!pPathFormat));
 		auto& pathFormat = *pPathFormat;
 
-		Private::PhotoDirectoryIterator iterator(logs, pCameras, pathFormat);
+        Private::PhotoDirectoryIterator iterator(logs, pDatabase, pathFormat);
 		iterator.add(folder);
 
 		if (!iterator.start())
@@ -50,7 +50,7 @@ namespace PhotoDirectory
 			return false;
 
 		// Add new folder in the tree
-		ExtendedPhoto::PathInformations onlyUsefulInfos(logs, pCameras);
+        ExtendedPhoto::PathInformations onlyUsefulInfos(logs, pDatabase);
 		pathFormat.onlyUsefulFolderElements(onlyUsefulInfos, infos);
 
 		pTree.insert(std::make_pair(onlyUsefulInfos, folder));

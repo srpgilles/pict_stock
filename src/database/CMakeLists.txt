@@ -1,6 +1,7 @@
 add_library(pict_stock_database STATIC
     database.cpp
     database.hpp
+    database.hxx
     database_exceptions.hpp
     cameras.cpp
     cameras.hpp

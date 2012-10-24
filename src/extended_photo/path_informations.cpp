@@ -1,5 +1,5 @@
 #include "path_informations.hpp"
-#include "../database/cameras.hpp"
+#include "../database/database.hpp"
 
 using namespace Yuni;
 
@@ -8,10 +8,10 @@ namespace PictStock
 namespace ExtendedPhoto
 {
 
-    PathInformations::PathInformations(LoggingFacility& logs, const Database::Cameras& cameras)
+    PathInformations::PathInformations(LoggingFacility& logs, const Database::Database& database)
 		: logs(logs),
 		  pPhotographerPtr(nullptr),
-		  pCameras(cameras)
+		  pDatabase(database)
 	{ }
 
 
@@ -19,7 +19,7 @@ namespace ExtendedPhoto
 		: logs(rhs.logs),
 		  pPhotographerPtr(rhs.pPhotographerPtr),
 		  pDate(rhs.pDate),
-		  pCameras(rhs.pCameras)
+          pDatabase(rhs.pDatabase)
 	{ }
 
 

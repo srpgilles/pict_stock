@@ -1,6 +1,6 @@
 #include "sort_new_photos_iterator.hpp"
 #include "../../photo_directory/path_format.hpp"
-#include "../../database/cameras.hpp"
+#include "../../database/database.hpp"
 
 
 # ifdef USE_BOOST_REGULAR_EXPR
@@ -49,7 +49,7 @@ namespace Private
 	using namespace Yuni;
 
 	SortNewPhotosIterator::SortNewPhotosIterator(LoggingFacility& logs,
-		const Database::Cameras& cameras,
+		const Database::Database& database,
 		const String& inputDirectory,
 		const PhotoDirectory::PathFormat& pathFormat,
 		bool doFolderManualDate)
@@ -58,7 +58,7 @@ namespace Private
 		  pDoFolderManualDate(doFolderManualDate),
 		  pFolderLevel(0u),
 		  pCurrentFolderManualLevel(static_cast<unsigned int>(-1)),
-		  pCameras(cameras)
+		  pDatabase(database)
 	{
 		if (!IO::Directory::Exists(inputDirectory))
 		{
@@ -167,7 +167,7 @@ namespace Private
 		String fullName;
 		fullName << folder << IO::Separator << name;
 		ExtendedPhoto::ExtendedPhoto::Ptr photoPtr =
-			new ExtendedPhoto::ExtendedPhoto(logs, pCameras, fullName);
+			new ExtendedPhoto::ExtendedPhoto(logs, pDatabase, fullName);
 		auto& photo = *photoPtr;
 
 		if (photo.problem())
@@ -183,7 +183,7 @@ namespace Private
 			photo.modifyDate(pCurrentFolderManualDate);
 		}
 
-		ExtendedPhoto::PathInformations usefulInfos(logs, pCameras);
+		ExtendedPhoto::PathInformations usefulInfos(logs, pDatabase);
 		pPathFormat.onlyUsefulFolderElements(usefulInfos, photo);
 		pPicturesToProcess[usefulInfos].push_back(photoPtr);
 

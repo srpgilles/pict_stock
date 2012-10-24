@@ -19,7 +19,7 @@ namespace PictStock
 
     namespace Database
 	{
-		class Cameras;
+		class Database;
 	}
 
 namespace PictFrame
@@ -72,7 +72,7 @@ namespace Private
 		//@{
 		//! Constructor
 		ScanPhotoDirectory(LoggingFacility& logs,
-			const Database::Cameras& cameras,
+			const Database::Database& database,
 			const PhotoDirectory::PathFormat& pathFormat,
 			const YString& photoDirectory,
 			const time_t beginDate, const time_t endDate, ReadDate::Mode mode);
@@ -140,7 +140,7 @@ namespace Private
 		bool pIsValidFolder;
 
 		//! Object that keeps all known cameras under check
-		const Database::Cameras& pCameras;
+		const Database::Database& pDatabase;
 
 	};
 

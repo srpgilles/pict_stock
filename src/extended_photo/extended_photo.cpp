@@ -1,5 +1,5 @@
 #include "extended_photo.hpp"
-#include "../database/cameras.hpp"
+#include "../database/database.hpp"
 
 #include <iostream>
 #include <iomanip>
@@ -11,12 +11,12 @@ namespace PictStock
 namespace ExtendedPhoto
 {
 
-    ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const Database::Cameras& cameras, const String& filename)
+    ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const Database::Database& database, const String& filename)
 		: logs(logs),
 		  pOriginalPath(filename),
-		  pPathInformations(new PathInformations(logs, cameras)),
+          pPathInformations(new PathInformations(logs, database)),
 		  pStatus(epFine),
-		  pCameras(cameras)
+          pDatabase(database)
 	{
 		// It is assumed files passed in parameters truly exists
 		// (check should occur before call to the class)
@@ -56,7 +56,8 @@ namespace ExtendedPhoto
 		// the name of the model, which is good enough for our purposes due to the
 		// maze of existing models)
 		// So we're checking one after another the keywords used by the known cameras
-		const auto& keywords = pCameras.keywords();
+        const auto& cameras = pDatabase.cameras();
+        const auto& keywords = cameras.keywords();
 
         Database::Photographer::Ptr photographerPtr(nullptr);
 
@@ -71,7 +72,7 @@ namespace ExtendedPhoto
 				continue;
 
 			// Now check whether one of the values in the database match the value read
-			if (!pCameras.identifyPhotographer(currentKeyword, value, photographerPtr))
+            if (!cameras.identifyPhotographer(currentKeyword, value, photographerPtr))
 				continue;
 
 			assert(!(!photographerPtr));

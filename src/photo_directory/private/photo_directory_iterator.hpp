@@ -11,7 +11,7 @@ namespace PictStock
 {
     namespace Database
 	{
-		class Cameras;
+        class Database;
 	}
 
 namespace PhotoDirectory
@@ -39,7 +39,7 @@ namespace Private
 		//! Constructor & destructor
 		//@{
 		//! Constructor
-		PhotoDirectoryIterator(LoggingFacility& logs, const Database::Cameras& cameras,
+		PhotoDirectoryIterator(LoggingFacility& logs, const Database::Database& database,
 			const PathFormat& pathFormat);
 
 		//! Destructor
@@ -108,7 +108,7 @@ namespace Private
 		ValidDirectoriesType pValidDirectories;
 
 		//! Object that keeps all known cameras under check
-		const Database::Cameras& pCameras;
+		const Database::Database& pDatabase;
 
 	};
 

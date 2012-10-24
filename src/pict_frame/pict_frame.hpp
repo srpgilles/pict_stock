@@ -9,7 +9,7 @@ namespace PictStock
 {
 	namespace ExtendedPhoto
 	{
-		class Cameras;
+		class Database;
 	}
 
 namespace PictFrame
@@ -42,7 +42,7 @@ namespace PictFrame
 		** \param[in] isChronological If true, pictures will be sort chronologically
  		**
 		*/
-		PictFrame(LoggingFacility& logs, const Database::Cameras& cameras, const YString& pathFormat,
+		PictFrame(LoggingFacility& logs, const Database::Database& database, const YString& pathFormat,
 			const YString& photoDirectory, const YString& outputDirectory,
 			unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
 			ReadDate::Mode mode, bool isChronological);
@@ -83,7 +83,7 @@ namespace PictFrame
 		std::list<ExtendedPhoto::ExtendedPhoto::Ptr> pPhotosChosen;
 
 		//! Object that keeps all known cameras under check
-		const Database::Cameras& pCameras;
+		const Database::Database& pDatabase;
 
 	};
 

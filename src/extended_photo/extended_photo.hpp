@@ -14,7 +14,7 @@ namespace PictStock
 {
     namespace Database
     {
-        class Cameras;
+        class Database;
     }
 
 
@@ -45,7 +45,7 @@ namespace ExtendedPhoto
 
 		//! Constructor
 		//@{
-        explicit ExtendedPhoto(LoggingFacility& logs, const Database::Cameras& cameras,
+        explicit ExtendedPhoto(LoggingFacility& logs, const Database::Database& database,
             const YString& filename);
 
 		//@}
@@ -146,7 +146,7 @@ namespace ExtendedPhoto
 		Status pStatus;
 
 		//! Object that keeps all known cameras under check
-        const Database::Cameras& pCameras;
+        const Database::Database& pDatabase;
 	};
 
 	//! Operator== : two #ExtendedPhoto are equals if they share the same object *pImage

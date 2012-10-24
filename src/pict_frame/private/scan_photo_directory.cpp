@@ -2,7 +2,7 @@
 #include "../../photo_directory/path_format.hpp"
 #include "../../extended_photo/path_informations.hpp"
 #include "../../extended_photo/extended_photo.hpp"
-#include "../../database/cameras.hpp"
+#include "../../database/database.hpp"
 
 using namespace Yuni;
 
@@ -15,7 +15,7 @@ namespace Private
 
 
 	ScanPhotoDirectory::ScanPhotoDirectory(LoggingFacility& logs,
-		const Database::Cameras& cameras,
+		const Database::Database& database,
 		const PhotoDirectory::PathFormat& pathFormat,
 		const YString& photoDirectory,
 		const time_t beginDate,
@@ -27,7 +27,7 @@ namespace Private
 		  pMode(mode),
 		  pPathFormat(pathFormat),
 		  pIsValidFolder(false),
-		  pCameras(cameras)
+		  pDatabase(database)
 	{
 		if (!IO::Directory::Exists(photoDirectory))
 		{
@@ -91,7 +91,7 @@ namespace Private
 			// modify anything in case folder actually support most of the date
 			// information and photo directory was generated with PictStock;
 			// however if not the case this step is really required)
-			ExtendedPhoto::ExtendedPhoto photo(logs, pCameras, completePath);
+			ExtendedPhoto::ExtendedPhoto photo(logs, pDatabase, completePath);
 			auto ptr = photo.informations();
 			assert(!(!ptr));
 			ExtendedPhoto::Date photoDate = ptr->date();
@@ -112,7 +112,7 @@ namespace Private
 
 	bool ScanPhotoDirectory::checkValidity(const String& directory)
 	{
-		ExtendedPhoto::PathInformations usefulInformations(logs, pCameras);
+		ExtendedPhoto::PathInformations usefulInformations(logs, pDatabase);
 
 		if (pPathFormat.doFolderMatch(directory, usefulInformations))
 		{

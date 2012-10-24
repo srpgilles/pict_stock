@@ -6,7 +6,7 @@
 #include "populate_day_folder.hpp"
 #include "../../photo_directory/path_format.hpp"
 #include "../../tools/numeration.hpp"
-#include "../../database/cameras.hpp"
+#include "../../database/database.hpp"
 
 using namespace Yuni;
 
@@ -19,7 +19,7 @@ namespace Private
 
 
 	PopulateDayFolder::PopulateDayFolder(LoggingFacility& logs,
-		const Database::Cameras& cameras,
+		const Database::Database& database,
 		const PhotoDirectory::PathFormat& pathFormat,
 		const YString& targetFolder,
 		const ExtendedPhoto::PathInformations& targetInfos,
@@ -31,7 +31,7 @@ namespace Private
 		  pPathFormat(pathFormat),
 		  pNewPhotos(newPhotos),
 		  pSummaryFile(summaryFile),
-		  pCameras(cameras)
+		  pDatabase(database)
 	{ }
 
 	PopulateDayFolder::~PopulateDayFolder()
@@ -72,7 +72,7 @@ namespace Private
 				continue;
 
 			ExtendedPhoto::ExtendedPhoto::Ptr photoPtr =
-				new ExtendedPhoto::ExtendedPhoto(logs, pCameras, file);
+				new ExtendedPhoto::ExtendedPhoto(logs, pDatabase, file);
 
 			YString newName;
 			pPathFormat.determineMinimalFilename(newName, *photoPtr);

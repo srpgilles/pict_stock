@@ -7,7 +7,7 @@
 # include "date.hpp"
 # include "private/date_helpers.hpp"
 # include "private/photographer_helpers.hpp"
-# include "../database/cameras.hpp"
+# include "../database/database.hpp"
 
 
 
@@ -15,7 +15,7 @@ namespace PictStock
 {
     namespace Database
     {
-        class Cameras;
+        class Database;
     }
 
 
@@ -58,7 +58,7 @@ namespace ExtendedPhoto
 		 * \param[in] logs Logging facility
 		 *
 		 */
-        explicit PathInformations(LoggingFacility& logs, const Database::Cameras& cameras);
+        explicit PathInformations(LoggingFacility& logs, const Database::Database& database);
 
 		//! Recopy constructor
 		PathInformations(const PathInformations& );
@@ -150,7 +150,7 @@ namespace ExtendedPhoto
 		Date pDate;
 
         //! Object that keeps all known Database::Cameras under check
-        const Database::Cameras& pCameras;
+        const Database::Database& pDatabase;
 
 	};
 

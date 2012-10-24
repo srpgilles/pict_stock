@@ -3,8 +3,9 @@
 #include <yuni/io/directory/info/info.h>
 #include <yuni/core/math/random/default.h>
 #include "../photo_directory/path_format.hpp"
+
 #include "../tools/numeration.hpp"
-#include "../database/cameras.hpp"
+#include "../database/database.hpp"
 
 
 using namespace Yuni;
@@ -90,14 +91,14 @@ namespace PictFrame
 
 
 
-	PictFrame::PictFrame(LoggingFacility& logs, const Database::Cameras& cameras,
+	PictFrame::PictFrame(LoggingFacility& logs, const Database::Database& database,
 		const YString& strPathFormat,
 		const YString& photoDirectory, const YString& outputDirectory,
 		unsigned int nbPhotos, const time_t beginDate, const time_t endDate,
 		ReadDate::Mode mode, bool isChronological)
 		: logs(logs),
 		  pNbPhotos(nbPhotos),
-		  pCameras(cameras)
+		  pDatabase(database)
 	{
 		// Create or empty (only jpg) target directory
 		prepareOutputDirectory(outputDirectory);
@@ -105,7 +106,7 @@ namespace PictFrame
 		PhotoDirectory::PathFormat pathFormat(logs, strPathFormat);
 
 		// Scan the photo directory from which the selection will be performed
-		Private::ScanPhotoDirectory helper(logs, pCameras, pathFormat, photoDirectory,
+        Private::ScanPhotoDirectory helper(logs, pDatabase, pathFormat, photoDirectory,
 			beginDate, endDate, mode);
 		const auto& pool = helper.pool();
 
@@ -148,7 +149,7 @@ namespace PictFrame
 			// Trivial case: keep all photos!
 			for (auto it = pool.cbegin(), end = pool.cend(); it != end; ++it)
 			{
-				ExtendedPhoto::ExtendedPhoto::Ptr ptr = new ExtendedPhoto::ExtendedPhoto(logs, pCameras, *it);
+                ExtendedPhoto::ExtendedPhoto::Ptr ptr = new ExtendedPhoto::ExtendedPhoto(logs, pDatabase, *it);
 				pPhotosChosen.push_back(ptr);
 			}
 		}
@@ -168,7 +169,7 @@ namespace PictFrame
 				{
 					assert(*it < poolSize);
 					ExtendedPhoto::ExtendedPhoto::Ptr ptr =
-						new ExtendedPhoto::ExtendedPhoto(logs, pCameras, pool[*it]);
+                        new ExtendedPhoto::ExtendedPhoto(logs, pDatabase, pool[*it]);
 					pPhotosChosen.push_back(ptr);
 				}
 			}

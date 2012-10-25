@@ -89,6 +89,7 @@ namespace Gui
             dialog->show();
 
             connect(createDefault, SIGNAL(clicked()), this, SLOT(createDefaultDatabase()));
+            connect(createDefault, SIGNAL(clicked()), dialog, SLOT(accept()));
         }
     }
 

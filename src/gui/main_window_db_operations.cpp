@@ -6,6 +6,12 @@
 #include <yuni/io/directory/system.h>
 #include <yuni/io/file/file.h>
 
+#include <QDialog>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QLabel>
+
 using namespace Yuni;
 
 namespace PictStock
@@ -26,6 +32,8 @@ namespace Gui
 
             if (IO::File::Exists(defaultDatabasePath))
             {
+                std::cout << "EXIST\n";
+
                 // Load the file found
                 if (loadSqliteFile(defaultDatabasePath))
                     return;
@@ -33,9 +41,28 @@ namespace Gui
             }
         }
 
-        // TODO Default doesn't work; open dialog to either load another file or create a raw
-        // database
 
+        {
+            // If default database doesn't exist, fire up a dialog box
+
+            QDialog* dialog = new QDialog(this);
+            dialog->setModal(true);
+
+            QVBoxLayout* dialogLayout = new QVBoxLayout;
+
+            QLabel* question = new QLabel(tr("No default database found; what do you want to do?"));
+            dialogLayout->addWidget(question);
+
+            QHBoxLayout* optionsLayout = new QHBoxLayout;
+            QPushButton* createDefault = new QPushButton(tr("Create default one"));
+            QPushButton* loadAnother = new QPushButton(tr("Load existing one"));
+            optionsLayout->addWidget(createDefault);
+            optionsLayout->addWidget(loadAnother);
+            dialogLayout->addLayout(optionsLayout);
+
+            dialog->setLayout(dialogLayout);
+            dialog->show();
+        }
     }
 
 

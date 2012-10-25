@@ -60,7 +60,8 @@ namespace Database
     void Database::create(const AnyString& db3File)
     {
         // Create the db3 file
-        assert(!IO::File::Exists(db3File));
+        assert("The method should be called only when the file doesn't exist"
+            && !IO::File::Exists(db3File));
 
         {
             std::unique_ptr<GenericTools::SqliteWrapper> ptr(

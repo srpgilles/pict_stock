@@ -9,6 +9,9 @@
 namespace GenericTools
 {
 
+
+
+
 	template<class T>
 	struct IsString
 	{
@@ -36,15 +39,18 @@ namespace GenericTools
         stream << opener;
 
         auto it = container.cbegin();
-        auto end = container.cend();
-        auto lastElement = end;
-        --lastElement;
+        auto end = container.cend();    
+        auto size = container.size();
+        (void) end; // avoid compilation warning in release mode
 
-        for (; it != lastElement; ++it)
+        for (decltype(size) i = 0u; i < size - 1u; ++it, ++i)
+        {            
+            assert(it != end);
             stream << *it << separator;
+        }
 
-        if (lastElement != end)
-            stream << *lastElement;
+        if (size > 0u)
+            stream << *it;
 
         stream << closer;
     }

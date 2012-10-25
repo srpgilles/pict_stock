@@ -19,10 +19,17 @@ namespace Database
 
         //! Constructors
         //@{
-        explicit Database(const AnyString& db3File);
+        explicit Database(const AnyString& db3File, nsTable::Values mode = nsTable::load);
 
 
         //@}
+
+        // SG DEV
+        GenericTools::SqliteWrapper& sqliteDb() const
+        {
+            assert(pSqliteDb);
+            return *pSqliteDb;
+        }
 
 
         /*!
@@ -58,6 +65,12 @@ namespace Database
         ** \brief Check the database includes the expected tables
         */
         void checkExpectedFormat();
+
+
+        /*!
+        ** \brief Create the schemas of the database
+        */
+        void create(const AnyString& db3File);
 
 
     private:

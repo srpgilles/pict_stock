@@ -39,8 +39,9 @@ namespace Database
 	{
         switch(mode)
         {
-            case nsTable::create:
+            case nsTable::createAndLoad:
                 create(database);
+                load();
                 break;
             case nsTable::load:
                 load();

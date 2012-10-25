@@ -1,6 +1,6 @@
 #include "tools/sqlite_wrapper.hpp"
 #include "pict_stock.hpp"
-#include "database/cameras.hpp"
+#include "database/database.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -9,7 +9,7 @@ int main(int argc, char* argv[])
 
 	LoggingFacility logs;
 
-	GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
+    //GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE);
 
     /*db.createTable("Photographers",
 		"FirstName varchar(80),"
@@ -27,8 +27,11 @@ int main(int argc, char* argv[])
             );*/
 
 
-    PictStock::Database::Photographers photographers(db, PictStock::Database::nsTable::create);
-    PictStock::Database::Cameras cameras(db, photographers, PictStock::Database::nsTable::create);
+//    PictStock::Database::Photographers photographers(db, PictStock::Database::nsTable::createAndLoad);
+//    PictStock::Database::Cameras cameras(db, photographers, PictStock::Database::nsTable::createAndLoad);
+
+    PictStock::Database::Database database("test.db3", PictStock::Database::nsTable::createAndLoad);
+    auto& db = database.sqliteDb();
 
 
 	{

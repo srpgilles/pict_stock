@@ -17,7 +17,7 @@ namespace Database
     {
         enum Values
         {
-            create,
+            createAndLoad,
             load
         };
     } // namespace Table

@@ -9,12 +9,20 @@ namespace PictStock
 namespace Database
 {
 
-    Database::Database(const AnyString& db3File)
+    Database::Database(const AnyString& db3File, nsTable::Values mode)
         : pSqliteDb(nullptr),
           pCameras(nullptr),
           pPhotographers(nullptr)
     {
-        open(db3File);
+        switch(mode)
+        {
+        case nsTable::Values::load:
+            open(db3File);
+            break;
+        case nsTable::Values::createAndLoad:
+            create(db3File);
+            break;
+        }
     }
 
 
@@ -46,6 +54,37 @@ namespace Database
             pCameras = std::move(ptr);
         }
 
+    }
+
+
+    void Database::create(const AnyString& db3File)
+    {
+        // Create the db3 file
+        assert(!IO::File::Exists(db3File));
+
+        {
+            std::unique_ptr<GenericTools::SqliteWrapper> ptr(
+                new GenericTools::SqliteWrapper(db3File, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE));
+
+            pSqliteDb = std::move(ptr);
+        }
+
+        // Create the tables inside
+        assert(pSqliteDb);
+        auto& sqliteRef = *pSqliteDb;
+
+        {
+            std::unique_ptr<Photographers> ptr(new Photographers(sqliteRef, nsTable::createAndLoad));
+            pPhotographers = std::move(ptr);
+        }
+
+        assert(pPhotographers);
+        auto& photographersRef = *pPhotographers;
+
+        {
+            std::unique_ptr<Cameras> ptr(new Cameras(sqliteRef, photographersRef, nsTable::createAndLoad));
+            pCameras = std::move(ptr);
+        }
     }
 
 

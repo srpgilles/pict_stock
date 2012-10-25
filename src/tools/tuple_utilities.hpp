@@ -195,7 +195,8 @@ namespace Tuple
 
             typedef typename std::tuple_element<Index, TupleType>::type EltTupleType;
 
-            Yuni::CString<4, false> quote = IsString<EltTupleType>::value ? "\"" : "";
+            Yuni::CString<4, false> quote =
+                Yuni::Traits::IsString<EltTupleType>::yes ? "\"" : "";
 
             stream << quote << std::get<Index>(t) << quote << (Index + 1 == Max ? "" : separator);
             printHelper<StreamT, Index + 1, Max, Args...>::print(stream, t, separator);

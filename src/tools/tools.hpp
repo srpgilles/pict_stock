@@ -12,7 +12,7 @@ namespace GenericTools
 
 
 
-	template<class T>
+    /*template<class T>
 	struct IsString
 	{
 	private:
@@ -25,7 +25,7 @@ namespace GenericTools
 	public:
 
 		enum { value = isCharRelated ? 1 : std::is_constructible<T, char*>::value };
-	};
+    }*/
 
 
 

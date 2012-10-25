@@ -30,6 +30,8 @@ ext/yuni/src/yuni/yuni.version
 
 # Qt
 *.cbp
+*automoc*
+moc_*.cpp
 
 # Exiv2
 exv_conf.h

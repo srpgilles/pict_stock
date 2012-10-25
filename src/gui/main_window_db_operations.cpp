@@ -5,6 +5,7 @@
 #include <yuni/core/string.h>
 #include <yuni/io/directory/system.h>
 #include <yuni/io/file/file.h>
+#include "../database/exceptions/database.hpp"
 
 #include <QDialog>
 #include <QHBoxLayout>
@@ -19,32 +20,56 @@ namespace PictStock
 namespace Gui
 {
 
+
+    bool MainWindow::defaultDb3Location(YString& out) const
+    {
+        out.clear();
+
+        if (!IO::Directory::System::UserHome(out))
+            return false;
+
+        out <<  IO::Separator << ".pict_stock";
+
+        // Create the directory in memory if it doesn't exist
+        if (!IO::Directory::Exists(out))
+        {
+            if (!IO::Directory::Create(out))
+                return false;
+        }
+
+        out <<  IO::Separator << "pict_stock.db3";
+        return true;
+    }
+
+
+
     void MainWindow::loadDatabaseWhenStarting()
     {  
         // First check the default emplacement; if it exists load it
-        YString userDirectory;
+        YString defaultDatabasePath;
 
-        if (IO::Directory::System::UserHome(userDirectory))
+        if (defaultDb3Location(defaultDatabasePath))
         {
-            YString defaultDatabasePath(userDirectory);
-            defaultDatabasePath << IO::Separator << ".pict_stock"
-                                <<  IO::Separator << "pict_stock.db3";
-
             if (IO::File::Exists(defaultDatabasePath))
             {
-                std::cout << "EXIST\n";
-
-                // Load the file found
-                if (loadSqliteFile(defaultDatabasePath))
+                try
+                {
+                    std::unique_ptr<Database::Database> ptr(new Database::Database(defaultDatabasePath,
+                        Database::nsTable::load));
+                    pDb = std::move(ptr);
                     return;
-                // TODO Foresee procedure if sqlite file does not match expected format
+                }
+                catch(const Database::Exceptions::DatabaseException& e)
+                {
+                    // TODO Foresee the message to display in dialog box
+
+                }
             }
         }
 
 
         {
             // If default database doesn't exist, fire up a dialog box
-
             QDialog* dialog = new QDialog(this);
             dialog->setModal(true);
 
@@ -62,22 +87,20 @@ namespace Gui
 
             dialog->setLayout(dialogLayout);
             dialog->show();
+
+            connect(createDefault, SIGNAL(clicked()), this, SLOT(createDefaultDatabase()));
         }
     }
 
 
-    bool MainWindow::loadSqliteFile(const YString& db3File)
+    void MainWindow::createDefaultDatabase()
     {
-        assert(IO::File::Exists(db3File));
+        YString defaultPath;
+        if (!defaultDb3Location(defaultPath))
+            return;
 
-        std::unique_ptr<GenericTools::SqliteWrapper> ptr {
-            new GenericTools::SqliteWrapper(db3File, SQLITE_OPEN_READWRITE)
-        };
-
-        // TODO Here check whether the sqlite3 file fulfills the requirements
-
-
-
+        std::unique_ptr<Database::Database> ptr(new Database::Database(defaultPath,
+            Database::nsTable::createAndLoad));
         pDb = std::move(ptr);
     }
 

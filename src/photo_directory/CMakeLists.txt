@@ -1,3 +1,5 @@
+set(CMAKE_AUTOMOC TRUE)
+
 add_library(photo_directory STATIC
 	
 	../pict_stock.hpp

@@ -4,7 +4,7 @@
 # include <QMainWindow>
 # include <memory>
 
-# include "../tools/sqlite_wrapper.hpp"
+# include "../database/database.hpp"
 # include <yuni/core/string.h>
 
 class QHBoxLayout;
@@ -24,6 +24,8 @@ namespace Gui
 
     class MainWindow : public ::QMainWindow
     {
+         Q_OBJECT
+
     public:
 
         //! Constructors
@@ -32,6 +34,11 @@ namespace Gui
         MainWindow();
 
         //@}
+
+    private slots:
+
+        /*! Create a new database at the default emplacement */
+        void createDefaultDatabase();
 
     private:
 
@@ -43,10 +50,6 @@ namespace Gui
         ** give the path to a valid one
         **/
         void loadDatabaseWhenStarting();
-
-
-        /*! \brief Load the sqlite file given in argument */
-        bool loadSqliteFile(const YString& sqlite);
 
         /*!
         ** \brief Creates the tab manager
@@ -71,8 +74,16 @@ namespace Gui
 
     private:
 
+        /**
+        ** \brief Get the default database location
+        */
+        bool defaultDb3Location(YString& out) const;
+
+
+    private:
+
         //! Sqlite access
-        std::unique_ptr<GenericTools::SqliteWrapper> pDb;
+        std::unique_ptr<Database::Database> pDb;
 
         //! Central area
         QWidget* pCentralArea;

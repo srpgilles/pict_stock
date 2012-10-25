@@ -1,8 +1,7 @@
 add_library(pict_stock_database STATIC
     database.cpp
     database.hpp
-    database.hxx
-    database_exceptions.hpp
+    database.hxx    
     cameras.cpp
     cameras.hpp
     cameras.hxx
@@ -16,6 +15,8 @@ add_library(pict_stock_database STATIC
     private/table.cpp
     private/table.hpp
     private/table.hxx
+    exceptions/database.cpp
+    exceptions/database.hpp
 )
 
 target_link_libraries(pict_stock_database

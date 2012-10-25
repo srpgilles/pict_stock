@@ -13,27 +13,13 @@ namespace PictStock
 {
 namespace Database
 {
-    namespace
-    {
-        static YString schema()
-        {
-            YString ret("Keyword varchar(80),"
-                "Value varchar(80),"
-                "Owner varchar(8),"
-                "FOREIGN KEY(Owner) REFERENCES Photographers(Abbreviation),"
-                "UNIQUE (Keyword, Value) ON CONFLICT ABORT");
-
-            return std::move(ret);
-        }
-
-    } // namespace anonymous
 
 
 	using namespace TableCameras;
 
     Cameras::Cameras(GenericTools::SqliteWrapper& database,
         const Photographers& photographers, nsTable::Values mode)
-        : Private::Table("Cameras", schema()),
+        : Private::Table<Schema::Cameras>(),
           pDatabase(database),
           pPhotographers(photographers)
 	{

@@ -2,7 +2,7 @@
 #include "database/database.hpp"
 
 using namespace Yuni;
-
+using namespace PictStock;
 
 
 int main(int argc, char* argv[])
@@ -10,9 +10,9 @@ int main(int argc, char* argv[])
     (void) argc;
 	(void) argv;
 
-    GenericTools::SqliteWrapper db("test.db3", SQLITE_OPEN_READWRITE);
-
-	typedef PictStock::Database::Cameras::Tuple Tuple;
+    Database::Database database("test.db3", Database::nsTable::load);
+    auto& db = database.sqliteDb();
+    typedef PictStock::Database::Cameras::Tuple Tuple;
 
 	std::cout << std::tuple_size<Tuple>::value << '\n';
     typedef GenericTools::Tuple::WrappedType<Tuple>::type Strings;
@@ -30,8 +30,6 @@ int main(int argc, char* argv[])
         for (auto it = fieldNames.cbegin(), end = fieldNames.cend(); it != end; ++it)
             std::cout << *it << '\n';
     }
-
-
 
 	return 0;
 }

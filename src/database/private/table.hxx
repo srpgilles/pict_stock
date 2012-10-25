@@ -8,19 +8,29 @@ namespace Database
 namespace Private
 {
 
-    inline const YString& Table::tableSchema() const
+    template<class T>
+    Table<T>::Table()
+        : pName(T::Name()),
+          pSchema(T::Schema())
+    { }
+
+
+    template<class T>
+    inline const YString& Table<T>::tableSchema() const
     {
         return pSchema;
     }
 
 
-    inline const YString& Table::tableName() const
+    template<class T>
+    inline const YString& Table<T>::tableName() const
     {
         return pName;
     }
 
 
-    inline void Table::create(GenericTools::SqliteWrapper& sqlite)
+    template<class T>
+    inline void Table<T>::create(GenericTools::SqliteWrapper& sqlite)
     {
         sqlite.createTable(pName, pSchema);
     }

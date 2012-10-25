@@ -46,7 +46,26 @@ namespace Database
 			typedef Yuni::CString<8, false> WrappedType;
 			static YString FieldName() { return "Owner"; }
 		};
+
+
 	} // namespace TableCameras
+
+    namespace Schema
+    {
+        struct Cameras
+        {
+            static Yuni::CString<8, false> Name() { return "Cameras"; }
+            static YString Schema()
+            {
+                return
+                    "Keyword varchar(80),"
+                    "Value varchar(80),"
+                    "Owner varchar(8),"
+                    "FOREIGN KEY(Owner) REFERENCES Photographers(Abbreviation),"
+                    "UNIQUE (Keyword, Value) ON CONFLICT ABORT";
+            }
+        };
+    }
 
 
 
@@ -55,7 +74,7 @@ namespace Database
 	** their storing inside sqlite database
 	*/
     class YUNI_DECL Cameras : private Yuni::NonCopyable<Cameras>,
-                              public Private::Table
+                              public Private::Table<Schema::Cameras>
 	{
 
 	public:
@@ -180,6 +199,8 @@ namespace Database
         const Photographers& pPhotographers;
 
 	};
+
+
 
 } // namespace Database
 } // namespace PictStock

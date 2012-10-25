@@ -8,13 +8,6 @@ namespace Database
 namespace Private
 {
 
-    Table::Table(const YString& name, const YString& schema)
-        : pName(name),
-          pSchema(schema)
-    { }
-
-
-
 
 
 } // namespace Private

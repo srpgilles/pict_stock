@@ -23,6 +23,23 @@ namespace PictStock
 {
 namespace Database
 {
+    namespace Schema
+    {
+        struct Photographers
+        {
+            static Yuni::CString<15, false> Name() { return "Photographers"; }
+            static YString Schema()
+            {
+                return
+                    "FirstName varchar(80),"
+                    "LastName varchar(80),"
+                    "Abbreviation varchar(8) PRIMARY KEY NOT NULL,"
+                    "UNIQUE (FirstName, LastName) ON CONFLICT ABORT";
+            }
+        };
+    } // namespace Schema
+
+
 
 
 	/*!
@@ -30,7 +47,7 @@ namespace Database
 	** their storing inside sqlite database
 	*/
     class YUNI_DECL Photographers : private Yuni::NonCopyable<Photographers>,
-                                    public Private::Table
+                                    public Private::Table<Schema::Photographers>
 	{
 
 	public:

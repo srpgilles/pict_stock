@@ -6,26 +6,10 @@ namespace PictStock
 {
 namespace Database
 {
-    namespace
-    {
-        static YString schema()
-        {
-            YString ret("FirstName varchar(80),"
-                "LastName varchar(80),"
-                "Abbreviation varchar(8) PRIMARY KEY NOT NULL,"
-                "UNIQUE (FirstName, LastName) ON CONFLICT ABORT");
-
-            return std::move(ret);
-        }
-
-    } // namespace anonymous
-
-
-
-	using namespace TablePhotographers;
+    using namespace TablePhotographers;
 
     Photographers::Photographers(GenericTools::SqliteWrapper& database, nsTable::Values mode)
-        : Private::Table("Photographers", schema()),
+        : Private::Table<PictStock::Database::Schema::Photographers>(),
           pDatabase(database)
 	{
         switch(mode)

@@ -4,6 +4,8 @@
 
 # include <yuni/core/string.h>
 # include <sqlite3.h>
+# include <unordered_set>
+# include "stl.hpp"
 # include "exceptions.hpp"
 # include "tuple_utilities.hpp"
 # include "exceptions/sqlite_wrapper_exceptions.hpp"
@@ -175,6 +177,13 @@ namespace GenericTools
 		inline void pragmaSynchronous(PragmaSynchronous::Values choice);
 
 
+        /*!
+        ** \brief Get all sql schemas as an unordered set
+        **
+        ** The purpose is to be able to check with this data if a given file complies
+        ** with the expected format of a sqlite database
+        */
+        void schemas(std::unordered_set<YString>& out) const;
 
 
 	private:

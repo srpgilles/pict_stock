@@ -144,5 +144,20 @@ namespace GenericTools
 	}
 
 
+    void SqliteWrapper::schemas(std::unordered_set<YString>& out) const
+    {
+        AnyString command("SELECT sql FROM sqlite_master WHERE type='table'");
+        SqliteStatement statement;
+
+        int errCode = prepareCommand(statement, command);
+        assert(errCode == SQLITE_OK);
+
+        while ((errCode = sqlite3_step(statement)) && errCode == SQLITE_ROW)
+            out.insert(YString(reinterpret_cast<const char*>(sqlite3_column_text(statement, 0))));
+
+        if (errCode != SQLITE_DONE)
+            throw Exceptions::IncorrectRequest(command);
+    }
+
 }
 

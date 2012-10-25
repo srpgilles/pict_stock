@@ -64,7 +64,7 @@ namespace Database
         /*!
         ** \brief Check the database includes the expected tables
         */
-        void checkExpectedFormat();
+        bool isValidFile() const;
 
 
         /*!

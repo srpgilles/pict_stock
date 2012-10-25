@@ -20,18 +20,28 @@ namespace Database
             createAndLoad,
             load
         };
-    } // namespace Table
+    } // namespace nsTable
 
 namespace Private
 {
 
+    /*!
+    ** \brief All objects representing a database table should inherit from this class
+    **
+    ** T is a structure with the expected static members Name() and Schema() that defines
+    ** respectively the name of the table and the creation command as passed to
+    ** SqliteWrapper::createTable()
+    */
+
+    template<class T>
     class YUNI_DECL Table
     {
     public:
 
         //! Constructors
         //@{
-        explicit Table(const YString& name, const YString& schema);
+        explicit Table();
+
         //@}
 
         //! Name of the table
@@ -63,7 +73,6 @@ namespace Private
 
         //! Schema used to create the table of the database
         YString pSchema;
-
     };
 
 } // namespace Private

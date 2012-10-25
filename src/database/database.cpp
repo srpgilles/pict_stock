@@ -1,5 +1,5 @@
 #include "database.hpp"
-#include "database_exceptions.hpp"
+#include "exceptions/database.hpp"
 #include <yuni/io/file.h>
 
 using namespace Yuni;
@@ -8,6 +8,26 @@ namespace PictStock
 {
 namespace Database
 {
+    namespace
+    {
+        /*!
+        ** \brief Recreate the complete sql command that would be used to
+        ** create anew the structure of the table
+        */
+
+        template<class TableT>
+        YString formSchemaStatement()
+        {
+            YString ret;
+            ret << "CREATE TABLE ";
+            ret << TableT::Name();
+            ret << '(' << TableT::Schema() << ')';
+            return std::move(ret);
+        }
+
+
+    } // namespace anonymous
+
 
     Database::Database(const AnyString& db3File, nsTable::Values mode)
         : pSqliteDb(nullptr),
@@ -28,7 +48,7 @@ namespace Database
 
     void Database::open(const AnyString& db3File)
     {
-        if (IO::File::Exists(db3File))
+        if (!IO::File::Exists(db3File))
             throw Exceptions::FileNotFound(db3File);
 
         {
@@ -39,6 +59,10 @@ namespace Database
         }
 
         assert(pSqliteDb);
+
+        if (!isValidFile())
+            throw Exceptions::InvalidFile(db3File);
+
         auto& sqliteRef = *pSqliteDb;
 
         {
@@ -89,11 +113,17 @@ namespace Database
     }
 
 
-    void Database::checkExpectedFormat()
+    bool Database::isValidFile() const
     {
+        assert(pSqliteDb);
+        std::unordered_set<YString> dbSchemas;
+        pSqliteDb->schemas(dbSchemas);
 
+        std::unordered_set<YString> expectedSchemas;
+        expectedSchemas.insert(formSchemaStatement<Schema::Cameras>());
+        expectedSchemas.insert(formSchemaStatement<Schema::Photographers>());
 
-
+        return expectedSchemas == dbSchemas;
     }
 
 

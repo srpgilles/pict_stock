@@ -7,30 +7,23 @@ namespace GenericTools
 {
 namespace Exceptions
 {
-    namespace
-    {
-        static YString msgIncorrectPrepCommand(const AnyString& command)
-        {
-            YString msg("The preparation of the command \"");
-            msg << command << "\" didn't return SQLITE_OK as expected";
-            return std::move(msg);
-        }
-    } // namespace Anonymous
-
 
     struct YUNI_DECL SqliteWrapper : public Exception
     {
-        SqliteWrapper(const AnyString& msg)
-            : Exception(msg)
-        { }
+        SqliteWrapper(const AnyString& msg);
     };
 
 
     struct YUNI_DECL IncorrectPrepCommand : public SqliteWrapper
     {
-        IncorrectPrepCommand(const AnyString& command)
-            : SqliteWrapper(msgIncorrectPrepCommand(command))
-        { }
+        IncorrectPrepCommand(const AnyString& command);
+    };
+
+
+
+    struct YUNI_DECL IncorrectRequest : public SqliteWrapper
+    {
+        IncorrectRequest(const AnyString& request);
     };
 
 

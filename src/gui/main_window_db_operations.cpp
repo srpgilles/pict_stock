@@ -20,26 +20,28 @@ namespace PictStock
 namespace Gui
 {
 
-
-    bool MainWindow::defaultDb3Location(YString& out) const
+    namespace
     {
-        out.clear();
-
-        if (!IO::Directory::System::UserHome(out))
-            return false;
-
-        out <<  IO::Separator << ".pict_stock";
-
-        // Create the directory in memory if it doesn't exist
-        if (!IO::Directory::Exists(out))
+        bool defaultDb3Location(YString& out)
         {
-            if (!IO::Directory::Create(out))
-                return false;
-        }
+            out.clear();
 
-        out <<  IO::Separator << "pict_stock.db3";
-        return true;
-    }
+            if (!IO::Directory::System::UserHome(out))
+                return false;
+
+            out <<  IO::Separator << ".pict_stock";
+
+            // Create the directory in memory if it doesn't exist
+            if (!IO::Directory::Exists(out))
+            {
+                if (!IO::Directory::Create(out))
+                    return false;
+            }
+
+            out <<  IO::Separator << "pict_stock.db3";
+            return true;
+        }
+    } // namespace anonymous
 
 
 
@@ -47,6 +49,8 @@ namespace Gui
     {  
         // First check the default emplacement; if it exists load it
         YString defaultDatabasePath;
+
+
 
         if (defaultDb3Location(defaultDatabasePath))
         {
@@ -61,7 +65,7 @@ namespace Gui
                 }
                 catch(const Database::Exceptions::DatabaseException& e)
                 {
-                    // TODO Foresee the message to display in dialog box
+                   // question = tr("")
 
                 }
             }

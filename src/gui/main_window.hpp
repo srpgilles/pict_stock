@@ -74,10 +74,6 @@ namespace Gui
 
     private:
 
-        /**
-        ** \brief Get the default database location
-        */
-        bool defaultDb3Location(YString& out) const;
 
 
     private:

@@ -92,7 +92,10 @@ namespace Gui
         {
             // If default database doesn't exist, fire up a dialog box
             pDlgNoDefaultDb = new QDialog(this);
-            pDlgNoDefaultDb->setModal(true);
+
+            // TODO Following line doesn't work at the moment; see that later
+            pDlgNoDefaultDb->setContextMenuPolicy(Qt::PreventContextMenu);
+            pDlgNoDefaultDb->setModal(true);            
 
             QVBoxLayout* dialogLayout = new QVBoxLayout;
 

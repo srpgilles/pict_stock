@@ -87,7 +87,7 @@ namespace Database
         assert("The method should be called only when the file doesn't exist"
             && !IO::File::Exists(db3File));
 
-        {
+        {            
             std::unique_ptr<GenericTools::SqliteWrapper> ptr(
                 new GenericTools::SqliteWrapper(db3File, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE));
 
@@ -99,6 +99,7 @@ namespace Database
         auto& sqliteRef = *pSqliteDb;
 
         {
+            assert(Yuni::IO::File::Exists(db3File));
             std::unique_ptr<Photographers> ptr(new Photographers(sqliteRef, nsTable::createAndLoad));
             pPhotographers = std::move(ptr);
         }

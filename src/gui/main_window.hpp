@@ -11,6 +11,7 @@ class QHBoxLayout;
 class QWidget;
 class QStatusBar;
 class QMenuBar;
+class QDialog;
 
 
 namespace PictStock
@@ -37,8 +38,14 @@ namespace Gui
 
     private slots:
 
-        /*! Create a new database at the default emplacement */
+        /*! Create a new database at the default location */
         void createDefaultDatabase();
+
+        /*! Create a new database at user-defined location */
+        void createNonDefaultDatabase();
+
+        /*! Effectively create the database once a path has been selected */
+        void createNonDefaultDatabaseHelper(const QString& file);
 
     private:
 
@@ -104,6 +111,9 @@ namespace Gui
 
         //! Tab related to date modification
         TabChangeDate* pTabChangeDate;
+
+        //! Dialog when no default database found when starting
+        QDialog* pDlgNoDefaultDb;
 
     };
 

@@ -51,9 +51,7 @@ namespace Database
                 command << " FROM " << tableName() << " ORDER BY " << Owner::FieldName() << ';';
             }
 
-            std::cout << "COMMAND = " << command << '\n';
             pDatabase.select(pRows, command);
-            std::cout << "OK\n";
         }
 
         {

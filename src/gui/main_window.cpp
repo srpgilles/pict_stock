@@ -29,7 +29,8 @@ namespace Gui
           pTabPictFrame(nullptr),
           pTabSortPhotos(nullptr),
           pTabPhotographersCameras(nullptr),
-          pTabChangeDate(nullptr)
+          pTabChangeDate(nullptr),
+          pDlgNoDefaultDb(nullptr)
     {
         resize(640, 480);       
 

@@ -12,6 +12,7 @@
 #include "tab_sort_photos.hpp"
 #include "tab_change_date.hpp"
 #include "tab_photographers_cameras.hpp"
+#include "prepare_database.hpp"
 
 
 namespace PictStock
@@ -29,8 +30,7 @@ namespace Gui
           pTabPictFrame(nullptr),
           pTabSortPhotos(nullptr),
           pTabPhotographersCameras(nullptr),
-          pTabChangeDate(nullptr),
-          pDlgNoDefaultDb(nullptr)
+          pTabChangeDate(nullptr)
     {
         resize(640, 480);       
 
@@ -40,7 +40,13 @@ namespace Gui
         createMenuBar();
         createTabManager();
         setCentralWidget(pCentralArea);
-        loadDatabaseWhenStarting();
+
+        {
+            Private::PrepareDatabase* prepDb = new Private::PrepareDatabase(this);
+            prepDb->Init();
+            connect(prepDb, SIGNAL(databaseInitialised(Database::Database*)), this,
+                SLOT(initDatabase(Database::Database*)));
+        }
     }
 
 
@@ -101,6 +107,12 @@ namespace Gui
         pCentralArea->setLayout(pTabLayout);
     }
 
+
+    void MainWindow::initDatabase(Database::Database* db)
+    {
+        std::unique_ptr<Database::Database> ptr(db);
+        pDb = std::move(ptr);
+    }
 
 
 } // namespace Gui

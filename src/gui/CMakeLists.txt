@@ -4,9 +4,7 @@ set(CMAKE_AUTOMOC TRUE)
 add_library(gui_pict_stock STATIC
     main_window.cpp
     main_window.hpp
-    main_window.hxx
-    main_window_db_operations.cpp
-    moc_main_window.cpp
+    main_window.hxx        
     tab_change_date.cpp
     tab_change_date.hpp
     tab_photographers_cameras.cpp
@@ -15,6 +13,8 @@ add_library(gui_pict_stock STATIC
     tab_pict_frame.hpp
     tab_sort_photos.cpp
     tab_sort_photos.hpp    
+    prepare_database.cpp
+    prepare_database.hpp
 )
 
 target_link_libraries(gui_pict_stock

@@ -25,7 +25,7 @@ namespace Gui
 
     class MainWindow : public ::QMainWindow
     {
-         Q_OBJECT
+        Q_OBJECT
 
     public:
 
@@ -35,20 +35,6 @@ namespace Gui
         MainWindow();
 
         //@}
-
-    private slots:
-
-        /*! Create a new database at the default location */
-        void createDefaultDatabase();
-
-        /*! Create a new database at user-defined location */
-        void createNonDefaultDatabase();
-
-        /*! Effectively create the database once a path has been selected */
-        void createNonDefaultDatabaseHelper(const QString& file);
-
-        /*! Load an existing database. Prompt a dialog box to choose it. */
-        void loadDatabase();
 
     private:
 
@@ -82,9 +68,10 @@ namespace Gui
         */
         void menuQuit(QMenuBar& menuBar);
 
-    private:
+    private slots:
 
-
+        //! Init pDb
+        void initDatabase(Database::Database* db);
 
     private:
 
@@ -113,11 +100,7 @@ namespace Gui
         TabPhotographersCameras* pTabPhotographersCameras;
 
         //! Tab related to date modification
-        TabChangeDate* pTabChangeDate;
-
-        //! Dialog when no default database found when starting
-        QDialog* pDlgNoDefaultDb;
-
+        TabChangeDate* pTabChangeDate;     
     };
 
 

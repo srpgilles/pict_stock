@@ -47,6 +47,9 @@ namespace Gui
         /*! Effectively create the database once a path has been selected */
         void createNonDefaultDatabaseHelper(const QString& file);
 
+        /*! Load an existing database. Prompt a dialog box to choose it. */
+        void loadDatabase();
+
     private:
 
         /*!

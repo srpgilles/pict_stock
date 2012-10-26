@@ -55,19 +55,6 @@ namespace Gui
             };
         }
 
-
-        /*!
-        ** \brief Class in charge of the dialog box when defautl database couldn't be
-        ** load (for any reason)
-        */
-        class DialogStartingDatabase : public QDialog
-        {
-
-
-
-        };
-
-
     } // namespace anonymous
 
 
@@ -148,7 +135,7 @@ namespace Gui
 
             connect(createNonDefault, SIGNAL(clicked()), this, SLOT(createNonDefaultDatabase()));
 
-
+            connect(loadAnother, SIGNAL(clicked()), this, SLOT(loadDatabase()));
         }
     }
 
@@ -167,7 +154,8 @@ namespace Gui
 
     void MainWindow::createNonDefaultDatabase()
     {
-        QFileDialog* dialog = new QFileDialog(this, QString(), "", tr("Sqlite database file (*.db3)"));
+        QFileDialog* dialog = new QFileDialog(pDlgNoDefaultDb, QString(), QString(),
+            tr("Sqlite database file (*.db3)"));
         dialog->setModal(true);
         dialog->setDefaultSuffix("db3");
         dialog->setAcceptMode(QFileDialog::AcceptSave);
@@ -189,6 +177,25 @@ namespace Gui
 
         std::unique_ptr<Database::Database> ptr(new Database::Database(fileConverted,
             Database::nsTable::createAndLoad));
+        pDb = std::move(ptr);
+
+        // Close the dialog box that was asking about database creation
+        pDlgNoDefaultDb->close();
+        pDlgNoDefaultDb = nullptr;
+    }
+
+
+    void MainWindow::loadDatabase()
+    {
+        auto file = QFileDialog::getOpenFileName(pDlgNoDefaultDb, QString(),
+            QString(), "Sqlite database (*.db3)");
+
+        if (file.isEmpty())
+            return;
+
+        YString fileConverted(file.toStdString());
+        std::unique_ptr<Database::Database> ptr(new Database::Database(fileConverted,
+            Database::nsTable::load));
         pDb = std::move(ptr);
 
         // Close the dialog box that was asking about database creation

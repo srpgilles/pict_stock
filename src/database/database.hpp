@@ -72,6 +72,9 @@ namespace Database
         */
         void create(const AnyString& db3File);
 
+        //! Path of the sqlite file
+        inline const YString& path() const;
+
 
     private:
 
@@ -83,6 +86,9 @@ namespace Database
 
         //! List of all photographers (matching the database table)
         std::unique_ptr<Photographers> pPhotographers;
+
+        //! Path of the sqlite file
+        YString pPath;
 
     };
 

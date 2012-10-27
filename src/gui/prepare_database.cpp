@@ -66,7 +66,7 @@ namespace Private
         {
             out = nullptr;
 
-            YString defaultDatabasePath;
+            YString defaultDatabasePath;                       
 
             if (defaultDb3Location(defaultDatabasePath))
             {
@@ -74,9 +74,7 @@ namespace Private
                 {
                     try
                     {
-                        Database::Database* ptr(
-                            new Database::Database(defaultDatabasePath, Database::nsTable::load));
-                        out = std::move(ptr);
+                        out = new Database::Database(defaultDatabasePath, Database::nsTable::load);
                         return LoadDatabaseStatus::ok;
                     }
                     catch(const Database::Exceptions::DatabaseException& e)
@@ -111,7 +109,8 @@ namespace Private
         LoadDatabaseStatus::Values status = determineStatus(db);
 
         if (status == LoadDatabaseStatus::ok)
-        {
+        {       
+            assert(db);
             emit databaseInitialised(db);
             return;
         }
@@ -157,8 +156,7 @@ namespace Private
         pDialog->setLayout(dialogLayout);
         pDialog->show();
 
-        connect(createDefault, SIGNAL(clicked()), this, SLOT(createDefaultDatabase()));
-        //connect(createDefault, SIGNAL(clicked()), pDialog, SLOT(accept()));
+        connect(createDefault, SIGNAL(clicked()), this, SLOT(createDefaultDatabase())); 
 
         connect(createNonDefault, SIGNAL(clicked()), this, SLOT(createNonDefaultDatabase()));
 
@@ -173,6 +171,7 @@ namespace Private
         {
             QMessageBox::critical(this, QString(), tr("Unable to determine default location; please choose another option."));
             return;
+
         }
 
         Database::Database* ptr = new Database::Database(defaultPath,
@@ -185,14 +184,14 @@ namespace Private
 
     void PrepareDatabase::createNonDefaultDatabase()
     {
-        QFileDialog* pFileDialog = new QFileDialog(pDialog, QString(), QString(),
+        QFileDialog* dialog = new QFileDialog(pDialog, QString(), QString(),
             tr("Sqlite database file (*.db3)"));
-        pFileDialog->setModal(true);
-        pFileDialog->setDefaultSuffix("db3");
-        pFileDialog->setAcceptMode(QFileDialog::AcceptSave);
-        pFileDialog->show();
+        dialog->setModal(true);
+        dialog->setDefaultSuffix("db3");
+        dialog->setAcceptMode(QFileDialog::AcceptSave);
+        dialog->show();
 
-        connect(pFileDialog, SIGNAL(fileSelected(QString)), this,
+        connect(dialog, SIGNAL(fileSelected(QString)), this,
             SLOT(createNonDefaultDatabaseHelper(QString)));
     }
 
@@ -210,7 +209,7 @@ namespace Private
             Database::nsTable::createAndLoad);
 
         // Close the dialog box that was asking about database creation
-        //pDialog->close();
+        pDialog->close();
 
         // Emit signal that gives informations the db is correctly set
         emit databaseInitialised(ptr);

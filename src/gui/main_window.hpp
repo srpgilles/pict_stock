@@ -53,6 +53,7 @@ namespace Gui
         **/
         void loadDatabaseWhenStarting();
 
+
         /*!
         ** \brief Creates the tab manager
         */
@@ -79,9 +80,10 @@ namespace Gui
         //! Init pDb
         void initDatabase(Database::Database* db);
 
-    signals:
+        //! Save a copy of the database
+        void saveCopyDatabase();
 
-        //! Destroy object in charge of database choice. Emitted by #initDatabase()
+
 
 
     private:

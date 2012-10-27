@@ -31,6 +31,12 @@ namespace Database
     }
 
 
+    inline const YString& Database::path() const
+    {
+        return pPath;
+    }
+
+
 
 
 } // namespace Database

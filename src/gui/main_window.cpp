@@ -6,6 +6,8 @@
 # include <QMenu>
 # include <QMenuBar>
 # include <cassert>
+# include <QFileDialog>
+# include <QMessageBox>
 
 #include "main_window.hpp"
 #include "tab_pict_frame.hpp"
@@ -44,9 +46,11 @@ namespace Gui
 
         {
             pPrepDatabase = new Private::PrepareDatabase;
-            pPrepDatabase->Init();
+            // It is important to provide the connect BEFORE init()
             connect(pPrepDatabase, SIGNAL(databaseInitialised(Database::Database*)), this,
                 SLOT(initDatabase(Database::Database*)));
+            pPrepDatabase->Init();
+
         }
     }
 
@@ -71,6 +75,7 @@ namespace Gui
         databaseMenu->addAction(loadAction);
         databaseMenu->addAction(saveCopyAction);
 
+        connect(saveCopyAction, SIGNAL(triggered()), this, SLOT(saveCopyDatabase()));
     }
 
 
@@ -121,6 +126,27 @@ namespace Gui
         pPrepDatabase->deleteLater();
         pPrepDatabase = nullptr;
     }
+
+
+    void MainWindow::saveCopyDatabase()
+    {
+        auto file = QFileDialog::getSaveFileName(this, QString(),
+            QString(), "Sqlite database (*.db3)");
+
+        if (file.isEmpty())
+            return;
+
+        YString fileConverted(file.toStdString());
+        Yuni::CString<6, false> ext; // quite a huge extension!
+        if (!Yuni::IO::ExtractExtension(ext, fileConverted, false, false))
+            fileConverted << ".db3";
+
+        assert(pDb);
+        if (Yuni::IO::errNone != Yuni::IO::File::Copy(pDb->path(), fileConverted))
+            QMessageBox::critical(this, QString(),
+                tr("Unable to save a copy of the database"));
+    }
+
 
 
 } // namespace Gui

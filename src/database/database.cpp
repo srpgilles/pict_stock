@@ -32,7 +32,8 @@ namespace Database
     Database::Database(const AnyString& db3File, nsTable::Values mode)
         : pSqliteDb(nullptr),
           pCameras(nullptr),
-          pPhotographers(nullptr)
+          pPhotographers(nullptr),
+          pPath(db3File)
     {
         switch(mode)
         {
@@ -78,6 +79,7 @@ namespace Database
             pCameras = std::move(ptr);
         }
 
+        pPath = db3File;
     }
 
 
@@ -111,6 +113,8 @@ namespace Database
             std::unique_ptr<Cameras> ptr(new Cameras(sqliteRef, photographersRef, nsTable::createAndLoad));
             pCameras = std::move(ptr);
         }
+
+        pPath = db3File;
     }
 
 
@@ -123,6 +127,13 @@ namespace Database
         std::unordered_set<YString> expectedSchemas;
         expectedSchemas.insert(formSchemaStatement<Schema::Cameras>());
         expectedSchemas.insert(formSchemaStatement<Schema::Photographers>());
+
+        #if 0
+        std::cout << "Sqlite file:\n";
+        GenericTools::printContainer(std::cout, dbSchemas,"\n");
+        std::cout << "Expected schema:\n";
+        GenericTools::printContainer(std::cout, expectedSchemas,"\n");
+        #endif // 0
 
         return expectedSchemas == dbSchemas;
     }

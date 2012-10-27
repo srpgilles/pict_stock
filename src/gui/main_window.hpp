@@ -7,6 +7,7 @@
 # include "../database/database.hpp"
 # include <yuni/core/string.h>
 
+
 class QHBoxLayout;
 class QWidget;
 class QStatusBar;
@@ -22,6 +23,11 @@ namespace Gui
     class TabSortPhotos;
     class TabPhotographersCameras;
     class TabChangeDate;
+
+    namespace Private
+    {
+        class PrepareDatabase;
+    }
 
     class MainWindow : public ::QMainWindow
     {
@@ -73,6 +79,11 @@ namespace Gui
         //! Init pDb
         void initDatabase(Database::Database* db);
 
+    signals:
+
+        //! Destroy object in charge of database choice. Emitted by #initDatabase()
+
+
     private:
 
         //! Sqlite access
@@ -100,7 +111,10 @@ namespace Gui
         TabPhotographersCameras* pTabPhotographersCameras;
 
         //! Tab related to date modification
-        TabChangeDate* pTabChangeDate;     
+        TabChangeDate* pTabChangeDate;
+
+        //! Object in charge of preparing database
+        Private::PrepareDatabase* pPrepDatabase;
     };
 
 

@@ -1,4 +1,4 @@
-#ifndef MAIN_WINDOW_HXX
+"#ifndef MAIN_WINDOW_HXX
 # define MAIN_WINDOW_HXX
 
 namespace PictStock

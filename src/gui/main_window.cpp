@@ -30,11 +30,12 @@ namespace Gui
           pTabPictFrame(nullptr),
           pTabSortPhotos(nullptr),
           pTabPhotographersCameras(nullptr),
-          pTabChangeDate(nullptr)
+          pTabChangeDate(nullptr),
+          pPrepDatabase(nullptr)
     {
         resize(640, 480);       
 
-        pCentralArea = new QWidget(this);
+        pCentralArea = new QWidget;
         pStatusBar = statusBar();
 
         createMenuBar();
@@ -42,9 +43,9 @@ namespace Gui
         setCentralWidget(pCentralArea);
 
         {
-            Private::PrepareDatabase* prepDb = new Private::PrepareDatabase(this);
-            prepDb->Init();
-            connect(prepDb, SIGNAL(databaseInitialised(Database::Database*)), this,
+            pPrepDatabase = new Private::PrepareDatabase;
+            pPrepDatabase->Init();
+            connect(pPrepDatabase, SIGNAL(databaseInitialised(Database::Database*)), this,
                 SLOT(initDatabase(Database::Database*)));
         }
     }
@@ -60,7 +61,7 @@ namespace Gui
     }
 
 
-    void MainWindow::menuDatabase(QMenuBar &menuBar)
+    void MainWindow::menuDatabase(QMenuBar& menuBar)
     {
         // Operations upon database (save a copy, change)
         QMenu* databaseMenu = menuBar.addMenu(tr("Database"));
@@ -69,10 +70,11 @@ namespace Gui
         QAction* saveCopyAction = new QAction(tr("Save copy of the database"), this);
         databaseMenu->addAction(loadAction);
         databaseMenu->addAction(saveCopyAction);
+
     }
 
 
-    void MainWindow::menuQuit(QMenuBar &menuBar)
+    void MainWindow::menuQuit(QMenuBar& menuBar)
     {
         QMenu* quitMenu = menuBar.addMenu(tr("Quit"));
 
@@ -110,8 +112,14 @@ namespace Gui
 
     void MainWindow::initDatabase(Database::Database* db)
     {
+        // Init the database
         std::unique_ptr<Database::Database> ptr(db);
         pDb = std::move(ptr);
+
+        // Delete the now useless PrepareDatabase object
+        assert(pPrepDatabase);
+        pPrepDatabase->deleteLater();
+        pPrepDatabase = nullptr;
     }
 
 

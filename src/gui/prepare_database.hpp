@@ -5,6 +5,7 @@
 # include "../database/database.hpp"
 
 class QDialog;
+class QFileDialog;
 
 namespace PictStock
 {
@@ -22,10 +23,9 @@ namespace Private
         //! Constructors
         //@{
         //! Essentially does nothing; Init() must be called
-        explicit PrepareDatabase(QWidget* parent);
+        explicit PrepareDatabase();
 
         //@}
-
 
         //! Performs the determination of db object
         void Init();
@@ -53,6 +53,7 @@ namespace Private
 
         //! QDialog object used when default database is not quite enough
         QDialog* pDialog;
+
     };
 
 

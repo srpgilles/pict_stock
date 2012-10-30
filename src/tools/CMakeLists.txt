@@ -20,3 +20,11 @@ target_link_libraries(tools
 	sqlite3
 )
 
+
+add_executable(automatic_include_guards
+    main_automatic_include_guards.cpp
+)
+
+target_link_libraries(automatic_include_guards
+    yuni-static-core
+)

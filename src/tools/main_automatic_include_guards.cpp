@@ -1,4 +1,5 @@
 # include <yuni/io/directory/iterator.h>
+# include <yuni/io/file/stream.h>
 # include <yuni/core/string.h>
 # include <yuni/core/noncopyable.h>
 # include "../pict_stock.hpp"
@@ -77,13 +78,11 @@ namespace
         //! Index of first character to consider when translating into header guard
         AnyString::size_type pLengthRootFolder;
 
-
     }; // Class HeaderGuardsIterator
 
 
     void Translate(YString& out, const AnyString& in)
     {
-        assert(out.empty());
         auto size = in.size();
 
         out << '_';
@@ -167,9 +166,7 @@ namespace
         if (!ext.startsWith('h'))
             return IO::flowContinue;
 
-        assert("If not, something fishy in the code" && filename.size() > pLengthRootFolder);
-        YString truncatedFilename(filename.begin() + pLengthRootFolder, filename.end());
-        checkHeaderGuards(truncatedFilename);
+        checkHeaderGuards(filename);
 
         return IO::flowContinue;
     }
@@ -177,12 +174,104 @@ namespace
     void HeaderGuardsIterator::onTerminate()
     { }
 
-
     void HeaderGuardsIterator::checkHeaderGuards(const AnyString& filename)
     {
+        // Determine correct header guards
+        assert("If not, something fishy in the code" && filename.size() > pLengthRootFolder);
+        YString truncatedFilename(filename, pLengthRootFolder);
+
         YString correctHeaderGuard;
-        Translate(correctHeaderGuard, filename);
-        logs.notice(filename) << "\t -> " << correctHeaderGuard;
+        Translate(correctHeaderGuard, pProjectName);
+        Translate(correctHeaderGuard, truncatedFilename);
+
+        logs.notice(correctHeaderGuard);
+
+        // Check that guard is used at the beginning. If not, replace the expression
+
+        YString temporary(filename); // to provide rollback-or-commit
+        temporary << ".keep";
+
+        if (IO::errNone != IO::File::Copy(filename, temporary))
+        {
+            logs.error("Unable to copy ") << filename << " to " << temporary;
+            exit(EXIT_FAILURE);
+        }
+
+        IO::File::Stream fileContent(filename, IO::OpenMode::read | IO::OpenMode::write);
+
+        YString line;
+
+        {
+            // Reach first relevant line
+            while (fileContent.readline(line) && line.empty());
+
+            if (line.contains("ifndef"))
+            {
+                YString newLine("#ifndef ");
+                newLine << correctHeaderGuard;
+                line = correctHeaderGuard;
+            }
+            else
+            {
+                logs.warning() << "Unable to process " << filename;
+                fileContent.close();
+                IO::File::Copy(temporary, filename);
+                IO::File::Delete(temporary);
+            }
+        }
+
+        {
+            // Next line should provide the define
+            fileContent.readline(line);
+
+            if (line.contains("define"))
+            {
+                YString newLine("# define ");
+                newLine << correctHeaderGuard;
+                line = correctHeaderGuard;
+            }
+            else
+            {
+                logs.warning() << "Unable to process " << filename;
+                fileContent.close();
+                IO::File::Copy(temporary, filename);
+                IO::File::Delete(temporary);
+            }
+        }
+
+        {
+            // Now go up to the end of the file to provide a proper comment after endif
+            YString lastLineStored;
+
+            while (fileContent.readline(line))
+            {
+                if (!line.empty())
+                    lastLineStored = line;
+            }
+
+            if (line.startsWith("#endif"))
+            {
+                YString newLine("#endif ");
+                newLine << correctHeaderGuard;
+                line = correctHeaderGuard;
+            }
+            else
+            {
+                logs.warning() << "Unable to process " << filename;
+                fileContent.close();
+                IO::File::Copy(temporary, filename);
+                IO::File::Delete(temporary);
+            }
+
+            logs.notice() << filename << " has been correctly updated";
+
+        }
+
+
+
+        // Same at the very end (it is a comment, but still...)
+
+
     }
 
 

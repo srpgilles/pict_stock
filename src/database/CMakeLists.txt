@@ -15,6 +15,9 @@ add_library(pict_stock_database STATIC
     private/table.cpp
     private/table.hpp
     private/table.hxx
+    private/parameters.cpp
+    private/parameters.hpp
+    private/parameters.hxx
     exceptions/database.cpp
     exceptions/database.hpp
 )

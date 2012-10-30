@@ -33,6 +33,7 @@ namespace Database
         : pSqliteDb(nullptr),
           pCameras(nullptr),
           pPhotographers(nullptr),
+          pParameters(nullptr),
           pPath(db3File)
     {
         switch(mode)
@@ -79,6 +80,11 @@ namespace Database
             pCameras = std::move(ptr);
         }
 
+        {
+            std::unique_ptr<Private::Parameters> ptr(new Private::Parameters(sqliteRef));
+            pParameters = std::move(ptr);
+        }
+
         pPath = db3File;
     }
 
@@ -112,6 +118,11 @@ namespace Database
         {
             std::unique_ptr<Cameras> ptr(new Cameras(sqliteRef, photographersRef, nsTable::createAndLoad));
             pCameras = std::move(ptr);
+        }
+
+        {
+            std::unique_ptr<Private::Parameters> ptr(new Private::Parameters(sqliteRef, nsTable::createAndLoad));
+            pParameters = std::move(ptr);
         }
 
         pPath = db3File;

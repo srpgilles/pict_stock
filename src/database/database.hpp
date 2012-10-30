@@ -6,6 +6,7 @@
 # include "../tools/sqlite_wrapper.hpp"
 # include "cameras.hpp"
 # include "photographers.hpp"
+# include "private/parameters.hpp"
 
 
 namespace PictStock
@@ -86,6 +87,9 @@ namespace Database
 
         //! List of all photographers (matching the database table)
         std::unique_ptr<Photographers> pPhotographers;
+
+        //! List of generic parameters
+        std::unique_ptr<Private::Parameters> pParameters;
 
         //! Path of the sqlite file
         YString pPath;

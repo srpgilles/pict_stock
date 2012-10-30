@@ -32,8 +32,8 @@ namespace Gui
           pTabPictFrame(nullptr),
           pTabSortPhotos(nullptr),
           pTabPhotographersCameras(nullptr),
-          pTabChangeDate(nullptr),
-          pPrepDatabase(nullptr)
+          pTabChangeDate(nullptr),          
+          pPrepDatabase(new Private::PrepareDatabase)
     {
         resize(640, 480);       
 
@@ -44,12 +44,11 @@ namespace Gui
         createTabManager();
         setCentralWidget(pCentralArea);
 
-        {
-            pPrepDatabase = new Private::PrepareDatabase;
+        {           
             // It is important to provide the connect BEFORE init()
             connect(pPrepDatabase, SIGNAL(databaseInitialised(Database::Database*)), this,
                 SLOT(initDatabase(Database::Database*)));
-            pPrepDatabase->Init();
+            pPrepDatabase->AtConstruct();
 
         }
     }
@@ -120,11 +119,6 @@ namespace Gui
         // Init the database
         std::unique_ptr<Database::Database> ptr(db);
         pDb = std::move(ptr);
-
-        // Delete the now useless PrepareDatabase object
-        assert(pPrepDatabase);
-        pPrepDatabase->deleteLater();
-        pPrepDatabase = nullptr;
     }
 
 

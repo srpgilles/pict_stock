@@ -14,7 +14,20 @@ namespace Gui
 namespace Private
 {
 
-    class PrepareDatabase : public ::QWidget
+    /*!
+     * \brief The PrepareDatabase class is in charge of database operations of PictStock
+     *
+     * When a database is to be loaded, created, saved from a request from the GUI,
+     * #PrepareDatabase is in charge of doing so.
+     *
+     * The idea is that the operation is attempted here, and in case of success the result
+     * is transferred to MainWindow class (commit-or-rollback strategy)
+     *
+     * For instance, if another database is to be loaded, it is attempted in #PrepareDatabase.
+     * If successful, the  #pDb object in MainWindow will be modified, if not the previous one
+     * will be kept, thus ensuring there is always a database loaded.
+     */
+    class YUNI_DECL PrepareDatabase : public ::QWidget
     {
         Q_OBJECT
 
@@ -27,8 +40,8 @@ namespace Private
 
         //@}
 
-        //! Performs the determination of db object
-        void Init();
+        //! Performs the determination of db object at construct
+        void AtConstruct();
 
     signals:
 

@@ -102,7 +102,7 @@ namespace Private
 
 
 
-    void PrepareDatabase::Init()
+    void PrepareDatabase::AtConstruct()
     {
         // First check the default emplacement; if it exists load it
         Database::Database* db;

@@ -81,6 +81,7 @@ namespace Gui
         void initDatabase(Database::Database* db);
 
         //! Save a copy of the database
+        // TODO Put that in pPrepDatabase as soon as Qt5 is available (with it more clever connect syntax)
         void saveCopyDatabase();
 
 

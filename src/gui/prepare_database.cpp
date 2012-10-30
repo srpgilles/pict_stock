@@ -209,7 +209,7 @@ namespace Private
             Database::nsTable::createAndLoad);
 
         // Close the dialog box that was asking about database creation
-        pDialog->close();
+        closeDialogBox();
 
         // Emit signal that gives informations the db is correctly set
         emit databaseInitialised(ptr);
@@ -229,10 +229,21 @@ namespace Private
             Database::nsTable::load);
 
         // Close the dialog box that was asking about database creation
-        pDialog->close();
+        closeDialogBox();
 
         // Emit signal that gives informations the db is correctly set
         emit databaseInitialised(ptr);  
+    }
+
+
+    void PrepareDatabase::closeDialogBox()
+    {
+        // If pDialog already nullptr do nothing
+        if (pDialog)
+        {
+            pDialog->close();
+            pDialog = nullptr;
+        }
     }
 
 

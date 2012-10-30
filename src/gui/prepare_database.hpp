@@ -64,6 +64,11 @@ namespace Private
 
     private:
 
+        //! Close the dialog box and set the pointer to nullptr
+        void closeDialogBox();
+
+    private:
+
         //! QDialog object used when default database is not quite enough
         QDialog* pDialog;
 

@@ -69,11 +69,15 @@ namespace Gui
         // Operations upon database (save a copy, change)
         QMenu* databaseMenu = menuBar.addMenu(tr("Database"));
 
-        QAction* loadAction = new QAction(tr("Load new database"), this);
+        QAction* createAction = new QAction(tr("Create new database"), this);
+        QAction* loadAction = new QAction(tr("Load another database"), this);
         QAction* saveCopyAction = new QAction(tr("Save copy of the database"), this);
+        databaseMenu->addAction(createAction);
         databaseMenu->addAction(loadAction);
         databaseMenu->addAction(saveCopyAction);
 
+        connect(createAction, SIGNAL(triggered()), pPrepDatabase, SLOT(createNonDefaultDatabase()));
+        connect(loadAction, SIGNAL(triggered()), pPrepDatabase, SLOT(loadDatabase()));
         connect(saveCopyAction, SIGNAL(triggered()), this, SLOT(saveCopyDatabase()));
     }
 

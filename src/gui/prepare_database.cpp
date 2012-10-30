@@ -73,12 +73,12 @@ namespace Private
                 if (IO::File::Exists(defaultDatabasePath))
                 {
                     try
-                    {
-                        out = new Database::Database(defaultDatabasePath, Database::nsTable::load);
+                    {                        
+                        out = new Database::Database(defaultDatabasePath, Database::nsTable::load);                     
                         return LoadDatabaseStatus::ok;
                     }
-                    catch(const Database::Exceptions::DatabaseException& e)
-                    {
+                    catch(const std::exception& e)
+                    {                        
                         return LoadDatabaseStatus::exist_but_invalid;
                     }
                 }

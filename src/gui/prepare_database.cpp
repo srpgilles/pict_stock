@@ -225,14 +225,22 @@ namespace Private
             return;
 
         YString fileConverted(file.toStdString());
-        Database::Database* ptr = new Database::Database(fileConverted,
-            Database::nsTable::load);
 
-        // Close the dialog box that was asking about database creation
-        closeDialogBox();
+        try
+        {
+            Database::Database* ptr = new Database::Database(fileConverted,
+                Database::nsTable::load);
 
-        // Emit signal that gives informations the db is correctly set
-        emit databaseInitialised(ptr);  
+            // Close the dialog box that was asking about database creation
+            closeDialogBox();
+
+            // Emit signal that gives informations the db is correctly set
+            emit databaseInitialised(ptr);
+        }
+        catch(const Database::Exceptions::DatabaseException& e)
+        {
+            QMessageBox::critical(this, QString(), tr(e.what()));
+        }
     }
 
 

@@ -1,5 +1,5 @@
-#ifndef SQLITE_WRAPPER_HPP_
-# define SQLITE_WRAPPER_HPP_
+#ifndef __PICT_STOCK__TOOLS__SQLITE_WRAPPER_HPP_
+# define __PICT_STOCK__TOOLS__SQLITE_WRAPPER_HPP_
 
 
 # include <yuni/core/string.h>
@@ -213,4 +213,4 @@ namespace GenericTools
 
 # include "sqlite_wrapper.hxx"
 
-#endif /* SQLITE_WRAPPER_HPP_ */
+#endif /* __PICT_STOCK__TOOLS__SQLITE_WRAPPER_HPP_ */

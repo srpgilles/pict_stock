@@ -1,5 +1,5 @@
-#ifndef _TUPLE_UTILITIES_HPP_
-# define _TUPLE_UTILITIES_HPP_
+#ifndef __PICT_STOCK__TOOLS__TUPLE_UTILITIES_HPP_
+# define __PICT_STOCK__TOOLS__TUPLE_UTILITIES_HPP_
 
 # include <deque>
 # include <tuple>
@@ -229,4 +229,4 @@ namespace Tuple
 } // namespace GenericTools
 
 
-#endif /* _TUPLE_UTILITIES_HPP_ */
+#endif /* __PICT_STOCK__TOOLS__TUPLE_UTILITIES_HPP_ */

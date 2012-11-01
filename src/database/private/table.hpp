@@ -1,5 +1,5 @@
-#ifndef TABLE_HPP
-# define TABLE_HPP
+#ifndef __PICT_STOCK__DATABASE__PRIVATE__TABLE_HPP_
+# define __PICT_STOCK__DATABASE__PRIVATE__TABLE_HPP_
 
 # include <yuni/core/string.h>
 # include "../../tools/sqlite_wrapper.hpp"
@@ -83,4 +83,4 @@ namespace Private
 
 
 
-#endif // TABLE_HPP
+#endif /* __PICT_STOCK__DATABASE__PRIVATE__TABLE_HPP_ */

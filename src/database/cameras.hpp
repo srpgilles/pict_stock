@@ -1,5 +1,5 @@
-#ifndef CAMERAS_HPP_
-# define CAMERAS_HPP_
+#ifndef __PICT_STOCK__DATABASE__CAMERAS_HPP_
+# define __PICT_STOCK__DATABASE__CAMERAS_HPP_
 
 # include <tuple>
 # include <vector>
@@ -207,4 +207,4 @@ namespace Database
 
 # include "cameras.hxx"
 
-#endif /* PHOTOGRAPHERS_HPP_ */
+#endif /* __PICT_STOCK__DATABASE__CAMERAS_HPP_ */

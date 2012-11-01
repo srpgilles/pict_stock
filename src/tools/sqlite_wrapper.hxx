@@ -1,12 +1,5 @@
-/*
- * sqlite_wrapper.hxx
- *
- *  Created on: Oct 12, 2012
- *      Author: sebastien
- */
-
-#ifndef SQLITE_WRAPPER_HXX_
-# define SQLITE_WRAPPER_HXX_
+#ifndef __PICT_STOCK__TOOLS__SQLITE_WRAPPER_HXX_
+# define __PICT_STOCK__TOOLS__SQLITE_WRAPPER_HXX_
 
 # include "../tools/tools.hpp"
 # include <tuple>
@@ -166,4 +159,4 @@ namespace GenericTools
 } // namespace GenericTools
 
 
-#endif /* SQLITE_WRAPPER_HXX_ */
+#endif /* __PICT_STOCK__TOOLS__SQLITE_WRAPPER_HXX_ */

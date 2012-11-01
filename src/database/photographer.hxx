@@ -1,5 +1,5 @@
-#ifndef PHOTOGRAPHER_HXX_
-# define PHOTOGRAPHER_HXX_
+#ifndef __PICT_STOCK__DATABASE__PHOTOGRAPHER_HXX_
+# define __PICT_STOCK__DATABASE__PHOTOGRAPHER_HXX_
 
 namespace PictStock
 {
@@ -39,4 +39,4 @@ namespace Database
 } // namespace Database
 } // namespace PictStock
 
-#endif /* PHOTOGRAPHER_HXX_ */
+#endif /* __PICT_STOCK__DATABASE__PHOTOGRAPHER_HXX_ */

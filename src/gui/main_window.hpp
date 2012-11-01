@@ -1,5 +1,5 @@
-#ifndef _MAIN_WINDOW_HPP
-# define _MAIN_WINDOW_HPP
+#ifndef __PICT_STOCK__GUI__MAIN_WINDOW_HPP_
+# define __PICT_STOCK__GUI__MAIN_WINDOW_HPP_
 
 # include <QMainWindow>
 # include <memory>
@@ -124,4 +124,4 @@ namespace Gui
 } // namespace Gui
 } // namespace PictStock
 
-#endif // _MAIN_WINDOW_HPP
+#endif /* __PICT_STOCK__GUI__MAIN_WINDOW_HPP_ */

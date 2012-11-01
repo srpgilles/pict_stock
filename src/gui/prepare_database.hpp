@@ -1,5 +1,5 @@
-#ifndef PREPARE_DATABASE_HPP
-# define PREPARE_DATABASE_HPP
+#ifndef __PICT_STOCK__GUI__PREPARE_DATABASE_HPP_
+# define __PICT_STOCK__GUI__PREPARE_DATABASE_HPP_
 
 # include <QWidget>
 # include "../database/database.hpp"
@@ -80,4 +80,4 @@ namespace Private
 } // namespace PictStock
 
 
-#endif // PREPAREDATABASE_HPP
+#endif /* __PICT_STOCK__GUI__PREPARE_DATABASE_HPP_ */

@@ -1,5 +1,5 @@
-#ifndef PATH_INFORMATIONS_HXX_
-# define PATH_INFORMATIONS_HXX_
+#ifndef __PICT_STOCK__EXTENDED_PHOTO__PATH_INFORMATIONS_HXX_
+# define __PICT_STOCK__EXTENDED_PHOTO__PATH_INFORMATIONS_HXX_
 
 namespace PictStock
 {
@@ -174,4 +174,4 @@ namespace ExtendedPhoto
 } // namespace PictStock
 
 
-#endif /* PATH_INFORMATIONS_HXX_ */
+#endif /* __PICT_STOCK__EXTENDED_PHOTO__PATH_INFORMATIONS_HXX_ */

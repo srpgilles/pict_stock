@@ -1,5 +1,5 @@
-#ifndef TOOLS_HPP
-# define TOOLS_HPP
+#ifndef __PICT_STOCK__TOOLS__TOOLS_HPP_
+# define __PICT_STOCK__TOOLS__TOOLS_HPP_
 
 # include <ostream>
 # include <type_traits>
@@ -60,4 +60,4 @@ namespace GenericTools
 
 } // namespace GenericTools
 
-#endif // TOOLS_HPP
+#endif /* __PICT_STOCK__TOOLS__TOOLS_HPP_ */

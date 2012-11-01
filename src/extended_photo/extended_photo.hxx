@@ -1,5 +1,5 @@
-#ifndef EXTENDED_PHOTO_HXX_
-# define EXTENDED_PHOTO_HXX_
+#ifndef __PICT_STOCK__EXTENDED_PHOTO__EXTENDED_PHOTO_HXX_
+# define __PICT_STOCK__EXTENDED_PHOTO__EXTENDED_PHOTO_HXX_
 
 namespace PictStock
 {
@@ -41,4 +41,4 @@ namespace ExtendedPhoto
 } // namespace ExtendedPhoto
 } // namespace PictStock
 
-#endif /* EXTENDED_PHOTO_HXX_ */
+#endif /* __PICT_STOCK__EXTENDED_PHOTO__EXTENDED_PHOTO_HXX_ */

@@ -1,5 +1,5 @@
-#ifndef PHOTOGRAPHER_HPP_
-# define PHOTOGRAPHER_HPP_
+#ifndef __PICT_STOCK__DATABASE__PHOTOGRAPHER_HPP_
+# define __PICT_STOCK__DATABASE__PHOTOGRAPHER_HPP_
 
 # include <yuni/core/string.h>
 # include <yuni/core/smartptr.h>
@@ -86,4 +86,4 @@ namespace Database
 
 #include "photographer.hxx"
 
-#endif /* PHOTOGRAPHER_HPP_ */
+#endif /* __PICT_STOCK__DATABASE__PHOTOGRAPHER_HPP_ */

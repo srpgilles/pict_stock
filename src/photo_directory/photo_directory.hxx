@@ -1,5 +1,5 @@
-#ifndef PHOTO_DIRECTORY_HXX_
-# define PHOTO_DIRECTORY_HXX_
+#ifndef __PICT_STOCK__PHOTO_DIRECTORY__PHOTO_DIRECTORY_HXX_
+# define __PICT_STOCK__PHOTO_DIRECTORY__PHOTO_DIRECTORY_HXX_
 
 namespace PictStock
 {
@@ -16,4 +16,4 @@ namespace PhotoDirectory
 } // namespace PictStock
 
 
-#endif /* PHOTO_DIRECTORY_HXX_ */
+#endif /* __PICT_STOCK__PHOTO_DIRECTORY__PHOTO_DIRECTORY_HXX_ */

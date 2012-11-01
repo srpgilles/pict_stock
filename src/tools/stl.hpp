@@ -1,5 +1,5 @@
-#ifndef TOOLS_STL_HPP
-# define TOOLS_STL_HPP
+#ifndef __PICT_STOCK__TOOLS__STL_HPP_
+# define __PICT_STOCK__TOOLS__STL_HPP_
 
 # include <functional>
 # include <string>
@@ -21,4 +21,4 @@ namespace std
 
 
 
-#endif // STL_HPP
+#endif /* __PICT_STOCK__TOOLS__STL_HPP_ */

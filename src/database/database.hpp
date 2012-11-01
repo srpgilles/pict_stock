@@ -1,5 +1,5 @@
-#ifndef PICT_STOCK_DATABASE_HPP
-# define PICT_STOCK_DATABASE_HPP
+#ifndef __PICT_STOCK__DATABASE__DATABASE_HPP_
+# define __PICT_STOCK__DATABASE__DATABASE_HPP_
 
 # include <memory>
 # include <yuni/core/string.h>
@@ -101,4 +101,4 @@ namespace Database
 
 # include "database.hxx"
 
-#endif // PICT_STOCK_DATABASE_HPP
+#endif /* __PICT_STOCK__DATABASE__DATABASE_HPP_ */

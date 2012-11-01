@@ -1,6 +1,5 @@
-
-#ifndef RELEVANT_INFORMATIONS_HPP_
-# define RELEVANT_INFORMATIONS_HPP_
+#ifndef __PICT_STOCK__EXTENDED_PHOTO__PATH_INFORMATIONS_HPP_
+# define __PICT_STOCK__EXTENDED_PHOTO__PATH_INFORMATIONS_HPP_
 
 # include <ostream>
 # include <tuple>
@@ -165,4 +164,4 @@ namespace ExtendedPhoto
 # include "path_informations.hxx"
 
 
-#endif /* RELEVANT_INFORMATIONS_HPP_ */
+#endif /* __PICT_STOCK__EXTENDED_PHOTO__PATH_INFORMATIONS_HPP_ */

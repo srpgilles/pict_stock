@@ -1,6 +1,5 @@
-
-#ifndef DATE_HELPERS_HPP_
-# define DATE_HELPERS_HPP_
+#ifndef __PICT_STOCK__EXTENDED_PHOTO__PRIVATE__DATE_HELPERS_HPP_
+# define __PICT_STOCK__EXTENDED_PHOTO__PRIVATE__DATE_HELPERS_HPP_
 
 # include "../../pict_stock.hpp"
 
@@ -76,4 +75,4 @@ namespace Private
 } // namespace ExtendedPhoto
 } // namespace PictStock
 
-#endif /* DATE_HELPERS_HPP_ */
+#endif /* __PICT_STOCK__EXTENDED_PHOTO__PRIVATE__DATE_HELPERS_HPP_ */

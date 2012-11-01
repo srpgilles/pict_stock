@@ -1,5 +1,5 @@
-#ifndef EXTENDED_PHOTO_HPP_
-# define EXTENDED_PHOTO_HPP_
+#ifndef __PICT_STOCK__EXTENDED_PHOTO__EXTENDED_PHOTO_HPP_
+# define __PICT_STOCK__EXTENDED_PHOTO__EXTENDED_PHOTO_HPP_
 
 # include <map>
 # include <exiv2/src/image.hpp>
@@ -170,4 +170,4 @@ namespace ExtendedPhoto
 
 # include "extended_photo.hxx"
 
-#endif /* EXTENDED_PHOTOS_HPP_ */
+#endif /* __PICT_STOCK__EXTENDED_PHOTO__EXTENDED_PHOTO_HPP_ */

@@ -1,5 +1,5 @@
-#ifndef PHOTO_DIRECTORY_ITERATOR_HPP_
-# define PHOTO_DIRECTORY_ITERATOR_HPP_
+#ifndef __PICT_STOCK__PHOTO_DIRECTORY__PRIVATE__PHOTO_DIRECTORY_ITERATOR_HPP_
+# define __PICT_STOCK__PHOTO_DIRECTORY__PRIVATE__PHOTO_DIRECTORY_ITERATOR_HPP_
 
 # include <yuni/io/directory/iterator.h>
 # include <yuni/core/string.h>
@@ -117,4 +117,4 @@ namespace Private
 } // namespace PictStock
 
 
-#endif /* PHOTO_DIRECTORY_ITERATOR_HPP_ */
+#endif /* __PICT_STOCK__PHOTO_DIRECTORY__PRIVATE__PHOTO_DIRECTORY_ITERATOR_HPP_ */

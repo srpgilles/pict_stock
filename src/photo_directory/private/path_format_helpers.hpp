@@ -1,6 +1,5 @@
-
-#ifndef PATH_FORMAT_HELPERS_HPP_
-# define PATH_FORMAT_HELPERS_HPP_
+#ifndef __PICT_STOCK__PHOTO_DIRECTORY__PRIVATE__PATH_FORMAT_HELPERS_HPP_
+# define __PICT_STOCK__PHOTO_DIRECTORY__PRIVATE__PATH_FORMAT_HELPERS_HPP_
 
 # include <map>
 # include <yuni/core/string.h>
@@ -202,4 +201,4 @@ namespace Private
 } // namespace PictStock
 
 
-#endif /* PATH_FORMAT_HELPERS_HPP_ */
+#endif /* __PICT_STOCK__PHOTO_DIRECTORY__PRIVATE__PATH_FORMAT_HELPERS_HPP_ */

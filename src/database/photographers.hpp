@@ -1,5 +1,5 @@
-#ifndef PHOTOGRAPHERS_HPP_
-# define PHOTOGRAPHERS_HPP_
+#ifndef __PICT_STOCK__DATABASE__PHOTOGRAPHERS_HPP_
+# define __PICT_STOCK__DATABASE__PHOTOGRAPHERS_HPP_
 
 # include <tuple>
 # include <vector>
@@ -119,4 +119,4 @@ namespace Database
 
 # include "photographers.hxx"
 
-#endif /* PHOTOGRAPHERS_HPP_ */
+#endif /* __PICT_STOCK__DATABASE__PHOTOGRAPHERS_HPP_ */

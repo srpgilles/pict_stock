@@ -1,5 +1,5 @@
-#ifndef PHOTO_DIRECTORY_HPP_
-# define PHOTO_DIRECTORY_HPP_
+#ifndef __PICT_STOCK__PHOTO_DIRECTORY__PHOTO_DIRECTORY_HPP_
+# define __PICT_STOCK__PHOTO_DIRECTORY__PHOTO_DIRECTORY_HPP_
 
 # include <map>
 # include <list>
@@ -110,4 +110,4 @@ namespace PhotoDirectory
 
 # include "photo_directory.hxx"
 
-#endif /* PHOTO_DIRECTORY_HPP_ */
+#endif /* __PICT_STOCK__PHOTO_DIRECTORY__PHOTO_DIRECTORY_HPP_ */

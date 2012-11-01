@@ -1,5 +1,5 @@
-#ifndef TABLE_HXX
-# define TABLE_HXX
+#ifndef __PICT_STOCK__DATABASE__PRIVATE__TABLE_HXX_
+# define __PICT_STOCK__DATABASE__PRIVATE__TABLE_HXX_
 
 namespace PictStock
 {
@@ -41,4 +41,4 @@ namespace Private
 } // namespace PictStock
 
 
-#endif // TABLE_HXX
+#endif /* __PICT_STOCK__DATABASE__PRIVATE__TABLE_HXX_ */

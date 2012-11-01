@@ -1,5 +1,5 @@
-#ifndef SORT_NEW_PHOTOS_HPP
-# define SORT_NEW_PHOTOS_HPP
+#ifndef __PICT_STOCK__SORT_NEW_PHOTOS__SORT_NEW_PHOTOS_HPP_
+# define __PICT_STOCK__SORT_NEW_PHOTOS__SORT_NEW_PHOTOS_HPP_
 
 # include "../extended_photo/extended_photo.hpp"
 # include "../photo_directory/photo_directory.hpp"
@@ -84,5 +84,4 @@ namespace SortNewPhotos
 } // namespace PictStock
 
 
-#endif	/* SORT_NEW_PHOTOS_HPP */
-
+#endif /* __PICT_STOCK__SORT_NEW_PHOTOS__SORT_NEW_PHOTOS_HPP_ */

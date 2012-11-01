@@ -1,5 +1,5 @@
-#ifndef DATE_HPP_
-# define DATE_HPP_
+#ifndef __PICT_STOCK__EXTENDED_PHOTO__DATE_HPP_
+# define __PICT_STOCK__EXTENDED_PHOTO__DATE_HPP_
 
 # include <yuni/core/string.h>
 # include <yuni/datetime/timestamp.h>
@@ -226,4 +226,4 @@ namespace ExtendedPhoto
 
 
 
-#endif /* DATE_HPP_ */
+#endif /* __PICT_STOCK__EXTENDED_PHOTO__DATE_HPP_ */

@@ -1,5 +1,5 @@
-#ifndef PICT_FRAME_HPP_
-# define PICT_FRAME_HPP_
+#ifndef __PICT_STOCK__PICT_FRAME__PICT_FRAME_HPP_
+# define __PICT_STOCK__PICT_FRAME__PICT_FRAME_HPP_
 
 # include "private/scan_photo_directory.hpp"
 # include "../extended_photo/extended_photo.hpp"
@@ -91,4 +91,4 @@ namespace PictFrame
 } // namespace PictStock
 
 
-#endif /* PICT_FRAME_HPP_ */
+#endif /* __PICT_STOCK__PICT_FRAME__PICT_FRAME_HPP_ */

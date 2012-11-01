@@ -1,5 +1,5 @@
-#ifndef CAMERAS_HXX_
-# define CAMERAS_HXX_
+#ifndef __PICT_STOCK__DATABASE__CAMERAS_HXX_
+# define __PICT_STOCK__DATABASE__CAMERAS_HXX_
 
 namespace PictStock
 {
@@ -35,4 +35,4 @@ namespace Database
 } // namespace pictStock
 
 
-#endif /* CAMERAS_HXX_ */
+#endif /* __PICT_STOCK__DATABASE__CAMERAS_HXX_ */

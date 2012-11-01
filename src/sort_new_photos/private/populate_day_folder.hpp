@@ -1,5 +1,5 @@
-#ifndef POPULATE_DAY_FOLDER_HPP_
-# define POPULATE_DAY_FOLDER_HPP_
+#ifndef __PICT_STOCK__SORT_NEW_PHOTOS__PRIVATE__POPULATE_DAY_FOLDER_HPP_
+# define __PICT_STOCK__SORT_NEW_PHOTOS__PRIVATE__POPULATE_DAY_FOLDER_HPP_
 
 # include "../../extended_photo/extended_photo.hpp"
 
@@ -148,4 +148,4 @@ namespace Private
 } // namespace PictStock
 
 
-#endif /* POPULATEDAYFOLDER_HPP_ */
+#endif /* __PICT_STOCK__SORT_NEW_PHOTOS__PRIVATE__POPULATE_DAY_FOLDER_HPP_ */

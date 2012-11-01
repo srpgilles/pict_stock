@@ -1,5 +1,5 @@
-#ifndef PARAMETERS_HXX_
-# define PARAMETERS_HXX_
+#ifndef __PICT_STOCK__DATABASE__PRIVATE__PARAMETERS_HXX_
+# define __PICT_STOCK__DATABASE__PRIVATE__PARAMETERS_HXX_
 
 namespace PictStock
 {
@@ -11,4 +11,4 @@ namespace Database
 } // namespace pictStock
 
 
-#endif /* PHOTOGRAPHERS_HXX_ */
+#endif /* __PICT_STOCK__DATABASE__PRIVATE__PARAMETERS_HXX_ */

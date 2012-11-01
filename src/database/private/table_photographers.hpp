@@ -1,5 +1,5 @@
-#ifndef TABLE_PHOTOGRAPHERS_HPP_
-# define TABLE_PHOTOGRAPHERS_HPP_
+#ifndef __PICT_STOCK__DATABASE__PRIVATE__TABLE_PHOTOGRAPHERS_HPP_
+# define __PICT_STOCK__DATABASE__PRIVATE__TABLE_PHOTOGRAPHERS_HPP_
 
 # include <tuple>
 # include <yuni/core/string.h>
@@ -45,4 +45,4 @@ namespace TablePhotographers
 } // namespace PictStock
 
 
-#endif /* TABLE_PHOTOGRAPHERS_HPP_ */
+#endif /* __PICT_STOCK__DATABASE__PRIVATE__TABLE_PHOTOGRAPHERS_HPP_ */

@@ -1,5 +1,5 @@
-#ifndef SORT_NEW_PHOTOS_ITERATOR_HPP_
-# define SORT_NEW_PHOTOS_ITERATOR_HPP_
+#ifndef __PICT_STOCK__SORT_NEW_PHOTOS__PRIVATE__SORT_NEW_PHOTOS_ITERATOR_HPP_
+# define __PICT_STOCK__SORT_NEW_PHOTOS__PRIVATE__SORT_NEW_PHOTOS_ITERATOR_HPP_
 
 # include <yuni/io/directory/iterator.h>
 # include "../../extended_photo/extended_photo.hpp"
@@ -158,4 +158,4 @@ namespace Private
 
 # include "sort_new_photos_iterator.hxx"
 
-#endif /* SORT_NEW_PHOTOS_ITERATOR_HPP_ */
+#endif /* __PICT_STOCK__SORT_NEW_PHOTOS__PRIVATE__SORT_NEW_PHOTOS_ITERATOR_HPP_ */

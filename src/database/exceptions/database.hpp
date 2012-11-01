@@ -1,5 +1,5 @@
-#ifndef DATABASE_EXCEPTIONS_HPP
-# define DATABASE_EXCEPTIONS_HPP
+#ifndef __PICT_STOCK__DATABASE__EXCEPTIONS__DATABASE_HPP_
+# define __PICT_STOCK__DATABASE__EXCEPTIONS__DATABASE_HPP_
 
 # include "../../tools/exceptions.hpp"
 
@@ -35,4 +35,4 @@ namespace Exceptions
 } // namespace PictStock
 
 
-#endif // DATABASE_EXCEPTIONS_HPP
+#endif /* __PICT_STOCK__DATABASE__EXCEPTIONS__DATABASE_HPP_ */

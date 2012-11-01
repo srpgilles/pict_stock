@@ -1,5 +1,5 @@
-#ifndef _PICT_STOCK_HPP_
-# define _PICT_STOCK_HPP_
+#ifndef __PICT_STOCK__PICT_STOCK_HPP_
+# define __PICT_STOCK__PICT_STOCK_HPP_
 
 # include <yuni/core/logs.h>
 # include <yuni/core/noncopyable.h>
@@ -24,4 +24,4 @@ namespace PictStock
 } // namespace PictStock
 
 
-#endif /* _PICT_STOCK_HPP_ */
+#endif /* __PICT_STOCK__PICT_STOCK_HPP_ */

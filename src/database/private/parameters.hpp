@@ -1,5 +1,5 @@
-#ifndef PARAMETERS_HPP_
-# define PARAMETERS_HPP_
+#ifndef __PICT_STOCK__DATABASE__PRIVATE__PARAMETERS_HPP_
+# define __PICT_STOCK__DATABASE__PRIVATE__PARAMETERS_HPP_
 
 # include <yuni/core/string.h>
 # include "table.hpp"
@@ -122,4 +122,4 @@ namespace Private
 
 # include "parameters.hxx"
 
-#endif /* PHOTOGRAPHERS_HPP_ */
+#endif /* __PICT_STOCK__DATABASE__PRIVATE__PARAMETERS_HPP_ */

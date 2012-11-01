@@ -1,5 +1,5 @@
-#ifndef _TAB_PHOTOGRAPHERS_CAMERAS_HPP_
-# define _TAB_PHOTOGRAPHERS_CAMERAS_HPP_
+#ifndef __PICT_STOCK__GUI__TAB_PHOTOGRAPHERS_CAMERAS_HPP_
+# define __PICT_STOCK__GUI__TAB_PHOTOGRAPHERS_CAMERAS_HPP_
 
 # include <QWidget>
 
@@ -28,4 +28,4 @@ namespace Gui
 } // namespace Gui
 } // namespace PictStock
 
-#endif // _TAB_PHOTOGRAPHERS_CAMERAS_HPP_
+#endif /* __PICT_STOCK__GUI__TAB_PHOTOGRAPHERS_CAMERAS_HPP_ */

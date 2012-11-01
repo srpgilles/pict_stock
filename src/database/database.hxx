@@ -1,5 +1,5 @@
-#ifndef PICT_STOCK_DATABASE_HXX
-# define PICT_STOCK_DATABASE_HXX
+#ifndef __PICT_STOCK__DATABASE__DATABASE_HXX_
+# define __PICT_STOCK__DATABASE__DATABASE_HXX_
 
 
 namespace PictStock
@@ -43,4 +43,4 @@ namespace Database
 } // namespace PictStock
 
 
-#endif // DATABASE_HXX
+#endif /* __PICT_STOCK__DATABASE__DATABASE_HXX_ */

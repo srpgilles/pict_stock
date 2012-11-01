@@ -1,5 +1,5 @@
-#ifndef DATE_HXX_
-# define DATE_HXX_
+#ifndef __PICT_STOCK__EXTENDED_PHOTO__DATE_HXX_
+# define __PICT_STOCK__EXTENDED_PHOTO__DATE_HXX_
 
 
 namespace PictStock
@@ -294,4 +294,4 @@ namespace ExtendedPhoto
 } // namespace PictStock
 
 
-#endif /* DATE_HXX_ */
+#endif /* __PICT_STOCK__EXTENDED_PHOTO__DATE_HXX_ */

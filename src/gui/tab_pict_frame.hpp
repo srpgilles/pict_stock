@@ -1,5 +1,5 @@
-#ifndef _TAB_PICT_FRAME_HPP
-# define _TAB_PICT_FRAME_HPP
+#ifndef __PICT_STOCK__GUI__TAB_PICT_FRAME_HPP_
+# define __PICT_STOCK__GUI__TAB_PICT_FRAME_HPP_
 
 # include <QWidget>
 
@@ -32,4 +32,4 @@ namespace Gui
 } // namespace Gui
 } // namespace PictStock
 
-#endif // _TAB_PICT_FRAME_HPP
+#endif /* __PICT_STOCK__GUI__TAB_PICT_FRAME_HPP_ */

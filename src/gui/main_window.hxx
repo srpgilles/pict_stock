@@ -1,5 +1,5 @@
-"#ifndef MAIN_WINDOW_HXX
-# define MAIN_WINDOW_HXX
+#ifndef __PICT_STOCK__GUI__MAIN_WINDOW_HXX_
+# define __PICT_STOCK__GUI__MAIN_WINDOW_HXX_
 
 namespace PictStock
 {
@@ -11,4 +11,4 @@ namespace Gui
 } // namespace Gui
 } // namespace PictStock
 
-#endif // MAIN_WINDOW_HXX
+#endif /* __PICT_STOCK__GUI__MAIN_WINDOW_HXX_ */

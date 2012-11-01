@@ -1,5 +1,5 @@
-#ifndef EXCEPTIONS_HPP_
-# define EXCEPTIONS_HPP_
+#ifndef __PICT_STOCK__TOOLS__EXCEPTIONS_HPP_
+# define __PICT_STOCK__TOOLS__EXCEPTIONS_HPP_
 
 # include <yuni/core/string.h>
 
@@ -32,4 +32,4 @@ namespace GenericTools
 	};
 } // namespace GenericTools
 
-#endif /* EXCEPTIONS_HPP_ */
+#endif /* __PICT_STOCK__TOOLS__EXCEPTIONS_HPP_ */

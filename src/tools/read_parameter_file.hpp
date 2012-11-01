@@ -1,5 +1,5 @@
-#ifndef READ_PARAMETER_FILE_HPP_
-# define READ_PARAMETER_FILE_HPP_
+#ifndef __PICT_STOCK__TOOLS__READ_PARAMETER_FILE_HPP_
+# define __PICT_STOCK__TOOLS__READ_PARAMETER_FILE_HPP_
 
 # include "../pict_stock.hpp"
 # include <yuni/core/string.h>
@@ -71,4 +71,4 @@ namespace GenericTools
 } // namespace GenericTools
 
 
-#endif /* READ_PARAMETER_FILE_HPP_ */
+#endif /* __PICT_STOCK__TOOLS__READ_PARAMETER_FILE_HPP_ */

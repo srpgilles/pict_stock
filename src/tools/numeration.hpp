@@ -1,5 +1,5 @@
-#ifndef NUMERATION_HPP_
-# define NUMERATION_HPP_
+#ifndef __PICT_STOCK__TOOLS__NUMERATION_HPP_
+# define __PICT_STOCK__TOOLS__NUMERATION_HPP_
 
 # include <yuni/core/string.h>
 
@@ -62,4 +62,4 @@ namespace GenericTools
 } // namespace GenericTools
 
 
-#endif /* NUMERATION_HPP_ */
+#endif /* __PICT_STOCK__TOOLS__NUMERATION_HPP_ */

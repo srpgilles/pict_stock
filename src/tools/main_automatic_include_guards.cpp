@@ -317,12 +317,15 @@ namespace
 
             while (fileContent.readline(line))
             {
-                if (!previousLineEmpty)
+                bool isLineEmpty = line.empty();
+
+                if (!previousLineEmpty && !isLineEmpty)
                     newFile << lastRelevantLine;
 
                 newFile << '\n';
 
-                if (line.empty())
+                // Prepare next iteration
+                if (isLineEmpty)
                     previousLineEmpty = true;
                 else
                 {

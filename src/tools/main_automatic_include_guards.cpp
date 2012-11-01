@@ -93,7 +93,7 @@ namespace
 
             if (String::IsAlpha(current))
             {
-                char upperCase = String::ToUpper(current);
+                char upperCase = static_cast<char>(String::ToUpper(current));
 
                 if (upperCase == current)
                     out << '_' << current;
@@ -138,7 +138,7 @@ namespace
     }
 
 
-    bool HeaderGuardsIterator::onStart(const String& rootFolder)
+    bool HeaderGuardsIterator::onStart(const String& /*rootFolder*/)
     {
         return true;
     }
@@ -174,109 +174,185 @@ namespace
     void HeaderGuardsIterator::onTerminate()
     { }
 
+
+    /*!
+    ** \brief RAII for temporary file written with correct include guards
+    **
+    ** Header file content is copied into NewFile, with header guards eventually corrected.
+    **
+    ** If successful, calling function will yield temporary filename and copy it
+    ** to replace previous version of header file.
+    **
+    */
+    class NewFile
+    {
+    public:
+
+        //! Constructor and destructor
+        //@{
+        explicit NewFile(const AnyString& filename);
+
+        ~NewFile();
+        //@}
+
+        //! Operator <<
+        template<class U>
+        inline NewFile& operator << (const U& u);
+
+        //! Name of the temporary filename
+        inline const YString& name() const { return pFileName; }
+
+        //! Close the stream
+        void close();
+
+
+    private:
+
+        //! Name of the temporary file
+        YString pFileName;
+
+        //! Stream
+        IO::File::Stream pStream;
+
+    };
+
+    NewFile::NewFile(const AnyString& filename)
+        : pFileName(filename)
+    {
+        pFileName << ".tmp";
+        pStream.openRW(pFileName);
+    }
+
+
+    NewFile::~NewFile()
+    {
+        if (pStream.opened())
+            pStream.close();
+
+        IO::File::Delete(pFileName);
+    }
+
+    template<class U>
+    NewFile& NewFile::operator << (const U& u)
+    {
+        pStream.operator << (u);
+        return *this;
+    }
+
+
+    void NewFile::close()
+    {
+        pStream.close();
+    }
+
+
+
     void HeaderGuardsIterator::checkHeaderGuards(const AnyString& filename)
     {
+        // Prepare message in case of failure
+        YString failureMsg("Couldn't modify automatically file ");
+        failureMsg << filename;
+
         // Determine correct header guards
         assert("If not, something fishy in the code" && filename.size() > pLengthRootFolder);
         YString truncatedFilename(filename, pLengthRootFolder);
 
         YString correctHeaderGuard;
-        Translate(correctHeaderGuard, pProjectName);
-        Translate(correctHeaderGuard, truncatedFilename);
-
-        logs.notice(correctHeaderGuard);
-
-        // Check that guard is used at the beginning. If not, replace the expression
-
-        YString temporary(filename); // to provide rollback-or-commit
-        temporary << ".keep";
-
-        if (IO::errNone != IO::File::Copy(filename, temporary))
         {
-            logs.error("Unable to copy ") << filename << " to " << temporary;
-            exit(EXIT_FAILURE);
-        }
+            // Determine the header guard to apply
+            Translate(correctHeaderGuard, pProjectName);
+            Translate(correctHeaderGuard, truncatedFilename);
+        }        
 
-        IO::File::Stream fileContent(filename, IO::OpenMode::read | IO::OpenMode::write);
+        // Open the file to study
+        IO::File::Stream fileContent(filename, IO::OpenMode::read);
 
-        YString line;
+        // Open a copy in which the modified content will be written
+        NewFile newFile(filename);
+        bool isFileUnchanged(true);
 
+        // Read line by line, and modify the three lines with header guards informations
         {
-            // Reach first relevant line
+            YString line;
+
+            // First relevant line is line #ifndef ...
             while (fileContent.readline(line) && line.empty());
 
-            if (line.contains("ifndef"))
+            if (!line.contains("ifndef"))
             {
-                YString newLine("#ifndef ");
-                newLine << correctHeaderGuard;
-                line = correctHeaderGuard;
+                logs.error(failureMsg);
+                return;
             }
-            else
-            {
-                logs.warning() << "Unable to process " << filename;
-                fileContent.close();
-                IO::File::Copy(temporary, filename);
-                IO::File::Delete(temporary);
-            }
-        }
 
-        {
-            // Next line should provide the define
-            fileContent.readline(line);
-
-            if (line.contains("define"))
             {
-                YString newLine("# define ");
-                newLine << correctHeaderGuard;
-                line = correctHeaderGuard;
+                YString expected("#ifndef ");
+                expected << correctHeaderGuard;
+                isFileUnchanged &= (line == expected);
+                newFile << expected << '\n';
             }
-            else
-            {
-                logs.warning() << "Unable to process " << filename;
-                fileContent.close();
-                IO::File::Copy(temporary, filename);
-                IO::File::Delete(temporary);
-            }
-        }
 
-        {
-            // Now go up to the end of the file to provide a proper comment after endif
-            YString lastLineStored;
+            // Second relevant line is line #define...
+            while (fileContent.readline(line) && line.empty());
+
+            if (!line.contains("define"))
+            {
+                logs.error(failureMsg);
+                return;
+            }
+
+            {
+                YString expected("# define ");
+                expected << correctHeaderGuard;
+                isFileUnchanged &= (line == expected);
+                newFile << expected << '\n';
+            }
+
+            // Copy the rest of the file except the last relevant line,
+            // which should be endif one
+            YString lastRelevantLine;
+            while (fileContent.readline(lastRelevantLine) && lastRelevantLine.empty())
+                newFile << '\n';
+
+            bool previousLineEmpty(false);
 
             while (fileContent.readline(line))
             {
-                if (!line.empty())
-                    lastLineStored = line;
+                if (!previousLineEmpty)
+                    newFile << lastRelevantLine;
+
+                newFile << '\n';
+
+                if (line.empty())
+                    previousLineEmpty = true;
+                else
+                {
+                    previousLineEmpty = false;
+                    lastRelevantLine = line;
+                }
             }
 
-            if (line.startsWith("#endif"))
+            // LastRelevantLine should contain the last relevant line, with an endif in it
+            if (lastRelevantLine.empty() || !lastRelevantLine.contains("endif"))
             {
-                YString newLine("#endif ");
-                newLine << correctHeaderGuard;
-                line = correctHeaderGuard;
+                logs.error(failureMsg);
+                return;
             }
-            else
+
             {
-                logs.warning() << "Unable to process " << filename;
-                fileContent.close();
-                IO::File::Copy(temporary, filename);
-                IO::File::Delete(temporary);
+                YString expected("#endif /* ");
+                expected << correctHeaderGuard << " */";
+                isFileUnchanged &= (lastRelevantLine == expected);
+                newFile << expected << '\n';
             }
-
-            logs.notice() << filename << " has been correctly updated";
-
         }
 
-
-
-        // Same at the very end (it is a comment, but still...)
-
-
+        if (!isFileUnchanged)
+        {
+            newFile.close();
+            IO::File::Copy(newFile.name(), filename);
+            IO::File::Delete(newFile.name());
+        }
     }
-
-
-
-
 
 } // namespace anonymous
 

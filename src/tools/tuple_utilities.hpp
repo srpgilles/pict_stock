@@ -44,7 +44,7 @@ namespace Tuple
 	**
 	*/
 
-
+	# ifndef YUNI_OS_WINDOWS
 	template<unsigned int Index, unsigned int Max, typename TupleT>
 	struct Helper
 	{
@@ -78,6 +78,224 @@ namespace Tuple
 			fields.push_front(ElementType::FieldName());
 		}
 	};
+	# else // YUNI_OS_WINDOWS
+	// As MSVC doesn't handle tuple_cat
+	template<unsigned int Index, unsigned int Max, typename TupleT>
+	struct Helper;
+
+	template<unsigned int Max, typename TupleT>
+	struct Helper<0u, Max, TupleT>
+	{
+		typedef typename std::tuple_element<0u, TupleT>::type ElementType;
+		typedef typename ElementType::WrappedType WrappedTupleType;
+		typedef WrappedTupleType type;
+
+		static void FieldNames(std::deque<YString>& fields)
+		{
+			fields.push_front(ElementType::FieldName());
+		}
+	};
+
+
+
+	template<unsigned int Max, typename TupleT>
+	struct Helper<1u, Max, TupleT>
+	{
+		typedef typename std::tuple_element<1u, TupleT>::type ElementType;
+		typedef typename ElementType::WrappedType WrappedTupleType;
+
+		typedef typename std::tuple_element<0u, TupleT>::type::WrappedType WrappedType0;
+		typedef typename std::tuple<WrappedType0, WrappedTupleType> type;
+			
+		static void FieldNames(std::deque<YString>& fields)
+		{
+			fields.push_front(ElementType::FieldName());
+			Helper<0, Max, TupleT>::FieldNames(fields);
+		}
+	};
+
+
+	template<unsigned int Max, typename TupleT>
+	struct Helper<2u, Max, TupleT>
+	{
+		typedef typename std::tuple_element<2u, TupleT>::type ElementType;
+		typedef typename ElementType::WrappedType WrappedTupleType;
+
+		typedef typename std::tuple_element<0u, TupleT>::type::WrappedType WrappedType0;
+		typedef typename std::tuple_element<1u, TupleT>::type::WrappedType WrappedType1;
+		typedef typename std::tuple<WrappedType0, WrappedType1, WrappedTupleType> type;
+		
+		
+		static void FieldNames(std::deque<YString>& fields)
+		{
+			fields.push_front(ElementType::FieldName());
+			Helper<1u, Max, TupleT>::FieldNames(fields);
+		}
+	};
+
+
+	template<unsigned int Max, typename TupleT>
+	struct Helper<3u, Max, TupleT>
+	{
+		typedef typename std::tuple_element<3u, TupleT>::type ElementType;
+		typedef typename ElementType::WrappedType WrappedTupleType;
+
+		typedef typename std::tuple_element<0u, TupleT>::type::WrappedType WrappedType0;
+		typedef typename std::tuple_element<1u, TupleT>::type::WrappedType WrappedType1;
+		typedef typename std::tuple_element<2u, TupleT>::type::WrappedType WrappedType2;
+		typedef typename std::tuple<WrappedType0, WrappedType1, WrappedType2, WrappedTupleType> type;
+		
+		static void FieldNames(std::deque<YString>& fields)
+		{
+			fields.push_front(ElementType::FieldName());
+			Helper<2u, Max, TupleT>::FieldNames(fields);
+		}
+	};
+
+
+	template<unsigned int Max, typename TupleT>
+	struct Helper<4u, Max, TupleT>
+	{
+		typedef typename std::tuple_element<4u, TupleT>::type ElementType;
+		typedef typename ElementType::WrappedType WrappedTupleType;
+
+		typedef typename std::tuple_element<0u, TupleT>::type::WrappedType WrappedType0;
+		typedef typename std::tuple_element<1u, TupleT>::type::WrappedType WrappedType1;
+		typedef typename std::tuple_element<2u, TupleT>::type::WrappedType WrappedType2;
+		typedef typename std::tuple_element<3u, TupleT>::type::WrappedType WrappedType3;
+		typedef typename std::tuple<WrappedType0, WrappedType1, WrappedType2, WrappedType3, WrappedTupleType> type;
+		
+		static void FieldNames(std::deque<YString>& fields)
+		{
+			fields.push_front(ElementType::FieldName());
+			Helper<3u, Max, TupleT>::FieldNames(fields);
+		}
+	};
+
+
+	template<unsigned int Max, typename TupleT>
+	struct Helper<5u, Max, TupleT>
+	{
+		typedef typename std::tuple_element<5u, TupleT>::type ElementType;
+		typedef typename ElementType::WrappedType WrappedTupleType;
+
+		typedef typename std::tuple_element<0u, TupleT>::type::WrappedType WrappedType0;
+		typedef typename std::tuple_element<1u, TupleT>::type::WrappedType WrappedType1;
+		typedef typename std::tuple_element<2u, TupleT>::type::WrappedType WrappedType2;
+		typedef typename std::tuple_element<3u, TupleT>::type::WrappedType WrappedType3;
+		typedef typename std::tuple_element<4u, TupleT>::type::WrappedType WrappedType4;
+		typedef typename std::tuple<WrappedType0, WrappedType1, WrappedType2, WrappedType3, 
+			WrappedType4, WrappedTupleType> type;
+		
+		static void FieldNames(std::deque<YString>& fields)
+		{
+			fields.push_front(ElementType::FieldName());
+			Helper<4u, Max, TupleT>::FieldNames(fields);
+		}
+	};
+
+
+	template<unsigned int Max, typename TupleT>
+	struct Helper<6u, Max, TupleT>
+	{
+		typedef typename std::tuple_element<6u, TupleT>::type ElementType;
+		typedef typename ElementType::WrappedType WrappedTupleType;
+
+		typedef typename std::tuple_element<0u, TupleT>::type::WrappedType WrappedType0;
+		typedef typename std::tuple_element<1u, TupleT>::type::WrappedType WrappedType1;
+		typedef typename std::tuple_element<2u, TupleT>::type::WrappedType WrappedType2;
+		typedef typename std::tuple_element<3u, TupleT>::type::WrappedType WrappedType3;
+		typedef typename std::tuple_element<4u, TupleT>::type::WrappedType WrappedType4;
+		typedef typename std::tuple_element<5u, TupleT>::type::WrappedType WrappedType5;
+		typedef typename std::tuple<WrappedType0, WrappedType1, WrappedType2, WrappedType3, 
+			WrappedType4, WrappedType5, WrappedTupleType> type;
+			
+		static void FieldNames(std::deque<YString>& fields)
+		{
+			fields.push_front(ElementType::FieldName());
+			Helper<5u, Max, TupleT>::FieldNames(fields);
+		}
+	};
+
+
+	template<unsigned int Max, typename TupleT>
+	struct Helper<7u, Max, TupleT>
+	{
+		typedef typename std::tuple_element<7u, TupleT>::type ElementType;
+		typedef typename ElementType::WrappedType WrappedTupleType;
+
+		typedef typename std::tuple_element<0u, TupleT>::type::WrappedType WrappedType0;
+		typedef typename std::tuple_element<1u, TupleT>::type::WrappedType WrappedType1;
+		typedef typename std::tuple_element<2u, TupleT>::type::WrappedType WrappedType2;
+		typedef typename std::tuple_element<3u, TupleT>::type::WrappedType WrappedType3;
+		typedef typename std::tuple_element<4u, TupleT>::type::WrappedType WrappedType4;
+		typedef typename std::tuple_element<5u, TupleT>::type::WrappedType WrappedType5;
+		typedef typename std::tuple_element<6u, TupleT>::type::WrappedType WrappedType6;
+		typedef typename std::tuple<WrappedType0, WrappedType1, WrappedType2, WrappedType3, 
+			WrappedType4, WrappedType5, WrappedType6, WrappedTupleType> type;
+			
+		static void FieldNames(std::deque<YString>& fields)
+		{
+			fields.push_front(ElementType::FieldName());
+			Helper<6u, Max, TupleT>::FieldNames(fields);
+		}
+	};
+
+
+	template<unsigned int Max, typename TupleT>
+	struct Helper<8u, Max, TupleT>
+	{
+		typedef typename std::tuple_element<8u, TupleT>::type ElementType;
+		typedef typename ElementType::WrappedType WrappedTupleType;
+
+		typedef typename std::tuple_element<0u, TupleT>::type::WrappedType WrappedType0;
+		typedef typename std::tuple_element<1u, TupleT>::type::WrappedType WrappedType1;
+		typedef typename std::tuple_element<2u, TupleT>::type::WrappedType WrappedType2;
+		typedef typename std::tuple_element<3u, TupleT>::type::WrappedType WrappedType3;
+		typedef typename std::tuple_element<4u, TupleT>::type::WrappedType WrappedType4;
+		typedef typename std::tuple_element<5u, TupleT>::type::WrappedType WrappedType5;
+		typedef typename std::tuple_element<6u, TupleT>::type::WrappedType WrappedType6;
+		typedef typename std::tuple_element<7u, TupleT>::type::WrappedType WrappedType7;		
+		typedef typename std::tuple<WrappedType0, WrappedType1, WrappedType2, WrappedType3, 
+			WrappedType4, WrappedType5, WrappedType6, WrappedType7, WrappedTupleType> type;
+		
+		static void FieldNames(std::deque<YString>& fields)
+		{
+			fields.push_front(ElementType::FieldName());
+			Helper<7u, Max, TupleT>::FieldNames(fields);
+		}
+	};
+
+
+	template<unsigned int Max, typename TupleT>
+	struct Helper<9u, Max, TupleT>
+	{
+		typedef typename std::tuple_element<9u, TupleT>::type ElementType;
+		typedef typename ElementType::WrappedType WrappedTupleType;
+
+
+		typedef typename std::tuple_element<0u, TupleT>::type::WrappedType WrappedType0;
+		typedef typename std::tuple_element<1u, TupleT>::type::WrappedType WrappedType1;
+		typedef typename std::tuple_element<2u, TupleT>::type::WrappedType WrappedType2;
+		typedef typename std::tuple_element<3u, TupleT>::type::WrappedType WrappedType3;
+		typedef typename std::tuple_element<4u, TupleT>::type::WrappedType WrappedType4;
+		typedef typename std::tuple_element<5u, TupleT>::type::WrappedType WrappedType5;
+		typedef typename std::tuple_element<6u, TupleT>::type::WrappedType WrappedType6;
+		typedef typename std::tuple_element<7u, TupleT>::type::WrappedType WrappedType7;
+		typedef typename std::tuple_element<8u, TupleT>::type::WrappedType WrappedType8;
+		typedef typename std::tuple<WrappedType0, WrappedType1, WrappedType2, WrappedType3, 
+			WrappedType4, WrappedType5, WrappedType6, WrappedType7, WrappedType8, WrappedTupleType> type;
+		
+		static void FieldNames(std::deque<YString>& fields)
+		{
+			fields.push_front(ElementType::FieldName());
+			Helper<8u, Max, TupleT>::FieldNames(fields);
+		}
+	};
+
+
+	
+	# endif // YUNI_OS_WINDOWS
 
 	/*!
 	** \brief This structure yields the StringType hold by each element of the input tuple
@@ -197,7 +415,7 @@ namespace Tuple
         template<typename StringT>
         static void print(StreamT& stream, const std::tuple<Args...>&t, const StringT& separator = ",")
         {
-            typedef std::tuple<Args...> TupleType;
+            typedef typename std::tuple<Args...> TupleType;
 
             typedef typename std::tuple_element<Index, TupleType>::type EltTupleType;
 

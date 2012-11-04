@@ -32,7 +32,7 @@ namespace GenericTools
     /*!
     ** \brief Print the content of a container
     */
-    template<typename StreamT, class ContainerT, typename StringT = YString>
+    template<typename StreamT, class ContainerT, typename StringT>
     void printContainer(StreamT& stream, const ContainerT& container,
         StringT separator = ",", StringT opener = "[", StringT closer = "]\n")
     {

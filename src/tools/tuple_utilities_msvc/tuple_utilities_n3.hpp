@@ -39,7 +39,7 @@
     /*!
     ** \brief Print the content of a tuple
     */
-    template<typename StreamT, typename StringT = YString, typename U1, typename U2, typename U3>
+    template<typename StreamT, typename StringT, typename U1, typename U2, typename U3>
     void print(StreamT& stream, const std::tuple<U1, U2, U3>&t, StringT separator = ",",
         StringT opener = "[", StringT closer = "]\n")
     {

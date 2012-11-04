@@ -53,9 +53,14 @@ namespace Yuni
 	}
 
 
-	static void LinuxRenameProcess(const char* text, uint size)
+	static inline void LinuxRenameProcess(const char* text, uint size)
 	{
-		static char buffer[2048];
+		// TODO Remove this static variable into a dynamicaly allocated one
+		enum
+		{
+			initialBufferSize = 2048,
+		};
+		static char buffer[initialBufferSize];
 
 		memset(buffer, '\0', sizeof(buffer));
 		char* p = buffer;
@@ -63,7 +68,7 @@ namespace Yuni
 		uint buffersize = (uint) (sizeof(buffer) - (size_t)(p - buffer) - 1);
 		if (size > buffersize)
 			size = buffersize;
-		memcpy(p, text, size);
+		YUNI_MEMCPY(p, initialBufferSize, text, size);
 		p[size] = '\0';
 
 		for (uint i = 0; Argv[i]; ++i)

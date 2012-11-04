@@ -484,6 +484,7 @@ set(SRC_IO_FILENAME
 		io/io.hxx
 		io/error.h
 		io/filename-manipulation.h
+		io/filename-manipulation.cpp
 		io/filename-manipulation.hxx
 )
 source_group(io FILES ${SRC_IO_FILENAME})

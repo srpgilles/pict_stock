@@ -16,6 +16,8 @@ extern "C"
 # include "types.h"
 # include "../../core/string.h"
 
+
+
 namespace Yuni
 {
 namespace Private
@@ -33,8 +35,7 @@ namespace Audio
 		static bool Init();
 
 		//! Open a file with ffmpeg and sets up the streams' information
-		template<typename StringT>
-		static AudioFile* OpenFile(const StringT& fname);
+		static AudioFile* OpenFile(const AnyString& filename);
 
 		//! Close an opened file and any of its streams
 		static void CloseFile(AudioFile*& file);
@@ -61,7 +62,7 @@ namespace Audio
 		** \param stream Stream to get duration for
 		** \returns The duration of the stream, 0 if null
 		*/
-		static unsigned int GetStreamDuration(const AudioStream* stream);
+		static uint GetStreamDuration(const AudioStream* stream);
 
 		/*!
 		** \brief Decode audio and write at most length bytes into the provided data buffer
@@ -75,10 +76,9 @@ namespace Audio
 
 
 
+
 } // namespace Audio
 } // namespace Private
 } // namespace Yuni
-
-#include "av.hxx"
 
 #endif // __YUNI_PRIVATE_AUDIO_AV_H__

@@ -29,8 +29,8 @@ namespace Logs
 		};
 
 	public:
-		template<class LoggerT, class VerbosityType, class StringT>
-		void internalDecoratorWriteWL(LoggerT& logger, const StringT& s) const
+		template<class LoggerT, class VerbosityType>
+		void internalDecoratorWriteWL(LoggerT& logger, const AnyString& s) const
 		{
 			typedef typename LoggerT::DecoratorsType DecoratorsType;
 
@@ -49,7 +49,7 @@ namespace Logs
 			}
 
 			// Transmit the message to the next handler
-			NextHandler::template internalDecoratorWriteWL<LoggerT, VerbosityType, StringT>(logger, s);
+			NextHandler::template internalDecoratorWriteWL<LoggerT, VerbosityType>(logger, s);
 		}
 
 	}; // class StdCout

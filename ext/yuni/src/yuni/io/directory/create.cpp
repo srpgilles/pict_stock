@@ -62,7 +62,7 @@ namespace Directory
 		uint len = path.size();
 
 		char* buffer = new char[len + 1];
-		memcpy(buffer, path.c_str(), len);
+		YUNI_MEMCPY(buffer, len, path.c_str(), len);
 		buffer[len] = '\0';
 		char* pt = buffer;
 		char tmp;

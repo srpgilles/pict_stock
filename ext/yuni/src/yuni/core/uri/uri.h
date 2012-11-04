@@ -134,7 +134,7 @@ namespace Yuni
 		/*!
 		** \brief Constructor with a string, to directly construct the URI
 		*/
-		template<class StringT> Uri(const StringT& s);
+		Uri(const AnyString& string);
 
 		/*!
 		** \brief Copy constructor

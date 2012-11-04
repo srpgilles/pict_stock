@@ -27,7 +27,6 @@ namespace IO
 	void ExtractFilePath(StringT1& out, const StringT2& p, const bool systemDependant = false);
 
 
-
 	/*!
 	** \brief Extract the bare file name
 	**
@@ -75,7 +74,7 @@ namespace IO
 	** \param filename The path or the filename to test
 	** \return True if the given filename is an absolute path, false otherwise (or empty)
 	*/
-	template<class StringT> bool IsAbsolute(const StringT& filename);
+	bool IsAbsolute(const AnyString& filename);
 
 
 	/*!
@@ -84,7 +83,7 @@ namespace IO
 	** \param filename The path or the filename to test
 	** \return True if the given filename is an absolute path, false otherwise (or empty)
 	*/
-	template<class StringT> bool IsRelative(const StringT& filename);
+	bool IsRelative(const AnyString& filename);
 
 
 	/*!
@@ -141,13 +140,29 @@ namespace IO
 	**
 	** \param[out] out            A string (any class compliant to std::string) where to write the result
 	** \param      in             A path/filename to normalize
-	** \param      inLength       Length of \p in (optional, -1 for autodetection)
 	** \param      replaceSlashes True to replace slashes according the local OS conventions. False to keep
 	**                            as it.
 	*/
-	template<class StringT1, class StringT2>
-	void Normalize(StringT1& out, const StringT2& in, unsigned int inLength = (unsigned int)-1,
-		bool replaceSlashes = true);
+	void Normalize(String& out, const AnyString& in, bool replaceSlashes = true);
+
+
+	/*!
+	** \brief Normalize a filename
+	**
+	** The input can be a Windows-style or a Unix-style path, with mixed slashes and anti-slashes.
+	** This routine removes dot segments (`.` and `..`) from a given filename (when
+	** possible).
+	** Any final slash will be removed.
+	**
+	** \bug The relative filenames like "C:..\\folder1\\folder2" are not handled properly
+	**
+	** \param[out] out            A string (any class compliant to std::string) where to write the result
+	** \param      in             A path/filename to normalize
+	** \param      replaceSlashes True to replace slashes according the local OS conventions. False to keep
+	**                            as it.
+	*/
+	void Normalize(Clob& out, const AnyString& in, bool replaceSlashes = true);
+
 
 
 

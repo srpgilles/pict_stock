@@ -56,8 +56,8 @@ namespace Logs
 
 
 	template<class NextHandler>
-	template<class LoggerT, class VerbosityType, class StringT>
-	void File<NextHandler>::internalDecoratorWriteWL(LoggerT& logger, const StringT& s) const
+	template<class LoggerT, class VerbosityType>
+	void File<NextHandler>::internalDecoratorWriteWL(LoggerT& logger, const AnyString& s) const
 	{
 		if (pFile.opened())
 		{
@@ -75,7 +75,7 @@ namespace Logs
 		}
 
 		// Transmit the message to the next handler
-		NextHandler::template internalDecoratorWriteWL<LoggerT, VerbosityType, StringT>(logger, s);
+		NextHandler::template internalDecoratorWriteWL<LoggerT, VerbosityType>(logger, s);
 	}
 
 

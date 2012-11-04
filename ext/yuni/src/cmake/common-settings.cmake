@@ -51,14 +51,15 @@ set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -D_REENTRANT -D_LARGEFI
 set(YUNI_COMMON_GCC_OPTIONS_UNIX  "${YUNI_COMMON_GCC_OPTIONS} -fPIC")
 
 include(CheckCXXCompilerFlag)
-if(MINGW OR (NOT WIN32 AND NOT WIN64))
-	check_cxx_compiler_flag("-std=c++0x" YUNI_HAS_GCC_CPP0X_SUPPORT)
+if(NOT MSVC)
+	check_cxx_compiler_flag("-std=gnu++0x" YUNI_HAS_GCC_CPP0X_SUPPORT)
 	if(YUNI_HAS_GCC_CPP0X_SUPPORT)
 		set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -std=gnu++0x")
 		set(YUNI_COMMON_GCC_OPTIONS_UNIX  "${YUNI_COMMON_GCC_OPTIONS_UNIX} -std=gnu++0x -Wconversion")
 	endif()
 endif()
 if (NOT MSVC AND NOT CLANG)
+	# clang produces the warning "argument unused during compilation"
 	check_cxx_compiler_flag("-ggdb3" YUNI_HAS_GCC_FLAG_GGDB3)
 endif()
 
@@ -84,8 +85,7 @@ if(APPLE)
 	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO  "${CMAKE_CXX_FLAGS_RELEASE} -msse2 -fvisibility=hidden")
 	set(CMAKE_CXX_FLAGS_DEBUG           "${CMAKE_CXX_FLAGS_DEBUG}   -msse2 -gfull -fvisibility=hidden")
 endif()
-if (YUNI_HAS_GCC_FLAG_GGDB3 AND NOT CLANG)
-	# clang produces the warning "argument unused during compilation"
+if (YUNI_HAS_GCC_FLAG_GGDB3)
 	set(CMAKE_CXX_FLAGS_DEBUG           "${CMAKE_CXX_FLAGS_DEBUG}   -ggdb3")
 endif()
 

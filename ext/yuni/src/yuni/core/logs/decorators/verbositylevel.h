@@ -14,8 +14,8 @@ namespace Logs
 	class VerbosityLevel : public LeftType
 	{
 	public:
-		template<class Handler, class VerbosityType, class O, class StringT>
-		void internalDecoratorAddPrefix(O& out, const StringT& s) const
+		template<class Handler, class VerbosityType, class O>
+		void internalDecoratorAddPrefix(O& out, const AnyString& s) const
 		{
 			// Write the verbosity to the output
 			if (VerbosityType::hasName)
@@ -30,7 +30,7 @@ namespace Logs
 					System::Console::ResetTextColor(out);
 			}
 			// Transmit the message to the next decorator
-			LeftType::template internalDecoratorAddPrefix<Handler, VerbosityType,O,StringT>(out, s);
+			LeftType::template internalDecoratorAddPrefix<Handler, VerbosityType,O>(out, s);
 		}
 
 	}; // class VerbosityLevel

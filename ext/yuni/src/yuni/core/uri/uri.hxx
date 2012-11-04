@@ -4,10 +4,9 @@
 namespace Yuni
 {
 
-	template<class StringT>
-	Uri::Uri(const StringT& s)
+	Uri::Uri(const AnyString& string)
 	{
-		extractURIFromString(s);
+		extractURIFromString(string);
 	}
 
 
@@ -212,7 +211,9 @@ namespace Yuni
 //! \name Operator overload for stream printing
 //@{
 inline std::ostream& operator << (std::ostream& out, const Yuni::Uri& u)
-{ return u.print(out); }
+{
+	return u.print(out);
+}
 //@}
 
 

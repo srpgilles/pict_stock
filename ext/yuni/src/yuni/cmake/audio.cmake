@@ -30,7 +30,6 @@ set(SRC_AUDIO
 		private/audio/openal.h
 		private/audio/openal.cpp
 		private/audio/av.h
-		private/audio/av.hxx
 		private/audio/av.cpp
 	)
 

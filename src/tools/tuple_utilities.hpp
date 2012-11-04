@@ -180,7 +180,7 @@ namespace Tuple
     };
 
 
-# ifndef YUNI_OS_WINDOWS
+# ifdef YUNI_OS_WINDOWS
 // As MSVC doesn't support yet variadic templates, the ones defined below are defined manually
 // up to 10 parameters
 #  include "tuple_utilities_msvc/tuple_utilities.hpp"

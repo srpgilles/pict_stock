@@ -8,6 +8,7 @@
 
 # include "tools.hpp"
 
+
 namespace GenericTools
 {
 namespace Tuple
@@ -179,6 +180,12 @@ namespace Tuple
     };
 
 
+# ifndef YUNI_OS_WINDOWS
+// As MSVC doesn't support yet variadic templates, the ones defined below are defined manually
+// up to 10 parameters
+#  include "tuple_utilities_msvc/tuple_utilities.hpp"
+# else // YUNI_OS_WINDOWS
+
     /*!
     ** \brief Facility to print elements of a tuple
     **
@@ -190,7 +197,6 @@ namespace Tuple
         template<typename StringT>
         static void print(StreamT& stream, const std::tuple<Args...>&t, const StringT& separator = ",")
         {
-
             typedef std::tuple<Args...> TupleType;
 
             typedef typename std::tuple_element<Index, TupleType>::type EltTupleType;
@@ -225,8 +231,11 @@ namespace Tuple
         stream << closer;
     }
 
+# endif // YUNI_OS_WINDOWS
+
 } // namespace Tuple
 } // namespace GenericTools
+
 
 
 #endif /* __PICT_STOCK__TOOLS__TUPLE_UTILITIES_HPP_ */

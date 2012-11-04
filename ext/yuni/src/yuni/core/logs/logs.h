@@ -233,8 +233,8 @@ namespace Logs
 		/*!
 		** \brief Transmit a message to all handlers
 		*/
-		template<class VerbosityType, class StringT>
-		void dispatchMessageToHandlers(const StringT& s) const;
+		template<class VerbosityType>
+		void dispatchMessageToHandlers(const AnyString& message) const;
 
 		// A friend !
 		template<class, class, int> friend class Private::LogImpl::Buffer;

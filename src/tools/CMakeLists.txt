@@ -12,6 +12,17 @@ add_library(tools STATIC
     exceptions/sqlite_wrapper_exceptions.hpp
     tools.hpp
     tuple_utilities.hpp
+    tuple_utilities_msvc/tuple_utilities.hpp
+    tuple_utilities_msvc/tuple_utilities_n1.hpp
+    tuple_utilities_msvc/tuple_utilities_n2.hpp
+    tuple_utilities_msvc/tuple_utilities_n3.hpp
+    tuple_utilities_msvc/tuple_utilities_n4.hpp
+    tuple_utilities_msvc/tuple_utilities_n5.hpp
+    tuple_utilities_msvc/tuple_utilities_n6.hpp
+    tuple_utilities_msvc/tuple_utilities_n7.hpp
+    tuple_utilities_msvc/tuple_utilities_n8.hpp
+    tuple_utilities_msvc/tuple_utilities_n9.hpp
+    tuple_utilities_msvc/tuple_utilities_n10.hpp
     stl.hpp
 )
 

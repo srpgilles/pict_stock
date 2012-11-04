@@ -40,7 +40,7 @@ namespace Display
 		#ifdef YUNI_OS_WINDOWS
 		if (NULL != hwn)
 		{
-			memcpy(pDeviceID, hwn, sizeof(wchar_t) * 128);
+			YUNI_MEMCPY(pDeviceID, sizeof(wchar_t) * 128, hwn, sizeof(wchar_t) * 128);
 			pHandle = pDeviceID;
 		}
 		else

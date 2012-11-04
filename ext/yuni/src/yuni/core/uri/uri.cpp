@@ -29,88 +29,88 @@ namespace Yuni
 			}
 
 			/*!
-			 * \brief Build informations about the URI
-			 */
+			** \brief Build informations about the URI
+			*/
 			void run();
 
 
 		private:
 			/*!
-			 * \brief
-			 */
+			** \brief
+			*/
 			bool postFlight();
 
 			/*!
-			 * \brief Extract the scheme part
-			 *
-			 * The scheme may not exist and it is possible to be directly redirect
-			 * to the method of the path extraction
-			 */
+			** \brief Extract the scheme part
+			**
+			** The scheme may not exist and it is possible to be directly redirect
+			** to the method of the path extraction
+			*/
 			bool extractScheme(const String::value_type c);
 
 			/*!
-			 * \brief May Extract the server informations
-			 *
-			 * At this point of the global extraction, we are not sure to deal with
-			 * some server informations. It could possibly be a path
-			 */
+			** \brief May Extract the server informations
+			**
+			** At this point of the global extraction, we are not sure to deal with
+			** some server informations. It could possibly be a path
+			*/
 			bool extractAuthorty(const String::value_type c);
 
 			/*!
-			 * \brief Extract the server informations
-			 *
-			 * The method `extractAuthorty()` has detected some real server informations.
-			 * Actually the following string has been detected :
-			 * \code
-			 * scheme://
-			 * \endcode
-			 * But it can be a path, like this :
-			 * \code
-			 * file:///path/to/somewhere
-			 * \endcode
-			 */
+			** \brief Extract the server informations
+			**
+			** The method `extractAuthorty()` has detected some real server informations.
+			** Actually the following string has been detected :
+			** \code
+			** scheme://
+			** \endcode
+			** But it can be a path, like this :
+			** \code
+			** file:///path/to/somewhere
+			** \endcode
+			*/
 			bool extractServerInfos(const String::value_type c);
 
 			/*!
-			 * \brief Extract the port of the server
-			 *
-			 * The method `extractServerInfos()` has detected that a port value
-			 * was given.
-			 * Actually it might not be a port value, but a password. For example :
-			 * \code
-			 * myserver:8080
-			 * \endcode
-			 * and
-			 * \code
-			 * myuser:mypass
-			 * \endcode
-			 * The difference between the two items is ambigous until we found a `@`.
-			 */
+			** \brief Extract the port of the server
+			**
+			** The method `extractServerInfos()` has detected that a port value
+			** was given.
+			** Actually it might not be a port value, but a password. For example :
+			** \code
+			** myserver:8080
+			** \endcode
+			** and
+			** \code
+			** myuser:mypass
+			** \endcode
+			** The difference between the two items is ambigous until we found a `@`.
+			*/
 			bool extractPort(const String::value_type c);
 
 			/*!
-			 * \brief Extract the path
-			 *
-			 * The path may be prefixed by a query and/or a fragment
-			 */
+			** \brief Extract the path
+			**
+			** The path may be prefixed by a query and/or a fragment
+			*/
 			bool extractPath(const String::value_type c);
 
 			/*!
-			 * \brief Extract the query
-			 */
+			** \brief Extract the query
+			*/
 			bool extractQuery(const String::value_type c);
 
 			/*!
-			 * \brief Extract the fragment
-			 */
+			** \brief Extract the fragment
+			*/
 			bool extractFragment();
 
 
 
 		private:
 			/*!
-			 ** \brief All parts in an URI
-			 */
+			** \brief All parts in an URI
+			*/
 			enum Parts
 			{
 				partScheme,
@@ -196,9 +196,9 @@ namespace Yuni
 			infos.scheme.toLower();
 
 			// Shall we remove dot segments ?
-			if (!infos.path.empty())
+			if (not infos.path.empty())
 			{
-				if (!pMustRemoveDotSegments)
+				if (not pMustRemoveDotSegments)
 				{
 					// This solution to detect final dot (eg. `/path/to/file/.`) is not
 					// really satisfying and can lead to unnecessary tests to remove
@@ -207,16 +207,9 @@ namespace Yuni
 				}
 				if (pMustRemoveDotSegments)
 				{
-					if (infos.path.size() < 1000)
-					{
-						String tmp(infos.path);
-						IO::Normalize(tmp, infos.path);
-					}
-					else
-					{
-						CString<1024> tmp(infos.path);
-						IO::Normalize(tmp, infos.path);
-					}
+					String tmp;
+					tmp.reserve(infos.path.size());
+					IO::Normalize(tmp, infos.path);
 				}
 			}
 			return true;
@@ -669,7 +662,7 @@ namespace Yuni
 	{
 		// Cleanup before anything
 		clear();
-		if (!raw.empty())
+		if (not raw.empty())
 		{
 			// Go ahead !
 			BuildSession(pInfos, raw).run();

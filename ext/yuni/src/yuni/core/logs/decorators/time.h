@@ -33,8 +33,8 @@ namespace Logs
 	class Time : public LeftType
 	{
 	public:
-		template<class Handler, class VerbosityType, class O, class StringT>
-		void internalDecoratorAddPrefix(O& out, const StringT& s) const
+		template<class Handler, class VerbosityType, class O>
+		void internalDecoratorAddPrefix(O& out, const AnyString& s) const
 		{
 			out.put('[');
 
@@ -49,7 +49,7 @@ namespace Logs
 			out.put(']');
 
 			// Transmit the message to the next decorator
-			LeftType::template internalDecoratorAddPrefix<Handler, VerbosityType,O,StringT>(out, s);
+			LeftType::template internalDecoratorAddPrefix<Handler, VerbosityType,O>(out, s);
 		}
 
 	}; // class Time

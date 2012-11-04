@@ -9,11 +9,9 @@ namespace Private
 {
 
 	template<bool UNCPrefix, bool AppendSeparatorT>
-	template<class StringT>
-	inline WString<UNCPrefix, AppendSeparatorT>::WString(const StringT& string)
+	inline WString<UNCPrefix, AppendSeparatorT>::WString(const AnyString& string)
 	{
-		prepareWString(Traits::CString<StringT>::Perform(string),
-			Traits::Length<StringT, uint>::Value(string));
+		prepareWString(string.c_str(), string.size());
 	}
 
 

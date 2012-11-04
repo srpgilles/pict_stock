@@ -47,6 +47,7 @@ set(src
 	../../yuni/io/file/openmode.cpp
 	../../yuni/io/file/stream.cpp
 	../../yuni/io/exists.cpp
+	../../yuni/io/filename-manipulation.cpp
 	../../yuni/io/directory/current.cpp
 	../../yuni/core/string/traits/traits.cpp
 	../../yuni/thread/thread.cpp

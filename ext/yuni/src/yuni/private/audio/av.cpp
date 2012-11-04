@@ -20,7 +20,7 @@ namespace Audio
 		** correct stream. It won't buffer data for streams that the app doesn't have a
 		** handle for.
 		*/
-		void GetNextPacket(AudioFile* file, int streamidx)
+		static void GetNextPacket(AudioFile* file, int streamidx)
 		{
 			AVPacket packet;
 			while (av_read_frame(file->FormatContext, &packet) >= 0)
@@ -50,7 +50,7 @@ namespace Audio
 					}
 
 					// Copy the packet and free it
-					memcpy(&(*iter)->Data[idx], packet.data, packet.size);
+					YUNI_MEMCPY(&(*iter)->Data[idx], packet.size, packet.data, packet.size);
 					(*iter)->DataSize += packet.size;
 
 					// Return if this stream is what we needed a packet for
@@ -72,15 +72,52 @@ namespace Audio
 	bool AV::Init()
 	{
 		av_register_all();
-# ifdef NDEBUG
- 		// Silence warning output from the lib
+		# ifdef NDEBUG
+		// Silence warning output from the lib
 		av_log_set_level(AV_LOG_ERROR);
-# else // NDEBUG
+		# else // NDEBUG
 		// Only write output when encountering unrecoverable errors
 		av_log_set_level(AV_LOG_FATAL);
-# endif // NDEBUG
+		# endif // NDEBUG
 		return true;
 	}
+
+
+	AudioFile* AV::OpenFile(const AnyString& filename)
+	{
+		if (filename.empty())
+			return nullptr;
+
+		AudioFile* file = (AudioFile*) calloc(1, sizeof(AudioFile));
+		if (!file)
+			return nullptr;
+
+		# if LIBAVFORMAT_VERSION_MAJOR < 53
+		if (not av_open_input_file(&file->FormatContext, filename.c_str(), NULL, 0, NULL))
+		# else
+		if (not avformat_open_input(&file->FormatContext, filename.c_str(), NULL, NULL))
+		# endif // LIBAVFORMAT_VERSION_MAJOR < 53
+		{
+			// After opening, we must search for the stream information because not
+			// all formats will have it in stream headers (eg. system MPEG streams)
+			# if LIBAVFORMAT_VERSION_MAJOR < 53
+			if (av_find_stream_info(file->FormatContext) >= 0)
+			# else
+			if (avformat_find_stream_info(file->FormatContext, NULL) >= 0)
+			# endif // LIBAVFORMAT_VERSION_MAJOR < 53
+				return file;
+
+			# if LIBAVFORMAT_VERSION_MAJOR < 53
+			av_close_input_file(file->FormatContext);
+			# else
+			avformat_close_input(&file->FormatContext);
+			# endif // LIBAVFORMAT_VERSION_MAJOR < 53
+		}
+
+		free(file);
+		return nullptr;
+	}
+
 
 
 	void AV::CloseFile(AudioFile*& file)
@@ -97,11 +134,11 @@ namespace Audio
 		}
 		free(file->Streams);
 
-# if LIBAVFORMAT_VERSION_MAJOR < 53
+		# if LIBAVFORMAT_VERSION_MAJOR < 53
 		av_close_input_file(file->FormatContext);
-# else
+		# else
 		avformat_close_input(&file->FormatContext);
-# endif // LIBAVFORMAT_VERSION_MAJOR < 53
+		# endif // LIBAVFORMAT_VERSION_MAJOR < 53
 		free(file);
 		file = nullptr;
 	}
@@ -112,20 +149,22 @@ namespace Audio
 		if (!file)
 			return NULL;
 
-		for (unsigned int i = 0; i < file->FormatContext->nb_streams; ++i)
+		for (uint i = 0; i < file->FormatContext->nb_streams; ++i)
 		{
 			// Reject streams that are not AUDIO
-# if LIBAVFORMAT_VERSION_MAJOR < 53
+			# if LIBAVFORMAT_VERSION_MAJOR < 53
 			if (file->FormatContext->streams[i]->codec->codec_type != CODEC_TYPE_AUDIO)
-# else
+			# else
 			if (file->FormatContext->streams[i]->codec->codec_type != AVMEDIA_TYPE_AUDIO)
-# endif // LIBAVFORMAT_VERSION_MAJOR < 53
+			# endif // LIBAVFORMAT_VERSION_MAJOR < 53
+			{
 				continue;
+			}
 
 			// Continue until we find the requested stream
 			if (streamIndex > 0)
 			{
-				streamIndex--;
+				--streamIndex;
 				continue;
 			}
 
@@ -149,11 +188,11 @@ namespace Audio
 
 			// Try to find the codec for the given codec ID, and open it
 			AVCodec* codec = avcodec_find_decoder(stream->CodecContext->codec_id);
-# if LIBAVFORMAT_VERSION_MAJOR < 53
+			# if LIBAVFORMAT_VERSION_MAJOR < 53
 			if (!codec || avcodec_open(stream->CodecContext, codec) < 0)
-# else
+			# else
 			if (!codec || avcodec_open2(stream->CodecContext, codec, NULL) < 0)
-# endif // LIBAVFORMAT_VERSION_MAJOR < 53
+			# endif // LIBAVFORMAT_VERSION_MAJOR < 53
 			{
 				free(stream);
 				return NULL;
@@ -195,11 +234,11 @@ namespace Audio
 
 	int AV::GetAudioInfo(AudioStream* stream, int& rate, int& channels, int& bits)
 	{
-# if LIBAVFORMAT_VERSION_MAJOR < 53
+		# if LIBAVFORMAT_VERSION_MAJOR < 53
 		if (!stream || stream->CodecContext->codec_type != CODEC_TYPE_AUDIO)
-# else
+		# else
 		if (!stream || stream->CodecContext->codec_type != AVMEDIA_TYPE_AUDIO)
-# endif // LIBAVFORMAT_VERSION_MAJOR < 53
+		# endif // LIBAVFORMAT_VERSION_MAJOR < 53
 			return 1;
 
 		rate = stream->CodecContext->sample_rate;
@@ -210,7 +249,7 @@ namespace Audio
 	}
 
 
-	unsigned int AV::GetStreamDuration(const AudioStream* stream)
+	uint AV::GetStreamDuration(const AudioStream* stream)
 	{
 		if (!stream)
 			return 0;
@@ -222,11 +261,11 @@ namespace Audio
 	{
 		size_t dec = 0;
 
-# if LIBAVFORMAT_VERSION_MAJOR < 53
+		# if LIBAVFORMAT_VERSION_MAJOR < 53
 		if (!stream || stream->CodecContext->codec_type != CODEC_TYPE_AUDIO)
-# else
+		# else
 		if (!stream || stream->CodecContext->codec_type != AVMEDIA_TYPE_AUDIO)
-# endif // LIBAVFORMAT_VERSION_MAJOR < 53
+		# endif // LIBAVFORMAT_VERSION_MAJOR < 53
 			return 0;
 
 		while (dec < length)
@@ -241,7 +280,7 @@ namespace Audio
 					rem = stream->DecodedDataSize;
 
 				// Copy the data to the app's buffer and increment
-				memcpy(data, stream->DecodedData, rem);
+				YUNI_MEMCPY(data, rem, stream->DecodedData, rem);
 				data = (char*)data + rem;
 				dec += rem;
 
@@ -275,7 +314,7 @@ namespace Audio
 				// Decode some data, and check for errors
 				size = AVCODEC_MAX_AUDIO_FRAME_SIZE;
 				AVPacket pkt;
-//				AvFrame* decodedFrame = NULL;
+				//AvFrame* decodedFrame = NULL;
 
 				av_init_packet(&pkt);
 				pkt.data = (uint8_t*)stream->Data;
@@ -302,7 +341,7 @@ namespace Audio
 				{
 					// If any input data is left, move it to the start of the
 					// buffer, and decrease the buffer size
-					size_t rem = insize-len;
+					size_t rem = insize - len;
 					if (rem)
 						memmove(stream->Data, &stream->Data[len], rem);
 					stream->DataSize = rem;
@@ -315,6 +354,7 @@ namespace Audio
 		// Return the number of bytes we were able to get
 		return dec;
 	}
+
 
 
 

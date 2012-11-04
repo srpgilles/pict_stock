@@ -28,7 +28,7 @@ namespace Private
 		/*!
 		** \brief Constructor
 		*/
-		template<class StringT> WString(const StringT& string);
+		WString(const AnyString& string);
 		/*!
 		** \brief Constructor with a C-String
 		*/

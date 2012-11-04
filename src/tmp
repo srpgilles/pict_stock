@@ -1,0 +1,10 @@
+[ 34%] Built target yuni-static-core
+[ 35%] Built target sqlite3
+[ 37%] Building CXX object src/tools/CMakeFiles/tools.dir/sqlite_wrapper.cpp.o
+Linking CXX static library ../../lib/debug/libtools.a
+[ 38%] Built target tools
+Scanning dependencies of target pict_stock_database
+[ 39%] Building CXX object src/database/CMakeFiles/pict_stock_database.dir/database.cpp.o
+make[2]: *** [src/database/CMakeFiles/pict_stock_database.dir/database.cpp.o] Interrupt
+make[1]: *** [src/database/CMakeFiles/pict_stock_database.dir/all] Interrupt
+make: *** [all] Interrupt

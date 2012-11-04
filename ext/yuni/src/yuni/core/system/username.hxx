@@ -3,6 +3,9 @@
 
 # include <stdlib.h>
 # include "../traits/cstring.h"
+# ifndef YUNI_OS_WINDOWS
+#	include "environment.h"
+# endif
 
 
 namespace Yuni

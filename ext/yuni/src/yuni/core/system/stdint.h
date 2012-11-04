@@ -40,22 +40,26 @@ namespace Yuni
 
 	/* \todo Fix support for int128 on Visual Studio 10 */
 	# if defined(YUNI_HAS_INT128_T) && defined(__DISABLED_SUPPORT_FOR_INT128)
-	/* 128-bit ints */
+	/* 128-bit unsigned int */
 	typedef unsigned __int128  uint128;
 	typedef __int128           sint128;
 	# endif
 
-	/* 64-bit ints, guaranteed to be 8 bytes in size */
+	/*! 64-bit unsigned int, guaranteed to be 8 bytes in size */
 	typedef uint64_t       uint64;
+	/*! 64-bit unsigned int, guaranteed to be 8 bytes in size */
 	typedef int64_t        sint64;
-	/* 32-bit ints, guaranteed to be 4 bytes in size */
+	/*! 32-bit unsigned int, guaranteed to be 4 bytes in size */
 	typedef uint32_t       uint32;
+	/*! 32-bit unsigned int, guaranteed to be 4 bytes in size */
 	typedef int32_t        sint32;
-	/* 16-bit ints, guaranteed to be 2 bytes in size */
+	/*! 16-bit unsigned int, guaranteed to be 2 bytes in size */
 	typedef uint16_t       uint16;
+	/*! 16-bit unsigned int, guaranteed to be 2 bytes in size */
 	typedef int16_t        sint16;
-	/* 8-bit ints, guaranteed to be 1 byte in size */
+	/*! 8-bit unsigned int, guaranteed to be 1 byte in size */
 	typedef unsigned char  uint8;
+	/*! 8-bit unsigned int, guaranteed to be 1 byte in size */
 	typedef char           sint8;
 
 
@@ -83,6 +87,31 @@ namespace Yuni
 # endif /* C++ Compiler */
 
 
+/* C types */
+
+/* \todo Fix support for int128 on Visual Studio 10 */
+# if defined(YUNI_HAS_INT128_T) && defined(__DISABLED_SUPPORT_FOR_INT128)
+/*! 128-bit unsigned int */
+typedef unsigned __int128  yuint128;
+typedef __int128           yint128;
+# endif
+
+/*! 64-bit unsigned int, guaranteed to be 8 bytes in size */
+typedef uint64_t       yuint64;
+/*! 64-bit unsigned int, guaranteed to be 8 bytes in size */
+typedef int64_t        yint64;
+/*! 32-bit unsigned int, guaranteed to be 4 bytes in size */
+typedef uint32_t       yuint32;
+/*! 32-bit unsigned int, guaranteed to be 4 bytes in size */
+typedef int32_t        yint32;
+/*! 16-bit unsigned int, guaranteed to be 2 bytes in size */
+typedef uint16_t       yuint16;
+/*! 16-bit unsigned int, guaranteed to be 2 bytes in size */
+typedef int16_t        yint16;
+/*! 8-bit unsigned int, guaranteed to be 1 byte in size */
+typedef unsigned char  yuint8;
+/*! 8-bit unsigned int, guaranteed to be 1 byte in size */
+typedef char           yint8;
 
 
 

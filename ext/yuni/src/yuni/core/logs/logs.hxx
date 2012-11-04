@@ -27,9 +27,9 @@ namespace Logs
 
 
 	template<class Handlers, class Decorators, template<class> class TP>
-	template<class VerbosityType, class StringT>
-	void
-	Logger<Handlers,Decorators,TP>::dispatchMessageToHandlers(const StringT& s) const
+	template<class VerbosityType>
+	inline void
+	Logger<Handlers,Decorators,TP>::dispatchMessageToHandlers(const AnyString& message) const
 	{
 		// Locking the operation, according to the threading policy
 		typename ThreadingPolicy::MutexLocker locker(*this);
@@ -41,7 +41,7 @@ namespace Logs
 			Logger<Handlers,Decorators,TP>&	self = const_cast<Logger<Handlers,Decorators,TP>&>(*this);
 			// Ask to all handlers to internalDecoratorWriteWL the message
 			Handlers::template
-				internalDecoratorWriteWL<LoggerType,VerbosityType, StringT>(self, s);
+				internalDecoratorWriteWL<LoggerType,VerbosityType>(self, message);
 		}
 	}
 

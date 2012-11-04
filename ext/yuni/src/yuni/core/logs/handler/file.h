@@ -65,8 +65,8 @@ namespace Logs
 
 
 	public:
-		template<class LoggerT, class VerbosityType, class StringT>
-		void internalDecoratorWriteWL(LoggerT& logger, const StringT& s) const;
+		template<class LoggerT, class VerbosityType>
+		void internalDecoratorWriteWL(LoggerT& logger, const AnyString& s) const;
 
 	private:
 		//! The originale filename

@@ -33,15 +33,15 @@ namespace Logs
 		//@}
 
 
-		template<class Handler, class VerbosityType, class O, class StringT>
-		inline void internalDecoratorAddPrefix(O& out, const StringT& s) const
+		template<class Handler, class VerbosityType, class O>
+		inline void internalDecoratorAddPrefix(O& out, const AnyString& s) const
 		{
 			// Write the verbosity to the output
 			out.put('[');
 			out.write(pAppName.c_str(), pAppName.size());
 			out.put(']');
 			// Transmit the message to the next handler
-			LeftType::template internalDecoratorAddPrefix<Handler, VerbosityType,O,StringT>(out, s);
+			LeftType::template internalDecoratorAddPrefix<Handler, VerbosityType,O>(out, s);
 		}
 
 

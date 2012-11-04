@@ -59,7 +59,7 @@ namespace Yuni
 
 	template<class T>
 	inline Quaternion<T>::Quaternion():
-		w(T()),
+		w(1),
 		v()
 	{}
 

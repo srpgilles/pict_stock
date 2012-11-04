@@ -117,7 +117,7 @@ namespace PictFrame
 		if (isChronological)
 		{
 			auto sortCriterion =
-				[](ExtendedPhoto::ExtendedPhoto::Ptr photo1, ExtendedPhoto::ExtendedPhoto::Ptr photo2)
+				[](ExtendedPhoto::ExtendedPhoto::Ptr photo1, ExtendedPhoto::ExtendedPhoto::Ptr photo2) -> bool
 				{
 					auto infos1Ptr = photo1->informations();
 					auto infos2Ptr = photo2->informations();

@@ -27,7 +27,7 @@ namespace GenericTools
 
     template<class T, class U, Nature::Value V>
     template<bool EqualityT>
-    typename AssociativeVector<T, U, V>::const_iterator
+    inline typename AssociativeVector<T, U, V>::const_iterator
     AssociativeVector<T, U, V>::lower_bound_helper(const T& key) const
     {
         // Should be sorted, or the container is completely useless!
@@ -50,7 +50,7 @@ namespace GenericTools
 
 
     template<class T, class U, Nature::Value V>
-    typename AssociativeVector<T, U, V>::const_iterator
+    inline typename AssociativeVector<T, U, V>::const_iterator
     AssociativeVector<T, U, V>::lower_bound(const T& key) const
     {
         return lower_bound_helper<false>(key);
@@ -58,7 +58,7 @@ namespace GenericTools
 
 
     template<class T, class U, Nature::Value V>
-    typename AssociativeVector<T, U, V>::const_iterator
+    inline typename AssociativeVector<T, U, V>::const_iterator
     AssociativeVector<T, U, V>::find(const T& key) const
     {
         return lower_bound_helper<true>(key);
@@ -66,7 +66,7 @@ namespace GenericTools
 
 
     template<class T, class U, Nature::Value V>
-    typename AssociativeVector<T, U, V>::const_iterator
+    inline typename AssociativeVector<T, U, V>::const_iterator
     AssociativeVector<T, U, V>::upper_bound(const T& key) const
     {
 
@@ -81,7 +81,7 @@ namespace GenericTools
 
 
     template<class T, class U, Nature::Value V>
-    std::pair<typename AssociativeVector<T, U, V>::const_iterator,
+    inline std::pair<typename AssociativeVector<T, U, V>::const_iterator,
               typename AssociativeVector<T, U, V>::const_iterator>
     AssociativeVector<T, U, V>::equal_range(const T& key) const
     {

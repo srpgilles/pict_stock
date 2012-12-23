@@ -10,6 +10,8 @@ add_library(tools STATIC
     sqlite_wrapper.hxx
     exceptions/sqlite_wrapper_exceptions.cpp
     exceptions/sqlite_wrapper_exceptions.hpp
+    associative_vector.hpp
+    associative_vector.hxx
     tools.hpp
     tuple_utilities.hpp
     tuple_utilities_msvc/tuple_utilities.hpp

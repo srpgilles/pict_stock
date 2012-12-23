@@ -100,19 +100,19 @@ namespace GenericTools
         }
 
         //! Begin const iterator
-        const_iterator cbegin() const { return pUnderlyingVector.cbegin(); }
+        inline const_iterator cbegin() const { return pUnderlyingVector.cbegin(); }
 
         //! End const iterator
-        const_iterator cend() const { return pUnderlyingVector.cend(); }
+        inline const_iterator cend() const { return pUnderlyingVector.cend(); }
 
         //! Size
-        size_type size() const { return pUnderlyingVector.size(); }
+        inline size_type size() const { return pUnderlyingVector.size(); }
 
         //! Reserve
-        void reserve(size_type n) const { pUnderlyingVector.reserve(n); }
+        inline void reserve(size_type n) { pUnderlyingVector.reserve(n); }
 
         //! Resize
-        void resize(size_type n) const { pUnderlyingVector.resize(n); }
+        inline void resize(size_type n) { pUnderlyingVector.resize(n); }
 
         /*!
          * \brief Insert a new pair
@@ -128,21 +128,21 @@ namespace GenericTools
          *
          * TODO Improve so that T for integral types instead of const T& (see traits...)
          */
-        const_iterator lower_bound(const T& key) const;
+        inline const_iterator lower_bound(const T& key) const;
 
-        const_iterator upper_bound(const T& key) const;
+        inline const_iterator upper_bound(const T& key) const;
 
         std::pair<const_iterator, const_iterator> equal_range(const T& key) const;
 
         //! Same as lower_bound, except end() is returned if the exact match is not found
-        const_iterator find(const T& key) const;
+        inline const_iterator find(const T& key) const;
 
 
     private:
 
         //! Lower-bound and find helper
         template<bool IsEquality>
-        const_iterator lower_bound_helper(const T& key) const;
+        inline const_iterator lower_bound_helper(const T& key) const;
 
 
     private:

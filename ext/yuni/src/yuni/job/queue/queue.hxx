@@ -76,7 +76,7 @@ namespace Job
 	{
 
 		template<class SchedulerT>
-		class QueueServiceWaitHelper : public Thread::Timer
+		class QueueServiceWaitHelper final : public Thread::Timer
 		{
 		public:
 			QueueServiceWaitHelper(SchedulerT& scheduler, Yuni::Private::QueueService::WaitingRoom& room,
@@ -94,7 +94,7 @@ namespace Job
 			bool status() const {return pStatus;}
 
 		protected:
-			virtual bool onInterval(uint)
+			virtual bool onInterval(uint) override
 			{
 				// Checking if the scheduler still has workers
 				if (pRoom.empty() && pScheduler.idle())

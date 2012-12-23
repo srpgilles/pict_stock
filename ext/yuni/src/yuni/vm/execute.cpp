@@ -52,7 +52,7 @@ namespace VM
 		// Converting each instructions into a list of goto jump
 		void** jumps;
 		{
-			const unsigned int count = instructionCount;
+			const uint count = instructionCount;
 			if (!count)
 				return 0;
 			jumps = (void**)::malloc(sizeof(void**) * (count + 1));
@@ -71,7 +71,7 @@ namespace VM
 			// We assume here that all instructions are valid
 			// The first instruction will always be the 'exit' instruction
 			jumps[0] = &&j_exit;
-			for (unsigned int i = 0; i != count; ++i)
+			for (uint i = 0; i != count; ++i)
 				jumps[i + 1] = aliases[instructions[i]];
 		}
 
@@ -80,7 +80,7 @@ namespace VM
 		// pointer, on the first instruction
 		void** vp = ((void**) jumps) + 1;
 		// The current operand
-		unsigned int op = 0;
+		uint op = 0;
 
 		// execute the first instruction
 		NEXT;
@@ -88,7 +88,7 @@ namespace VM
 		// implementations of all instructions
 		j_intrinsic:
 			{
-				const unsigned int params = operands[op++];
+				const uint params = operands[op++];
 				// FIXME
 				op += params;
 				NEXT;
@@ -96,24 +96,24 @@ namespace VM
 
 		j_add:
 			{
-				const unsigned int ret = operands[op++];
-				const unsigned int r1  = operands[op++];
-				const unsigned int r2  = operands[op++];
+				const uint ret = operands[op++];
+				const uint r1  = operands[op++];
+				const uint r2  = operands[op++];
 				*((sint64*)(data.gpr) + ret) = (sint64)(data.gpr[r1]) + (sint64)(data.gpr[r2]);
 				NEXT;
 			}
 		j_addu:
 			{
-				const unsigned int ret = operands[op++];
-				const unsigned int r1  = operands[op++];
-				const unsigned int r2  = operands[op++];
+				const uint ret = operands[op++];
+				const uint r1  = operands[op++];
+				const uint r2  = operands[op++];
 				data.gpr[ret] = data.gpr[r1] + data.gpr[r2];
 				NEXT;
 			}
 		j_addi:
 			{
-				const unsigned int ret = operands[op++];
-				const unsigned int r1  = operands[op++];
+				const uint ret = operands[op++];
+				const uint r1  = operands[op++];
 				const sint64 i         = *((sint64*)(operands + op));
 				op += 8;
 				*((sint64*)(data.gpr) + ret) = (sint64)(data.gpr[r1]) + i;
@@ -121,8 +121,8 @@ namespace VM
 			}
 		j_addui:
 			{
-				const unsigned int ret = operands[op++];
-				const unsigned int r1  = operands[op++];
+				const uint ret = operands[op++];
+				const uint r1  = operands[op++];
 				const uint64 i         = *((uint64*)(operands + op));
 				op += 8;
 				data.gpr[ret] = data.gpr[r1] + i;
@@ -135,7 +135,7 @@ namespace VM
 			}
 		j_exitcode:
 			{
-				const unsigned int r1 = operands[op++];
+				const uint r1 = operands[op++];
 				data.exitCode = (int) data.gpr[r1];
 				NEXT;
 			}

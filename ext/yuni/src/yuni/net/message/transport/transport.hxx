@@ -44,18 +44,6 @@ namespace Transport
 	}
 
 
-	inline Error ITransport::execute()
-	{
-		return onExecute();
-	}
-
-
-	inline Error ITransport::operator () ()
-	{
-		return onExecute();
-	}
-
-
 
 
 

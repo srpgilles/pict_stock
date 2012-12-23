@@ -1,14 +1,9 @@
 #ifndef __YUNI_THREADS_MUTEX_HXX__
 # define __YUNI_THREADS_MUTEX_HXX__
 
-# include <cassert>
-
 
 namespace Yuni
 {
-
-
-
 
 	inline void Mutex::lock()
 	{

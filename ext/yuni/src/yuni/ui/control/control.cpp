@@ -8,28 +8,28 @@ namespace Yuni
 namespace UI
 {
 
-	IControl::IControl()
-		:pParent(nullptr),
+	IControl::IControl() :
+		pParent(nullptr),
 		pDepth(0)
 	{}
 
 
-	IControl::IControl(IControl::Ptr newParent)
-		:pParent(nullptr)
+	IControl::IControl(IControl::Ptr newParent) :
+		pParent(nullptr)
 	{
 		parentWL(newParent);
 	}
 
 
-	IControl::IControl(float width, float height)
-		:IComponent(width, height),
+	IControl::IControl(float width, float height) :
+		IComponent(width, height),
 		pParent(nullptr),
 		pDepth(0)
 	{}
 
 
-	IControl::IControl(IControl::Ptr newParent, float width, float height)
-		:IComponent(width, height),
+	IControl::IControl(IControl::Ptr newParent, float width, float height) :
+		IComponent(width, height),
 		pParent(nullptr),
 		pDepth(0)
 	{
@@ -37,16 +37,15 @@ namespace UI
 	}
 
 
-	IControl::IControl(float x, float y, float width, float height)
-		:IComponent(x, y, width, height),
+	IControl::IControl(float x, float y, float width, float height) :
+		IComponent(x, y, width, height),
 		pParent(nullptr),
 		pDepth(0)
 	{}
 
 
-	IControl::IControl(IControl::Ptr newParent, float x, float y,
-		float width, float height)
-		:IComponent(x, y, width, height),
+	IControl::IControl(IControl::Ptr newParent, float x, float y, float width, float height) :
+		IComponent(x, y, width, height),
 		pParent(nullptr)
 	{
 		parentWL(newParent);
@@ -72,6 +71,7 @@ namespace UI
 		// If we already had a parent, tell him we do not want to be his child anymore
 		if (pParent)
 			(*pParent) -= pLocalID;
+
 		if (!newParent)
 		{
 			pParent = nullptr;
@@ -122,7 +122,7 @@ namespace UI
 	}
 
 
-	unsigned int IControl::depth() const
+	uint IControl::depth() const
 	{
 		ThreadingPolicy::MutexLocker lock(*this);
 		return pDepth;

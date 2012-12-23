@@ -9,16 +9,6 @@ namespace Net
 namespace Message
 {
 
-	template<class StringT>
-	inline Error QueueService::sendAll(const StringT& buffer)
-	{
-		const unsigned int len = Traits::Length<StringT, unsigned int>::Value(buffer);
-		const char* const cstr = Traits::CString<StringT>::Perform(buffer);
-		return sendAll(cstr, len);
-	}
-
-
-
 
 
 } // namespace Message

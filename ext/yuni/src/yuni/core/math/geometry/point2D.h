@@ -148,7 +148,7 @@ namespace Yuni
 		** \param y1 The new value for the y coordinate
 		** \see move()
 		*/
-		template<typename U> void operator () (const U x1, const U y1) { x = (T)x1; x = (T)y1; }
+		template<typename U> void operator () (const U x1, const U y1) { x = (T)x1; y = (T)y1; }
 		/*!
 		** \brief Copy all coordinates from another point
 		** \param p The coordinates to copy

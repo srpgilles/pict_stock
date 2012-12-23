@@ -15,13 +15,18 @@ namespace Directory
 {
 
 
-	struct InfoItem
+	namespace // anonymous
 	{
-		bool isFile;
-		uint64  size;
-		String filename;
-	};
-	typedef LinkedList<InfoItem> List;
+
+		struct InfoItem
+		{
+			bool isFile;
+			uint64  size;
+			String filename;
+		};
+		typedef LinkedList<InfoItem> List;
+
+	} // anonymous namespace
 
 
 
@@ -42,7 +47,7 @@ namespace Directory
 		uint64 totalSize = 0;
 
 		// Adding the target folder, to create it if required
-		if (!onUpdate(cpsGatheringInformation, fdst, fdst, 0, 1))
+		if (not onUpdate(cpsGatheringInformation, fdst, fdst, 0, 1))
 			return false;
 		IO::Directory::Create(fdst);
 
@@ -97,7 +102,7 @@ namespace Directory
 		char* buffer = new char[bufferSize];
 
 		// reduce overhead brought by `onUpdate`
-		unsigned int skip = 8;
+		uint skip = 8;
 
 		const List::const_iterator end = list.end();
 		for (List::const_iterator i = list.begin(); i != end; ++i)
@@ -110,7 +115,7 @@ namespace Directory
 			if (fsrc.size() < info.filename.size())
 				tmp.append(info.filename.c_str() + fsrc.size(), info.filename.size() - fsrc.size());
 
-			if (!info.isFile)
+			if (not info.isFile)
 			{
 				// The target file is actually a folder
 				// We have to create it before copying its content
@@ -125,7 +130,7 @@ namespace Directory
 			{
 				// The target file is a real file (and not a folder)
 				// Checking first for overwritting
-				if (!overwrite && IO::Exists(tmp))
+				if (not overwrite && IO::Exists(tmp))
 					continue;
 
 				// Try to open the source file
@@ -137,14 +142,14 @@ namespace Directory
 					if (toFile.open(tmp, IO::OpenMode::write | IO::OpenMode::truncate))
 					{
 						// reading the whole source file
-						size_t numRead;
+						uint64 numRead;
 						while ((numRead = fromFile.read(buffer, bufferSize)) != 0)
 						{
 							// progression
 							current += numRead;
 
 							// Trying to copy the block which has just been read
-							if (numRead != toFile.write((const char*)buffer, (unsigned int) numRead))
+							if (numRead != toFile.write((const char*)buffer, numRead))
 							{
 								delete[] buffer;
 								return false;

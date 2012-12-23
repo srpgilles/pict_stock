@@ -17,12 +17,23 @@ namespace Net
 	class Port
 	{
 	public:
+		struct Range
+		{
+			//! Get if the port is well-known (0..1023)
+			static bool IsWellKnown(const Port& port);
+			//! Get if the port is registered (0..49151)
+			static bool IsRegistered(const Port& port);
+			//! Get if the port is dynamic and/or private (>= 49152)
+			static bool IsDynamic(const Port& port);
+		};
+
+	public:
 		//! \name Constructors
 		//@{
 		//! Default constructor
 		Port();
 		//! Constructor with a given value
-		Port(unsigned int rhs);
+		Port(uint rhs);
 		//! Copy constructor
 		Port(const Port& rhs);
 		//! Constructor from a null pointer
@@ -32,21 +43,9 @@ namespace Net
 		//! \name Value
 		//@{
 		//! Get the port number
-		unsigned int value() const;
+		uint value() const;
 		//! Get if the port is valid
 		bool valid() const;
-		//@}
-
-		//! \name Ranges
-		//@{
-		//! Get if the port is well-known (0..1023)
-		bool wellKnown() const;
-
-		//! Get if the port is registered (0..49151)
-		bool registered() const;
-
-		//! Get if the port is dynamic and/or private (>= 49152)
-		bool dynamic() const;
 
 		//! Get if no port is allocated
 		bool none() const;
@@ -55,17 +54,17 @@ namespace Net
 		//! \name Operators
 		//@{
 		//! Assignment
-		Port& operator = (unsigned int rhs);
+		Port& operator = (uint rhs);
 		Port& operator = (const Port& rhs);
 		Port& operator = (const Yuni::NullPtr&);
 		//! Append
-		Port& operator += (unsigned int rhs);
+		Port& operator += (uint rhs);
 		//! Sub
-		Port& operator -= (unsigned int rhs);
+		Port& operator -= (uint rhs);
 		//! Comparison
-		bool operator == (unsigned int rhs) const;
+		bool operator == (uint rhs) const;
 		bool operator == (const Port& rhs) const;
-		bool operator != (unsigned int rhs) const;
+		bool operator != (uint rhs) const;
 		bool operator != (const Port& rhs) const;
 		bool operator ! () const;
 		//! Inequality
@@ -77,7 +76,7 @@ namespace Net
 
 	private:
 		//! Port value
-		unsigned int pValue;
+		uint pValue;
 
 	}; // class Port
 

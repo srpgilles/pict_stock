@@ -6,17 +6,17 @@
 # Otherwise, some files could be created in the wrong place
 #
 if(LIBYUNI_CONFIG_ENABLED)
-    if(MSVC)
-    	set(YUNI_LIBYUNI_CONFIG_COMPILER "msvc")
-    else()
-    	if(MINGW)
-    		set(YUNI_LIBYUNI_CONFIG_COMPILER "mingw")
-    	else()
-    		set(YUNI_LIBYUNI_CONFIG_COMPILER "gcc")
-   	    endif()
-    endif()
+	if(MSVC)
+		set(YUNI_LIBYUNI_CONFIG_COMPILER "msvc")
+	else()
+		if(MINGW)
+			set(YUNI_LIBYUNI_CONFIG_COMPILER "mingw")
+		else()
+			set(YUNI_LIBYUNI_CONFIG_COMPILER "gcc")
+		endif()
+	endif()
 
-	# Configure the config-file for the in-tree yuni-config 
+	# Configure the config-file for the in-tree yuni-config
 	set(YUNI_LIBYUNI_CONFIG_INTREE_INIFILE
 		"${CMAKE_CURRENT_BINARY_DIR}/yuni.config.${YUNI_LIBYUNI_CONFIG_COMPILER}")
 	file(WRITE "${YUNI_LIBYUNI_CONFIG_INTREE_INIFILE}" "[settings]\n")

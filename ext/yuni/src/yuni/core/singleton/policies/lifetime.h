@@ -91,9 +91,9 @@ namespace Private
 
 
 	template<class T>
-	static void SetLongevity(T* pInstance, unsigned int longevity)
+	static void SetLongevity(T* pInstance, uint longevity)
 	{
-		
+
 	}
 
 

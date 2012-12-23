@@ -185,9 +185,9 @@ namespace Iterator
 			const int sizeRequired = WideCharToMultiByte(CP_UTF8, 0, data.cFileName, -1, NULL, 0,  NULL, NULL);
 			if (sizeRequired <= 0)
 				continue;
-			newName.reserve((unsigned int) sizeRequired);
+			newName.reserve((uint) sizeRequired);
 			WideCharToMultiByte(CP_UTF8, 0, data.cFileName, -1, (char*)newName.data(), sizeRequired,  NULL, NULL);
-			newName.resize(((unsigned int) sizeRequired) - 1);
+			newName.resize(((uint) sizeRequired) - 1);
 
 			newFilename.clear();
 			newFilename << filename << '\\' << newName;

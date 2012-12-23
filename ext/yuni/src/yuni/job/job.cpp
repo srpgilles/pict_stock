@@ -24,8 +24,7 @@ namespace Job
 	}
 
 
-
-	bool IJob::suspend(unsigned int delay) const
+	bool IJob::suspend(uint delay) const
 	{
 		// This method must only be called from a thread
 		assert(pThread && "Job: The pointer to the attached thread must not be NULL");
@@ -37,7 +36,7 @@ namespace Job
 			// does not modify the state.
 			// This may lead to unwanted behaviors.
 			// Sleeping for a while...
-			const bool r = pThread->suspend(delay);
+			bool r = pThread->suspend(delay);
 			// The state may have changed while we were sleeping
 			return (pCanceling || r);
 		}

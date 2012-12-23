@@ -52,21 +52,15 @@ namespace Bit
 
 	inline bool Array::get(uint i) const
 	{
-		# ifdef YUNI_OS_MSVC
+		// note: true/false for Visual Studio Warning
 		return (YUNI_BIT_GET(pBuffer.data(), i)) ? true : false;
-		# else
-		return YUNI_BIT_GET(pBuffer.data(), i);
-		# endif
 	}
 
 
 	inline bool Array::test(uint i) const
 	{
-		# ifdef YUNI_OS_MSVC
+		// note: true/false for Visual Studio Warning
 		return (YUNI_BIT_GET(pBuffer.data(), i)) ? true : false;
-		# else
-		return YUNI_BIT_GET(pBuffer.data(), i);
-		# endif
 	}
 
 
@@ -105,28 +99,33 @@ namespace Bit
 
 	inline uint Array::sizeInBytes() const
 	{
-		return (uint)pBuffer.sizeInBytes();
+		return (uint) pBuffer.sizeInBytes();
 	}
+
 
 	inline uint Array::size() const
 	{
 		return pCount;
 	}
 
+
 	inline uint Array::count() const
 	{
 		return pCount;
 	}
+
 
 	inline const char* Array::c_str() const
 	{
 		return pBuffer.c_str();
 	}
 
+
 	inline const char* Array::data() const
 	{
 		return pBuffer.data();
 	}
+
 
 	inline char* Array::data()
 	{

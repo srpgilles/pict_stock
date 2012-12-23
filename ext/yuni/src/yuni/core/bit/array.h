@@ -48,7 +48,7 @@ namespace Bit
 		enum
 		{
 			//! Invalide offset
-			npos = (uint) (-1),
+			npos = (uint) -1,
 		};
 
 	public:
@@ -189,6 +189,7 @@ namespace Bit
 		*/
 		template<bool ValueT> uint findN(uint count, uint offset = 0) const;
 		//@}
+
 
 		//! \name Memory management
 		//@{

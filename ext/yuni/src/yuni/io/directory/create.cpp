@@ -20,9 +20,8 @@ namespace Directory
 
 	static bool WindowsMake(const AnyString& path)
 	{
-		uint len = path.size();
 		String norm;
-		Yuni::IO::Normalize(norm, path, len);
+		Yuni::IO::Normalize(norm, path);
 
 		Private::WString<true> wstr(norm);
 		if (wstr.size() < 4)

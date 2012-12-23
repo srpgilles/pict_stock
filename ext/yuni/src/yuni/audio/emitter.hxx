@@ -8,22 +8,41 @@ namespace Yuni
 namespace Audio
 {
 
-	inline Emitter::Emitter(bool loop)
-		: pLoop(loop), pGain(DefaultGain), pBuffer(nullptr),
-		pReady(false), pPlaying(false), pModified(false)
+	inline Emitter::Emitter(bool loop):
+		pLoop(loop),
+		pGain(DefaultGain),
+		pBuffer(nullptr),
+		pReady(false),
+		pPlaying(false),
+		pPaused(false),
+		pModified(false)
 	{}
 
 
-	inline Emitter::Emitter(const Point3D<>& position, bool loop)
-		: pPosition(position), pLoop(loop), pGain(DefaultGain), pBuffer(nullptr),
-		pReady(false), pPlaying(false), pModified(false)
+	inline Emitter::Emitter(const Point3D<>& position, bool loop):
+		pPosition(position),
+		pLoop(loop),
+		pGain(DefaultGain),
+		pBuffer(nullptr),
+		pReady(false),
+		pPlaying(false),
+		pPaused(false),
+		pModified(false)
 	{}
 
 
 	inline Emitter::Emitter(const Point3D<>& position, const Vector3D<>& velocity,
-		const Vector3D<>& direction, bool loop = false)
-		: pPosition(position), pVelocity(velocity), pDirection(direction), pLoop(loop),
-		pGain(DefaultGain), pBuffer(nullptr), pReady(false), pPlaying(false), pModified(false)
+		const Vector3D<>& direction, bool loop = false):
+		pPosition(position),
+		pVelocity(velocity),
+		pDirection(direction),
+		pLoop(loop),
+		pGain(DefaultGain),
+		pBuffer(nullptr),
+		pReady(false),
+		pPlaying(false),
+		pPaused(false),
+		pModified(false)
 	{}
 
 
@@ -38,6 +57,13 @@ namespace Audio
 	{
 		ThreadingPolicy::MutexLocker locker(*this);
 		return pPlaying;
+	}
+
+
+	inline bool Emitter::paused() const
+	{
+		ThreadingPolicy::MutexLocker locker(*this);
+		return pPaused;
 	}
 
 

@@ -249,6 +249,7 @@ set(SRC_CORE_VARIANT
 		core/variant/variant.h
 		core/variant/variant.hxx
 		core/variant/variant.cpp
+		core/variant/fwd.h
 		core/variant/dataholder/dataholder.cpp
 		core/variant/dataholder/dataholder.h
 		core/variant/dataholder/dataholder.hxx

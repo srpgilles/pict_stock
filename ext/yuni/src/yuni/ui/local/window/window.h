@@ -154,8 +154,8 @@ namespace Window
 
 		//! \name Window Style
 		//@{
-		void style(unsigned int flags);
-		unsigned int style() const;
+		void style(uint flags);
+		uint style() const;
 		//@}
 
 		//! \name Stay on Top
@@ -217,7 +217,7 @@ namespace Window
 		//! Caption of the window
 		String pCaption;
 		//! Window visual style
-		unsigned int pStyleSet;
+		uint pStyleSet;
 		//! Left-mots coordinate
 		float pLeft;
 		//! Top-most coordinate
@@ -234,7 +234,7 @@ namespace Window
 		Color pBackgroundColor;
 
 		//! Count the number of updates happening, wait until it reaches 0 to refresh
-		unsigned int pRefreshRefCount;
+		uint pRefreshRefCount;
 
 	}; // class IWindow
 

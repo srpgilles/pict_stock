@@ -52,7 +52,7 @@ namespace Local
 		pAttr.event_mask = ExposureMask | KeyPressMask | ButtonPressMask | StructureNotifyMask;
 
 		pWindow = XCreateWindow(pDisplay, root, 30, 30,
-			(unsigned int)pRect.width(), (unsigned int)pRect.height(), 0,
+			(uint)pRect.width(), (uint)pRect.height(), 0,
 			vinfo->depth, CopyFromParent, vinfo->visual,
 			CWBackPixel | CWBorderPixel | CWColormap | CWEventMask, &pAttr);
 

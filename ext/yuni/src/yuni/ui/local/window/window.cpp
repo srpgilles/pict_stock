@@ -130,7 +130,7 @@ namespace Window
 	}
 
 
-	void IWindow::style(unsigned int flags)
+	void IWindow::style(uint flags)
 	{
 		pStyleSet = flags;
 		doUpdateStyle();

@@ -84,7 +84,7 @@ namespace Thread
 		Yuni::Thread::IThread& thread = *((Yuni::Thread::IThread *) arg);
 		# ifndef NDEBUG
 		thread.pInnerFlagMutex.lock();
-		assert(!thread.pStarted && "Yuni Thread: The thread is already started");
+		assert(not thread.pStarted && "Yuni Thread: The thread is already started");
 		thread.pInnerFlagMutex.unlock();
 		# endif
 
@@ -107,9 +107,9 @@ namespace Thread
 			// Launch the code
 			do
 			{
-				if (! thread.onExecute())
+				if (not thread.onExecute())
 					break;
-				if (thread.pShouldStop ||  ! thread.pStarted)
+				if (thread.pShouldStop ||  not thread.pStarted)
 					break;
 
 				// Notifying the thread that it has just been paused and waiting for
@@ -123,7 +123,7 @@ namespace Thread
 					Yuni::MutexLocker flagLocker(thread.pInnerFlagMutex);
 					// The signal must be reset for future use
 					// However for thread-safety issues, we have to lock the thread itself
-					if (thread.pShouldStop || !thread.pStarted)
+					if (thread.pShouldStop || not thread.pStarted)
 						break;
 				}
 
@@ -163,9 +163,9 @@ namespace Thread
 
 
 
-} // namespace Yuni
-} // namespace Private
 } // namespace Thread
+} // namespace Private
+} // namespace Yuni
 
 
 
@@ -247,7 +247,7 @@ namespace Thread
 		# ifdef YUNI_OS_WINDOWS
 		pThreadHandle = CreateThread(NULL, 0, Yuni::Private::Thread::threadCallbackExecute,
 			this, 0, NULL);
-		if (!pThreadHandle)
+		if (not pThreadHandle)
 		# else
 		// Lock the startup condition before creating the thread,
 		// then wait for it. The thread will signal the condition when it
@@ -312,7 +312,7 @@ namespace Thread
 		// Checking the thread status
 		{
 			Yuni::MutexLocker flagLocker(pInnerFlagMutex);
-			if (!pStarted)
+			if (not pStarted)
 			{
 				// Already marked as stopped. The native thread should really be finished
 				// soon if not already the case
@@ -327,7 +327,7 @@ namespace Thread
 		pSignalWakeUp.notify();
 		pSignalMustStop.notify();
 
-		if (!pSignalHaveStopped.wait(timeout)) // We timed out.
+		if (not pSignalHaveStopped.wait(timeout)) // We timed out.
 		{
 			// We are out of time, no choice but to kill our thread
 			# ifdef YUNI_OS_WINDOWS
@@ -389,11 +389,11 @@ namespace Thread
 		ThreadingPolicy::MutexLocker locker(*this);
 		{
 			Yuni::MutexLocker flagLocker(pInnerFlagMutex);
-			if (!pStarted) // already stopped, nothing to do.
+			if (not pStarted) // already stopped, nothing to do.
 				return errNone;
 		}
 
-		if (!pSignalHaveStopped.wait(timeout)) // We timed out.
+		if (not pSignalHaveStopped.wait(timeout)) // We timed out.
 			return errTimeout;
 
 		# else // YUNI_NO_THREAD_SAFE
@@ -421,7 +421,7 @@ namespace Thread
 		// The thread may have to stop
 		{
 			Yuni::MutexLocker flagLocker(pInnerFlagMutex);
-			if (pShouldStop || !pStarted)
+			if (pShouldStop || not pStarted)
 				return true;
 		}
 
@@ -429,12 +429,12 @@ namespace Thread
 		if (delay)
 		{
 			// If the timeout has been reached, the thread can continue
-			if (!pSignalMustStop.wait(delay))
+			if (not pSignalMustStop.wait(delay))
 				return false;
 		}
 
 		Yuni::MutexLocker flagLocker(pInnerFlagMutex);
-		return (pShouldStop || !pStarted);
+		return (pShouldStop || not pStarted);
 
 		# else // YUNI_NO_THREAD_SAFE
 		(void) delay; // unused

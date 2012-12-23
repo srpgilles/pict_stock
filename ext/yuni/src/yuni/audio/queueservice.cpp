@@ -68,6 +68,8 @@ namespace Audio
 		if (!pReady)
 			return;
 
+		pAudioLoop.beginClose();
+
 		// Close OpenAL buffers properly
 		bank.clear();
 
@@ -84,7 +86,7 @@ namespace Audio
 		Yuni::Bind<bool()> callback;
 		callback.bind(&Private::Audio::OpenAL::Close);
 		pAudioLoop.dispatch(callback);
-		pAudioLoop.stop();
+		pAudioLoop.endClose();
 		pReady = false;
 		sHasRunningInstance = 0;
 	}
@@ -325,6 +327,34 @@ namespace Audio
 	}
 
 
+	bool QueueService::Emitters::playing(const AnyString& name)
+	{
+		return playing(get(name));
+	}
+
+
+	bool QueueService::Emitters::playing(Emitter::Ptr emitter)
+	{
+		if (!emitter)
+			return false;
+		return emitter->playing();
+	}
+
+
+	bool QueueService::Emitters::paused(const AnyString& name)
+	{
+		return paused(get(name));
+	}
+
+
+	bool QueueService::Emitters::paused(Emitter::Ptr emitter)
+	{
+		if (!emitter)
+			return false;
+		return emitter->paused();
+	}
+
+
 	bool QueueService::Emitters::play(Emitter::Ptr emitter)
 	{
 		if (!emitter)
@@ -337,12 +367,27 @@ namespace Audio
 	}
 
 
+	bool QueueService::Emitters::pause(Emitter::Ptr emitter)
+	{
+		if (!emitter)
+			return false;
+		Audio::Loop::RequestType callback;
+ 		callback.bind(emitter, &Emitter::pauseSoundDispatched);
+		// Dispatching...
+ 		pQueueService->pAudioLoop.dispatch(callback);
+		return true;
+	}
+
+
 	bool QueueService::Emitters::stop(const Emitter::Ptr& emitter)
 	{
 		if (!emitter)
 			return false;
-		// TODO
-		return false;
+		Audio::Loop::RequestType callback;
+ 		callback.bind(emitter, &Emitter::stopSoundDispatched);
+		// Dispatching...
+ 		pQueueService->pAudioLoop.dispatch(callback);
+		return true;
 	}
 
 
@@ -370,7 +415,8 @@ namespace Audio
 			Sound::Map::iterator bEnd = pBuffers.end();
 			for (Sound::Map::iterator it = pBuffers.begin(); it != bEnd; ++it)
 			{
-				callback.bind(it->second, &Sound::destroyDispatched, signal);
+				// We have to pass a pointer here, otherwise bind() will call the copy ctor
+				callback.bind(it->second, &Sound::destroyDispatched, &signal);
 				pQueueService->pAudioLoop.dispatch(callback);
 				signal.wait();
 				signal.reset();
@@ -412,7 +458,7 @@ namespace Audio
 			Thread::Signal signal;
 			Yuni::Bind<bool()> callback;
 
-			callback.bind(it->second, &Sound::destroyDispatched, signal);
+			callback.bind(it->second, &Sound::destroyDispatched, &signal);
 			pQueueService->pAudioLoop.dispatch(callback);
 			signal.wait();
 		}

@@ -4,10 +4,8 @@
 # include "../../yuni.h"
 # include "../string.h"
 # include "../static/remove.h"
-# include "dataholder/dataholder.h"
-# include "dataholder/string.h"
-# include "dataholder/array.h"
-
+# include "../static/if.h"
+# include "fwd.h"
 
 
 namespace Yuni
@@ -41,7 +39,7 @@ namespace Yuni
 	**
 	** \ingroup Core
 	*/
-	class YUNI_DECL Variant
+	class YUNI_DECL Variant final
 	{
 	public:
 		template<class T>
@@ -56,28 +54,38 @@ namespace Yuni
 		//! Data holder
 		typedef Private::Variant::IDataHolder  IDataHolder;
 
+		//! Variant internal data type
 		enum InnerType
 		{
 			//! Nil / Not assigned
-			typeNil,
+			tNil,
 			//! Bool
-			typeBool,
+			tBool,
 			//! char
-			typeChar,
+			tChar,
 			//! sint32
-			typeInt32,
+			tInt32,
 			//! sint64
-			typeInt64,
+			tInt64,
 			//! uint32
-			typeUInt32,
+			tUInt32,
 			//! uint64
-			typeUInt64,
+			tUInt64,
 			//! string
-			typeString,
+			tString,
 			//! struct, with members
-			typeClass,
+			tClass,
 			//! array of variants
-			typeArray
+			tArray
+		};
+
+		template<class T>
+		struct SupportedType
+		{
+			enum { yes = 0, no = 1 };
+
+			//! Type used for operator overloading
+			typedef SupportedType<T> OperatorType;
 		};
 
 	public:
@@ -87,14 +95,33 @@ namespace Yuni
 		Variant();
 		//! Constructs a copy of an existing Variant.
 		Variant(const Variant& rhs);
-		//! Constructs a Variant based on an existing variable of simple type.
-		template<class T> Variant(const T& rhs);
 		//! Constructs from a dataholder
 		Variant(const IDataHolder* rhs, bool ref = false);
 		//! Constructs from a dataholder
 		Variant(IDataHolder* rhs, bool ref = false);
 		//! Constructor from nullptr
 		Variant(const NullPtr&);
+
+		//! Constructs a Variant based on an integer.
+		Variant(sint32 rhs);
+		//! Constructs a Variant based on an integer.
+		Variant(sint64 rhs);
+		//! Constructs a Variant based on an integer.
+		Variant(uint32 rhs);
+		//! Constructs a Variant based on an integer.
+		Variant(uint64 rhs);
+		//! Constructs a Variant based on an integer.
+		Variant(float rhs);
+		//! Constructs a Variant based on an integer.
+		Variant(double rhs);
+		//! Constructs a Variant based on a char.
+		Variant(char rhs);
+		//! Constructs a Variant based on a bool
+		Variant(bool rhs);
+		//! Constructs a Variant based on a string
+		Variant(const char* rhs);
+		//! Constructs a Variant based on a string
+		template<uint ChunkT, bool ExpT> Variant(const CString<ChunkT, ExpT>& rhs);
 
 		//! Destructor
 		~Variant() {}
@@ -232,6 +259,12 @@ namespace Yuni
 		Variant operator () (const String& method, const Variant& a1, const Variant& a2, const Variant& a3);
 		//! Invoke method with 4 parameters
 		Variant operator () (const String& method, const Variant& a1, const Variant& a2, const Variant& a3, const Variant& a4);
+
+		//! Comparison
+		bool operator == (const Variant& rhs) const;
+		template<class U> bool operator == (const U& rhs) const;
+		template<class U> bool operator != (const U& rhs) const;
+		bool operator ! () const;
 		//@}
 
 
@@ -241,7 +274,7 @@ namespace Yuni
 
 	private:
 		//! Pointer to storage object
-		IDataHolder::Ptr pData;
+		Private::Variant::IDataHolderPtr pData;
 		//! Flag to know if the content is currently shared
 		bool pShareContent;
 
@@ -254,6 +287,9 @@ namespace Yuni
 
 } // namespace Yuni
 
+# include "dataholder/dataholder.h"
+# include "dataholder/string.h"
+# include "dataholder/array.h"
 # include "variant.hxx"
 
 #endif // __YUNI_CORE_VARIANT_VARIANT_H__

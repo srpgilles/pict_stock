@@ -16,8 +16,8 @@ namespace Audio
 	/*!
 	** \brief The audio loop is where every audio event is run
 	*/
-	class Loop: public Core::EventLoop::IEventLoop<Loop, Core::EventLoop::Flow::Timer
-		, Core::EventLoop::Statistics::None, true>
+	class Loop: public Core::EventLoop::IEventLoop<Loop, Core::EventLoop::Flow::Timer,
+		Core::EventLoop::Statistics::None, true>
 	{
 	public:
 		//! The loop itself
@@ -37,14 +37,24 @@ namespace Audio
 		*/
 		Loop(QueueService* audioService);
 
+		//! Virtual destructor
+		virtual ~Loop() { stop(); }
+
 		/*!
 		** \brief Redefinition of the onLoop() callback
 		*/
 		bool onLoop();
 
+		void beginClose();
+
+		void endClose();
+
 	public:
 		//! Audio queue service corresponding to this loop
 		QueueService* pAudioService;
+
+		//! When closing we must not execute onLoop()
+		bool pClosing;
 
 	}; // class Loop
 

@@ -14,7 +14,7 @@ namespace Yuni
 	** \brief Event
 	*/
 	template<class P = void ()>
-	class YUNI_DECL Event :
+	class YUNI_DECL Event final :
 		public IEvent,                                  // base class IEvent
 		public Yuni::Private::EventImpl::WithNArguments<Bind<P>::argumentCount, Bind<P> >
 	{

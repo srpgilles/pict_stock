@@ -17,7 +17,7 @@ namespace Jobs
 	** \brief A single thread for a queue service
 	*/
 	template<class SchedulerT>
-	class YUNI_DECL QueueThread : public Yuni::Thread::IThread
+	class YUNI_DECL QueueThread final : public Yuni::Thread::IThread
 	{
 	public:
 		//! QueueThread
@@ -49,12 +49,13 @@ namespace Jobs
 		/*!
 		** \brief Implementation of the `onExecute` method to run the jobs from the waiting room
 		*/
-		virtual bool onExecute();
+		virtual bool onExecute() final;
 
 		/*!
 		** \brief Implementation of the `onKill` method when the thread is killed without mercy
 		*/
-		virtual void onKill();
+		virtual void onKill() final;
+
 
 	private:
 		//! The scheduler

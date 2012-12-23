@@ -35,17 +35,23 @@ namespace Yuni
 		switch (::pthread_mutex_destroy(&pLock))
 		{
 			case 0: // Ok good
+			{
 				break;
+			}
 			// If an error happens, we will let the program continue but
 			// it can becaome ugly around here...
 			case EBUSY:
+			{
 				std::cerr << "\nattempt to destroy a mutex while it is locked or referenced\n";
 				assert(false && "attempt to destroy a mutex while it is locked or referenced");
 				break;
+			}
 			default:
+			{
 				std::cerr << "\nfailed to destroy a mutex\n";
 				assert(false && "\nfailed to destroy a mutex\n");
 				break;
+			}
 		}
 		::pthread_mutexattr_destroy(&pAttr);
 		# endif

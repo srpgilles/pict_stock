@@ -125,7 +125,7 @@ namespace Thread
 		**
 		** \param interval The new time interval (in milliseconds)
 		*/
-		void reload(uint interval);
+		void reload(uint milliseconds);
 
 		/*!
 		** \brief Modify then Reload the settings
@@ -143,7 +143,7 @@ namespace Thread
 		** \param interval The new time interval (in milliseconds)
 		** \param cycles The number of cycles [0 .. n[
 		*/
-		void reload(uint interval, uint cycles);
+		void reload(uint milliseconds, uint cycles);
 
 		/*!
 		** \brief Get the time interval (in milliseconds)
@@ -156,7 +156,7 @@ namespace Thread
 		** Use `reload()` to apply the changes if the timer is already started.
 		** \param t The new time interval (in milliseconds)
 		*/
-		void interval(uint t);
+		void interval(uint milliseconds);
 
 		/*!
 		** \brief Get the number of cycle to run
@@ -187,20 +187,8 @@ namespace Thread
 		Timer& operator = (const Timer& rhs);
 		//@}
 
-	protected:
-		/*!
-		** \brief Event: The timer has just been started
-		**
-		** This event is executed in the thread which has just been created.
-		**
-		** It can be directly stopped if returning false. However the `onStopped` event
-		** will not be called.
-		**
-		** \return True to continue the execution of the thread, false to abort the
-		** execution right now
-		*/
-		virtual bool onStarting() {return true;}
 
+	protected:
 		/*!
 		** \brief Event: Execute a new cycle
 		**
@@ -211,17 +199,6 @@ namespace Thread
 		** \return True to continue the execution of the timer, False otherwise
 		*/
 		virtual bool onInterval(uint cycle) = 0;
-
-		/*!
-		** \brief Event: The timer has been stopped
-		**
-		** This event is executed within the thread.
-		**
-		** \attention You should not rely on this event to release your resources. There is no guaranty
-		** that this method will be called, especially if the thread has been killed because
-		** it did not stop before the timeout was reached.
-		*/
-		virtual void onStopped() {}
 
 
 	private:

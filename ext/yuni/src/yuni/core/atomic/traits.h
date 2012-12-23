@@ -215,7 +215,7 @@ namespace AtomicImpl
 		static typename Yuni::Atomic::Int<64,TP>::Type Increment(Yuni::Atomic::Int<64,TP>& t)
 		{
 			# ifdef YUNI_OS_WINDOWS
-			#	ifdef YUNI_OS_MINGW
+			#	ifdef YUNI_OS_MINGW32
 			YUNI_STATIC_ASSERT(false, AtomicOperator_NotImplementedWithMinGW);
 			#	else
 			return _InterlockedIncrement64((LONGLONG*)&t.pValue);
@@ -237,7 +237,7 @@ namespace AtomicImpl
 		static typename Yuni::Atomic::Int<64,TP>::Type Increment(Yuni::Atomic::Int<64,TP>& t, typename Yuni::Atomic::Int<64,TP>::ScalarType value)
 		{
 			# ifdef YUNI_OS_WINDOWS
-			#	ifdef YUNI_OS_MINGW
+			#	ifdef YUNI_OS_MINGW32
 			YUNI_STATIC_ASSERT(false, AtomicOperator_NotImplementedWithMinGW);
 			#	else
 			return InterlockedExchange64((LONGLONG*)&t.pValue, (LONGLONG)(t.pValue + value));
@@ -259,7 +259,7 @@ namespace AtomicImpl
 		static typename Yuni::Atomic::Int<64,TP>::Type Decrement(Yuni::Atomic::Int<64,TP>& t)
 		{
 			# ifdef YUNI_OS_WINDOWS
-			#	ifdef YUNI_OS_MINGW
+			#	ifdef YUNI_OS_MINGW32
 			YUNI_STATIC_ASSERT(false, AtomicOperator_NotImplementedWithMinGW);
 			#	else
 			return _InterlockedDecrement64((LONGLONG*)&t.pValue);
@@ -281,7 +281,7 @@ namespace AtomicImpl
 		static typename Yuni::Atomic::Int<64,TP>::Type Decrement(Yuni::Atomic::Int<64,TP>& t, typename Yuni::Atomic::Int<64,TP>::ScalarType value)
 		{
 			# ifdef YUNI_OS_WINDOWS
-			#	ifdef YUNI_OS_MINGW
+			#	ifdef YUNI_OS_MINGW32
 			YUNI_STATIC_ASSERT(false, AtomicOperator_NotImplementedWithMinGW);
 			#	else
 			return InterlockedExchange64((LONGLONG*)&t.pValue, (LONGLONG)(t.pValue - value));

@@ -43,12 +43,14 @@ namespace Thread
 		appendNThreadsWL(n, autoStart);
 	}
 
+
 	template<class T>
 	inline Array<T>::~Array()
 	{
 		// We won't stop all remaining threads. They have to do it by themselves
 		// when destroyed.
-		pList.clear();
+		// however, it would be wise to destroy them before the vtable is corrupted
+		clear();
 	}
 
 
@@ -76,12 +78,9 @@ namespace Thread
 			typename ThreadingPolicy::MutexLocker locker(*this);
 			if (pList.empty())
 				return;
-			copy = pList;
-			pList.clear();
+			copy.swap(pList);
 		}
-
-		// Removing all threads
-		copy.clear();
+		// the container `copy` will be destroyed here, thus all threads
 	}
 
 
@@ -118,7 +117,7 @@ namespace Thread
 	template<class T>
 	void Array<T>::resize(uint n)
 	{
-		if (!n)
+		if (0 == n)
 		{
 			// When resizing to 0 elements, it is exactly equivalent to directly
 			// call the method clear(), which should be more efficient
@@ -126,7 +125,7 @@ namespace Thread
 			return;
 		}
 
-		// Bound checks
+		// Bound checks error
 		if (n > maxThreadsLimit)
 			n = maxThreadsLimit;
 
@@ -160,12 +159,10 @@ namespace Thread
 			copy.reserve(count - n);
 			for (uint i = n; i < count; ++i)
 				copy.push_back(pList[i]);
-			// We can resize the vector, the removed threads will be stopped soon
+			// We can resize the vector, the removed threads will be stopped later
 			pList.resize(count);
 		}
-
-		// Removing all pending threads
-		copy.clear();
+		// all unwanted threads will be stopped (probably destroyed) here
 	}
 
 
@@ -173,7 +170,9 @@ namespace Thread
 	void Array<T>::start()
 	{
 		typename ThreadingPolicy::MutexLocker locker(*this);
-		if (!pList.empty())
+		// We can start all threads at once while locked because this operation
+		// should be fast enough (signal only).
+		if (not pList.empty())
 		{
 			const typename ThreadList::iterator end = pList.end();
 			for (typename ThreadList::iterator i = pList.begin(); i != end; ++i)
@@ -186,7 +185,9 @@ namespace Thread
 	void Array<T>::gracefulStop()
 	{
 		typename ThreadingPolicy::MutexLocker locker(*this);
-		if (!pList.empty())
+		// We can ask to all threads to gracefully stop while locked because this operation
+		// should be fast enough (signal only).
+		if (not pList.empty())
 		{
 			const typename ThreadList::iterator end = pList.end();
 			for (typename ThreadList::iterator i = pList.begin(); i != end; ++i)
@@ -218,8 +219,6 @@ namespace Thread
 		// Now we can kill them if they don't cooperate...
 		for (typename ThreadList::iterator i = copy.begin(); i != end; ++i)
 			(*i)->stop(timeout);
-		// Clear
-		copy.clear();
 	}
 
 
@@ -255,13 +254,15 @@ namespace Thread
 	template<class T>
 	void Array<T>::wakeUp()
 	{
-		// Locking
 		typename ThreadingPolicy::MutexLocker locker(*this);
 		// We can wake all threads up at once while locked because this operation
-		// is quite fast.
-		const typename ThreadList::iterator end = pList.end();
-		for (typename ThreadList::iterator i = pList.begin(); i != end; ++i)
-			(*i)->wakeUp();
+		// should be fast enough (signal only).
+		if (not pList.empty())
+		{
+			const typename ThreadList::iterator end = pList.end();
+			for (typename ThreadList::iterator i = pList.begin(); i != end; ++i)
+				(*i)->wakeUp();
+		}
 	}
 
 
@@ -383,7 +384,7 @@ namespace Thread
 	void Array<T>::appendNThreadsWL(uint n, bool autostart)
 	{
 		// Keeping the number of existing thread
-		const uint count = pList.size();
+		const uint count = (uint) pList.size();
 		if (count < n)
 		{
 			// We don't have enough threads in pool. Creating a few of them...
@@ -411,15 +412,14 @@ namespace Thread
 	inline uint Array<T>::size() const
 	{
 		typename ThreadingPolicy::MutexLocker locker(*this);
-		return pList.size();
+		return (uint) pList.size();
 	}
 
 
 	template<class T>
 	inline uint Array<T>::count() const
 	{
-		typename ThreadingPolicy::MutexLocker locker(*this);
-		return (uint) pList.size();
+		return size();
 	}
 
 
@@ -434,13 +434,47 @@ namespace Thread
 
 	template<class T>
 	template<class PredicateT>
-	void Array<T>::foreachThread(PredicateT& predicate) const
+	void Array<T>::foreachThread(const PredicateT& predicate) const
 	{
-		typename ThreadingPolicy::MutexLocker locker(*this);
-		const typename ThreadList::const_iterator end = pList.end();
-		for (typename ThreadList::const_iterator i = pList.begin(); i != end; ++i)
+		// We will make a copy of the list to release the lock as soon as
+		// possible since this routine may take some time...
+		// (and to prevent dead-locks)
+		ThreadList copy;
 		{
-			if (!predicate(*i))
+			typename ThreadingPolicy::MutexLocker locker(*this);
+			if (pList.empty())
+				return;
+			copy = pList;
+		}
+
+		const typename ThreadList::const_iterator end = copy.end();
+		for (typename ThreadList::const_iterator i = copy.begin(); i != end; ++i)
+		{
+			if (not predicate(*i))
+				return;
+		}
+	}
+
+
+	template<class T>
+	template<class PredicateT>
+	void Array<T>::foreachThread(const PredicateT& predicate)
+	{
+		// We will make a copy of the list to release the lock as soon as
+		// possible since this routine may take some time...
+		// (and to prevent dead-locks)
+		ThreadList copy;
+		{
+			typename ThreadingPolicy::MutexLocker locker(*this);
+			if (pList.empty())
+				return;
+			copy = pList;
+		}
+
+		const typename ThreadList::iterator end = copy.end();
+		for (typename ThreadList::iterator i = copy.begin(); i != end; ++i)
+		{
+			if (not predicate(*i))
 				return;
 		}
 	}

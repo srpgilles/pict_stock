@@ -63,7 +63,7 @@ namespace File
 
 		// Generic implementation
 		char* buffer = new char[size];
-		uint numRead;
+		uint64 numRead;
 		while ((numRead = fromFile.read(buffer, size)) != 0)
 		{
 			if (numRead != toFile.write(buffer, numRead))
@@ -72,7 +72,7 @@ namespace File
 				return Yuni::IO::errWriteFailed;
 			}
 		}
-				
+
 		# endif
 
 		delete[] buffer;

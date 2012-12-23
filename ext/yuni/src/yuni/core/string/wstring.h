@@ -20,7 +20,7 @@ namespace Private
 	** \TODO This class should be dedicated to Yuni::IO
 	*/
 	template<bool UNCPrefix = false, bool AppendSeparatorT = false>
-	class WString : private NonCopyable<WString<UNCPrefix, AppendSeparatorT> >
+	class WString final : private NonCopyable<WString<UNCPrefix, AppendSeparatorT> >
 	{
 	public:
 		//! \name Constructor & Destructor

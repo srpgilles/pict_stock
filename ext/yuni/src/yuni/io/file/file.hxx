@@ -88,7 +88,7 @@ namespace File
 		if (f.opened())
 		{
 			char buffer[2096 + 1];
-			size_t numRead = 0;
+			uint64 numRead = 0;
 			uint64 totalRead = 0;
 			while ((numRead = f.read((char*)buffer, sizeof(buffer) - 1)) != 0)
 			{
@@ -105,12 +105,12 @@ namespace File
 					if (minus < numRead)
 					{
 						numRead -= minus;
-						out.append((const char*) buffer, (unsigned int) numRead);
+						out.append((const char*) buffer, (uint) numRead);
 					}
 					return errMemoryLimit;
 				}
 				// we use the standard method `append()` to allow the use of std::string
-				out.append((const char*) buffer, (unsigned int) numRead);
+				out.append((const char*) buffer, (uint) numRead);
 			}
 			return errNone;
 		}

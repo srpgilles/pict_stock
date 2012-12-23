@@ -231,7 +231,7 @@ namespace Job
 
 	private:
 		//! Flag to know if the service is started
-		Atomic::Int<> pStarted;
+		Atomic::Int<32> pStarted;
 		//! The list of all remaining jobs
 		Yuni::Private::QueueService::WaitingRoom pWaitingRoom;
 

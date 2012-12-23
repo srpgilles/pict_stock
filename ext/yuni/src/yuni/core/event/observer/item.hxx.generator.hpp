@@ -96,8 +96,9 @@ for ($i = 0; $i <= ARG_MAX; ++$i)
 ?>
 	template<class C, class Mode, class R<?=$genTpl ? ", ".$genTpl : ""?>, class Dummy>
 	inline
-	ObserverItemA<?=$i?><C,Mode, R<?=$genArgs ? ", ".$genArgs : ""?>, Dummy>::ObserverItemA<?=$i?>(C* o, R (C::*method)(<?=$genArgs?>))
-		:pObserver(o), pMethod(method)
+	ObserverItemA<?=$i?><C,Mode, R<?=$genArgs ? ", ".$genArgs : ""?>, Dummy>::ObserverItemA<?=$i?>(C* o, R (C::*method)(<?=$genArgs?>)) :
+		pObserver(o),
+		pMethod(method)
 	{
 		/* Asserts */
 		assert(o != NULL && "The given object can not be NULL");

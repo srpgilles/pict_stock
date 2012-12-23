@@ -6,14 +6,25 @@ namespace Yuni
 namespace Audio
 {
 
-	Loop::Loop(QueueService* audioService)
-		:pAudioService(audioService)
+	Loop::Loop(QueueService* audioService):
+		pAudioService(audioService),
+		pClosing(false)
 	{}
+
+	void Loop::beginClose()
+	{
+		pClosing = true;
+	}
+
+	void Loop::endClose()
+	{
+		stop();
+	}
 
 
 	bool Loop::onLoop()
 	{
-		if (!pAudioService)
+		if (!pAudioService || pClosing)
 			return false;
 		pAudioService->updateDispatched();
 		return true;

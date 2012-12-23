@@ -20,7 +20,7 @@ namespace VM
 				byteCount = sizeof(T),
 			};
 
-			static void Write(char* data, unsigned int& count, T value)
+			static void Write(char* data, uint& count, T value)
 			{
 				*(reinterpret_cast<T*>(data + count)) = value;
 				count += byteCount;

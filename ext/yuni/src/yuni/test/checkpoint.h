@@ -65,7 +65,7 @@ namespace Test
 		//! ID
 		char pID[YUNI_TEST_ID_MAXLENGTH];
 		//! Start time
-		unsigned int pStartTime;
+		uint pStartTime;
 
 		//! Result
 		bool pResult;

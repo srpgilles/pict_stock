@@ -136,7 +136,7 @@ for ($i = 0; $i <= ARG_MAX; ++$i)
 <?=GenerateTemplateComments($i)?>
 	*/
 	template<class C, class Mode, class R<?=$genTpl ? ", ".$genTpl : ""?>, class Dummy = void>
-	class ObserverItemA<?=$i?> : public IObserverItemA<?=$i?><R<?=$genArgs ? ", ".$genArgs : ""?>, Dummy>
+	class ObserverItemA<?=$i?> final : public IObserverItemA<?=$i?><R<?=$genArgs ? ", ".$genArgs : ""?>, Dummy>
 	{
 	public:
 		//! \name Constructor & Destructor

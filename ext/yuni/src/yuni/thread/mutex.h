@@ -19,7 +19,7 @@ namespace Yuni
 	**
 	** \ingroup Threads
 	*/
-	class YUNI_DECL Mutex
+	class YUNI_DECL Mutex final
 	{
 	public:
 		/*!
@@ -146,7 +146,7 @@ namespace Yuni
 	**	  };
 	** \endcode
 	*/
-	class MutexLocker
+	class MutexLocker final
 	{
 	public:
 		//! \name Constructor & Destructor

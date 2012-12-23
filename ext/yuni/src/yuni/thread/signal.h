@@ -13,7 +13,7 @@ namespace Thread
 	/*!
 	** \brief Mecanism for notifying a waiting thread of the occurrence of a particular event
 	*/
-	class YUNI_DECL Signal
+	class YUNI_DECL Signal final
 	{
 	public:
 		//! \name Constructor & Destructor

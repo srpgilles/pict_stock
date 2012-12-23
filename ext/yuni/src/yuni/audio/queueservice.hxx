@@ -25,6 +25,12 @@ namespace Audio
 	}
 
 
+	inline bool QueueService::Emitters::pause(const AnyString& name)
+	{
+		return pause(get(name));
+	}
+
+
 	inline bool QueueService::Emitters::stop(const AnyString& name)
 	{
 		return stop(get(name));

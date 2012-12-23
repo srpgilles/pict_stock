@@ -8,8 +8,8 @@ namespace Audio
 {
 
 
-	inline Sound::Sound(Private::Audio::AudioStream* stream)
-		:pStream(stream), pBufferCount(0)
+	inline Sound::Sound(Private::Audio::AudioStream* stream) :
+		pStream(stream), pBufferCount(0)
 	{
 	}
 
@@ -19,7 +19,7 @@ namespace Audio
 	}
 
 
-	inline unsigned int Sound::duration() const
+	inline uint Sound::duration() const
 	{
 		ThreadingPolicy::MutexLocker lock(*this);
 		return Private::Audio::AV::GetStreamDuration(pStream);

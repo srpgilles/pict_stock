@@ -287,16 +287,12 @@ namespace Thread
 		//! Should stop the thread ?
 		volatile bool pShouldStop;
 		//! Get if the thread is paused
-		Atomic::Int<> pPaused;
+		Atomic::Int<32> pPaused;
 
 		# ifndef YUNI_NO_THREAD_SAFE
 		// our friend
 		friend class Yuni::Job::IJob;
-		# ifdef YUNI_OS_WINDOWS
-		friend DWORD WINAPI Yuni::Private::Thread::threadCallbackExecute(void* arg);
-		# else
-		friend void* Yuni::Private::Thread::threadCallbackExecute(void* arg);
-		# endif
+		friend YUNI_THREAD_FNC_RETURN Yuni::Private::Thread::threadCallbackExecute(void* arg);
 		# endif
 
 	}; // class IThread

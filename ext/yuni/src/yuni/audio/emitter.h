@@ -107,6 +107,9 @@ namespace Audio
 		//! Is the emitter currently playing ?
 		bool playing() const;
 
+		//! Is the emitter currently playing ?
+		bool paused() const;
+
 		//! Set the 3D position of the emitter
 		void position(const Point3D<>& position);
 		//! Get the 3D position of the emitter
@@ -170,6 +173,8 @@ namespace Audio
 		bool pReady;
 		//! Is the emitter currently playing?
 		bool pPlaying;
+		//! Is the emitter currently paused?
+		bool pPaused;
 		//! Has the emitter's values been modified ?
 		bool pModified;
 

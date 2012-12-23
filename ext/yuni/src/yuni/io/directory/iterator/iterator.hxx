@@ -167,7 +167,7 @@ namespace Directory
 
 
 	template<bool DetachedT>
-	bool IIterator<DetachedT>::stop(unsigned int timeout)
+	bool IIterator<DetachedT>::stop(uint timeout)
 	{
 		(void) timeout; // to avoid compiler warning
 		# ifndef YUNI_NO_THREAD_SAFE

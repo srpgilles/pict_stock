@@ -82,6 +82,7 @@ namespace Bit
 		return Find<true>(pBuffer, pCount, offset);
 	}
 
+
 	uint Array::findFirstUnset(uint offset) const
 	{
 		return Find<false>(pBuffer, pCount, offset);
@@ -114,7 +115,7 @@ namespace Bit
 	{
 		for (uint i = 0; i != pBuffer.size(); ++i)
 		{
-			if ((unsigned char)pBuffer[i] != 0xFF)
+			if ((unsigned char) pBuffer[i] != 0xFF)
 				return false;
 		}
 		return true;

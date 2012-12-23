@@ -88,10 +88,25 @@ namespace Audio
 			//! Get elapsed playback time on an emitter
 			sint64 elapsedTime(Emitter::Ptr emitter);
 
+			//! Get whether an emitter is playing
+			bool playing(const AnyString& name);
+			//! Get whether an emitter is playing
+			bool playing(Emitter::Ptr emitter);
+
+			//! Get whether an emitter is paused
+			bool paused(const AnyString& name);
+			//! Get whether an emitter is paused
+			bool paused(Emitter::Ptr emitter);
+
 			//! Start playback on an emitter
 			bool play(const AnyString& name);
 			//! Start playback on an emitter
 			bool play(Emitter::Ptr emitter);
+
+			//! Pause playback on an emitter
+			bool pause(const AnyString& name);
+			//! Pause playback on an emitter
+			bool pause(Emitter::Ptr emitter);
 
 			//! Stop playback on an emitter
 			bool stop(const AnyString& name);

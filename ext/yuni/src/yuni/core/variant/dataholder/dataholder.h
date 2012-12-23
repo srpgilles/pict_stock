@@ -8,13 +8,25 @@
 
 namespace Yuni
 {
-	class Variant;
-
 namespace Private
 {
 namespace Variant
 {
-	class IDataConverter;
+
+	template<class T>
+	struct InternalType
+	{
+		enum { value = Yuni::Variant::tNil };
+	};
+
+	template<> struct InternalType<bool>   { enum { value = Yuni::Variant::tBool }; };
+	template<> struct InternalType<char>   { enum { value = Yuni::Variant::tChar }; };
+	template<> struct InternalType<sint32> { enum { value = Yuni::Variant::tInt32 }; };
+	template<> struct InternalType<sint64> { enum { value = Yuni::Variant::tInt64 }; };
+	template<> struct InternalType<uint32> { enum { value = Yuni::Variant::tUInt32 }; };
+	template<> struct InternalType<uint64> { enum { value = Yuni::Variant::tUInt64 }; };
+	template<> struct InternalType<String> { enum { value = Yuni::Variant::tString }; };
+
 
 
 	/*!
@@ -26,7 +38,7 @@ namespace Variant
 		//! Threading policy
 		typedef Yuni::Policy::SingleThreaded<IDataHolder>  ThreadingPolicy;
 		//! The most suitable smart pointer to this object
-		typedef Yuni::SmartPtr<IDataHolder, Yuni::Policy::Ownership::COMReferenceCounted>  Ptr;
+		typedef IDataHolderPtr  Ptr;
 		//! Vector
 		typedef std::vector<Ptr>  Vector;
 
@@ -41,6 +53,9 @@ namespace Variant
 		template<class T> T to() const;
 		//! Converts the data to the type T.
 		template<class T> bool to(T& out) const;
+
+		//! Internal data type
+		virtual Yuni::Variant::InnerType type() const = 0;
 
 		/*!
 		** \brief Clear the inner content
@@ -150,6 +165,23 @@ namespace Variant
 		//! div string
 		virtual void div(const String& n) = 0;
 
+		//! is equals to uint32
+		virtual bool isEquals(uint32 n) const = 0;
+		//! is equals to sint32
+		virtual bool isEquals(sint32 n) const = 0;
+		//! is equals to uint64
+		virtual bool isEquals(uint64 n) const = 0;
+		//! is equals to sint64
+		virtual bool isEquals(sint64 n) const = 0;
+		//! is equals to double
+		virtual bool isEquals(double n) const = 0;
+		//! is equals to bool
+		virtual bool isEquals(bool n) const = 0;
+		//! is equals to char
+		virtual bool isEquals(char n) const = 0;
+		//! is equals to string
+		virtual bool isEquals(const String& n) const = 0;
+
 		//! add variant
 		virtual void loopbackAssign(IDataHolder& dataholder) const = 0;
 		//! add variant
@@ -160,6 +192,8 @@ namespace Variant
 		virtual void loopbackSub(IDataHolder& dataholder) const = 0;
 		//! div variant
 		virtual void loopbackDiv(IDataHolder& dataholder) const = 0;
+		//! is equal variant
+		virtual bool loopbackIsEquals(IDataHolder& dataholder) const = 0;
 		//@}
 
 
@@ -309,7 +343,7 @@ namespace Variant
 	** \brief Concrete DataConverter implementation
 	*/
 	template<class TargetType>
-	struct DataConverter : public IDataConverter
+	struct DataConverter final : public IDataConverter
 	{
 	public:
 		DataConverter() : result()
@@ -378,7 +412,7 @@ namespace Variant
 	** This is templated with the real data type.
 	*/
 	template<class T>
-	class Data : public IDataHolder
+	class Data final : public IDataHolder
 	{
 	public:
 		//! Constructor from the variable type
@@ -395,6 +429,8 @@ namespace Variant
 
 		virtual IDataHolder* clone() const
 		{ return new Data<T>(pValue); }
+
+		virtual Yuni::Variant::InnerType type() const {return (Yuni::Variant::InnerType) InternalType<T>::value;}
 
 		virtual void clear() { pValue = T(); }
 
@@ -445,11 +481,21 @@ namespace Variant
 		virtual void div(char n) { pValue /= (T) n; }
 		virtual void div(const String& n) { pValue /= n.to<T>(); }
 
+		virtual bool isEquals(uint32 n) const {return Math::Equals(pValue, (T) n);}
+		virtual bool isEquals(sint32 n) const {return Math::Equals(pValue, (T) n);}
+		virtual bool isEquals(uint64 n) const {return Math::Equals(pValue, (T) n);}
+		virtual bool isEquals(sint64 n) const {return Math::Equals(pValue, (T) n);}
+		virtual bool isEquals(double n) const {return Math::Equals(pValue, (T) n);}
+		virtual bool isEquals(bool n) const {return Math::Equals(pValue, (T) n);}
+		virtual bool isEquals(char n) const {return Math::Equals(pValue, (T) n);}
+		virtual bool isEquals(const String& n) const {return Math::Equals(pValue, n.to<T>());}
+
 		virtual void loopbackAssign(IDataHolder& dataholder) const {dataholder.assign(pValue);}
 		virtual void loopbackAdd(IDataHolder& dataholder) const {dataholder.add(pValue);}
 		virtual void loopbackMultiply(IDataHolder& dataholder) const {dataholder.mult(pValue);}
 		virtual void loopbackSub(IDataHolder& dataholder) const {dataholder.sub(pValue);}
 		virtual void loopbackDiv(IDataHolder& dataholder) const {dataholder.div(pValue);}
+		virtual bool loopbackIsEquals(IDataHolder& dataholder) const {return dataholder.isEquals(pValue);}
 
 	private:
 		//! The real data element.
@@ -464,7 +510,7 @@ namespace Variant
 	** \brief Concrete variant data container (char)
 	*/
 	template<>
-	class Data<char> : public IDataHolder
+	class Data<char> final : public IDataHolder
 	{
 	public:
 		typedef int T;
@@ -484,6 +530,8 @@ namespace Variant
 
 		virtual IDataHolder* clone() const
 		{ return new Data<T>(pValue); }
+
+		virtual Yuni::Variant::InnerType type() const {return Yuni::Variant::tChar;}
 
 		virtual void clear() { pValue = '\0'; }
 
@@ -534,11 +582,21 @@ namespace Variant
 		virtual void div(char n) { pValue /= (int)n; }
 		virtual void div(const String& n) { pValue /= n.to<T>(); }
 
+		virtual bool isEquals(uint32 n) const {return pValue == (T) n;}
+		virtual bool isEquals(sint32 n) const {return pValue == (T) n;}
+		virtual bool isEquals(uint64 n) const {return pValue == (T) n;}
+		virtual bool isEquals(sint64 n) const {return pValue == (T) n;}
+		virtual bool isEquals(double n) const {return Math::Equals(pValue, (T) n);}
+		virtual bool isEquals(bool n) const {return pValue == (T) n;}
+		virtual bool isEquals(char n) const {return pValue == (T) n;}
+		virtual bool isEquals(const String& n) const {return n.size() == 1 and n[0] == pValue;}
+
 		virtual void loopbackAssign(IDataHolder& dataholder) const {dataholder.assign((char)pValue);}
 		virtual void loopbackAdd(IDataHolder& dataholder) const {dataholder.add((char)pValue);}
 		virtual void loopbackMultiply(IDataHolder& dataholder) const {dataholder.mult((char)pValue);}
 		virtual void loopbackSub(IDataHolder& dataholder) const {dataholder.sub((char)pValue);}
 		virtual void loopbackDiv(IDataHolder& dataholder) const {dataholder.div((char)pValue);}
+		virtual bool loopbackIsEquals(IDataHolder& dataholder) const {return dataholder.isEquals((char)pValue);};
 
 	private:
 		//! The real data element.
@@ -551,7 +609,7 @@ namespace Variant
 	** \brief Concrete variant data container (bool)
 	*/
 	template<>
-	class Data<bool> : public IDataHolder
+	class Data<bool> final : public IDataHolder
 	{
 	public:
 		typedef bool T;
@@ -571,6 +629,8 @@ namespace Variant
 
 		virtual IDataHolder* clone() const
 		{ return new Data<T>(pValue); }
+
+		virtual Yuni::Variant::InnerType type() const {return Yuni::Variant::tBool;}
 
 		virtual void clear() { pValue = false; }
 
@@ -621,11 +681,21 @@ namespace Variant
 		virtual void div(char) { }
 		virtual void div(const String&) { }
 
+		virtual bool isEquals(uint32 n) const {return pValue == (n != 0);}
+		virtual bool isEquals(sint32 n) const {return pValue == (n != 0);}
+		virtual bool isEquals(uint64 n) const {return pValue == (n != 0);}
+		virtual bool isEquals(sint64 n) const {return pValue == (n != 0);}
+		virtual bool isEquals(double n) const {return Math::Equals<double>((double)pValue, n);}
+		virtual bool isEquals(bool n) const {return pValue == n;}
+		virtual bool isEquals(char n) const {return pValue == (n != '\0');}
+		virtual bool isEquals(const String& n) const {return pValue == n.to<T>();}
+
 		virtual void loopbackAssign(IDataHolder& dataholder) const {dataholder.assign(pValue);}
 		virtual void loopbackAdd(IDataHolder& dataholder) const {dataholder.add(pValue);}
 		virtual void loopbackMultiply(IDataHolder& dataholder) const {dataholder.mult(pValue);}
 		virtual void loopbackSub(IDataHolder& dataholder) const {dataholder.sub(pValue);}
 		virtual void loopbackDiv(IDataHolder& dataholder) const {dataholder.div(pValue);}
+		virtual bool loopbackIsEquals(IDataHolder& dataholder) const {return dataholder.isEquals(pValue);};
 
 	private:
 		//! The real data element.

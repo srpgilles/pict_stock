@@ -11,7 +11,7 @@ public:
 
 		// Forward declarations
 		class NullIterator;
-		template<unsigned int FlagsT> class Iterator;
+		template<uint FlagsT> class Iterator;
 
 
 		class NullIterator
@@ -19,7 +19,7 @@ public:
 		public:
 			//! The type of the orignal object
 			typedef String value_type;
-			//! An unsigned integral type
+			//! An uintegral type
 			typedef uint64  uint64ype;
 			//! A signed integral type
 			typedef sint64  difference_type;
@@ -40,8 +40,7 @@ public:
 			NullIterator(const NullIterator&)
 			{}
 
-			template<class ModelT>
-			NullIterator(const ModelT&)
+			template<class ModelT> NullIterator(const ModelT&)
 			{}
 
 			static void forward(difference_type)
@@ -60,8 +59,7 @@ public:
 				return true;
 			}
 
-			template<class ModelT>
-			bool equals(const ModelT& model)
+			template<class ModelT> bool equals(const ModelT& model)
 			{
 				return (model.pData == NULL);
 			}
@@ -86,13 +84,13 @@ public:
 		** \tparam FlagsT See enum Yuni::IO::Directory::Info::OptionIterator
 		** \see enum Yuni::IO::Directory::Info::OptionIterator
 		*/
-		template<unsigned int FlagsT>
+		template<uint FlagsT>
 		class Iterator
 		{
 		public:
 			//! The type of the orignal object
 			typedef String value_type;
-			//! An unsigned integral type
+			//! An uintegral type
 			typedef uint64 uint64ype;
 			//! A signed integral type
 			typedef sint64 difference_type;
@@ -126,9 +124,16 @@ public:
 				return Private::IO::Directory::IteratorDataParentName(pData);
 			}
 
+			//! Size in bytes
 			uint64 size() const
 			{
 				return Private::IO::Directory::IteratorDataSize(pData);
+			}
+
+			//! Date of the last modification
+			sint64 modified() const
+			{
+				return Private::IO::Directory::IteratorDataModified(pData);
 			}
 
 			bool valid() const
@@ -147,13 +152,8 @@ public:
 			{}
 			template<class StringT> explicit Iterator(const StringT& directory)
 			{
-				YUNI_STATIC_ASSERT(Traits::IsString<StringT>::yes, InvalidType);
-
 				// Initializing
-				pData = Private::IO::Directory::IteratorDataCreate(
-					Traits::CString<StringT>::Perform(directory), // c-string
-					Traits::Length<StringT>::Value(directory),    // length of the string
-					FlagsT);                                      // flags
+				pData = Private::IO::Directory::IteratorDataCreate(AnyString(directory), FlagsT);
 				// We must forward once to get the first item
 				forward();
 			}
@@ -164,11 +164,12 @@ public:
 
 			Iterator(const Iterator& copy) :
 				pData(Private::IO::Directory::IteratorDataCopy(copy.pData))
-			{}
+			{
+			}
+
 			~Iterator()
 			{
-				if (pData)
-					Private::IO::Directory::IteratorDataFree(pData);
+				Private::IO::Directory::IteratorDataFree(pData);
 			}
 
 			void forward()
@@ -220,6 +221,13 @@ public:
 			{
 				assert(pData != NULL);
 				return &Private::IO::Directory::IteratorDataName(pData);
+			}
+
+			Iterator& operator = (const Iterator& copy)
+			{
+				Private::IO::Directory::IteratorDataFree(pData);
+				pData = Private::IO::Directory::IteratorDataCopy(copy.pData);
+				return *this;
 			}
 
 		private:

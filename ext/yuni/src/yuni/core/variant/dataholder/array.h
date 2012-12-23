@@ -13,7 +13,7 @@ namespace Variant
 	** \brief Concrete variant data container
 	*/
 	template<class T>
-	class ArrayData : public IDataHolder
+	class ArrayData final : public IDataHolder
 	{
 	public:
 		ArrayData() {}
@@ -30,6 +30,8 @@ namespace Variant
 		{ return cvtr.convertFrom(pValue); }
 
 		virtual IDataHolder* clone() const { return new ArrayData<T>(*this); }
+
+		virtual Yuni::Variant::InnerType type() const {return Yuni::Variant::tArray;}
 
 		virtual void clear() { pValue.clear(); }
 
@@ -91,6 +93,15 @@ namespace Variant
 		virtual void div(char) { }
 		virtual void div(const String&) { }
 
+		virtual bool isEquals(uint32) const {return false;}
+		virtual bool isEquals(sint32) const {return false;}
+		virtual bool isEquals(uint64) const {return false;}
+		virtual bool isEquals(sint64) const {return false;}
+		virtual bool isEquals(double) const {return false;}
+		virtual bool isEquals(bool) const {return false;}
+		virtual bool isEquals(char) const {return false;}
+		virtual bool isEquals(const String&) const {return false;}
+
 		//! Method invokation, with no parameter
 		virtual IDataHolder* invoke(const String& name)
 		{
@@ -135,6 +146,7 @@ namespace Variant
 		virtual void loopbackMultiply(IDataHolder&) const {}
 		virtual void loopbackSub(IDataHolder&) const {}
 		virtual void loopbackDiv(IDataHolder&) const {}
+		virtual bool loopbackIsEquals(IDataHolder&) const {assert(false && "not implemented");return false;};
 
 	private:
 		//! The real data element.

@@ -16,7 +16,7 @@ namespace Scheduler
 	}
 
 
-	inline unsigned int HighestPriorityFirst::schedulerThreadCount() const
+	inline uint HighestPriorityFirst::schedulerThreadCount() const
 	{
 		return pThreads.count();
 	}
@@ -40,19 +40,19 @@ namespace Scheduler
 	}
 
 
-	inline unsigned int HighestPriorityFirst::minimumThreadCount() const
+	inline uint HighestPriorityFirst::minimumThreadCount() const
 	{
 		return pMaximumThreadCount;
 	}
 
 
-	inline bool HighestPriorityFirst::minimumThreadCount(unsigned int)
+	inline bool HighestPriorityFirst::minimumThreadCount(uint)
 	{
 		return false;
 	}
 
 
-	inline unsigned int HighestPriorityFirst::maximumThreadCount() const
+	inline uint HighestPriorityFirst::maximumThreadCount() const
 	{
 		return pMaximumThreadCount;
 	}
@@ -60,7 +60,7 @@ namespace Scheduler
 
 	inline bool HighestPriorityFirst::nextJob(IJob::Ptr& out)
 	{
-		while (!pWaitingRoom.empty())
+		while (not pWaitingRoom.empty())
 		{
 			if (pWaitingRoom.hasJob[priorityHigh])
 			{

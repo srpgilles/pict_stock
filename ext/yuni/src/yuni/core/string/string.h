@@ -20,6 +20,7 @@
 # endif
 
 # include <string>
+# include <functional> // std::hash
 
 
 # ifdef YUNI_HAS_VECTOR
@@ -105,7 +106,7 @@ namespace Yuni
 	**   string with a fixed-length capacity (equals to ChunkSizeT)
 	*/
 	template<uint ChunkSizeT, bool ExpandableT>
-	class YUNI_DECL CString :
+	class YUNI_DECL CString final :
 		protected Private::CStringImpl::Data<ChunkSizeT,ExpandableT>
 	{
 	public:
@@ -1743,7 +1744,6 @@ namespace Yuni
 		** \warning Not STL compatible
 		*/
 		const char* data() const;
-
 		//@}
 
 
@@ -1780,6 +1780,11 @@ namespace Yuni
 
 		//! \name Misc
 		//@{
+		/*!
+		** \brief Get the hash of the string (SDBM Hash Function)
+		*/
+		size_t hash() const;
+
 		/*!
 		** \brief Get the first char of the string
 		** \return The last char of the string if not empty, \0 otherwise

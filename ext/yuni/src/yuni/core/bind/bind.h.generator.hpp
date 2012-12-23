@@ -20,7 +20,6 @@ generator = Generator.new()
 namespace Yuni
 {
 
-
 	/*!
 	** \brief A delegate implementation
 	**
@@ -94,7 +93,7 @@ namespace Yuni
 	** \tparam P The prototype of the targetted function/member
 	*/
 	template<class P = void (), class Dummy = void>
-	class YUNI_DECL Bind
+	class YUNI_DECL Bind final
 	{
 	public:
 		// This class can not be used like that. We must use one the specialization
@@ -158,7 +157,7 @@ namespace Yuni
 	** \brief Bind to a function/member with <%=generator.xArgumentsToStr(i)%> (Specialization)
 	*/
 	template<<%=tmpl[0]%>>
-	class Bind<<%=tmpl[1]%>, <%=tmpl[2]%>>
+	class Bind<<%=tmpl[1]%>, <%=tmpl[2]%>> final
 	{
 	public:
 		//! The Bind Type

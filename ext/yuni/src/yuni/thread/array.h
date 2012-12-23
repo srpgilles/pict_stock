@@ -64,7 +64,7 @@ namespace Thread
 		/*!
 		** \brief Constructor with a given amount of thread
 		*/
-		Array(uint n);
+		explicit Array(uint n);
 
 		/*!
 		** \brief Constructor, with a given amount of thread
@@ -187,11 +187,21 @@ namespace Thread
 		**
 		** The following prototype will be used :
 		** \code
+		** bool operator () (const typename T::Ptr& thread);
+		** \endcode
+		*/
+		template<class PredicateT> void foreachThread(const PredicateT& predicate) const;
+
+		/*!
+		** \brief Execute a predicate for each thread in pool
+		**
+		** The following prototype will be used :
+		** \code
 		** bool operator () (typename T::Ptr& thread);
 		** \endcode
 		*/
-		template<class PredicateT>
-		void foreachThread(PredicateT& predicate) const;
+		template<class PredicateT> void foreachThread(const PredicateT& predicate);
+
 
 		//! \name Operators
 		//@{

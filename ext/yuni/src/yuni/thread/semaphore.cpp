@@ -28,7 +28,7 @@ namespace Yuni
 		if (readers > SEM_VALUE_MAX)
 		{
 			# ifndef NDEBUG
-			std::cout << "\nYuni::Semaphore: readers > SEM_VALUE_MAX\n";
+			std::cerr << "\nYuni::Semaphore: readers > SEM_VALUE_MAX\n";
 			# endif
 			readers = SEM_VALUE_MAX;
 		}

@@ -281,6 +281,87 @@ namespace IO
 
 
 
+	template<class StringT>
+	static inline void ExtractFilePathImpl(StringT& out, const AnyString& path, bool systemDependant)
+	{
+		AnyString::size_type pos = (systemDependant)
+			? path.find_last_of(IO::Constant<char>::Separator)
+			: path.find_last_of(IO::Constant<char>::AllSeparators);
+		if (AnyString::npos == pos)
+			out.clear();
+		else
+			out.assign(path, pos);
+	}
+
+
+	void ExtractFilePath(String& out, const AnyString& path, bool systemDependant)
+	{
+		ExtractFilePathImpl(out, path, systemDependant);
+	}
+
+
+	void ExtractFilePath(Clob& out, const AnyString& path, bool systemDependant)
+	{
+		ExtractFilePathImpl(out, path, systemDependant);
+	}
+
+
+	template<class StringT>
+	static inline void ExtractFileNameImpl(StringT& out, const AnyString& path, bool systemDependant)
+	{
+		AnyString::size_type pos = (systemDependant)
+			? path.find_last_of(IO::Constant<char>::Separator)
+			: path.find_last_of(IO::Constant<char>::AllSeparators);
+		if (AnyString::npos == pos)
+			out.clear();
+		else
+			out.assign(path.c_str() +  pos + 1);
+	}
+
+
+	void ExtractFileName(String& out, const AnyString& path, bool systemDependant)
+	{
+		ExtractFileNameImpl(out, path, systemDependant);
+	}
+
+	void ExtractFileName(Clob& out, const AnyString& path, bool systemDependant)
+	{
+		ExtractFileNameImpl(out, path, systemDependant);
+	}
+
+
+
+	template<class StringT>
+	static inline void ExtractFilePathAndNameImpl(StringT& path, StringT& name, const AnyString& filename, bool systemDependant)
+	{
+		AnyString::size_type pos = (systemDependant)
+			? filename.find_last_of(IO::Constant<char>::Separator)
+			: filename.find_last_of(IO::Constant<char>::AllSeparators);
+
+		if (AnyString::npos == pos)
+		{
+			path.clear();
+			name.clear();
+		}
+		else
+		{
+			path.assign(filename, pos);
+			name.assign(filename.c_str() +  pos + 1);
+		}
+	}
+
+	void ExtractFilePathAndName(String& path, String& name, const AnyString& filename, bool systemDependant)
+	{
+		ExtractFilePathAndNameImpl(path, name, filename, systemDependant);
+	}
+
+	void ExtractFilePathAndName(Clob& path, Clob& name, const AnyString& filename, bool systemDependant)
+	{
+		ExtractFilePathAndNameImpl(path, name, filename, systemDependant);
+	}
+
+
+
 
 } // namespace IO
 } // namespace Yuni

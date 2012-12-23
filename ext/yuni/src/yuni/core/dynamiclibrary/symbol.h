@@ -15,7 +15,7 @@ namespace DynamicLibrary
 	/*!
 	** \brief Exported Symbol from a dynamic library
 	*/
-	class Symbol
+	class Symbol final
 	{
 	public:
 		//! Handle for a symbol

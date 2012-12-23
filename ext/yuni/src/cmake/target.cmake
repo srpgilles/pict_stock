@@ -2,6 +2,12 @@
 set(YUNI_TARGET_DEBUG   true)
 set(YUNI_TARGET_RELEASE true)
 
+# Detecting 64-bit Windows
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	if(WIN32)
+		set(WIN64 true)
+	endif()
+endif()
 
 string(COMPARE EQUAL "${CMAKE_BUILD_TYPE}" "" NO_BUILD_TYPE)
 if(NO_BUILD_TYPE)

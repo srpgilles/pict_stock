@@ -16,12 +16,13 @@ namespace Display
 		const int sizeRequired = WideCharToMultiByte(CP_UTF8, 0, monitorID, -1, NULL, 0,  NULL, NULL);
 		if (sizeRequired <= 0)
 			return NULL;
-		String newID;
-		newID.reserve((unsigned int) sizeRequired);
-		WideCharToMultiByte(CP_UTF8, 0, monitorID, -1, (char*)newID.data(), sizeRequired,  NULL, NULL);
-		newID.resize(((unsigned int) sizeRequired) - 1);
 
-		unsigned int i;
+		String newID;
+		newID.reserve((uint) sizeRequired);
+		WideCharToMultiByte(CP_UTF8, 0, monitorID, -1, (char*)newID.data(), sizeRequired,  NULL, NULL);
+		newID.resize(((uint) sizeRequired) - 1);
+
+		uint i;
 		for (i = 0; i < lst.size() && lst[i].first->guid() != newID; ++i)
 			;
 		return (i >= lst.size()) ? NULL : &lst[i];
@@ -34,7 +35,7 @@ namespace Display
 		devMode.dmSize = sizeof(devMode);
 		devMode.dmDriverExtra = 32;
 
-		for (unsigned int i = 0; EnumDisplaySettingsW(device.DeviceName, i, &devMode); ++i)
+		for (uint i = 0; EnumDisplaySettingsW(device.DeviceName, i, &devMode); ++i)
 		{
 			(*res)[devMode.dmPelsWidth][devMode.dmPelsHeight][(uint8)devMode.dmBitsPerPel] = true;
 		}
@@ -49,7 +50,7 @@ namespace Display
 		DISPLAY_DEVICEW displayDevice;
 		displayDevice.cb = sizeof(DISPLAY_DEVICEW);
 		// Loop on all display devices
-		for (unsigned int countDevices = 0; EnumDisplayDevicesW(NULL, countDevices, (DISPLAY_DEVICEW*)&displayDevice, 0); ++countDevices)
+		for (uint countDevices = 0; EnumDisplayDevicesW(NULL, countDevices, (DISPLAY_DEVICEW*)&displayDevice, 0); ++countDevices)
 		{
 			// Ignore mirrored displays
 			if (!(displayDevice.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) && (displayDevice.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP))
@@ -65,6 +66,7 @@ namespace Display
 				bool newMonitor = (NULL == monitorWithRes);
 				Monitor::Ptr monitor;
 				SmartPtr<OrderedResolutions> res;
+
 				if (newMonitor)
 				{
 					// Converting from wide char to multibyte in order to compare with Yuni::String
@@ -72,9 +74,9 @@ namespace Display
 					if (sizeRequired <= 0)
 						continue;
 					String newID;
-					newID.reserve((unsigned int) sizeRequired);
+					newID.reserve((uint) sizeRequired);
 					WideCharToMultiByte(CP_UTF8, 0, monitorDisplayDevice.DeviceString, -1, (char*)newID.data(), sizeRequired,  NULL, NULL);
-					newID.resize(((unsigned int) sizeRequired) - 1);
+					newID.resize(((uint) sizeRequired) - 1);
 					// Create the new monitor
 					monitor = new Monitor(newID, (Monitor::Handle)monitorDisplayDevice.DeviceID, mainDisplay, true, true);
 					res = new OrderedResolutions();

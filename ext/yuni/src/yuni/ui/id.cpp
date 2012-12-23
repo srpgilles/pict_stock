@@ -23,7 +23,7 @@ namespace UI
 
 	ID::Type ID::New()
 	{
-		unsigned int count = 0;
+		uint count = 0;
 		IDMutex.lock();
 		do
 		{

@@ -121,7 +121,7 @@ namespace Yuni
 	**
 	** \bug This implementation does not handle at all escaped caracters
 	*/
-	class YUNI_DECL Uri
+	class YUNI_DECL Uri final
 	{
 	public:
 		//! \name Constructors

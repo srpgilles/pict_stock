@@ -36,13 +36,13 @@ namespace CStringImpl
 	template<bool AdapterT>
 	struct FinalZero
 	{
-		YNATTR_ALWAYS_INLINE static void Set(const char*, uint) {}
+		YUNI_ALWAYS_INLINE static void Set(const char*, uint) {}
 	};
 
 	template<>
 	struct FinalZero<false>
 	{
-		YNATTR_ALWAYS_INLINE static void Set(char* buffer, uint offset)
+		YUNI_ALWAYS_INLINE static void Set(char* buffer, uint offset)
 		{
 			buffer[offset] = '\0';
 		}

@@ -34,49 +34,18 @@ namespace IO
 	}
 
 
-	template<class StringT1, class StringT2>
-	void ExtractFilePath(StringT1& out, const StringT2& p, const bool systemDependant)
+
+	template<class StringT>
+	void ExtractFileNameWithoutExtension(StringT& out, const AnyString& path, bool systemDependant)
 	{
-		if (p.empty())
-			out.clear();
-		const typename StringT2::size_type pos = (systemDependant)
-			? p.find_last_of(IO::Constant<char>::Separator)
-			: p.find_last_of(IO::Constant<char>::AllSeparators);
-		if (StringT2::npos == pos)
-			out.clear();
-		else
-			out.assign(p, pos);
-	}
+		AnyString::size_type pos = (systemDependant)
+			? path.find_last_of(IO::Constant<char>::Separator)
+			: path.find_last_of(IO::Constant<char>::AllSeparators);
+		AnyString::size_type n = path.find_last_of('.');
 
-
-
-	template<class StringT1, class StringT2>
-	void ExtractFileName(StringT1& out, const StringT2& p, const bool systemDependant)
-	{
-		if (not p.empty())
-			out.clear();
-		const typename StringT2::size_type pos = (systemDependant)
-			? p.find_last_of(IO::Constant<char>::Separator)
-			: p.find_last_of(IO::Constant<char>::AllSeparators);
-		if (StringT2::npos == pos)
-			out.clear();
-		else
-			out.assign(p.c_str() +  pos + 1);
-	}
-
-
-
-	template<class StringT1, class StringT2>
-	void ExtractFileNameWithoutExtension(StringT1& out, const StringT2& p, const bool systemDependant)
-	{
-		const typename StringT2::size_type pos = (systemDependant)
-			? p.find_last_of(IO::Constant<char>::Separator)
-			: p.find_last_of(IO::Constant<char>::AllSeparators);
-		const typename StringT2::size_type n = p.find_last_of('.');
-
-		if (StringT2::npos == n && StringT2::npos == pos)
+		if (AnyString::npos == n && AnyString::npos == pos)
 		{
-			out = p;
+			out = path;
 			return;
 		}
 		if (n == pos)
@@ -84,27 +53,27 @@ namespace IO
 			out.clear();
 			return;
 		}
-		if (n == StringT2::npos && n > pos + 1)
+		if (n == AnyString::npos && n > pos + 1)
 		{
-			if (StringT2::npos == pos)
+			if (AnyString::npos == pos)
 			{
-				out = p;
+				out = path;
 				return;
 			}
-			out.assign(p.c_str() + pos + 1);
+			out.assign(path.c_str() + pos + 1);
 			return;
 		}
-		if (pos == StringT2::npos)
+		if (pos == AnyString::npos)
 		{
-			out.assign(p, n);
+			out.assign(path, n);
 			return;
 		}
-		out.assign(p.c_str() + pos + 1, n - pos - 1);
+		out.assign(path.c_str() + pos + 1, n - pos - 1);
 	}
 
 
-	template<class StringT1, class StringT2>
-	bool ExtractExtension(StringT1& out, const StringT2& filename, bool dot, bool clear)
+	template<class StringT>
+	bool ExtractExtension(StringT& out, const AnyString& filename, bool dot, bool clear)
 	{
 		if (clear)
 			out.clear();
@@ -138,8 +107,8 @@ namespace IO
 	}
 
 
-	template<class StringT1, class StringT2>
-	void MakeAbsolute(StringT1& out, const StringT2& filename, bool clearBefore)
+	template<class StringT>
+	void MakeAbsolute(StringT& out, const AnyString& filename, bool clearBefore)
 	{
 		if (clearBefore)
 			out.clear();
@@ -155,8 +124,8 @@ namespace IO
 	}
 
 
-	template<class StringT1, class StringT2, class StringT3>
-	void MakeAbsolute(StringT1& out, const StringT2& filename, const StringT3& currentPath, bool clearBefore)
+	template<class StringT>
+	void MakeAbsolute(StringT& out, const AnyString& filename, const AnyString& currentPath, bool clearBefore)
 	{
 		if (clearBefore)
 			out.clear();

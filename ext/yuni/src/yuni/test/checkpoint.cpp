@@ -21,11 +21,11 @@ namespace Test
 	namespace
 	{
 
-		unsigned int GetCurrentTime()
+		uint GetCurrentTime()
 		{
 			timeval tv;
 			gettimeofday(&tv, 0);
-			return (unsigned int)tv.tv_sec * 1000  + (unsigned int)tv.tv_usec / 1000;
+			return (uint)tv.tv_sec * 1000  + (uint)tv.tv_usec / 1000;
 		}
 
 	} // anonymous namespace
@@ -102,7 +102,7 @@ namespace Test
 	TimedCheckpoint::~TimedCheckpoint()
 	{
 		// Duration
-		unsigned int duration = GetCurrentTime() - pStartTime;
+		uint duration = GetCurrentTime() - pStartTime;
 		// \internal At the end of each checkpoint we force the
 		// flush for stdout and stderr
 		std::cout << "[test:cout] <end," << RESULT_TO_STR(pResult) << "," << duration << "ms> " << pID << std::endl;

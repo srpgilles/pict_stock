@@ -11,16 +11,6 @@ namespace Net
 namespace Message
 {
 
-	inline Worker::Worker(QueueService& queueservice, ITransport::Ptr transport) :
-		pTransport(transport),
-		pQueueService(queueservice)
-	{}
-
-
-	inline Worker::~Worker()
-	{}
-
-
 
 
 

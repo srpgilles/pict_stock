@@ -1,8 +1,6 @@
 #ifndef __YUNI_THREAD_THREAD_HXX__
 # define __YUNI_THREAD_THREAD_HXX__
 
-# include <cassert>
-
 
 namespace Yuni
 {
@@ -20,7 +18,7 @@ namespace Thread
 	{
 		# ifndef YUNI_NO_THREAD_SAFE
 		Yuni::MutexLocker locker(pInnerFlagMutex);
-		return (pShouldStop || !pStarted);
+		return (pShouldStop || not pStarted);
 		# else
 		return false;
 		# endif
@@ -29,7 +27,7 @@ namespace Thread
 
 	inline bool IThread::operator ! () const
 	{
-		return !started();
+		return not started();
 	}
 
 

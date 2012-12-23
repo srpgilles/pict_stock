@@ -12,16 +12,24 @@ namespace Device
 namespace Display
 {
 
+	Resolution::Resolution(const Resolution& c) :
+		pWidth(c.pWidth),
+		pHeight(c.pHeight),
+		pBitsPerPixel(c.pBitsPerPixel)
+	{}
 
-	Resolution::Resolution(unsigned int width, unsigned int height, uint8 bits)
+
+	Resolution::Resolution(uint width, uint height, uint8 bits)
 	{
-		assert(width  <= (unsigned) maximumWidth && "display resolution: width greater than Device::Display::Resolution::maximumWidth");
-		assert(height <= (unsigned) maximumHeight && "display resolution: height greater than Device::Display::Resolution::maximumHeight");
+		assert(width  <= (uint) maximumWidth
+			and "display resolution: width greater than Device::Display::Resolution::maximumWidth");
+		assert(height <= (uint) maximumHeight
+			and "display resolution: height greater than Device::Display::Resolution::maximumHeight");
 
 		pBitsPerPixel = (32 == bits ||  24 == bits || 16 == bits || 8 == bits)
 			? (uint8) bits : (uint8)32;
-		pWidth  = Math::MinMax<unsigned int>(width,  minimumWidth,  maximumWidth);
-		pHeight = Math::MinMax<unsigned int>(height, minimumHeight, maximumHeight);
+		pWidth  = Math::MinMax<uint>(width,  minimumWidth,  maximumWidth);
+		pHeight = Math::MinMax<uint>(height, minimumHeight, maximumHeight);
 	}
 
 
@@ -39,6 +47,7 @@ namespace Display
 	{
 		if (pWidth < rhs.pWidth)
 			return true;
+
 		if (pWidth == rhs.pWidth)
 		{
 			if (pHeight < rhs.pHeight)
@@ -54,6 +63,7 @@ namespace Display
 	{
 		if (pWidth > rhs.pWidth)
 			return true;
+
 		if (pWidth == rhs.pWidth)
 		{
 			if (pHeight > rhs.pHeight)

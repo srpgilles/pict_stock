@@ -21,13 +21,13 @@ namespace Yuni
 	**
 	** \ingroup Threads
 	*/
-	class YUNI_DECL Semaphore
+	class YUNI_DECL Semaphore final
 	{
 	public:
 		/*!
 		** \brief Default constructor
 		*/
-		Semaphore(uint readers = 64);
+		explicit Semaphore(uint readers = 64);
 		/*!
 		** \brief Copy constructor
 		*/

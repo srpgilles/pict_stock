@@ -2,7 +2,27 @@
 #include "timestamp.h"
 #include <time.h>
 #include <cassert>
-#include <iostream>
+
+
+
+namespace Yuni
+{
+namespace DateTime
+{
+
+	Timestamp Now()
+	{
+		# ifdef YUNI_OS_MSVC
+		return (sint64) ::_time64(NULL);
+		# else
+		return (sint64) ::time(NULL);
+		# endif
+	}
+
+} // namespace DateTime
+} // namespace Yuni
+
+
 
 
 namespace Yuni
@@ -12,7 +32,7 @@ namespace Private
 namespace DateTime
 {
 
-	static uint FormatString(char* buffer, uint size, const char* format, sint64 timestamp)
+	static inline uint FormatString(char* buffer, uint size, const char* format, sint64 timestamp)
 	{
 		assert(format && '\0' != *format && "invalid format");
 
@@ -44,15 +64,15 @@ namespace DateTime
 		#	endif
 		# endif
 
-		if (written && written < size)
-			return written;
-		return 0;
+		return (written && written < size) ? written : 0;
 	}
 
 
-	char* FormatStringDynBuffer(uint size, const char* format, sint64 timestamp)
+	char* FormatTimestampToString(const AnyString& format, sint64 timestamp)
 	{
-		if (!timestamp)
+		assert(not format.empty() && "this routine must not be called if the format is empty");
+
+		if (timestamp <= 0)
 		{
 			# ifdef YUNI_OS_MSVC
 			timestamp = (sint64) ::_time64(NULL);
@@ -61,47 +81,36 @@ namespace DateTime
 			# endif
 		}
 
-		uint tick = 5;
+		// trying to guess the future size of the formatted string to reduce memory allocation
+		uint size = format.size();
+		// valgrind / assert...
+		assert(format.c_str()[format.size()] == '\0' && "format must be zero-terminated");
+		size += 128; // arbitrary value
+
+		char* buffer = nullptr;
+		uint tick = 10;
 		do
 		{
-			char* buffer = new char[size];
-			if (FormatString(buffer, size, format, timestamp))
+			buffer  = (char*)::realloc(buffer, size * sizeof(char));
+			if (FormatString(buffer, size, format.c_str(), timestamp))
 				return buffer;
+
+			// there was not enough room for storing the formatted string
+			// trying again with more rooms
 			size += 256;
-			delete[] buffer;
 		}
 		while (--tick);
+
+		::free(buffer);
 		return nullptr;
 	}
 
 
 
 
+
 } // namespace DateTime
 } // namespace Private
-} // namespace Yuni
-
-
-
-
-
-namespace Yuni
-{
-namespace DateTime
-{
-
-	Timestamp Now()
-	{
-		# ifdef YUNI_OS_MSVC
-		return (sint64) ::_time64(NULL);
-		# else
-		return (sint64) ::time(NULL);
-		# endif
-	}
-
-
-
-} // namespace DateTime
 } // namespace Yuni
 
 

@@ -12,6 +12,13 @@ include(CheckIncludeFile)
 include(CheckCXXCompilerFlag)
 
 
+if ("${CMAKE_BUILD_TYPE}" STREQUAL "release" OR "${CMAKE_BUILD_TYPE}" STREQUAL "RELEASE")
+	set(YUNI_)
+else()
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG}")
+endif()
+
+
 #
 # Clang Detection
 #
@@ -52,16 +59,34 @@ set(YUNI_COMMON_GCC_OPTIONS_UNIX  "${YUNI_COMMON_GCC_OPTIONS} -fPIC")
 
 include(CheckCXXCompilerFlag)
 if(NOT MSVC)
-	check_cxx_compiler_flag("-std=gnu++0x" YUNI_HAS_GCC_CPP0X_SUPPORT)
-	if(YUNI_HAS_GCC_CPP0X_SUPPORT)
-		set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -std=gnu++0x")
-		set(YUNI_COMMON_GCC_OPTIONS_UNIX  "${YUNI_COMMON_GCC_OPTIONS_UNIX} -std=gnu++0x -Wconversion")
+	check_cxx_compiler_flag("-std=c++11"     YUNI_HAS_CPP11_SUPPORT)
+	check_cxx_compiler_flag("-std=c++0x"     YUNI_HAS_GCC_CPP0X_SUPPORT)
+	check_cxx_compiler_flag("-stdlib=libc++" YUNI_HAS_LIB_CPP11_SUPPORT) # clang, Apple gcc...
+	if (YUNI_HAS_CPP11_SUPPORT)
+		set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -std=c++11")
+		set(YUNI_COMMON_GCC_OPTIONS_UNIX  "${YUNI_COMMON_GCC_OPTIONS_UNIX} -std=c++11 -Wconversion")
+	else()
+		if (YUNI_HAS_GCC_CPP0X_SUPPORT)
+			set(YUNI_COMMON_GCC_OPTIONS  "${YUNI_COMMON_GCC_OPTIONS} -std=c++0x")
+			set(YUNI_COMMON_GCC_OPTIONS_UNIX  "${YUNI_COMMON_GCC_OPTIONS_UNIX} -std=c++0x -Wconversion")
+		endif()
+	endif()
+	if (YUNI_HAS_LIB_CPP11_SUPPORT)
+		set(YUNI_COMMON_GCC_OPTIONS_UNIX  "${YUNI_COMMON_GCC_OPTIONS_UNIX} -stdlib=libc++")
 	endif()
 endif()
 if (NOT MSVC AND NOT CLANG)
 	# clang produces the warning "argument unused during compilation"
 	check_cxx_compiler_flag("-ggdb3" YUNI_HAS_GCC_FLAG_GGDB3)
 endif()
+
+if (APPLE)
+	# http://lists.cs.uiuc.edu/pipermail/cfe-dev/2011-January/012999.html
+	# Temporary workaround for compiling with Clang on OS X
+	set(YUNI_COMMON_GCC_OPTIONS_UNIX  "${YUNI_COMMON_GCC_OPTIONS_UNIX} -U__STRICT_ANSI__")
+endif()
+
+
 
 
 if(NOT WIN32)
@@ -87,6 +112,13 @@ if(APPLE)
 endif()
 if (YUNI_HAS_GCC_FLAG_GGDB3)
 	set(CMAKE_CXX_FLAGS_DEBUG           "${CMAKE_CXX_FLAGS_DEBUG}   -ggdb3")
+endif()
+
+# NDEBUG
+if(MSVC)
+	set(CMAKE_CXX_FLAGS_RELEASE         "${CMAKE_CXX_FLAGS_RELEASE} /DNDEBUG")
+else()
+	set(CMAKE_CXX_FLAGS_RELEASE         "${CMAKE_CXX_FLAGS_RELEASE} -DNDEBUG")
 endif()
 
 set(CMAKE_CXX_FLAGS_RELEASE       "${CMAKE_CXX_FLAGS_RELEASE}      ${YUNI_PROFILE_CXX_FLAGS_INSTRUCTIONS_SETS}")
@@ -118,11 +150,12 @@ else()
 endif()
 
 
+
 #
 # Extra - Mac OS X Bundles
 #
 if(APPLE)
-	set(MACOSX_BUNDLE_COPYRIGHT "Yuni Framework - 2011")
+	set(MACOSX_BUNDLE_COPYRIGHT "Yuni Framework - 2012")
 
 	# The compiler flag -arch must be checked. The compiler might not have apple extensions
 	include(CheckCXXCompilerFlag)

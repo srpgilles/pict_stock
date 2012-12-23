@@ -20,11 +20,26 @@ namespace IO
 	** \endcode
 	**
 	** \param[out] out The output string
-	** \param[in] p The filename
+	** \param[in] path The filename
 	** \param[in] systemDependant Consider only the system-dependant path-separator
 	*/
-	template<class StringT1, class StringT2>
-	void ExtractFilePath(StringT1& out, const StringT2& p, const bool systemDependant = false);
+	void ExtractFilePath(String& out, const AnyString& path, bool systemDependant = false);
+
+	/*!
+	** \brief Extract the path part of a filename
+	**
+	** The path part will be extracted according the system-(un)dependant path-separator
+	** \code
+	**    String outputString;
+	**	  IO::Filename::ExtractFilePath(outputString, "/tmp/foo.txt");
+	**    std::cout << outputString << std::endl; // writes `/tmp`
+	** \endcode
+	**
+	** \param[out] out The output string
+	** \param[in] path The filename
+	** \param[in] systemDependant Consider only the system-dependant path-separator
+	*/
+	void ExtractFilePath(Clob& out, const AnyString& path, bool systemDependant = false);
 
 
 	/*!
@@ -34,11 +49,42 @@ namespace IO
 	** of the system-dependant path-separator (if systemDependant = true)
 	**
 	** \param[out] out        The bare filename from the original one
-	** \param p               The original filename
+	** \param path            The original filename
 	** \param systemDependant Consider only the system-dependant path-separator
 	*/
-	template<class StringT1, class StringT2>
-	void ExtractFileName(StringT1& out, const StringT2& p, const bool systemDependant = true);
+	void ExtractFileName(String& out, const AnyString& path, bool systemDependant = true);
+
+	/*!
+	** \brief Extract the bare file name
+	**
+	** The file name will be extracted according the last occurence
+	** of the system-dependant path-separator (if systemDependant = true)
+	**
+	** \param[out] out        The bare filename from the original one
+	** \param path            The original filename
+	** \param systemDependant Consider only the system-dependant path-separator
+	*/
+	void ExtractFileName(Clob& out, const AnyString& path, bool systemDependant = true);
+
+	/*!
+	** \brief Extract the path part and the bare file name
+	**
+	** \param[out] path       The path from the original one
+	** \param[out] name       The bare filename from the original one
+	** \param path            The original filename
+	** \param systemDependant Consider only the system-dependant path-separator
+	*/
+	void ExtractFilePathAndName(String& path, String& name, const AnyString& filename, bool systemDependant = true);
+
+	/*!
+	** \brief Extract the path part and the bare file name
+	**
+	** \param[out] path       The path from the original one
+	** \param[out] name       The bare filename from the original one
+	** \param path            The original filename
+	** \param systemDependant Consider only the system-dependant path-separator
+	*/
+	void ExtractFilePathAndName(Clob& path, Clob& name, const AnyString& filename, bool systemDependant = true);
 
 
 	/*!
@@ -51,8 +97,8 @@ namespace IO
 	** \param p               The original file name
 	** \param systemDependant Consider only the system-dependant path-separator
 	*/
-	template<class StringT1, class StringT2>
-	void ExtractFileNameWithoutExtension(StringT1& out, const StringT2& p, const bool systemDependant = true);
+	template<class StringT>
+	void ExtractFileNameWithoutExtension(StringT& out, const AnyString& path, bool systemDependant = true);
 
 
 	/*!
@@ -64,8 +110,8 @@ namespace IO
 	** \param clear True to clear `out` before processing
 	** \return True if an extension has been found
 	*/
-	template<class StringT1, class StringT2>
-	bool ExtractExtension(StringT1& out, const StringT2& filename, bool dot = true, bool clear = true);
+	template<class StringT>
+	bool ExtractExtension(StringT& out, const AnyString& filename, bool dot = true, bool clear = true);
 
 
 	/*!
@@ -94,8 +140,8 @@ namespace IO
 	** \param      filename    The filename to make absolute
 	** \param      clearBefore True to clean \p out before
 	*/
-	template<class StringT1, class StringT2>
-	void MakeAbsolute(StringT1& out, const StringT2& filename, bool clearBefore = true);
+	template<class StringT>
+	void MakeAbsolute(StringT& out, const AnyString& filename, bool clearBefore = true);
 
 	/*!
 	** \brief Make a path absolute
@@ -106,8 +152,8 @@ namespace IO
 	** \param      currentPath A custom current path to use if the filename is not absolute
 	** \param      clearBefore True to clean \p out before
 	*/
-	template<class StringT1, class StringT2, class StringT3>
-	void MakeAbsolute(StringT1& out, const StringT2& path, const StringT3& currentPath, bool clearBefore = true);
+	template<class StringT>
+	void MakeAbsolute(StringT& out, const AnyString& path, const AnyString& currentPath, bool clearBefore = true);
 
 
 	/*!

@@ -3457,6 +3457,17 @@ namespace Yuni
 	}
 
 
+	template<uint ChunkSizeT, bool ExpandableT>
+	size_t
+	CString<ChunkSizeT,ExpandableT>::hash() const
+	{
+		size_t hash = 0;
+		for (uint i = 0; i != AncestorType::size; ++i)
+			hash = AncestorType::data[i] + (hash << 6) + (hash << 16) - hash;
+
+		return hash;
+	}
+
 
 
 } // namespace Yuni

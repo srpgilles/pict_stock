@@ -51,7 +51,7 @@ namespace VM
 	}
 
 
-	void Program::increaseInstructionCapacity(unsigned int chunkSize)
+	void Program::increaseInstructionCapacity(uint chunkSize)
 	{
 		instructionCapacity += chunkSize;
 		instructions = reinterpret_cast<InstructionType*>(::realloc(instructions, static_cast<size_t>(instructionCapacity)));
@@ -65,14 +65,14 @@ namespace VM
 	}
 
 
-	void Program::increaseOperandCapacity(unsigned int chunkSize)
+	void Program::increaseOperandCapacity(uint chunkSize)
 	{
 		operandCapacity += chunkSize;
 		operands = reinterpret_cast<char*>(::realloc(operands, static_cast<size_t>(operandCapacity)));
 	}
 
 
-	void Program::reserveInstructions(unsigned int count)
+	void Program::reserveInstructions(uint count)
 	{
 		if (count > instructionCapacity)
 		{
@@ -86,7 +86,7 @@ namespace VM
 	}
 
 
-	void Program::reserveOperands(unsigned int count)
+	void Program::reserveOperands(uint count)
 	{
 		if (count > operandCapacity)
 		{
@@ -115,7 +115,7 @@ namespace VM
 			dpr, // double precision register
 			vr,  // variable
 		};
-		static const unsigned int operandSize[] =
+		static const uint operandSize[] =
 		{
 			0,  // nop
 			1,  // gpr
@@ -140,10 +140,10 @@ namespace VM
 			/* exitCodei */   { i8,  nop },
 		};
 
-		unsigned int operandsIndex = 0;
-		const unsigned int count = instructionCount;
+		uint operandsIndex = 0;
+		const uint count = instructionCount;
 		// foreach instruction...
-		for (unsigned int vp = 0; vp != count; ++vp)
+		for (uint vp = 0; vp != count; ++vp)
 		{
 			// The current instruction
 			const InstructionType instr = instructions[vp];
@@ -152,7 +152,7 @@ namespace VM
 				return false;
 
 			const OperandType* operands = operandCard[instr];
-			for (unsigned int oindx = 0; operands[oindx] != nop; ++oindx)
+			for (uint oindx = 0; operands[oindx] != nop; ++oindx)
 			{
 				switch (operands[oindx])
 				{
@@ -215,14 +215,15 @@ namespace VM
 						}
 					case vr:
 						{
-							unsigned int params = operands[operandsIndex++];
+							uint params = operands[operandsIndex++];
 							if (params)
 							{
 								if (params > 4)
 									return false;
 								if (operandsIndex + params >= operandCount)
 									return false;
-								for (unsigned int i = 0; i != params; ++i)
+
+								for (uint i = 0; i != params; ++i)
 								{
 									if (operands[operandsIndex + i] > 15) // register
 										return false;

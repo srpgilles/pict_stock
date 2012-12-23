@@ -11,14 +11,14 @@
 #	define YUNI_DEVICE_DISPLAY_HANDLE         uint32
 #	define YUNI_DEVICE_DISPLAY_INVALIDHANDLE  (uint32(-1))
 # else
-# 	if defined(YUNI_OS_WINDOWS)
+#	if defined(YUNI_OS_WINDOWS)
 #		define YUNI_DEVICE_DISPLAY_HANDLE         wchar_t*
 #		define YUNI_DEVICE_DISPLAY_INVALIDHANDLE  0
-# 	else
+#	else
 /* Unixes - X11 */
 #		define YUNI_DEVICE_DISPLAY_HANDLE         int
 #		define YUNI_DEVICE_DISPLAY_INVALIDHANDLE  (int(-1))
-# 	endif
+#	endif
 # endif
 
 
@@ -76,8 +76,8 @@ namespace Display
 		** \param a Is hardware-accelerated
 		** \param b Is a builtin device
 		*/
-		Monitor(const String& nm, const Monitor::Handle hwn = InvalidHandle, const bool p = false,
-				const bool a = false, const bool b = false);
+		Monitor(const String& nm, const Monitor::Handle hwn = InvalidHandle, bool p = false,
+			bool a = false, bool b = false);
 
 		//! Constructor by copy
 		Monitor(const Monitor& copy);
@@ -118,7 +118,7 @@ namespace Display
 		**
 		** \return A md5 string
 		*/
-		const String& guid();
+		const String& guid() const;
 
 		/*!
 		** \brief Get if this monitor is the primary display
@@ -219,15 +219,15 @@ namespace Display
 		bool pBuiltin;
 
 		//! The MD5 for the guid - avoid multiple md5 calculations
-		String pMD5Cache;
+		// mutable: to allow guid() const
+		mutable String pMD5Cache;
 
 		# ifdef YUNI_OS_WINDOWS
-
 		wchar_t pDeviceID[128];
-
 		# endif
 
 	}; // class Monitor
+
 
 
 

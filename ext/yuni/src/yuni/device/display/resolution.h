@@ -51,7 +51,7 @@ namespace Display
 		** \param h Height of the monitor/screen
 		** \param b Bit per Pixel
 		*/
-		Resolution(unsigned int width, unsigned int height, uint8 bits = 32);
+		Resolution(uint width, uint height, uint8 bits = 32);
 
 		/*!
 		** \brief Constructor by copy
@@ -69,9 +69,9 @@ namespace Display
 		//! \name Information about the current mode
 		//@{
 		//! The width of the monitor/screen
-		unsigned int width() const;
+		uint width() const;
 		//! The height of the monitor/screen
-		unsigned int height() const;
+		uint height() const;
 		//! Bit per pixel
 		uint8 bitPerPixel() const;
 		//@}
@@ -150,9 +150,9 @@ namespace Display
 
 	private:
 		//! Height of the screen
-		unsigned int pWidth;
+		uint pWidth;
 		//! Width of the screen
-		unsigned int pHeight;
+		uint pHeight;
 		//! Bits per pixel
 		uint8 pBitsPerPixel;
 

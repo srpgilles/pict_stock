@@ -1100,48 +1100,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R>
-	class BoundWithFunction<R ()>
-		:public IPointer<R ()>
+	class BoundWithFunction<R ()> final :
+		public IPointer<R ()>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)())
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)()) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke() const
+		virtual R invoke() const override
 		{
 			return (*pPointer)();
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)()) const
+		virtual bool compareWithPointerToFunction(R (*pointer)()) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1159,48 +1159,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0>
-	class BoundWithFunction<R (A0)>
-		:public IPointer<R (A0)>
+	class BoundWithFunction<R (A0)> final :
+		public IPointer<R (A0)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0) const
+		virtual R invoke(A0 a0) const override
 		{
 			return (*pPointer)(a0);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1218,48 +1218,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1>
-	class BoundWithFunction<R (A0, A1)>
-		:public IPointer<R (A0, A1)>
+	class BoundWithFunction<R (A0, A1)> final :
+		public IPointer<R (A0, A1)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1) const
+		virtual R invoke(A0 a0, A1 a1) const override
 		{
 			return (*pPointer)(a0, a1);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1277,48 +1277,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2>
-	class BoundWithFunction<R (A0, A1, A2)>
-		:public IPointer<R (A0, A1, A2)>
+	class BoundWithFunction<R (A0, A1, A2)> final :
+		public IPointer<R (A0, A1, A2)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2) const override
 		{
 			return (*pPointer)(a0, a1, a2);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1336,48 +1336,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3>
-	class BoundWithFunction<R (A0, A1, A2, A3)>
-		:public IPointer<R (A0, A1, A2, A3)>
+	class BoundWithFunction<R (A0, A1, A2, A3)> final :
+		public IPointer<R (A0, A1, A2, A3)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1395,48 +1395,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4)>
-		:public IPointer<R (A0, A1, A2, A3, A4)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4)> final :
+		public IPointer<R (A0, A1, A2, A3, A4)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1454,48 +1454,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4, class A5>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5)>
-		:public IPointer<R (A0, A1, A2, A3, A4, A5)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5)> final :
+		public IPointer<R (A0, A1, A2, A3, A4, A5)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1513,48 +1513,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6)>
-		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6)> final :
+		public IPointer<R (A0, A1, A2, A3, A4, A5, A6)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1572,48 +1572,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7)>
-		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7)> final :
+		public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1631,48 +1631,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8)>
-		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8)> final :
+		public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1690,48 +1690,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
-		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)> final :
+		public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1749,48 +1749,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
-		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)> final :
+		public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1808,48 +1808,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
-		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)> final :
+		public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1867,48 +1867,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
-		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)> final :
+		public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1926,48 +1926,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
-		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)> final :
+		public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -1985,48 +1985,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13, class A14>
-	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
-		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
+	class BoundWithFunction<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)> final :
+		public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2049,45 +2049,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0>
-	class BoundWithFunctionAndUserData<U, R(A0)>
+	class BoundWithFunctionAndUserData<U, R(A0)> final
 		:public IPointer<R ()>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke() const
+		virtual R invoke() const override
 		{
 			return (*pPointer)(*const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)()) const
+		virtual bool compareWithPointerToFunction(R (*pointer)()) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2106,45 +2106,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1>
-	class BoundWithFunctionAndUserData<U, R(A0, A1)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1)> final
 		:public IPointer<R (A0)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0) const
+		virtual R invoke(A0 a0) const override
 		{
 			return (*pPointer)(a0, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2163,45 +2163,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2)> final
 		:public IPointer<R (A0, A1)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1) const
+		virtual R invoke(A0 a0, A1 a1) const override
 		{
 			return (*pPointer)(a0, a1, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2220,45 +2220,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3)> final
 		:public IPointer<R (A0, A1, A2)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2) const override
 		{
 			return (*pPointer)(a0, a1, a2, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2277,45 +2277,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4)> final
 		:public IPointer<R (A0, A1, A2, A3)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2334,45 +2334,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5)> final
 		:public IPointer<R (A0, A1, A2, A3, A4)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2391,45 +2391,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6)> final
 		:public IPointer<R (A0, A1, A2, A3, A4, A5)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2448,45 +2448,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7)> final
 		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2505,45 +2505,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8)> final
 		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2562,45 +2562,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)> final
 		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2619,45 +2619,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)> final
 		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2676,45 +2676,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)> final
 		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2733,45 +2733,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)> final
 		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2790,45 +2790,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)> final
 		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2847,45 +2847,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13, class A14>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)> final
 		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2904,45 +2904,45 @@ namespace BindImpl
 
 
 	template<class U, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13, class A14, class A15>
-	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15)>
+	class BoundWithFunctionAndUserData<U, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15)> final
 		:public IPointer<R (A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const override
 		{
 			return (*pPointer)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, *const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -2971,49 +2971,50 @@ namespace BindImpl
 
 
 	template<class C, class R>
-	class BoundWithMember<C, R()>
+	class BoundWithMember<C, R()> final
 		:public IPointer<R()>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)())
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)()) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke() const
+		virtual R invoke() const override
 		{
 			return (pThis->*pMember)();
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)()) const
+		virtual bool compareWithPointerToFunction(R (*)()) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3030,49 +3031,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0>
-	class BoundWithMember<C, R(A0)>
+	class BoundWithMember<C, R(A0)> final
 		:public IPointer<R(A0)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0) const
+		virtual R invoke(A0 a0) const override
 		{
 			return (pThis->*pMember)(a0);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3089,49 +3091,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1>
-	class BoundWithMember<C, R(A0, A1)>
+	class BoundWithMember<C, R(A0, A1)> final
 		:public IPointer<R(A0, A1)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1) const
+		virtual R invoke(A0 a0, A1 a1) const override
 		{
 			return (pThis->*pMember)(a0, a1);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3148,49 +3151,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2>
-	class BoundWithMember<C, R(A0, A1, A2)>
+	class BoundWithMember<C, R(A0, A1, A2)> final
 		:public IPointer<R(A0, A1, A2)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3207,49 +3211,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3>
-	class BoundWithMember<C, R(A0, A1, A2, A3)>
+	class BoundWithMember<C, R(A0, A1, A2, A3)> final
 		:public IPointer<R(A0, A1, A2, A3)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3266,49 +3271,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4)> final
 		:public IPointer<R(A0, A1, A2, A3, A4)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3325,49 +3331,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4, class A5>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3384,49 +3391,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3443,49 +3451,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3502,49 +3511,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3561,49 +3571,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3620,49 +3631,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3679,49 +3691,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3738,49 +3751,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3797,49 +3811,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3856,49 +3871,50 @@ namespace BindImpl
 
 
 	template<class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13, class A14>
-	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
+	class BoundWithMember<C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3925,49 +3941,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0>
-	class BoundWithMemberAndUserData<U, C, R(A0)>
+	class BoundWithMemberAndUserData<U, C, R(A0)> final
 		:public IPointer<R()>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A0>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke() const
+		virtual R invoke() const override
 		{
 			return (pThis->*pMember)(const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)()) const
+		virtual bool compareWithPointerToFunction(R (*)()) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -3986,49 +4004,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1)> final
 		:public IPointer<R(A0)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A1>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0) const
+		virtual R invoke(A0 a0) const override
 		{
 			return (pThis->*pMember)(a0, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4047,49 +4067,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2)> final
 		:public IPointer<R(A0, A1)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A2>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1) const
+		virtual R invoke(A0 a0, A1 a1) const override
 		{
 			return (pThis->*pMember)(a0, a1, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4108,49 +4130,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3)> final
 		:public IPointer<R(A0, A1, A2)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A3>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4169,49 +4193,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4)> final
 		:public IPointer<R(A0, A1, A2, A3)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A4>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4230,49 +4256,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5)> final
 		:public IPointer<R(A0, A1, A2, A3, A4)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A5>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4291,49 +4319,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A6>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4352,49 +4382,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A7>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4413,49 +4445,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A8>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4474,49 +4508,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A9>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4535,49 +4571,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A10>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4596,49 +4634,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A11>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4657,49 +4697,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A12>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4718,49 +4760,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A13>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4779,49 +4823,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13, class A14>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A14>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4840,49 +4886,51 @@ namespace BindImpl
 
 
 	template<class U, class C, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13, class A14, class A15>
-	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15)>
+	class BoundWithMemberAndUserData<U, C, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A15>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const override
 		{
 			return (pThis->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -4904,7 +4952,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R>
-	class BoundWithSmartPtrMember<PtrT, R()>
+	class BoundWithSmartPtrMember<PtrT, R()> final
 		:public IPointer<R()>
 	{
 	public:
@@ -4914,42 +4962,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)())
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)()) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke() const
+		virtual R invoke() const override
 		{
 			return ((pThis.pointer())->*pMember)();
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)()) const
+		virtual bool compareWithPointerToFunction(R (*)()) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -4966,7 +5015,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0>
-	class BoundWithSmartPtrMember<PtrT, R(A0)>
+	class BoundWithSmartPtrMember<PtrT, R(A0)> final
 		:public IPointer<R(A0)>
 	{
 	public:
@@ -4976,42 +5025,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0) const
+		virtual R invoke(A0 a0) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5028,7 +5078,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1)> final
 		:public IPointer<R(A0, A1)>
 	{
 	public:
@@ -5038,42 +5088,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1) const
+		virtual R invoke(A0 a0, A1 a1) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5090,7 +5141,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2)> final
 		:public IPointer<R(A0, A1, A2)>
 	{
 	public:
@@ -5100,42 +5151,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5152,7 +5204,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3)> final
 		:public IPointer<R(A0, A1, A2, A3)>
 	{
 	public:
@@ -5162,42 +5214,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5214,7 +5267,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4)> final
 		:public IPointer<R(A0, A1, A2, A3, A4)>
 	{
 	public:
@@ -5224,42 +5277,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5276,7 +5330,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5)>
 	{
 	public:
@@ -5286,42 +5340,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5338,7 +5393,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6)>
 	{
 	public:
@@ -5348,42 +5403,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5400,7 +5456,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7)>
 	{
 	public:
@@ -5410,42 +5466,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5462,7 +5519,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8)>
 	{
 	public:
@@ -5472,42 +5529,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5524,7 +5582,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
 	{
 	public:
@@ -5534,42 +5592,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5586,7 +5645,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
 	{
 	public:
@@ -5596,42 +5655,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5648,7 +5708,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
 	{
 	public:
@@ -5658,42 +5718,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5710,7 +5771,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
 	{
 	public:
@@ -5720,42 +5781,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5772,7 +5834,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
 	{
 	public:
@@ -5782,42 +5844,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5834,7 +5897,7 @@ namespace BindImpl
 
 
 	template<class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13, class A14>
-	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
+	class BoundWithSmartPtrMember<PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
 	{
 	public:
@@ -5844,42 +5907,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5906,7 +5970,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0)> final
 		:public IPointer<R()>
 	{
 	public:
@@ -5914,42 +5978,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A0>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke() const
+		virtual R invoke() const override
 		{
 			return ((pThis.pointer())->*pMember)(const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)()) const
+		virtual bool compareWithPointerToFunction(R (*)()) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -5968,7 +6034,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1)> final
 		:public IPointer<R(A0)>
 	{
 	public:
@@ -5976,42 +6042,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A1>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0) const
+		virtual R invoke(A0 a0) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6030,7 +6098,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2)> final
 		:public IPointer<R(A0, A1)>
 	{
 	public:
@@ -6038,42 +6106,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A2>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1) const
+		virtual R invoke(A0 a0, A1 a1) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6092,7 +6162,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3)> final
 		:public IPointer<R(A0, A1, A2)>
 	{
 	public:
@@ -6100,42 +6170,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A3>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6154,7 +6226,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4)> final
 		:public IPointer<R(A0, A1, A2, A3)>
 	{
 	public:
@@ -6162,42 +6234,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A4>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6216,7 +6290,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5)> final
 		:public IPointer<R(A0, A1, A2, A3, A4)>
 	{
 	public:
@@ -6224,42 +6298,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A5>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6278,7 +6354,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5)>
 	{
 	public:
@@ -6286,42 +6362,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A6>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6340,7 +6418,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6)>
 	{
 	public:
@@ -6348,42 +6426,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A7>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6402,7 +6482,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7)>
 	{
 	public:
@@ -6410,42 +6490,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A8>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6464,7 +6546,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8)>
 	{
 	public:
@@ -6472,42 +6554,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A9>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6526,7 +6610,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)>
 	{
 	public:
@@ -6534,42 +6618,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A10>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6588,7 +6674,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)>
 	{
 	public:
@@ -6596,42 +6682,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A11>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6650,7 +6738,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)>
 	{
 	public:
@@ -6658,42 +6746,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A12>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6712,7 +6802,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)>
 	{
 	public:
@@ -6720,42 +6810,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A13>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6774,7 +6866,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13, class A14>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)>
 	{
 	public:
@@ -6782,42 +6874,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A14>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6836,7 +6930,7 @@ namespace BindImpl
 
 
 	template<class U, class PtrT, class R, class A0, class A1, class A2, class A3, class A4, class A5, class A6, class A7, class A8, class A9, class A10, class A11, class A12, class A13, class A14, class A15>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15)> final
 		:public IPointer<R(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)>
 	{
 	public:
@@ -6844,42 +6938,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A15>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14, A15), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const
+		virtual R invoke(A0 a0, A1 a1, A2 a2, A3 a3, A4 a4, A5 a5, A6 a6, A7 a7, A8 a8, A9 a9, A10 a10, A11 a11, A12 a12, A13 a13, A14 a14) const override
 		{
 			return ((pThis.pointer())->*pMember)(a0, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10, a11, a12, a13, a14, const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const
+		virtual bool compareWithPointerToFunction(R (*)(A0, A1, A2, A3, A4, A5, A6, A7, A8, A9, A10, A11, A12, A13, A14)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -6905,6 +7001,5 @@ namespace BindImpl
 } // namespace BindImpl
 } // namespace Private
 } // namespace Yuni
-
 
 #endif // __YUNI_CORE_BIND_TRAITS_H__

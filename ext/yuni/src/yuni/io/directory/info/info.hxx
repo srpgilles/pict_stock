@@ -120,10 +120,11 @@ namespace Directory
 	}
 
 
-	inline bool Info::create(unsigned int mode) const
+	inline bool Info::create(uint mode) const
 	{
 		return IO::Directory::Create(pDirectory, mode);
 	}
+
 
 	inline bool Info::remove() const
 	{
@@ -131,9 +132,7 @@ namespace Directory
 	}
 
 
-	template<class StringT>
-	inline bool
-	Info::copy(const StringT& destination) const
+	inline bool Info::copy(const AnyString& destination) const
 	{
 		return IO::Directory::Copy(pDirectory, destination);
 	}

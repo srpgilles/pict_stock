@@ -290,9 +290,7 @@ namespace GetOptImpl
 				&& pLongName.size() <= YUNI_GETOPT_LONGNAME_MAX_LENGTH);
 		}
 
-		virtual ~IOption()
-		{
-		}
+		virtual ~IOption() {}
 
 		/*!
 		** \brief Add a value
@@ -337,7 +335,7 @@ namespace GetOptImpl
 	** \brief A single command line option
 	*/
 	template<class T, bool Visible, bool AdditionalParam = true>
-	class Option : public IOption
+	class Option final : public IOption
 	{
 	public:
 		enum
@@ -384,23 +382,23 @@ namespace GetOptImpl
 		** \param len Length of the string (can be zero)
 		** \return True if the operation succeded, false otherwise
 		*/
-		virtual bool addValue(const char* c_str, String::size_type len)
+		virtual bool addValue(const char* c_str, String::size_type len) override
 		{
 			return Private::GetOptImpl::Value<T>::Add(pVariable, c_str, len);
 		}
 
-		virtual void enableFlag()
+		virtual void enableFlag() override
 		{
 			Private::GetOptImpl::Flag<T>::Enable(pVariable);
 		}
 
-		virtual void helpUsage(std::ostream& out) const
+		virtual void helpUsage(std::ostream& out) const override
 		{
 			if (Visible)
 				DisplayHelpForOption(out, pShortName, pLongName, pDescription, AdditionalParam);
 		}
 
-		virtual bool requireAdditionalParameter() const {return AdditionalParam;}
+		virtual bool requireAdditionalParameter() const override {return AdditionalParam;}
 
 	private:
 		//! The destination variable, where to add values
@@ -413,7 +411,7 @@ namespace GetOptImpl
 	/*!
 	** \brief A text paragraph
 	*/
-	class Paragraph : public IOption
+	class Paragraph final : public IOption
 	{
 	public:
 		//! \name Constructors & Destructor
@@ -439,23 +437,23 @@ namespace GetOptImpl
 		** \param len Length of the string (can be zero)
 		** \return True if the operation succeded, false otherwise
 		*/
-		virtual bool addValue(const char*, String::size_type)
+		virtual bool addValue(const char*, String::size_type) override
 		{
 			/* Do nothing - This is not an option */
 			return false;
 		}
 
-		virtual void helpUsage(std::ostream& out) const
+		virtual void helpUsage(std::ostream& out) const override
 		{
 			DisplayTextParagraph(out, pDescription);
 		}
 
-		virtual void enableFlag()
+		virtual void enableFlag() override
 		{
 			// Do nothing
 		}
 
-		virtual bool requireAdditionalParameter() const {return false;}
+		virtual bool requireAdditionalParameter() const override {return false;}
 
 	}; // class Paragraph
 

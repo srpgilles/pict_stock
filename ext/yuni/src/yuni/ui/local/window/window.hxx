@@ -26,7 +26,7 @@ namespace Window
 
 
 
-	inline unsigned int IWindow::style() const
+	inline uint IWindow::style() const
 	{
 		return pStyleSet;
 	}

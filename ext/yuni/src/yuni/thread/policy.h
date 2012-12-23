@@ -49,6 +49,10 @@ namespace Policy
 	};
 
 
+
+
+
+
 	/*!
 	** \brief Implementation of the Threading Model policy in a single-threaded environnement
 	** \ingroup Policies

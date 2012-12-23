@@ -97,6 +97,7 @@ LIBYUNI_CONFIG_INCLUDE_PATH("both" "audio" "${YUNI_EXT_FFMPEG_INCLUDE}")
 ### error: 'UINT64_C' was not declared in this scope
 ### This define is required to solve this.
 add_definitions(-D__STDC_CONSTANT_MACROS)
+LIBYUNI_CONFIG_CFLAG("both" "audio" "-D__STDC_CONSTANT_MACROS")
 
 source_group(Audio FILES ${SRC_AUDIO})
 source_group(Audio\\Ffmpeg FILES ${SRC_AUDIO_FFMPEG})
@@ -126,4 +127,5 @@ install(
 )
 
 target_link_libraries(yuni-static-audio-core ${OPENAL_LIBRARY})
+LIBYUNI_CONFIG_LIB_RAW_COMMAND("both" "audio" "${OPENAL_LIBRARY}")
 

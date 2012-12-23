@@ -53,6 +53,7 @@ namespace Scheduler
 		*/
 		bool idle() const;
 
+
 	protected:
 		/*!
 		** \brief Start all threads to execute the jobs

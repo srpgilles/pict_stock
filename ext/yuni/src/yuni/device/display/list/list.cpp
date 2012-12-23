@@ -12,9 +12,11 @@ namespace Device
 namespace Display
 {
 
-		typedef std::map<uint32, std::map<uint32, std::map<uint8, bool> > >  OrderedResolutions;
-		typedef std::pair<Monitor::Ptr, SmartPtr<OrderedResolutions> > SingleMonitorFound;
-		typedef std::vector<SingleMonitorFound> MonitorsFound;
+	typedef std::map<uint32, std::map<uint32, std::map<uint8, bool> > >  OrderedResolutions;
+
+	typedef std::pair<Monitor::Ptr, SmartPtr<OrderedResolutions> > SingleMonitorFound;
+
+	typedef std::vector<SingleMonitorFound> MonitorsFound;
 
 
 } // namespace Display
@@ -27,12 +29,12 @@ namespace Display
 # ifdef YUNI_OS_MAC
 #	include "macosx.hxx"
 # else
-# 	ifdef YUNI_OS_WINDOWS
+#	ifdef YUNI_OS_WINDOWS
 #		include "windows.hxx"
-# 	endif
-# 	ifdef YUNI_OS_UNIX
+#	endif
+#	ifdef YUNI_OS_UNIX
 #		include "linux.hxx"
-# 	endif
+#	endif
 # endif
 
 
@@ -130,7 +132,7 @@ namespace Display
 				}
 			}
 
-			if (!monitor->resolutions().empty()) // at least one resolution
+			if (not monitor->resolutions().empty()) // at least one resolution
 			{
 				pMonitors.push_back(monitor);
 				if (monitor->primary())

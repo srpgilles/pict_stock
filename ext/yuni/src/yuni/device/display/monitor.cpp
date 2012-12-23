@@ -17,6 +17,7 @@ namespace Display
 	void Monitor::addSafeResolutions()
 	{
 		// Default (and assumed safe) resolutions
+		pResolutions.reserve(pResolutions.size() + 3);
 		pResolutions.push_back(new Resolution(1024, 768, 32));
 		pResolutions.push_back(new Resolution(800, 600, 32));
 		pResolutions.push_back(new Resolution(640, 480, 32));
@@ -33,9 +34,13 @@ namespace Display
 	}
 
 
-	Monitor::Monitor(const String& nm, const Monitor::Handle hwn, const bool p, const bool a, const bool b) :
-		pHandle(hwn), pProductName(nm), pResolutions(),
-		pPrimary(p), pHardwareAcceleration(a), pBuiltin(b)
+	Monitor::Monitor(const String& nm, const Monitor::Handle hwn, bool p, bool a, bool b) :
+		pHandle(hwn),
+		pProductName(nm),
+		pResolutions(),
+		pPrimary(p),
+		pHardwareAcceleration(a),
+		pBuiltin(b)
 	{
 		#ifdef YUNI_OS_WINDOWS
 		if (NULL != hwn)
@@ -81,7 +86,7 @@ namespace Display
 	}
 
 
-	const String& Monitor::guid()
+	const String& Monitor::guid() const
 	{
 		// We assume that `pResolutions` is not empty
 		if (pMD5Cache.empty())

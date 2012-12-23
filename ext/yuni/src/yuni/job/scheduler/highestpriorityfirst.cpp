@@ -38,7 +38,7 @@ namespace Scheduler
 
 			// Creating all threads we need
 			pThreads.clear();
-			for (unsigned int i = 0; i != pMaximumThreadCount; ++i)
+			for (uint i = 0; i != pMaximumThreadCount; ++i)
 				pThreads += new Yuni::Private::Jobs::QueueThread<SchedulerType>(*this);
 
 			// Starting all threads at once
@@ -49,7 +49,7 @@ namespace Scheduler
 	}
 
 
-	bool HighestPriorityFirst::schedulerStop(unsigned int timeout)
+	bool HighestPriorityFirst::schedulerStop(uint timeout)
 	{
 		if (pStarted)
 		{
@@ -64,7 +64,7 @@ namespace Scheduler
 	}
 
 
-	bool HighestPriorityFirst::maximumThreadCount(unsigned int n)
+	bool HighestPriorityFirst::maximumThreadCount(uint n)
 	{
 		if (n < 1 || n > 512)
 			return false;

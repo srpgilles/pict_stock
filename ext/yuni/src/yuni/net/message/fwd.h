@@ -35,6 +35,8 @@ namespace Message
 {
 
 	class Worker;
+	class QueueServiceData;
+
 
 } // namespace Message
 } // namespace Net

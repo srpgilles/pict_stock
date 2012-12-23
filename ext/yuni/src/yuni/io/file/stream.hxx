@@ -121,21 +121,10 @@ namespace File
 	}
 
 
-	inline uint Stream::read(char* buffer, uint size)
-	{
-		return (uint) ::fread(buffer, 1, size, pFd);
-	}
-
 
 	inline bool Stream::put(char c)
 	{
 		return (0 == ::fputc((int) c, pFd));
-	}
-
-
-	inline uint Stream::write(const char* buffer, uint size)
-	{
-		return (uint) ::fwrite(buffer, 1, (size_t) size, pFd);
 	}
 
 
@@ -146,43 +135,41 @@ namespace File
 		template<int IsStringT, class U>
 		struct StreamTraitsWrite
 		{
-			static inline size_t Perform(FILE* pFd, const U& u)
+			static inline uint64 Perform(FILE* pFd, const AnyString& string)
 			{
-				YUNI_STATIC_ASSERT(Traits::IsString<U>::yes, InvalidTypeForBuffer);
-
-				return ::fwrite(
-					Traits::CString<U>::Perform(u),  // raw data
-					1,                               // nb items
-					Traits::Length<U>::Value(u),     // length
-					pFd);                            // file descriptor
+				return (uint64) ::fwrite(
+					string.c_str(),  // raw data
+					1,               // nb items
+					string.size(),   // length
+					pFd);            // file descriptor
 			}
-			static inline size_t Perform(FILE* pFd, const U& u, uint size)
+			static inline uint64 Perform(FILE* pFd, const U& string, uint64 size)
 			{
 				YUNI_STATIC_ASSERT(Traits::IsString<U>::yes, InvalidTypeForBuffer);
-
-				return ::fwrite(
-					Traits::CString<U>::Perform(u),  // raw data
-					1,                               // nb items
-					size,                            // size
-					pFd);                            // file descriptor
+				return (uint64) ::fwrite(
+					Traits::CString<U>::Perform(string),  // raw data
+					1,                                    // nb items
+					(size_t)size,                         // size
+					pFd);                                 // file descriptor
 			}
 		};
 
 		template<class U>
 		struct StreamTraitsWrite<0,U>
 		{
-			static inline size_t Perform(FILE* pFd, const U& u)
+			static inline uint64 Perform(FILE* pFd, const U& u)
 			{
+				// TODO : Find a faster alternative
 				String translator;
 				translator << u;
-				return ::fwrite(translator.c_str(), 1, translator.size(), pFd);
+				return (uint64) ::fwrite(translator.c_str(), 1, translator.size(), pFd);
 			}
 
-			static inline size_t Perform(FILE* pFd, const U& u, uint size)
+			static inline uint64 Perform(FILE* pFd, const U& u, uint64 size)
 			{
 				String translator;
 				translator << u;
-				return ::fwrite(translator.c_str(), 1, translator.size() > size ? size : translator.size(), pFd);
+				return (uint64)::fwrite(translator.c_str(), 1, translator.size() > size ? size : translator.size(), pFd);
 			}
 		};
 
@@ -190,17 +177,17 @@ namespace File
 		template<>
 		struct StreamTraitsWrite<0, bool>
 		{
-			static inline size_t Perform(FILE* pFd, bool u)
+			static inline uint64 Perform(FILE* pFd, bool u)
 			{
 				return u
-					? ::fwrite("true", 1, 4, pFd)
-					: ::fwrite("false", 1, 5, pFd);
+					? (uint64)::fwrite("true", 1, 4, pFd)
+					: (uint64)::fwrite("false", 1, 5, pFd);
 			}
-			static inline size_t Perform(FILE* pFd, bool u, uint size)
+			static inline uint64 Perform(FILE* pFd, bool u, uint64 size)
 			{
 				return u
-					? ::fwrite("true", 1, 4 > size ? size : 4, pFd)
-					: ::fwrite("false", 1, 5 > size ? size : 5, pFd);
+					? (uint64)::fwrite("true", 1, 4 > size ? (size_t)size : 4, pFd)
+					: (uint64)::fwrite("false", 1, 5 > size ? (size_t)size : 5, pFd);
 			}
 
 		};
@@ -210,16 +197,16 @@ namespace File
 
 
 	template<class U>
-	inline uint Stream::write(const U& buffer)
+	inline uint64 Stream::write(const U& buffer)
 	{
-		return (uint) StreamTraitsWrite<Traits::CString<U>::valid, U>::Perform(pFd, buffer);
+		return StreamTraitsWrite<Traits::CString<U>::valid, U>::Perform(pFd, buffer);
 	}
 
 
 	template<class U>
-	inline uint Stream::write(const U& buffer, uint size)
+	inline uint64 Stream::write(const U& buffer, uint64 size)
 	{
-		return (uint) StreamTraitsWrite<Traits::CString<U>::valid, U>::Perform(pFd, buffer, size);
+		return StreamTraitsWrite<Traits::CString<U>::valid, U>::Perform(pFd, buffer, size);
 	}
 
 
@@ -260,10 +247,11 @@ namespace File
 
 
 	template<uint CSizeT, bool ExpT>
-	inline uint
-	Stream::read(CString<CSizeT, ExpT>& buffer, uint size)
+	inline uint64
+	Stream::read(CString<CSizeT, ExpT>& buffer, uint64 size)
 	{
 		assert(pFd && "File not opened");
+		assert(size <= uint64(2 * 1024) * 1024 * 1024);
 		if (!size)
 			return 0;
 
@@ -272,7 +260,7 @@ namespace File
 			size = buffer.chunkSize;
 
 		// Resizing the buffer
-		buffer.resize(size);
+		buffer.resize((uint) size);
 
 		// Assert to prevent SegV
 		assert(buffer.capacity() != 0 && "When reading a file, the buffer must have reserved some space");
@@ -280,20 +268,20 @@ namespace File
 		typedef CString<CSizeT, ExpT> StringType;
 		typedef typename StringType::Char C;
 		// Reading the file
-		const size_t result = ::fread(const_cast<char*>(buffer.data()), 1, sizeof(C) * size, pFd);
+		size_t result = ::fread(const_cast<char*>(buffer.data()), 1, (size_t) (sizeof(C) * size), pFd);
 		// Setting the good size, because we may have read less than asked
-		if (result < buffer.size())
-			buffer.truncate((uint) result);
+		if (result < (size_t) buffer.size())
+			buffer.truncate((uint)result);
 		// Making sure that the buffer is zero-terminated if required
 		if (buffer.zeroTerminated)
 			*((C*)(buffer.data() + buffer.size())) = C();
-		return (uint) result;
+		return result;
 	}
 
 
 	template<uint ChunkSizeT, bool ExpandableT>
-	inline uint
-	Stream::chunckRead(CString<ChunkSizeT, ExpandableT>& buffer)
+	inline uint64
+	Stream::chunkRead(CString<ChunkSizeT, ExpandableT>& buffer)
 	{
 		// Resizing the buffer
 		buffer.reserve(buffer.chunkSize);
@@ -303,14 +291,14 @@ namespace File
 		typedef CString<ChunkSizeT, ExpandableT> StringType;
 		typedef typename StringType::Char C;
 		// Reading the file
-		const size_t result = ::fread(buffer.data(), 1, sizeof(C) * buffer.chunkSize, pFd);
+		const uint64 result = ::fread(buffer.data(), 1, sizeof(C) * buffer.chunkSize, pFd);
 		// Setting the good size, because we may have read less than asked
 		if (result < buffer.size())
 			buffer.truncate((typename StringType::Size) result);
 		// Making sure that the buffer is zero-terminated if required
 		if (buffer.zeroTerminated)
 			*((C*)(buffer.data() + buffer.size())) = C();
-		return (uint) result;
+		return result;
 	}
 
 

@@ -42,7 +42,7 @@ namespace Audio
 		return true;
 	}
 
-	ALenum OpenAL::GetFormat(unsigned int bits, unsigned int channels)
+	ALenum OpenAL::GetFormat(uint bits, uint channels)
 	{
 		switch (bits)
 		{
@@ -109,14 +109,14 @@ namespace Audio
 		alDistanceModel(modelName);
 	}
 
-	bool OpenAL::CreateBuffers(int nbBuffers, unsigned int* buffers)
+	bool OpenAL::CreateBuffers(int nbBuffers, uint* buffers)
 	{
 		alGetError();
 		alGenBuffers(nbBuffers, buffers);
 		return alGetError() == AL_NO_ERROR;
 	}
 
-	void OpenAL::DestroyBuffers(int nbBuffers, unsigned int* buffers)
+	void OpenAL::DestroyBuffers(int nbBuffers, uint* buffers)
 	{
 		alDeleteBuffers(nbBuffers, buffers);
 	}
@@ -128,11 +128,11 @@ namespace Audio
 		alListenerfv(AL_ORIENTATION, orientation);
 	}
 
-	unsigned int OpenAL::CreateSource(Point3D<> position, Vector3D<> velocity,
+	uint OpenAL::CreateSource(Point3D<> position, Vector3D<> velocity,
 		Vector3D<> direction, float pitch, float gain, bool attenuate, bool loop)
 	{
 		alGetError();
-		unsigned int source;
+		uint source;
 		alGenSources(1, &source);
 		if (alGetError() != AL_NO_ERROR)
 			return 0;
@@ -156,7 +156,7 @@ namespace Audio
 		return source;
 	}
 
-	void OpenAL::DestroySource(unsigned int source)
+	void OpenAL::DestroySource(uint source)
 	{
 		alDeleteSources(1, &source);
 	}
@@ -175,14 +175,14 @@ namespace Audio
 		return AL_NO_ERROR == alGetError();
 	}
 
-	bool OpenAL::StopSource(unsigned int source)
+	bool OpenAL::StopSource(uint source)
 	{
 		alGetError();
 		alSourceStop(source);
 		return AL_NO_ERROR == alGetError();
 	}
 
-	bool OpenAL::IsSourcePlaying(unsigned int source)
+	bool OpenAL::IsSourcePlaying(uint source)
 	{
 		alGetError();
 		ALint state;
@@ -190,14 +190,14 @@ namespace Audio
 		return AL_NO_ERROR == alGetError() && AL_PLAYING == state;
 	}
 
-	bool OpenAL::IsSourcePaused(unsigned int source)
+	bool OpenAL::IsSourcePaused(uint source)
 	{
 		ALint state;
 		alGetSourcei(source, AL_SOURCE_STATE, &state);
 		return AL_NO_ERROR == alGetError() && AL_PAUSED == state;
 	}
 
-	bool OpenAL::ModifySource(unsigned int source, float pitch, float gain,
+	bool OpenAL::ModifySource(uint source, float pitch, float gain,
 		bool attenuate, bool loop)
 	{
 		alGetError();
@@ -208,7 +208,7 @@ namespace Audio
 		return alGetError() == AL_NO_ERROR;
 	}
 
-	bool OpenAL::MoveSource(unsigned int source, const Point3D<>& position,
+	bool OpenAL::MoveSource(uint source, const Point3D<>& position,
 		const Vector3D<>& velocity, const Vector3D<>& direction)
 	{
 		// Uncomment this if you want the position / velocity / cone /
@@ -225,33 +225,33 @@ namespace Audio
 		return alGetError() == AL_NO_ERROR;
 	}
 
-	bool OpenAL::BindBufferToSource(unsigned int buffer, unsigned int source)
+	bool OpenAL::BindBufferToSource(uint buffer, uint source)
 	{
 		alGetError();
 		alSourcei(source, AL_BUFFER, (int)buffer);
 		return alGetError() == AL_NO_ERROR;
 	}
 
-	void OpenAL::UnbindBufferFromSource(unsigned int source)
+	void OpenAL::UnbindBufferFromSource(uint source)
 	{
 		alSourcei(source, AL_BUFFER, 0);
 	}
 
-	bool OpenAL::QueueBufferToSource(unsigned int buffer, unsigned int source)
+	bool OpenAL::QueueBufferToSource(uint buffer, uint source)
 	{
 		alGetError();
 		alSourceQueueBuffers(source, 1, &buffer);
 		return alGetError() == AL_NO_ERROR;
 	}
 
-	unsigned int OpenAL::UnqueueBufferFromSource(unsigned int source)
+	uint OpenAL::UnqueueBufferFromSource(uint source)
 	{
-		unsigned int buf;
+		uint buf;
 		alSourceUnqueueBuffers(source, 1, &buf);
 		return buf;
 	}
 
-	float OpenAL::SourcePlaybackPosition(unsigned int source)
+	float OpenAL::SourcePlaybackPosition(uint source)
 	{
 		float pos = 0;
 		alGetSourcef(source, AL_SEC_OFFSET, &pos);
@@ -259,18 +259,21 @@ namespace Audio
 		return pos / 60.0f; // Normalize the time
 	}
 
-	void OpenAL::SetSourcePlaybackPosition(unsigned int source, float position)
+	void OpenAL::SetSourcePlaybackPosition(uint source, float position)
 	{
 		alSourcef(source, AL_SEC_OFFSET, position * 60.0f);
 	}
 
 
-	bool OpenAL::SetBufferData(unsigned int buffer, int format, void* data, size_t count, int rate)
+	bool OpenAL::SetBufferData(uint buffer, int format, void* data, size_t count, int rate)
 	{
 		alGetError();
- 		alBufferData(buffer, format, data, static_cast<ALsizei>(count), rate);
+		alBufferData(buffer, format, data, static_cast<ALsizei>(count), rate);
 		return alGetError() == AL_NO_ERROR;
 	}
+
+
+
 
 
 } // namespace Audio

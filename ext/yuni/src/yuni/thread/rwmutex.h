@@ -14,7 +14,7 @@ namespace Yuni
 	**
 	** \ingroup Threads
 	*/
-	class YUNI_DECL RWMutex
+	class YUNI_DECL RWMutex final
 	{
 	public:
 		/*!
@@ -104,7 +104,7 @@ namespace Yuni
 	/*!
 	** \brief Locks a mutex for read access in the constructor and unlocks it in the destructor (RAII).
 	*/
-	class ReadMutexLocker
+	class ReadMutexLocker final
 	{
 	public:
 		//! \name Constructor & Destructor
@@ -129,7 +129,7 @@ namespace Yuni
 	/*!
 	** \brief Locks a mutex for write access in the constructor and unlocks it in the destructor (RAII).
 	*/
-	class WriteMutexLocker
+	class WriteMutexLocker final
 	{
 	public:
 		//! \name Constructor & Destructor

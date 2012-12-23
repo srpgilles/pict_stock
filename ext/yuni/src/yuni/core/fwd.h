@@ -3,7 +3,7 @@
 
 # include <iosfwd> // STL
 # ifndef YUNI_OS_MSVC
-#	include <bits/stringfwd.h>
+//#	include <bits/stringfwd.h>
 # endif
 
 # ifdef None

@@ -2,8 +2,38 @@
 # define __YUNI_CORE_VARIANT_VARIANT_HXX__
 
 
+# define YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(TYPE)  \
+	template<> struct Variant::SupportedType<TYPE> \
+	{ \
+		enum \
+		{ \
+			yes = 1, no = 0 \
+		}; \
+		\
+		typedef TYPE OperatorType; \
+	};
+
+
 namespace Yuni
 {
+
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(char*);
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(const char*);
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(char);
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(bool);
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(String);
+
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(float);
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(double);
+
+
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(sint32);
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(sint64);
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(uint32);
+	YUNI_VARIANT_DEFINE_SUPPORTED_TYPE(uint64);
+
+
+
 
 	template<class T>
 	inline Variant Variant::New<T>::Instance()
@@ -41,14 +71,94 @@ namespace Yuni
 
 
 
+	inline Variant::Variant() :
+		pShareContent(false)
+	{}
 
 
-	template<class T>
-	inline Variant::Variant(const T& rhs) :
+	inline Variant::Variant(const NullPtr&) :
+		pShareContent(false)
+	{}
+
+
+	inline Variant::Variant(const Variant& rhs) :
 		pShareContent(false)
 	{
 		assign(rhs);
 	}
+
+
+	template<uint ChunkT, bool ExpT>
+	inline Variant::Variant(const CString<ChunkT, ExpT>& rhs) :
+		pShareContent(false)
+	{
+		assign(rhs);
+	}
+
+
+	inline Variant::Variant(const char* rhs) :
+		pShareContent(false)
+	{
+		assign(rhs);
+	}
+
+
+	inline Variant::Variant(bool rhs) :
+		pShareContent(false)
+	{
+		assign(rhs);
+	}
+
+
+	inline Variant::Variant(char rhs) :
+		pShareContent(false)
+	{
+		assign(rhs);
+	}
+
+
+
+	inline Variant::Variant(sint32 rhs) :
+		pShareContent(false)
+	{
+		assign(rhs);
+	}
+
+
+	inline Variant::Variant(sint64 rhs) :
+		pShareContent(false)
+	{
+		assign(rhs);
+	}
+
+
+	inline Variant::Variant(uint32 rhs) :
+		pShareContent(false)
+	{
+		assign(rhs);
+	}
+
+
+	inline Variant::Variant(uint64 rhs) :
+		pShareContent(false)
+	{
+		assign(rhs);
+	}
+
+
+	inline Variant::Variant(float rhs) :
+		pShareContent(false)
+	{
+		assign(rhs);
+	}
+
+
+	inline Variant::Variant(double rhs) :
+		pShareContent(false)
+	{
+		assign(rhs);
+	}
+
 
 
 	inline void Variant::assign(const char* rhs)
@@ -141,13 +251,18 @@ namespace Yuni
 
 	inline bool Variant::empty() const
 	{
-		return !pData;
+		return not pData;
 	}
 
 
 	inline bool Variant::isnil() const
 	{
-		return !pData;
+		return not pData;
+	}
+
+	inline bool Variant::operator ! () const
+	{
+		return isnil();
 	}
 
 
@@ -213,6 +328,19 @@ namespace Yuni
 	}
 
 
+	template<class U>
+	inline bool Variant::operator == (const U& rhs) const
+	{
+		return !pData ? false : pData->isEquals(rhs);
+	}
+
+	template<class U>
+	inline bool Variant::operator != (const U& rhs) const
+	{
+		return not this->operator == (rhs);
+	}
+
+
 	inline void Variant::shareContentFrom(const NullPtr&)
 	{
 		pShareContent = false;
@@ -223,12 +351,13 @@ namespace Yuni
 	inline void Variant::deepCopyIfNonUnique()
 	{
 		// pValue must not null
-		if (/*!(!pValue) &&*/ !pShareContent && !pData->unique())
+		if (/*!(!pValue) &&*/ not pShareContent && not pData->unique())
 		{
 			Private::Variant::IDataHolder* pointer = Private::Variant::IDataHolder::Ptr::WeakPointer(pData);
 			pData = pointer->clone();
 		}
 	}
+
 
 
 
@@ -259,61 +388,62 @@ inline Yuni::Variant operator / (const Yuni::Variant& lhs, const Yuni::Variant& 
 }
 
 
-# define YUNI_VARIANT_OPERATOR(TYPE) \
-	/*inline Yuni::Variant operator + (TYPE lhs, const Yuni::Variant& rhs) \
-	{ \
-		Yuni::Variant a(lhs); \
-		a += rhs; \
-		return a; \
-	} \
-	inline Yuni::Variant operator - (TYPE lhs, const Yuni::Variant& rhs) \
-	{ \
-		Yuni::Variant a(lhs); \
-		a -= rhs; \
-		return a; \
-	} \
-	inline Yuni::Variant operator * (TYPE lhs, const Yuni::Variant& rhs) \
-	{ \
-		Yuni::Variant a(lhs); \
-		a *= rhs; \
-		return a; \
-	} \
-	inline Yuni::Variant operator / (TYPE lhs, const Yuni::Variant& rhs) \
-	{ \
-		Yuni::Variant a(lhs); \
-		a /= rhs; \
-		return a; \
-	} */ \
-	\
-	\
-	inline Yuni::Variant operator + (const Yuni::Variant& lhs, TYPE rhs) \
-	{ \
-		return Yuni::Variant(lhs) += rhs; \
-	} \
-	inline Yuni::Variant operator - (const Yuni::Variant& lhs, TYPE rhs) \
-	{ \
-		return Yuni::Variant(lhs) -= rhs; \
-	} \
-	inline Yuni::Variant operator * (const Yuni::Variant& lhs, TYPE rhs) \
-	{ \
-		return Yuni::Variant(lhs) *= rhs; \
-	} \
-	inline Yuni::Variant operator / (const Yuni::Variant& lhs, TYPE rhs) \
-	{ \
-		return Yuni::Variant(lhs) /= rhs; \
-	}
+# define YUNI_VARIANT_OPERATOR_TYPE \
+	const \
+	typename Yuni::Static::Remove::Volatile< \
+		typename Yuni::Static::Remove::Const< \
+			typename Yuni::Static::Remove::RefOnly<T>::Type >::Type>::Type \
+	&  \
 
 
-YUNI_VARIANT_OPERATOR(Yuni::uint32)
-YUNI_VARIANT_OPERATOR(Yuni::sint32)
-YUNI_VARIANT_OPERATOR(Yuni::uint64)
-YUNI_VARIANT_OPERATOR(Yuni::sint64)
-YUNI_VARIANT_OPERATOR(char)
-YUNI_VARIANT_OPERATOR(bool)
-YUNI_VARIANT_OPERATOR(double)
-YUNI_VARIANT_OPERATOR(const Yuni::String&)
+template<class T>
+inline Yuni::Variant operator + (const Yuni::Variant& lhs, YUNI_VARIANT_OPERATOR_TYPE rhs)
+{
+	return (Yuni::Variant(lhs) += rhs);
+}
 
-#undef YUNI_VARIANT_OPERATOR
+template<class T>
+inline Yuni::Variant operator + (YUNI_VARIANT_OPERATOR_TYPE lhs, const Yuni::Variant& rhs)
+{
+	return (Yuni::Variant(lhs) += rhs);
+}
+
+template<class T>
+inline Yuni::Variant operator - (const Yuni::Variant& lhs, YUNI_VARIANT_OPERATOR_TYPE rhs)
+{
+	return (Yuni::Variant(lhs) -= rhs);
+}
+
+template<class T>
+inline Yuni::Variant operator - (YUNI_VARIANT_OPERATOR_TYPE lhs, const Yuni::Variant& rhs)
+{
+	return (Yuni::Variant(lhs) -= rhs);
+}
+
+template<class T>
+inline Yuni::Variant operator * (const Yuni::Variant& lhs, YUNI_VARIANT_OPERATOR_TYPE rhs)
+{
+	return (Yuni::Variant(lhs) *= rhs);
+}
+
+template<class T>
+inline Yuni::Variant operator * (YUNI_VARIANT_OPERATOR_TYPE lhs, const Yuni::Variant& rhs)
+{
+	return (Yuni::Variant(lhs) *= rhs);
+}
+
+template<class T>
+inline Yuni::Variant operator / (const Yuni::Variant& lhs, YUNI_VARIANT_OPERATOR_TYPE rhs)
+{
+	return (Yuni::Variant(lhs) /= rhs);
+}
+
+template<class T>
+inline Yuni::Variant operator / (YUNI_VARIANT_OPERATOR_TYPE lhs, const Yuni::Variant& rhs)
+{
+	return (Yuni::Variant(lhs) /= rhs);
+}
+
 
 
 
@@ -323,5 +453,9 @@ inline std::ostream& operator << (std::ostream& out, const Yuni::Variant& rhs)
 	return out;
 }
 
+
+
+# undef YUNI_VARIANT_OPERATOR_TYPE
+# undef YUNI_VARIANT_DEFINE_SUPPORTED_TYPE
 
 #endif // __YUNI_CORE_VARIANT_VARIANT_HXX__

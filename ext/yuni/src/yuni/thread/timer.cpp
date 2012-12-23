@@ -131,10 +131,10 @@ namespace Thread
 	}
 
 
-	void Timer::interval(uint t)
+	void Timer::interval(uint milliseconds)
 	{
 		pTimerMutex.lock();
-		pTimeInterval = t;
+		pTimeInterval = milliseconds;
 		pTimerMutex.unlock();
 	}
 
@@ -147,20 +147,20 @@ namespace Thread
 	}
 
 
-	void Timer::reload(uint interval)
+	void Timer::reload(uint milliseconds)
 	{
 		pTimerMutex.lock();
-		pTimeInterval = interval;
+		pTimeInterval = milliseconds;
 		pTimerMutex.unlock();
 		pShouldReload = 1;
 	}
 
 
-	void Timer::reload(uint interval, uint cycles)
+	void Timer::reload(uint milliseconds, uint cycles)
 	{
 		pTimerMutex.lock();
-		pTimeInterval = interval;
-		pCycleCount = cycles;
+		pTimeInterval = milliseconds;
+		pCycleCount   = cycles;
 		pTimerMutex.unlock();
 		pShouldReload = 1;
 	}

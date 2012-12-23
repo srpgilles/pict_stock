@@ -229,48 +229,48 @@ namespace BindImpl
 	** \brief
 	*/
 	template<class R<%=generator.templateParameterList(i) %>>
-	class BoundWithFunction<R (<%=generator.list(i)%>)>
-		:public IPointer<R (<%=generator.list(i)%>)>
+	class BoundWithFunction<R (<%=generator.list(i)%>)> final :
+		public IPointer<R (<%=generator.list(i)%>)>
 	{
 	public:
 		//! Destructor
 		virtual ~BoundWithFunction() {}
 
-		BoundWithFunction(R(*pointer)(<%=generator.list(i)%>))
-			:pPointer(pointer)
+		BoundWithFunction(R(*pointer)(<%=generator.list(i)%>)) :
+			pPointer(pointer)
 		{}
 
-		virtual R invoke(<%=generator.variableList(i)%>) const
+		virtual R invoke(<%=generator.variableList(i)%>) const override
 		{
 			return (*pPointer)(<%=generator.list(i, 'a')%>);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(<%=generator.list(i)%>)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(<%=generator.list(i)%>)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -293,45 +293,45 @@ namespace BindImpl
 
 <% (1..generator.argumentCount).each do |i| %>
 	template<class U, class R<%=generator.templateParameterList(i) %>>
-	class BoundWithFunctionAndUserData<U, R(<%=generator.list(i)%>)>
+	class BoundWithFunctionAndUserData<U, R(<%=generator.list(i)%>)> final
 		:public IPointer<R (<%=generator.list(i - 1)%>)>
 	{
 	public:
-		BoundWithFunctionAndUserData(R(*pointer)(<%=generator.list(i)%>), U userdata)
-			:pPointer(pointer), pUserdata(userdata)
+		BoundWithFunctionAndUserData(R(*pointer)(<%=generator.list(i)%>), U userdata) :
+			pPointer(pointer), pUserdata(userdata)
 		{}
 
-		virtual R invoke(<%=generator.variableList(i-1)%>) const
+		virtual R invoke(<%=generator.variableList(i-1)%>) const override
 		{
 			return (*pPointer)(<%=generator.list(i-1, 'a', "", ", ")%>*const_cast<UserDataTypeByCopy*>(&pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return NULL;
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return NULL;
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase*) const
+		virtual bool isDescendantOf(const IEventObserverBase*) const override
 		{
 			return false;
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*pointer)(<%=generator.list(i-1)%>)) const
+		virtual bool compareWithPointerToFunction(R (*pointer)(<%=generator.list(i-1)%>)) const override
 		{
 			return ((void*)pPointer == (void*)pointer);
 		}
 
-		virtual bool compareWithPointerToObject(const void*) const
+		virtual bool compareWithPointerToObject(const void*) const override
 		{
 			return false;
 		}
@@ -360,49 +360,50 @@ namespace BindImpl
 
 <% (0..generator.argumentCount-1).each do |i| %>
 	template<class C, class R<%=generator.templateParameterList(i) %>>
-	class BoundWithMember<C, R(<%=generator.list(i)%>)>
+	class BoundWithMember<C, R(<%=generator.list(i)%>)> final
 		:public IPointer<R(<%=generator.list(i)%>)>
 	{
 	public:
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithMember(C* c, R(C::*member)(<%=generator.list(i)%>))
-			:pThis(c), pMember(member)
+		BoundWithMember(C* c, R(C::*member)(<%=generator.list(i)%>)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(<%=generator.variableList(i)%>) const
+		virtual R invoke(<%=generator.variableList(i)%>) const override
 		{
 			return (pThis->*pMember)(<%=generator.list(i, 'a')%>);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(<%=generator.list(i)%>)) const
+		virtual bool compareWithPointerToFunction(R (*)(<%=generator.list(i)%>)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -429,49 +430,51 @@ namespace BindImpl
 
 <% (1..generator.argumentCount).each do |i| %>
 	template<class U, class C, class R<%=generator.templateParameterList(i) %>>
-	class BoundWithMemberAndUserData<U, C, R(<%=generator.list(i)%>)>
+	class BoundWithMemberAndUserData<U, C, R(<%=generator.list(i)%>)> final
 		:public IPointer<R(<%=generator.list(i-1)%>)>
 	{
 	public:
 		typedef typename Static::Remove::RefOnly<A<%=i-1%>>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithMemberAndUserData(C* c, R(C::*member)(<%=generator.list(i)%>), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithMemberAndUserData(C* c, R(C::*member)(<%=generator.list(i)%>), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(<%=generator.variableList(i-1)%>) const
+		virtual R invoke(<%=generator.variableList(i-1)%>) const override
 		{
 			return (pThis->*pMember)(<%=generator.list(i-1, 'a', "", ", ")%>const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis);
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis);
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis);
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(<%=generator.list(i-1)%>)) const
+		virtual bool compareWithPointerToFunction(R (*)(<%=generator.list(i-1)%>)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis);
 		}
@@ -493,7 +496,7 @@ namespace BindImpl
 
 <% (0..generator.argumentCount-1).each do |i| %>
 	template<class PtrT, class R<%=generator.templateParameterList(i) %>>
-	class BoundWithSmartPtrMember<PtrT, R(<%=generator.list(i)%>)>
+	class BoundWithSmartPtrMember<PtrT, R(<%=generator.list(i)%>)> final
 		:public IPointer<R(<%=generator.list(i)%>)>
 	{
 	public:
@@ -503,42 +506,43 @@ namespace BindImpl
 		//! \name Constructor
 		//@{
 		//! Constructor
-		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(<%=generator.list(i)%>))
-			:pThis(c), pMember(member)
+		BoundWithSmartPtrMember(const PtrT& c, R(C::*member)(<%=generator.list(i)%>)) :
+			pThis(c),
+			pMember(member)
 		{}
 		//@}
 
-		virtual R invoke(<%=generator.variableList(i)%>) const
+		virtual R invoke(<%=generator.variableList(i)%>) const override
 		{
 			return ((pThis.pointer())->*pMember)(<%=generator.list(i, 'a')%>);
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
-		virtual bool compareWithPointerToFunction(R (*)(<%=generator.list(i)%>)) const
+		virtual bool compareWithPointerToFunction(R (*)(<%=generator.list(i)%>)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -565,7 +569,7 @@ namespace BindImpl
 
 <% (1..generator.argumentCount).each do |i| %>
 	template<class U, class PtrT, class R<%=generator.templateParameterList(i) %>>
-	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(<%=generator.list(i)%>)>
+	class BoundWithSmartPtrMemberAndUserData<U, PtrT, R(<%=generator.list(i)%>)> final
 		:public IPointer<R(<%=generator.list(i-1)%>)>
 	{
 	public:
@@ -573,42 +577,44 @@ namespace BindImpl
 		typedef typename Static::Remove::RefOnly<A<%=i-1%>>::Type UserDataTypeByCopy;
 
 	public:
-		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(<%=generator.list(i)%>), U userdata)
-			:pThis(c), pMember(member), pUserdata(userdata)
+		BoundWithSmartPtrMemberAndUserData(const PtrT& c, R(C::*member)(<%=generator.list(i)%>), U userdata) :
+			pThis(c),
+			pMember(member),
+			pUserdata(userdata)
 		{}
 
-		virtual R invoke(<%=generator.variableList(i-1)%>) const
+		virtual R invoke(<%=generator.variableList(i-1)%>) const override
 		{
 			return ((pThis.pointer())->*pMember)(<%=generator.list(i-1, 'a', "", ", ")%>const_cast<UserDataTypeByCopy&>(pUserdata));
 		}
 
-		virtual const void* object() const
+		virtual const void* object() const override
 		{
 			return reinterpret_cast<void*>(pThis.pointer());
 		}
 
-		virtual const IEventObserverBase* observerBaseObject() const
+		virtual const IEventObserverBase* observerBaseObject() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::PerformConst(pThis.pointer());
 		}
 
-		virtual bool isDescendantOf(const IEventObserverBase* obj) const
+		virtual bool isDescendantOf(const IEventObserverBase* obj) const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Equals(obj, pThis.pointer());
 		}
 
-		virtual bool isDescendantOfIEventObserverBase() const
+		virtual bool isDescendantOfIEventObserverBase() const override
 		{
 			return Static::DynamicCastWhenInherits<C,IEventObserverBase>::Yes;
 		}
 
 
-		virtual bool compareWithPointerToFunction(R (*)(<%=generator.list(i-1)%>)) const
+		virtual bool compareWithPointerToFunction(R (*)(<%=generator.list(i-1)%>)) const override
 		{
 			return false;
 		}
 
-		virtual bool compareWithPointerToObject(const void* object) const
+		virtual bool compareWithPointerToObject(const void* object) const override
 		{
 			return (reinterpret_cast<const C*>(object) == pThis.pointer());
 		}
@@ -634,6 +640,5 @@ namespace BindImpl
 } // namespace BindImpl
 } // namespace Private
 } // namespace Yuni
-
 
 #endif // __YUNI_CORE_BIND_TRAITS_H__

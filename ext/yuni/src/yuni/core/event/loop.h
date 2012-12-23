@@ -195,7 +195,7 @@ namespace EventLoop
 
 	private:
 		//! The number of events that wait to be triggered from the inner thread
-		Atomic::Int<> pHasRequests;
+		Atomic::Int<32> pHasRequests;
 		//! List of incoming request
 		RequestListType* pRequests;
 		//! True if the event loop is running

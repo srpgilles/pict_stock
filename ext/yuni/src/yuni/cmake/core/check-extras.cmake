@@ -11,4 +11,11 @@ if (NOT MSVC)
 endif()
 
 
-
+# posix_fallocate - Linux only
+if (UNIX)
+	check_c_source_compiles("
+		#include <fcntl.h>
+		int main() {
+			return (0 != posix_fallocate(42, 0, 1024)) ? EXIT_FAILURE : 0;
+		} " YUNI_HAS_POSIX_FALLOCATE)
+endif()

@@ -26,8 +26,8 @@ namespace Net
 		errInvalidHostAddress,
 		//! The given address already exists in the list
 		errDupplicatedAddress,
-		//! The message is over the dynamic value `messageMaxSize`
-		errMessageMaxSize,
+		//! No transport layer
+		errNoTransport,
 		//! Invalid transport layer
 		errInvalidTransport,
 		//! The maximum number of errors

@@ -103,7 +103,7 @@ namespace Iterator
 		Options options;
 
 	protected:
-		virtual bool onExecute()
+		virtual bool onExecute() override
 		{
 			Traverse(options, this);
 			return false;

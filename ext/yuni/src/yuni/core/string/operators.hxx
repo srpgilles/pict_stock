@@ -222,4 +222,23 @@ operator != (const std::basic_string<char,TraitsT,AllocT>& lhs, const Yuni::CStr
 //@}
 
 
+
+
+# ifdef YUNI_HAS_STL_HASH
+
+namespace std
+{
+	template<uint SizeT, bool ExpT>
+	struct YUNI_DECL hash<Yuni::CString<SizeT, ExpT> >
+	{
+		size_t operator() (const Yuni::CString<SizeT, ExpT>& string) const
+		{
+			return string.hash();
+		}
+	};
+
+} // namespace std
+
+# endif // YUNI_HAS_STL_HASH
+
 #endif // __YUNI_CORE_STRING_OPERATORS_H__

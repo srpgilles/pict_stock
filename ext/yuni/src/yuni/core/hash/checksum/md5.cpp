@@ -413,7 +413,7 @@ namespace Checksum
 			md5ImplInit(&state);
 
 			char buffer[1024];
-			size_t len = 0u;
+			uint64 len = 0u;
 
 			while (0 != (len = stream.read((char*)buffer, 1024u)))
 				md5ImplAppend(&state, reinterpret_cast<const MD5TypeByte*>(buffer), static_cast<uint>(len));

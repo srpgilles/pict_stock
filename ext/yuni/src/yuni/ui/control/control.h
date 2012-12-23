@@ -114,7 +114,7 @@ namespace UI
 		bool hasParent() const;
 
 		//! Depth in the UI tree, 0 if root.
-		unsigned int depth() const;
+		uint depth() const;
 
 		//! Catch the focus
 		virtual void focus() {}
@@ -164,7 +164,7 @@ namespace UI
 		IControl::Map pChildren;
 
 		//! Depth in the UI tree : 0 if no parent, parent level + 1 otherwise
-		unsigned int pDepth;
+		uint pDepth;
 
 	}; // class IControl
 

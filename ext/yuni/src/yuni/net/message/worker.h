@@ -21,7 +21,7 @@ namespace Message
 	/*!
 	** \brief Worker for Net queue service
 	*/
-	class Worker : public Yuni::Thread::IThread
+	class Worker final : public Yuni::Thread::IThread
 	{
 	public:
 		//! The most suitable smart pointer
@@ -44,9 +44,9 @@ namespace Message
 
 	protected:
 		//! Thread execution
-		virtual bool onExecute();
+		virtual bool onExecute() override;
 
-	private:
+	protected:
 		//! The transport layer
 		ITransport::Ptr pTransport;
 		//! Pointer to the queue service

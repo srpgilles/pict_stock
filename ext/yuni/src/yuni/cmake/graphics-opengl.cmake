@@ -15,6 +15,7 @@ endif (WIN32 OR WIN64)
 
 
 add_definitions("-DGLEW_STATIC")
+LIBYUNI_CONFIG_CFLAG("both" "opengl" "-DGLEW_STATIC")
 
 #
 # OpenGL

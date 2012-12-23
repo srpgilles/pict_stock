@@ -25,36 +25,35 @@ namespace Audio
 			AVPacket packet;
 			while (av_read_frame(file->FormatContext, &packet) >= 0)
 			{
-				AudioStream** iter = file->Streams;
 				// Check each stream the user has a handle for, looking for the one
 				// this packet belongs to
-				for (size_t i = 0; i < file->StreamsSize; ++i, ++iter)
+				for (AudioStream* stream : file->Streams)
 				{
-					if ((*iter)->StreamIdx != packet.stream_index)
+					if (stream->StreamIdx != packet.stream_index)
 						continue;
 
-					size_t idx = (*iter)->DataSize;
+					size_t idx = stream->DataSize;
 
 					// Found the stream. Grow the input data buffer as needed to
 					// hold the new packet's data. Additionally, some ffmpeg codecs
 					// need some padding so they don't overread the allocated
 					// buffer
-					if (idx + packet.size > (*iter)->DataSizeMax)
+					if (idx + packet.size > stream->DataSizeMax)
 					{
-						char* temp = (char*)realloc((*iter)->Data, idx + packet.size +
+						char* temp = (char*)realloc(stream->Data, idx + packet.size +
 							FF_INPUT_BUFFER_PADDING_SIZE);
 						if (!temp)
 							break;
-						(*iter)->Data = temp;
-						(*iter)->DataSizeMax = idx + packet.size;
+						stream->Data = temp;
+						stream->DataSizeMax = idx + packet.size;
 					}
 
 					// Copy the packet and free it
-					YUNI_MEMCPY(&(*iter)->Data[idx], packet.size, packet.data, packet.size);
-					(*iter)->DataSize += packet.size;
+					YUNI_MEMCPY(&stream->Data[idx], packet.size, packet.data, packet.size);
+					stream->DataSize += packet.size;
 
 					// Return if this stream is what we needed a packet for
-					if (streamidx == (*iter)->StreamIdx)
+					if (streamidx == stream->StreamIdx)
 					{
 						av_free_packet(&packet);
 						return;
@@ -88,7 +87,7 @@ namespace Audio
 		if (filename.empty())
 			return nullptr;
 
-		AudioFile* file = (AudioFile*) calloc(1, sizeof(AudioFile));
+		AudioFile* file = (AudioFile*)calloc(1, sizeof(AudioFile));
 		if (!file)
 			return nullptr;
 
@@ -125,14 +124,13 @@ namespace Audio
 		if (!file)
 			return;
 
-		for (size_t i = 0; i < file->StreamsSize; ++i)
+		uint size = file->StreamsSize;
+		for (uint i = 0; i < size; ++i)
 		{
 			avcodec_close(file->Streams[i]->CodecContext);
 			free(file->Streams[i]->Data);
 			free(file->Streams[i]->DecodedData);
-			free(file->Streams[i]);
 		}
-		free(file->Streams);
 
 		# if LIBAVFORMAT_VERSION_MAJOR < 53
 		av_close_input_file(file->FormatContext);
@@ -212,20 +210,9 @@ namespace Audio
 				return NULL;
 			}
 
-			// Append the new stream object to the stream list. The original
-			// pointer will remain valid if realloc fails, so we need to use
-			// another pointer to watch for errors and not leak memory
-			AudioStream** temp = (AudioStream**)realloc(file->Streams,
-				(file->StreamsSize + 1) * sizeof(AudioStream*));
-			if (!temp)
-			{
-				avcodec_close(stream->CodecContext);
-				free(stream->DecodedData);
-				free(stream);
-				return NULL;
-			}
-			file->Streams = temp;
-			file->Streams[file->StreamsSize++] = stream;
+			// Append the new stream object to the stream list.
+			file->StreamsSize++;
+			file->Streams.push_back(stream);
 			return stream;
 		}
 		return NULL;

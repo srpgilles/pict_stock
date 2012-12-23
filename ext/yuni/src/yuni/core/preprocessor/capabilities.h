@@ -97,7 +97,7 @@
 # define YUNI_OS_FLAG_MACOS    0
 
 
-# if defined(__TOS_WIN__) || defined(__WIN32__) || defined(_WIN64) || defined(_WIN32)
+# if defined(__TOS_WIN__) || defined(__WIN32__) || defined(_WIN64) || defined(_WIN32) || defined(YUNI_OS_WINDOWS)
 #	include "windows.h"
 # else
 #	include "unixes.h"
@@ -150,7 +150,7 @@
 
 /* 32/64 Bits modes */
 # if !defined(YUNI_OS_32) && !defined(YUNI_OS_64)
-#	if defined(__IA64__) || defined(_IA64) || defined(__amd64__) || defined(__x86_64__) || defined(_M_IA64) || defined(_WIN64)
+#	if defined(__IA64__) || defined(_IA64) || defined(__amd64__) || defined(__x86_64__) || defined(_M_IA64) || defined(_WIN64) || defined(__MINGW64__)
 #		 define YUNI_OS_64
 #	else
 #		 define YUNI_OS_32
@@ -166,22 +166,32 @@
 ** \brief Force inline
 **
 ** \code
-** YNATTR_ALWAYS_INLINE static void max(int x, int y)
+** YUNI_ALWAYS_INLINE static void max(int x, int y)
 ** {
 **	return x > y ? x : y;
 ** }
 ** \endcode
 */
-# ifdef YNATTR_OS_GCC
-#	define YNATTR_ALWAYS_INLINE  __attribute__((always_inline))
-# else
-#	ifdef YUNI_OS_MSVC
-#		define YNATTR_ALWAYS_INLINE  __forceinline
-# 	endif
+# if !defined(YUNI_ALWAYS_INLINE) && defined(YUNI_HAS_GCC_ALWAYS_INLINE)
+#	define YUNI_ALWAYS_INLINE  __attribute__((always_inline))
 # endif
-# ifndef YNATTR_ALWAYS_INLINE
-#	define YNATTR_ALWAYS_INLINE
+# if !defined(YUNI_ALWAYS_INLINE) && defined(YUNI_HAS_MSVC_FORCE_INLINE)
+#	define YUNI_ALWAYS_INLINE  __forceinline
 # endif
+# if !defined(YUNI_ALWAYS_INLINE)
+#	define YUNI_ALWAYS_INLINE
+# endif
+
+
+# ifndef YUNI_HAS_CPP_KEYWORD_OVERRIDE
+#	define override
+# endif
+
+# ifndef YUNI_HAS_CPP_KEYWORD_FINAL
+#	define final
+# endif
+
+
 
 
 /*!
@@ -393,13 +403,13 @@ namespace System
 } /* namespace Yuni */
 
 
-# ifndef YUNI_HAS_CONSTEXPR
+//# ifndef YUNI_HAS_CONSTEXPR
 // There are some issues with Visual Studio 11
 // The feature is disabled, waiting for a valid fix
-#	ifndef constexpr
+//#	ifndef constexpr
 //#		define constexpr  /* does nothing, but compiles */
-#	endif
-# endif
+//#	endif
+//# endif
 
 # endif
 

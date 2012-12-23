@@ -74,7 +74,7 @@ namespace File
 	**   routines 'fopen', 'fclose'... The implementation is a bit different on Windows
 	**   because 'fopen' only handles ansi filenames.
 	*/
-	class Stream
+	class Stream final
 	{
 	public:
 		//! The native handle type
@@ -253,7 +253,7 @@ namespace File
 		** \return The number of bytes that have been read
 		*/
 		template<uint CSizeT, bool ExpT>
-		uint read(CString<CSizeT,ExpT>&  buffer, uint size);
+		uint64 read(CString<CSizeT,ExpT>&  buffer, uint64 size);
 
 		/*!
 		** \brief Read a buffer
@@ -262,7 +262,7 @@ namespace File
 		** \param size Size (in bytes) of the data to read (and size of the buffer)
 		** \return The number of bytes that have been read
 		*/
-		uint read(char* buffer, uint size);
+		uint64 read(char* buffer, uint64 size);
 
 		/*!
 		** \brief Read data into a string buffer
@@ -275,7 +275,7 @@ namespace File
 		** \return The number of bytes that have been read
 		*/
 		template<uint CSizeT, bool ExpT>
-		uint chunckRead(CString<CSizeT,ExpT>&  buffer);
+		uint64 chunkRead(CString<CSizeT,ExpT>&  buffer);
 		//@}
 
 
@@ -293,7 +293,7 @@ namespace File
 		** \param size Size of the buffer to write
 		** \return The number of bytes that have been written
 		*/
-		uint write(const char* buffer, uint size);
+		uint64 write(const char* buffer, uint64 size);
 
 		/*!
 		** \brief Write any arbitrary buffer
@@ -301,7 +301,7 @@ namespace File
 		** \param buffer An arbitrary buffer (const char*, String, CString)
 		** \return The number of bytes that have been written
 		*/
-		template<class U> uint write(const U& buffer);
+		template<class U> uint64 write(const U& buffer);
 
 		/*!
 		** \brief Write any arbitrary buffer
@@ -310,7 +310,7 @@ namespace File
 		** \param size Size of the buffer to write
 		** \return The number of bytes that have been written
 		*/
-		template<class U> uint write(const U& buffer, uint size);
+		template<class U> uint64 write(const U& buffer, uint64 size);
 		//@}
 
 
@@ -337,6 +337,24 @@ namespace File
 		** \warning The implementation is missing on Windows (#346)
 		*/
 		void unlock();
+		//@}
+
+
+		//! \name Truncating
+		//@{
+		/*!
+		** \brief Truncate or extend the opened file
+		**
+		** The operation does not guarantee that the data can be really allocated
+		** on disk (depending the platform), and some extra code is required to make
+		** sure of it.
+		** Using `ensureAllocation = true` is the best way for allocating big files.
+		**
+		** \param size The new size of the file
+		** \param allocate True to make sure that the data are really allocated
+		** \return True if the file has been resized
+		*/
+		bool truncate(uint64 size, bool ensureAllocation = false);
 		//@}
 
 

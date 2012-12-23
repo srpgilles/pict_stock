@@ -19,7 +19,6 @@ namespace Device
 namespace Display
 {
 
-
 	/*!
 	** \brief Informations about all available display
 	**
@@ -27,19 +26,19 @@ namespace Display
 	** \code
 	** int main()
 	** {
-	** 	typedef Device::Display::List MonitorIterator;
-	** 	Device::Display::List monitors;
-	** 	monitors.refresh();
-	** 	for (MonitorIterator i = monitors.begin(); i != monitors.end(); ++i)
-	** 	{
-	** 		std::cout << " * Monitor : " << (*i)->name() << std::endl;
-	** 		// All resolutions for this monitor
+	**	typedef Device::Display::List MonitorIterator;
+	**	Device::Display::List monitors;
+	**	monitors.refresh();
+	**	for (MonitorIterator i = monitors.begin(); i != monitors.end(); ++i)
+	**	{
+	**		std::cout << " * Monitor : " << (*i)->name() << std::endl;
+	**		// All resolutions for this monitor
 	**		for (Display::Resolution::Vector::iterator r = (*i)->resolutions().begin();
 	**			r != (*i)->resolutions().end(); ++r)
 	**		{
 	**			std::cout << "    . " << *r << std::endl;
 	**		}
-	** 	}
+	**	}
 	** }
 	** \endcode
 	** \warning This class is not thread-safe

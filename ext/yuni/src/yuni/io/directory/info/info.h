@@ -134,7 +134,7 @@ namespace Directory
 		** \return True if the operation succeeded, false otherwise
 		** \see Yuni::IO::Directory::Create()
 		*/
-		bool create(unsigned int mode = 0755) const;
+		bool create(uint mode = 0755) const;
 
 		/*!
 		** \brief Remove the directory and all its content
@@ -156,7 +156,7 @@ namespace Directory
 		** \return True if the operation succeeded False otherwise
 		** \see Yuni::IO::Directory::Copy()
 		*/
-		template<class StringT> bool copy(const StringT& destination) const;
+		bool copy(const AnyString& destination) const;
 
 		/*!
 		** \brief Set as the current directory

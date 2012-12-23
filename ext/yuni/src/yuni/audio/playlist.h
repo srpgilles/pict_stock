@@ -23,7 +23,7 @@ namespace Audio
 		//! The most suitable smart pointer for the class
 		typedef SmartPtr<PlayList> Ptr;
 		//! Size type
-		typedef unsigned int Size;
+		typedef uint Size;
 		//! The Threading Policy
 		typedef Policy::ObjectLevelLockable<ISound> ThreadingPolicy;
 
@@ -57,7 +57,7 @@ namespace Audio
 		//! All the sounds currently in the play list (ordered)
 		ISound::Vector pSoundList;
 		//! Index of the current song being played / next to play
-		unsigned int pCurrentIndex;
+		uint pCurrentIndex;
 		//! Should we loop around the selection?
 		bool pLoop;
 

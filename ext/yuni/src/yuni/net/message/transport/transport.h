@@ -9,7 +9,6 @@
 # include "../../errors.h"
 # include "../../hostaddressport.h"
 # include "../../port.h"
-# include "layer.h"
 # include <set>
 
 
@@ -51,7 +50,7 @@ namespace Transport
 		/*!
 		** \brief Default constructor
 		*/
-		ITransport(Mode m);
+		explicit ITransport(Mode m);
 		//! Destructor
 		virtual ~ITransport();
 		//@}
@@ -69,10 +68,12 @@ namespace Transport
 
 		//! Service
 		//@{
-		//! Execute the transport layer
-		Yuni::Net::Error execute();
-		//! Execute the transport layer
-		Yuni::Net::Error operator () ();
+		//! Start the service
+		virtual Yuni::Net::Error  start() = 0;
+		//! Run the transport layer (must block until finished)
+		virtual Yuni::Net::Error  run() = 0;
+		//! Ask to stop the transport layer (if not already done)
+		virtual void stop() = 0;
 		//@}
 
 	public:
@@ -82,10 +83,6 @@ namespace Transport
 		Port port;
 		//! Mode (server/client)
 		const Mode mode;
-
-	protected:
-		//! Execute the transport layer
-		virtual Yuni::Net::Error  onExecute() = 0;
 
 	protected:
 		//! The attached thread

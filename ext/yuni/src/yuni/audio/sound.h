@@ -40,28 +40,28 @@ namespace Audio
 		Sound(Private::Audio::AudioStream* stream);
 		~Sound();
 
-		bool prepareDispatched(unsigned int source);
+		bool prepareDispatched(uint source);
 
-		bool destroyDispatched(Thread::Signal& signal);
+		bool destroyDispatched(Thread::Signal* signal);
 
-		bool updateDispatched(unsigned int source);
+		bool updateDispatched(uint source);
 
 		void stream(Private::Audio::AudioStream* stream) { pStream = stream; }
 
 		bool valid() { return NULL != pStream; }
 
 		//! Get the duration of the stream, 0 if not set
-		unsigned int duration() const;
+		uint duration() const;
 
 	private:
 		//! The audio stream contains the link to the file and the data
 		Private::Audio::AudioStream* pStream;
 
 		//! Actual number of buffers
-		unsigned int pBufferCount;
+		uint pBufferCount;
 
 		//! Identifiers of the OpenAL buffers used
-		unsigned int pIDs[maxBufferCount];
+		uint pIDs[maxBufferCount];
 
 		//! Buffer for storing raw data
 		CString<bufferSize, false> pData;

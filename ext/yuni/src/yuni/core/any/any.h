@@ -27,7 +27,7 @@ namespace Yuni
 	**   std::cout << v.cast<double>();
 	** \endcode
 	*/
-	class YUNI_DECL Any
+	class YUNI_DECL Any final
 	{
 	public:
 		/*!

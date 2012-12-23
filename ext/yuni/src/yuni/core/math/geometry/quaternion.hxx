@@ -31,8 +31,11 @@ namespace Yuni
 		Quaternion<T> view(0, p.x - origin.x, p.y - origin.y, p.z - origin.z);
 		if (!view.unit())
 			view.normalize();
+		Vector3D<U> axis2(axis);
+		if (!axis2.unit())
+			axis2.normalize();
 		T sinA = Math::Sin(angle / (T)2);
-		Quaternion<T> rot(Math::Cos(angle / (T)2), axis.x * sinA, axis.y * sinA, axis.z * sinA);
+		Quaternion<T> rot(Math::Cos(angle / (T)2), axis2.x * sinA, axis2.y * sinA, axis2.z * sinA);
 		if (!rot.unit())
 			rot.normalize();
 		Vector3D<T> result = ((rot * view) * rot.conjugate()).v;
@@ -48,8 +51,11 @@ namespace Yuni
 		Quaternion<T> view(0, v);
 		if (!view.unit())
 			view.normalize();
+		Vector3D<U> axis2(axis);
+		if (!axis2.unit())
+			axis2.normalize();
 		T sinA = Math::Sin(angle / (T)2);
-		Quaternion<T> rot(Math::Cos(angle / (T)2), axis.x * sinA, axis.y * sinA, axis.z * sinA);
+		Quaternion<T> rot(Math::Cos(angle / (T)2), axis2.x * sinA, axis2.y * sinA, axis2.z * sinA);
 		if (!rot.unit())
 			rot.normalize();
 		return ((rot * view) * rot.conjugate()).v;
@@ -89,7 +95,7 @@ namespace Yuni
 	template<class T>
 	inline Quaternion<T>& Quaternion<T>::clear()
 	{
-		w = T();
+		w = T(1);
 		v.clear();
 		return *this;
 	}
@@ -159,10 +165,14 @@ namespace Yuni
 	template<class U>
 	inline Quaternion<T>& Quaternion<T>::operator *= (const Quaternion<U>& other)
 	{
-		w = static_cast<T>(w * other.w) - Vector3D<T>::DotProduct(v, other.v);
-		Vector3D<T> tmp = Vector3D<T>::CrossProduct(v, other.v);
-		tmp += other.v * w + v * other.w;
-		v = tmp;
+		T newW = other.w * w - other.v.x * v.x - other.v.y * v.y - other.v.z * v.z;
+		T newX = other.v.x * w + other.w * v.x - other.v.z * v.y + other.v.y * v.z;
+		T newY = other.v.y * w + other.v.z * v.x + other.w * v.y - other.v.x * v.z;
+		T newZ = other.v.z * w - other.v.y * v.x + other.v.x * v.y + other.w * v.z;
+		w = newW;
+		v.x = newX;
+		v.y = newY;
+		v.z = newZ;
 		return *this;
 	}
 

@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
 		"UNIQUE (FirstName, LastName) ON CONFLICT ABORT"
 		);
 
-    /*db.createTable("Cameras",
+    db.createTable("Cameras",
 		"Keyword varchar(80),"
 		"Value varchar(80),"
 		"Owner varchar(8),"
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 	{
 		std::vector<YString> fields { "FirstName", "LastName", "Abbreviation" };
 
-		typedef std::tuple<AnyString, AnyString, AnyString> TupleType;
+        typedef std::tuple<YString, YString, YString> TupleType;
 
 		std::vector<TupleType> listValues
 		{
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
 	{
 		std::vector<YString> fields {"Keyword", "Value", "Owner"};
 
-		typedef std::tuple<AnyString, AnyString, AnyString> TupleType;
+        typedef std::tuple<YString, YString, YString> TupleType;
 
 		std::vector<TupleType> listValues
 		{

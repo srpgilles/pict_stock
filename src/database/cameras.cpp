@@ -76,6 +76,8 @@ namespace Database
         enum { indexValue = GenericTools::Tuple::IndexOf<Value, Tuple>::value };
 
 		auto end = pRows.cend();
+
+		# ifndef YUNI_OS_WINDOWS
 		auto it = std::find_if(pRows.cbegin(), end,
 			[&] (const TupleWrappedType& tuple) -> bool
 			{
@@ -90,6 +92,28 @@ namespace Database
 		// We get the abbreviation; let's fetch the complete photographer object
         auto abbreviation =	std::get<GenericTools::Tuple::IndexOf<Owner, Tuple>::value>(*it);
 		identifyPhotographerAbbr(abbreviation, photographer);
+
+		# else // YUNI_OS_WINDOWS
+
+		std::vector<TupleWrappedType>::const_iterator it;
+
+		for (it = pRows.cbegin(); it != end; ++it)
+		{
+			if (std::get<indexKeyword>(*it) == currentKeyword 
+				&&  std::get<indexValue>(*it) == valueToCheck)
+				break;
+		}
+
+		if (it == end)
+			return false;
+
+		// We get the abbreviation; let's fetch the complete photographer object
+        auto abbreviation =	std::get<GenericTools::Tuple::IndexOf<Owner, Tuple>::value>(*it);
+		identifyPhotographerAbbr(abbreviation, photographer);
+
+		# endif // YUNI_OS_WINDOWS
+
+		
 
 		return true;
 	}
@@ -136,12 +160,22 @@ namespace Database
 		// Do not forget to reorder pRows!
 		// As insertion will be quite a rare event, it is sensical to reorder it whenever it happens
 		// instead of using a set or alike
-        enum { indexKeyword = GenericTools::Tuple::IndexOf<Keyword, Tuple>::value };
-
-		std::sort(pRows.begin(), pRows.end(), [](const TupleWrappedType& tuple1, const TupleWrappedType& tuple2) -> bool
+		enum { indexKeyword = GenericTools::Tuple::IndexOf<Keyword, Tuple>::value };
+		
+		#ifndef YUNI_OS_WINDOWS
+        std::sort(pRows.begin(), pRows.end(), [](const TupleWrappedType& tuple1, const TupleWrappedType& tuple2) -> bool
 			{
 				return (std::get<indexKeyword>(tuple1) < std::get<indexKeyword>(tuple2));
 			});
+		#else // YUNI_OS_WINDOWS
+		static_assert(indexKeyword == 0, "MSVC wasn't elaborated enough to recognize indexKeyword as a const;"
+			" so the value was hardcoded. If the Camera::Tuple changed please update accordingly the index");
+
+		std::sort(pRows.begin(), pRows.end(), [](const TupleWrappedType& tuple1, const TupleWrappedType& tuple2) -> bool
+			{
+				return (std::get<0>(tuple1) < std::get<0>(tuple2)); // 0 should be the same as indexKeyword...
+			});
+		#endif // YUNI_OS_WINDOWS
 
 	}
 

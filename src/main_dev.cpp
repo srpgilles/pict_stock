@@ -77,11 +77,11 @@ int main(int argc, char* argv[])
 
     //ExtendedPhoto::ExtendedPhoto photo(logs, database, "/tmp/Baptême/Photo.JPG");
 
-    std::vector<double> values = {10., 20., 30., 40., 50., 60., 70., 80.};
+  /*  std::vector<double> values = {10., 20., 30., 40., 50., 60., 70., 80.};
     std::vector<int> ia = {0, 2, 4, 7, 8};
     std::vector<int> ja = {0, 1, 1, 3, 2, 3, 4, 5 };
 
-    std::vector<int> result;
+    std::vector<int> result;*/
 
 //    for (unsigned int i = 0; i < 6; ++i)
 //    {
@@ -93,11 +93,11 @@ int main(int argc, char* argv[])
 //    }
 
 
-    nullifyNonDiagonalTerms(values, 5, ia, ja);
+ /*   nullifyNonDiagonalTerms(values, 5, ia, ja);
     std::cout << "Nullify: ";
     for (auto it = values.cbegin(), end = values.cend(); it != end; ++it)
         std::cout << *it << '\t';
-    std::cout << '\n';
+    std::cout << '\n';*/
 
 
 	return 0;

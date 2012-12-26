@@ -26,6 +26,9 @@ if (UNIX)
 	ENDIF()
 endif(UNIX)
 
+
+# Qt 64 bits not trivial to install, so at the moment Qt support for Windows is disabled
+if (NOT MSVC)
 FIND_PACKAGE(Qt4 REQUIRED)
 
 # the next line sets up include and link directories and defines some variables that we will use.
@@ -33,6 +36,7 @@ FIND_PACKAGE(Qt4 REQUIRED)
 #   set(QT_USE_OPENGL TRUE)
 # -> this will cause cmake to include and link against the OpenGL module
 include(${QT_USE_FILE})
+endif()
 
 add_subdirectory(src)
 

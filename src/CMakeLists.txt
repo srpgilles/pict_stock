@@ -6,7 +6,12 @@ add_subdirectory(sort_new_photos)
 add_subdirectory(pict_frame)
 add_subdirectory(tools)
 add_subdirectory(database)
-add_subdirectory(gui)
+
+# At the moment no Qt supprt for Windows
+# (due to the lack of easy and official support for Qt 64 bits)
+if (NOT MSVC)
+    add_subdirectory(gui)
+endif()
 
 
 
@@ -29,7 +34,7 @@ target_link_libraries(PictFrame
 	tools
 	photo_directory
 	pict_frame
-    pict_stock_database
+    	pict_stock_database
 	${QT_LIBRARIES}
 )
 
@@ -45,6 +50,7 @@ target_link_libraries(createPhotographerDatabase
 )
 
 
+if (NOT MSVC) # No Qt support for Windows at the moment (no official Qt 64 bits)
 add_executable(PictStock
     main_pict_stock.cpp
 )
@@ -54,6 +60,7 @@ target_link_libraries(PictStock
     pict_stock_database
     ${QT_LIBRARIES}
 )
+endif()
 
 
 

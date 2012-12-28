@@ -4,7 +4,7 @@
 
 # include <yuni/core/string.h>
 # include <sqlite3.h>
-# include <unordered_set>
+# include <set>
 # include "stl.hpp"
 # include "exceptions.hpp"
 # include "tuple_utilities.hpp"
@@ -183,7 +183,7 @@ namespace GenericTools
         ** The purpose is to be able to check with this data if a given file complies
         ** with the expected format of a sqlite database
         */
-        void schemas(std::unordered_set<YString>& out) const;
+        void schemas(std::set<YString>& out) const; // TODO Associative vector would probably be even better
 
 
 	private:

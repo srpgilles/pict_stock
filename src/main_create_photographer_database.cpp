@@ -30,9 +30,11 @@ int main(int argc, char* argv[])
 //    PictStock::Database::Photographers photographers(db, PictStock::Database::nsTable::createAndLoad);
 //    PictStock::Database::Cameras cameras(db, photographers, PictStock::Database::nsTable::createAndLoad);
 
+	PictStock::Database::Database database("test.db3", PictStock::Database::nsTable::createAndLoad);
+
 # ifndef YUNI_OS_WINDOWS
 
-    PictStock::Database::Database database("test.db3", PictStock::Database::nsTable::createAndLoad);
+    
     auto& db = database.sqliteDb();
 
 

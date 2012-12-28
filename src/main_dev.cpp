@@ -5,6 +5,9 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include <yuni/core/string.h>
+#include <yuni/io/file.h>
+
 
 
 /*!
@@ -98,6 +101,10 @@ int main(int argc, char* argv[])
     for (auto it = values.cbegin(), end = values.cend(); it != end; ++it)
         std::cout << *it << '\t';
     std::cout << '\n';*/
+
+	YString fileThatExists("PictFrame.exe");
+
+	assert(Yuni::IO::File::Exists(fileThatExists));
 
 
 	return 0;

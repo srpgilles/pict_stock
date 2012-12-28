@@ -144,7 +144,7 @@ namespace GenericTools
 	}
 
 
-    void SqliteWrapper::schemas(std::unordered_set<YString>& out) const
+    void SqliteWrapper::schemas(std::set<YString>& out) const
     {
         AnyString command("SELECT sql FROM sqlite_master WHERE type='table'");
         SqliteStatement statement;

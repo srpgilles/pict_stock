@@ -1,6 +1,7 @@
 #include "database.hpp"
 #include "exceptions/database.hpp"
 #include <yuni/io/file.h>
+#include <set>
 
 using namespace Yuni;
 
@@ -38,10 +39,10 @@ namespace Database
     {
         switch(mode)
         {
-        case nsTable::Values::load:
+        case nsTable::load:
             open(db3File);
             break;
-        case nsTable::Values::createAndLoad:
+        case nsTable::createAndLoad:
             create(db3File);
             break;
         }
@@ -50,8 +51,11 @@ namespace Database
 
     void Database::open(const AnyString& db3File)
     {
-        if (!IO::File::Exists(db3File))
-            throw Exceptions::FileNotFound(db3File);
+		YString foo;
+		IO::MakeAbsolute(foo, db3File, false);
+
+        if (!IO::File::Exists(foo))
+            throw Exceptions::FileNotFound(foo);
 
         {
             std::unique_ptr<GenericTools::SqliteWrapper> ptr(
@@ -107,7 +111,7 @@ namespace Database
         auto& sqliteRef = *pSqliteDb;
 
         {
-            assert(Yuni::IO::File::Exists(db3File));
+            assert(IO::File::Exists(db3File));
             std::unique_ptr<Photographers> ptr(new Photographers(sqliteRef, nsTable::createAndLoad));
             pPhotographers = std::move(ptr);
         }
@@ -132,14 +136,15 @@ namespace Database
     bool Database::isValidFile() const
     {
         assert(pSqliteDb);
-        std::unordered_set<YString> dbSchemas;
+        std::set<YString> dbSchemas;
         pSqliteDb->schemas(dbSchemas);
 
-        std::unordered_set<YString> expectedSchemas;
+        std::set<YString> expectedSchemas;
         expectedSchemas.insert(formSchemaStatement<Schema::Cameras>());
         expectedSchemas.insert(formSchemaStatement<Schema::Photographers>());
+		expectedSchemas.insert(formSchemaStatement<Private::Schema::Parameters>());
 
-        #if 0
+        #if 0 // For debug when wrong db3 format
         std::cout << "Sqlite file:\n";
         GenericTools::printContainer(std::cout, dbSchemas,"\n");
         std::cout << "Expected schema:\n";

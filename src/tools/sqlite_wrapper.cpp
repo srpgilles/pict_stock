@@ -48,6 +48,7 @@ namespace GenericTools
 	{
 		SqliteStatement statement;
 		int errCode = prepareCommand(statement, command);
+        (void) errCode;
 		assert(errCode == SQLITE_OK);
 		errCode = sqlite3_step(statement);
 		assert(errCode == SQLITE_DONE);

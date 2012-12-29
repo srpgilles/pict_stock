@@ -12,7 +12,7 @@ namespace
     /*!
      * \brief "Translate" a name of a directory (or of the project for that matter)
      * to include guards name
-     *Logger
+     *
      * For instance, PictStock -> PICT_STOCK
      */
     void Translate(YString& out, const AnyString& in);
@@ -275,23 +275,74 @@ namespace
         {
             YString line;
 
-            // First relevant line is line #ifndef ...
-            while (fileContent.readline(line) && line.empty());
+            // The first relevant line should be line with the first header guard
+            // So line sbefore should be either empty or comments.
+            bool isComment(false);
 
-            if (!line.contains("ifndef"))
+            while (fileContent.readline(line))
             {
-                logs.error(failureMsg);
-                return;
+                if (line.empty() || line.startsWith("//"))
+                {
+                    newFile << line << '\n';
+                    continue;
+                }
+
+                if (line.startsWith("/*"))
+                {
+                    newFile << line << '\n';
+                    isComment = true;
+                    continue;
+                }
+
+                // If not in comment it means the line should be the header guard; which
+                // is handled just after the while loop
+                if (!isComment)
+                    break;
+
+                if (line.endsWith("*/"))
+                {
+                    isComment = false;
+                    newFile << line << '\n';
+                }
             }
 
-            {
-                YString expected("#ifndef ");
-                expected << correctHeaderGuard;
-                isFileUnchanged &= (line == expected);
-                newFile << expected << '\n';
-            }
 
-            // Second relevant line is line #define...
+
+
+
+//        while (fileContent.readline(line) && line.empty());
+
+//        // It is acceptable that there is comment blocks before header guard
+
+//        if (line.startsWith("/*"))
+//        {
+//            newFile << line << '\n';
+
+//            while (fileContent.readline(line))
+//            {
+//                newFile << line << '\n';
+//                if (line.contains("*/"))
+//                    break;
+//            }
+//        }
+
+//        // Empty lines might occur after comment block
+//        while (fileContent.readline(line) && line.empty());
+
+        if (!line.contains("ifndef"))
+        {
+            logs.error(failureMsg);
+            return;
+        }
+
+        {
+            YString expected("#ifndef ");
+            expected << correctHeaderGuard;
+            isFileUnchanged &= (line == expected);
+            newFile << expected << '\n';
+        }
+
+        // Second relevant line is line #define...
             while (fileContent.readline(line) && line.empty());
 
             if (!line.contains("define"))
@@ -368,7 +419,8 @@ int main(int argc, char** argv)
 
     LoggingFacility logs;
 
-    HeaderGuardsIterator iterator(logs, "PictStock", "/home/sebastien/Projets_logiciels/PictStock/src");
+   // HeaderGuardsIterator iterator(logs, "PictStock", "/home/sebastien/Projets_logiciels/PictStock/src");
+ HeaderGuardsIterator iterator(logs, "Felisce", "/tmp");
 
     if (!iterator.start())
     {

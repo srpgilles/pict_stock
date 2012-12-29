@@ -147,6 +147,7 @@ IF(NOT HAVE_TIMEGM )
 ENDIF( NOT HAVE_TIMEGM )
 
 IF( MSVC )
+	SET( EXV_UNICODE_PATH)
     SET( MC_SRC           ${MC_SRC} getopt_win32.c       )
     SET( EXIV2_SRC        ${EXIV2_SRC} getopt_win32.c    )
     SET( LIBEXIV2_SRC     ${LIBEXIV2_SRC} getopt_win32.c )

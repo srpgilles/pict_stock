@@ -4,12 +4,20 @@
 #include <iostream>
 #include <iomanip>
 
+#ifdef YUNI_OS_WINDOWS
+# include <yuni/core/string/wstring.h>
+#endif // YUNI_OS_WINDOWS
+
+
+
 using namespace Yuni;
 
 namespace PictStock
 {
 namespace ExtendedPhoto
 {
+
+
 
     ExtendedPhoto::ExtendedPhoto(LoggingFacility& logs, const Database::Database& database, const String& filename)
 		: logs(logs),
@@ -28,9 +36,18 @@ namespace ExtendedPhoto
 		}
 		#endif // NDEBUG
 
+		logs.notice() << filename.c_str() << '\t' << Yuni::IO::File::Exists(filename.c_str());
+
 		try
 		{
+			#ifdef YUNI_OS_WINDOWS
+			Yuni::Private::WString<> wstring(filename);
+			assert(!wstring.empty()); // if filename not empty, empty here means conversion error
+			pImage = Exiv2::ImageFactory::open(wstring.c_str());			
+			#else
 			pImage = Exiv2::ImageFactory::open(filename.c_str());
+			#endif
+
 			assert(pImage.get() != 0);
 			pImage->readMetadata();
 
@@ -42,7 +59,7 @@ namespace ExtendedPhoto
 		}
 		catch (const std::exception& e)
 		{
-			// I do not use exception myself, so any exception stems from exiv2
+			// Any exception at this stage should stem from exiv2
 			logs.error() << "Exception caught for photo " << filename << ": " << e.what();
 			pStatus = epExiv2Problem;
 		}

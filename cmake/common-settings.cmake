@@ -76,9 +76,9 @@ if(MINGW)
 	set(CMAKE_CXX_FLAGS_DEBUG           "${YUNI_COMMON_GCC_OPTIONS} -mthreads")
 endif()
 if(MSVC)
-	set(CMAKE_CXX_FLAGS_RELEASE         "/EHsc /Ox /Ob2 /Ot /O2 /Oy /MD /GS- /Gy /arch:SSE2")
-	set(CMAKE_CXX_FLAGS_DEBUG           "/EHsc /Od /GR /GS /RTC1 /RTCc /Ob1 /Ot /MDd /W3")
-	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO  "/EHsc /Ox /Ob2 /Ot /O2 /Oy /MDd /GS- /Gy")
+	set(CMAKE_CXX_FLAGS_RELEASE         "/EHsc /Ox /Ob2 /Ot /O2 /Oy /MD /GS- /Gy /arch:SSE2 /DEXV_UNICODE_PATH")
+	set(CMAKE_CXX_FLAGS_DEBUG           "/EHsc /Od /GR /GS /RTC1 /RTCc /Ob1 /Ot /MDd /W3 /DEXV_UNICODE_PATH")
+	set(CMAKE_CXX_FLAGS_RELWITHDEBINFO  "/EHsc /Ox /Ob2 /Ot /O2 /Oy /MDd /GS- /Gy /DEXV_UNICODE_PATH")
 endif()
 if(APPLE)
 	# The SSE instruction set is mandatory
@@ -121,13 +121,11 @@ else()
 endif()
 
 
-
 if ("${CMAKE_BUILD_TYPE}" STREQUAL "release" OR "${CMAKE_BUILD_TYPE}" STREQUAL "RELEASE")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_RELEASE}")
 else()
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS_DEBUG}")
 endif()
-
 
 #
 # Extra - Mac OS X Bundles

@@ -41,3 +41,14 @@ add_executable(automatic_include_guards
 target_link_libraries(automatic_include_guards
     yuni-static-core
 )
+
+
+if (NOT MSVC)
+add_executable(benchmark_associative_vector
+	main_benchmark_associative_vector.cpp
+)
+
+target_link_libraries(benchmark_associative_vector
+	yuni-static-core
+)
+endif()

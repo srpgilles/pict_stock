@@ -86,12 +86,4 @@ target_link_libraries(test
 )
 
 
-if (NOT MSVC)
-add_executable(benchmark_associative_vector
-	main_benchmark_associative_vector.cpp
-)
 
-target_link_libraries(test
-	yuni-static-core
-)
-endif()

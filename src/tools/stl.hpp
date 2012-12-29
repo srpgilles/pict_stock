@@ -14,7 +14,8 @@ namespace std
     public:
         size_t operator()(const YString& str) const
         {
-            return std::hash<std::string>()(str.to<std::string>());
+            //return std::hash<std::string>()(str.to<std::string>());
+            return str.hash();
         }
     };
 }

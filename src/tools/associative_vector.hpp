@@ -28,26 +28,26 @@ namespace GenericTools
 
         public:
 
-            bool operator()(const Pair& lhs, const Pair& rhs) const
+            inline bool operator()(const Pair& lhs, const Pair& rhs) const
             {
                 return keyLess(lhs.first, rhs.first);
             }
 
 
-            bool operator()(const Pair& lhs, const first_type& rhs) const
+            inline bool operator()(const Pair& lhs, const first_type& rhs) const
             {
                 return keyLess(lhs.first, rhs);
             }
 
 
-            bool operator()(const first_type& lhs, const Pair& rhs) const
+            inline bool operator()(const first_type& lhs, const Pair& rhs) const
             {
                 return keyLess(lhs, rhs.first);
             }
 
         private:
 
-            bool keyLess(const first_type& lhs, const first_type& rhs) const
+            inline bool keyLess(const first_type& lhs, const first_type& rhs) const
             {
                 return lhs < rhs;
             }
